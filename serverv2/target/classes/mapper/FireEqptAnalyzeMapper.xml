@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.mapper.FireEqptAnalyzeMapper">
+
+    <select id="queryInfo" resultType="com.kiwihouse.dto.FireEqptAnalyzeDto" parameterType="com.kiwihouse.vo.kiwihouse.DataAnalyzeVo">
+        select ai.alarm_msg,ai.eqpt_sn,ai.add_time,e.site_id,e.admin_id
+        from alarm_info as ai
+        left join equipment as e on ai.eqpt_sn = e.eqpt_sn
+        <where>
+            ai.alarm_type = 1 and e.user_id=#{userId}
+            <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
+                and DATE_FORMAT(ai.add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+            </if>
+            <if test="adminId!=null and adminId!=''">
+                and admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+            <if test="eqptSn!=null and eqptSn!=''">
+                and ai.eqpt_sn=#{eqptSn}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryAll" resultType="com.kiwihouse.dto.FireEqptAnalyzeDto" parameterType="com.kiwihouse.vo.kiwihouse.DataAnalyzeVo">
+        select ai.alarm_msg,ai.eqpt_sn,ai.add_time,e.site_id,e.admin_id
+        from alarm_info as ai
+        left join equipment as e on ai.eqpt_sn = e.eqpt_sn
+        <where>
+            ai.alarm_type = 1 and e.user_id=#{userId}
+            <if test="adminId!=null and adminId!=''">
+                and admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+            <if test="eqptSn!=null and eqptSn!=''">
+                and ai.eqpt_sn=#{eqptSn}
+            </if>
+        </where>
+    </select>
+
+    <!--
+        查询告警未处理的、告警已转为工单的、告警已处理的设备数和告警数
+    -->
+    <select id="queryAlmNums" parameterType="java.util.HashMap" resultType="com.kiwihouse.dto.AlmAndEqptNumDto">
+        select count(distinct eqpt_sn) as eqptNum,count(alarm_id) as almNum
+        from (
+            select alarm_msg,ai.eqpt_sn,alarm_id
+            from alarm_info as ai
+            inner join equipment as e on ai.eqpt_sn = e.eqpt_sn
+            left join site as s on e.site_id=s.site_id
+            <where>
+                alarm_type = 2
+                <if test="alarmStatus!=null and alarmStatus!=''">
+                    and alarm_status=#{alarmStatus}
+                </if>
+                <if test="adminId!=null and adminId!=''">
+                    and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+                </if>
+                <if test="province != null and province != ''">
+                    and s.province=#{province}
+                </if>
+                <if test="city != null and city != ''">
+                    and s.city=#{city}
+                </if>
+                <if test="district != null and district != ''">
+                    and s.district=#{district}
+                </if>
+            </where>
+        )t
+        where t.alarm_msg like '%2%' or t.alarm_msg like '%1%';
+    </select>
+
+    <select id="queryEqptNums" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(eqpt_sn) as eqptNum from equipment as e
+        left join site as s on e.site_id=s.site_id
+        <where>
+            <if test="eqptType!=null and eqptType!=''">
+                and e.eqpt_type=#{eqptType}
+            </if>
+            <if test="adminId!=null and adminId!=''">
+                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+            <if test="province != null and province != ''">
+                and s.province=#{province}
+            </if>
+            <if test="city != null and city != ''">
+                and s.city=#{city}
+            </if>
+            <if test="district != null and district != ''">
+                and s.district=#{district}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryOrderNum" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        select count(*) from maintain_info as mi
+        inner join equipment as e on mi.eqpt_sn=e.eqpt_sn
+        left join site as s on e.site_id=s.site_id
+        <where>
+            <if test="mtStatus!=null and mtStatus!=''">
+                and mi.mt_status=#{mtStatus}
+            </if>
+            <if test="adminId!=null and adminId!=''">
+                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+            <if test="province != null and province != ''">
+                and s.province=#{province}
+            </if>
+            <if test="city != null and city != ''">
+                and s.city=#{city}
+            </if>
+            <if test="district != null and district != ''">
+                and s.district=#{district}
+            </if>
+        </where>
+    </select>
+</mapper>

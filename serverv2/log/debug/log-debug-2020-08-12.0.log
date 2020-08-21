@@ -1,0 +1,135 @@
+2020-08-12 09:14:36.063 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 09:14:36.083 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 09:14:36.104 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 09:28:56.319 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 09:28:56.334 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 09:28:56.353 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 09:30:22.651 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 09:30:22.782 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 09:30:22.802 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 09:35:23.540 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 09:35:23.569 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 09:35:23.606 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 09:41:31.806 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 09:41:31.827 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 09:41:31.856 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 09:53:50.715 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 09:53:50.847 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 09:53:50.868 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 09:58:52.401 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 09:58:52.417 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 09:58:52.434 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:01:56.882 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:01:56.899 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:01:56.917 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:05:05.653 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:05:05.653 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:05:05.659 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:06:11.461 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:06:11.478 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:06:11.497 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:10:19.963 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:10:19.982 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:10:20.011 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:15:37.681 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:15:37.697 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:15:37.718 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:19:52.979 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:19:52.995 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:19:53.019 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:27:38.427 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:27:38.449 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:27:38.476 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:30:50.683 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:30:50.684 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:30:50.689 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:30:57.356 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:30:57.356 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:30:57.362 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:31:20.474 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:31:20.474 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:31:20.480 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:33:34.979 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:33:34.996 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:33:35.016 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:34:08.040 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:34:08.041 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:34:08.045 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:34:32.261 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:34:32.262 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:34:32.266 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:35:37.164 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:35:37.164 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:35:37.169 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:37:13.660 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:37:13.660 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:37:13.664 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:37:33.357 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:37:33.357 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:37:33.362 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:38:04.458 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:38:04.458 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:38:04.462 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:38:25.382 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:38:25.400 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:38:25.423 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:39:09.164 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:39:09.165 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:39:09.171 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:39:14.891 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:39:14.891 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:39:14.896 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:40:17.783 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:40:17.783 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:40:17.789 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:40:25.075 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:40:25.076 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:40:25.080 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:40:40.571 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:40:40.571 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:40:40.575 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:41:05.712 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:41:05.712 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:41:05.715 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:41:28.170 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:41:28.187 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:41:28.207 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:42:15.742 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:42:15.742 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:42:15.747 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:53:14.846 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:53:14.866 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:53:14.888 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:53:25.331 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:53:25.332 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:53:25.336 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:59:06.793 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:59:06.793 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:59:06.797 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:59:26.191 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-12 10:59:26.328 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-12 10:59:26.348 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 27
+2020-08-12 10:59:39.733 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE from auth_user where USERNAME = ? 
+2020-08-12 10:59:39.734 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: 111(String)
+2020-08-12 10:59:39.873 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 0
+2020-08-12 11:00:13.201 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE from auth_user where USERNAME = ? 
+2020-08-12 11:00:13.201 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: 13377555555(String)
+2020-08-12 11:00:13.203 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 0
+2020-08-12 11:00:51.671 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE from auth_user where USERNAME = ? 
+2020-08-12 11:00:51.671 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: 13377555555(String)
+2020-08-12 11:00:51.673 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 0
+2020-08-12 11:02:44.320 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE from auth_user where USERNAME = ? 
+2020-08-12 11:02:44.320 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-08-12 11:02:44.325 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-08-12 11:05:08.948 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE from auth_user where USERNAME = ? 
+2020-08-12 11:05:08.948 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-08-12 11:05:08.950 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-08-12 11:05:14.934 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE from auth_user where USERNAME = ? 
+2020-08-12 11:05:14.934 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-08-12 11:05:14.936 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-08-12 11:05:14.987 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE from auth_user where USERNAME = ? 
+2020-08-12 11:05:14.988 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-08-12 11:05:14.989 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-08-12 11:05:14.989 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - ==>  Preparing: SELECT GROUP_CONCAT(rol.CODE) AS Roles FROM auth_user AS usr JOIN auth_user_role uro ON usr.UID = uro.USER_ID JOIN auth_role rol ON uro.ROLE_ID = rol.ID WHERE usr.USERNAME = ? 
+2020-08-12 11:05:14.989 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - ==> Parameters: admin(String)
+2020-08-12 11:05:14.994 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - <==      Total: 1

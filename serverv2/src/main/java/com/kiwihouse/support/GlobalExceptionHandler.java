@@ -1,0 +1,56 @@
+package com.kiwihouse.support;
+
+import com.kiwihouse.common.bean.Code;
+import com.kiwihouse.domain.vo.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+/**
+ * 全局的的异常拦截器（拦截所有的控制器）（带有@RequestMapping注解的方法上都会拦截）
+ * @author tomsun28
+ * @date 22:40 2018/4/16
+ */
+@RestControllerAdvice
+@Order(-1)
+public class GlobalExceptionHandler {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+
+    /**
+     * description 拦截操作数据库异常
+     *
+     * @param e 1
+     * @return com.kiwihouse.domain.vo.Message
+     */
+    @ExceptionHandler(DataAccessException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public Response sqlException(DataAccessException e) {
+        LOGGER.error("数据操作异常:",e);
+        final Throwable cause = e.getCause();
+        // 之后判断cause类型进一步记录日志处理
+//        if (cause instanceof MySQLIntegrityConstraintViolationException ) {
+//            return new Message().error(1111, "数据冲突操作失败");
+//        }
+        return new Response().Fail(Code.REQUEST_ERROR, "服务器开小差");
+    }
+
+    /**
+     * description 拦截未知的运行时异常
+     *
+     * @param e 1
+     * @return com.kiwihouse.domain.vo.Message
+     */
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public Response notFoundException(RuntimeException e) {
+        LOGGER.error("运行时异常:",e);
+        return new Response().Fail(Code.REQUEST_ERROR,"服务器开小差");
+    }
+}

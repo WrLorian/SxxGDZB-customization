@@ -1,0 +1,411 @@
+2020-08-11 15:44:57.526 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 15:49:27.524 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 15:57:50.563 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 15:57:51.056 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 15:57:54.982 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 15:57:55.275 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 15:58:09.070 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 15:58:09.354 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 15:59:31.165 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 15:59:31.441 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 15:59:36.158 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 15:59:36.452 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:01:45.627 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:01:45.910 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:02:09.023 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:02:09.292 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:02:39.359 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:02:39.629 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:02:39.766 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.user.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@202077af]
+2020-08-11 16:04:24.794 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:04:25.067 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:04:25.197 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.user.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@1bacb297]
+2020-08-11 16:05:11.478 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:05:11.733 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:05:11.856 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.user.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@1f02c393]
+2020-08-11 16:06:26.429 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:06:26.694 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:06:26.818 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.user.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@383fdea2]
+2020-08-11 16:08:22.785 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:08:23.032 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:08:23.156 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.user.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@7c89b8ad]
+2020-08-11 16:08:34.066 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:08:34.331 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:08:34.459 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.user.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@57d0b8ce]
+2020-08-11 16:09:25.910 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:09:26.217 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:09:26.354 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.user.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@54ef3cf]
+2020-08-11 16:09:49.078 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.kiwihouse.Application]; nested exception is org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name 'loginController' for bean class [com.kiwihouse.controller.user.LoginController] conflicts with existing, non-compatible bean definition of same name and class [com.kiwihouse.controller.login.LoginController]
+2020-08-11 16:09:53.048 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:09:53.448 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:09:53.610 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@2c2e2636]
+2020-08-11 16:10:21.662 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:10:21.982 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:10:22.133 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@2603fbb8]
+2020-08-11 16:12:29.371 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:12:29.655 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:12:29.772 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@267adad6]
+2020-08-11 16:12:37.608 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:12:37.864 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:12:38.029 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@11047311]
+2020-08-11 16:12:48.895 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:12:49.149 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:12:49.267 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@751063c8]
+2020-08-11 16:13:22.339 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:13:22.605 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:13:22.719 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@6de6dbd9]
+2020-08-11 16:13:41.691 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:13:42.008 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:13:42.120 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@a44ebd8]
+2020-08-11 16:15:02.763 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:15:03.036 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:15:03.159 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@e9ced9f]
+2020-08-11 16:19:23.365 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:19:23.712 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:19:23.827 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@2343c52c]
+2020-08-11 16:19:45.817 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:19:46.088 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:19:46.199 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@2bf17f3b]
+2020-08-11 16:29:24.280 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:29:24.563 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:29:24.675 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@59ac89dc]
+2020-08-11 16:29:52.797 [restartedMain] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.kiwihouse.mapper]' package. Please check your configuration.
+2020-08-11 16:29:53.055 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:29:53.182 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@4ef087b8]
+2020-08-11 16:29:58.436 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:29:58.638 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@1f6195ad]
+2020-08-11 16:30:34.765 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:30:34.983 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@140cd90d]
+2020-08-11 16:32:27.488 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:32:27.623 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@5f395977]
+2020-08-11 16:34:17.369 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:34:17.622 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@2ca1e2df]
+2020-08-11 16:34:40.384 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:34:40.518 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@523dd04f]
+2020-08-11 16:35:07.041 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:35:07.178 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@7e3e43b8]
+2020-08-11 16:36:22.394 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:36:22.521 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@343d1477]
+2020-08-11 16:36:38.795 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:36:38.909 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.kiwihouse.controller.login.LoginController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@32092d3e]
+2020-08-11 16:37:09.327 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:37:09.448 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginService' defined in file [F:\xx\项目\serverv2\serverv2\target\classes\com\kiwihouse\service\LoginService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.service.LoginService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	LoginMapper cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	PrivilegeService cannot be resolved to a type
+	UserDto cannot be resolved to a type
+	LoginMapper cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	LoginMapper cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_NULL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	AdminQueryVo cannot be resolved to a type
+	AdminQueryVo cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	LoginMapper cannot be resolved to a type
+	EXIT_SUCC cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+
+2020-08-11 16:37:23.601 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:37:23.736 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginService' defined in file [F:\xx\项目\serverv2\serverv2\target\classes\com\kiwihouse\service\LoginService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.service.LoginService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	LoginMapper cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	PrivilegeService cannot be resolved to a type
+	UserDto cannot be resolved to a type
+	LoginMapper cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	LoginMapper cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_NULL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	AdminQueryVo cannot be resolved to a type
+	AdminQueryVo cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	LoginMapper cannot be resolved to a type
+	EXIT_SUCC cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+
+2020-08-11 16:38:12.347 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:38:12.474 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginService' defined in file [F:\xx\项目\serverv2\serverv2\target\classes\com\kiwihouse\service\LoginService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.service.LoginService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	AdministratorMapper cannot be resolved to a type
+	PrivilegeService cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_NULL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	AdminQueryVo cannot be resolved to a type
+	AdminQueryVo cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	EXIT_SUCC cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+
+2020-08-11 16:38:42.991 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:38:43.106 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginService' defined in file [F:\xx\项目\serverv2\serverv2\target\classes\com\kiwihouse\service\LoginService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.service.LoginService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	AdministratorMapper cannot be resolved to a type
+	PrivilegeService cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_NULL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	AdminQueryVo cannot be resolved to a type
+	AdminQueryVo cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	EXIT_SUCC cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+
+2020-08-11 16:40:06.328 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:40:06.453 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginService' defined in file [F:\xx\项目\serverv2\serverv2\target\classes\com\kiwihouse\service\LoginService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.service.LoginService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	AdministratorMapper cannot be resolved to a type
+	PrivilegeService cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_NULL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	AdminQueryVo cannot be resolved to a type
+	AdminQueryVo cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	EXIT_SUCC cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+
+2020-08-11 16:40:29.739 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:40:29.875 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginService' defined in file [F:\xx\项目\serverv2\serverv2\target\classes\com\kiwihouse\service\LoginService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.service.LoginService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	AdministratorMapper cannot be resolved to a type
+	PrivilegeService cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_NULL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	AdminQueryVo cannot be resolved to a type
+	AdminQueryVo cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	EXIT_SUCC cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+
+2020-08-11 16:41:54.278 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:41:54.392 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginService' defined in file [F:\xx\项目\serverv2\serverv2\target\classes\com\kiwihouse\service\LoginService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.service.LoginService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	AdministratorMapper cannot be resolved to a type
+	PrivilegeService cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_NULL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	AdminQueryVo cannot be resolved to a type
+	AdminQueryVo cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	EXIT_SUCC cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+
+2020-08-11 16:43:01.716 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:43:01.830 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginService' defined in file [F:\xx\项目\serverv2\serverv2\target\classes\com\kiwihouse\service\LoginService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.service.LoginService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	AdministratorMapper cannot be resolved to a type
+	PrivilegeService cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_NULL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	AdminQueryVo cannot be resolved to a type
+	AdminQueryVo cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	EXIT_SUCC cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+
+2020-08-11 16:43:06.290 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:43:06.458 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginService' defined in file [F:\xx\项目\serverv2\serverv2\target\classes\com\kiwihouse\service\LoginService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.service.LoginService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	AdministratorMapper cannot be resolved to a type
+	PrivilegeService cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_NULL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	AdminQueryVo cannot be resolved to a type
+	AdminQueryVo cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	EXIT_SUCC cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+
+2020-08-11 16:43:26.830 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:43:26.952 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginService' defined in file [F:\xx\项目\serverv2\serverv2\target\classes\com\kiwihouse\service\LoginService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.service.LoginService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	AdministratorMapper cannot be resolved to a type
+	PrivilegeService cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_NULL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	AdminQueryVo cannot be resolved to a type
+	AdminQueryVo cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	AdministratorMapper cannot be resolved to a type
+	EXIT_SUCC cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+
+2020-08-11 16:43:40.319 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:43:40.495 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginService' defined in file [F:\xx\项目\serverv2\serverv2\target\classes\com\kiwihouse\service\LoginService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.service.LoginService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	PrivilegeService cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_NULL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+
+2020-08-11 16:43:58.851 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 16:43:58.991 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'loginService' defined in file [F:\xx\项目\serverv2\serverv2\target\classes\com\kiwihouse\service\LoginService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.service.LoginService]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	PrivilegeService cannot be resolved to a type
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_NULL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_SUCC cannot be resolved or is not a field
+	ResultUtil cannot be resolved
+	LOGIN_FAIL cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+	EXIT_SUCC cannot be resolved or is not a field
+
+2020-08-11 17:22:44.214 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 17:26:41.102 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 17:27:30.348 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 17:35:31.529 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 17:35:31.845 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'documentationPluginsBootstrapper' defined in URL [jar:file:/C:/Users/cmx/.m2/repository/io/springfox/springfox-spring-web/2.9.2/springfox-spring-web-2.9.2.jar!/springfox/documentation/spring/web/plugins/DocumentationPluginsBootstrapper.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/C:/Users/cmx/.m2/repository/io/springfox/springfox-spring-web/2.9.2/springfox-spring-web-2.9.2.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'loginController' method 
+com.kiwihouse.controller.login.LoginController#login(Login, HttpServletRequest)
+to {POST /account/login}: There is already 'accountController' bean method
+com.kiwihouse.controller.account.AccountController#accountLogin(UserParams, HttpServletRequest, HttpServletResponse) mapped.
+2020-08-11 17:36:10.398 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 17:36:10.709 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'documentationPluginsBootstrapper' defined in URL [jar:file:/C:/Users/cmx/.m2/repository/io/springfox/springfox-spring-web/2.9.2/springfox-spring-web-2.9.2.jar!/springfox/documentation/spring/web/plugins/DocumentationPluginsBootstrapper.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/C:/Users/cmx/.m2/repository/io/springfox/springfox-spring-web/2.9.2/springfox-spring-web-2.9.2.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'loginController' method 
+com.kiwihouse.controller.login.LoginController#login(Login, HttpServletRequest)
+to {POST /account/login}: There is already 'accountController' bean method
+com.kiwihouse.controller.account.AccountController#accountLogin(UserParams, HttpServletRequest, HttpServletResponse) mapped.
+2020-08-11 17:36:24.633 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'documentationPluginsBootstrapper' defined in URL [jar:file:/C:/Users/cmx/.m2/repository/io/springfox/springfox-spring-web/2.9.2/springfox-spring-web-2.9.2.jar!/springfox/documentation/spring/web/plugins/DocumentationPluginsBootstrapper.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/C:/Users/cmx/.m2/repository/io/springfox/springfox-spring-web/2.9.2/springfox-spring-web-2.9.2.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'loginController' method 
+com.kiwihouse.controller.login.LoginController#login(Login, HttpServletRequest)
+to {POST /account/login}: There is already 'accountController' bean method
+com.kiwihouse.controller.account.AccountController#accountLogin(UserParams, HttpServletRequest, HttpServletResponse) mapped.
+2020-08-11 17:41:07.090 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 17:47:38.801 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 17:57:06.292 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 17:57:35.056 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 18:01:23.694 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 18:01:44.093 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 18:11:14.776 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 18:13:54.145 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 18:14:38.843 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 18:14:48.452 [http-nio-8001-exec-5] WARN  org.apache.catalina.connector.CoyoteAdapter - Exception while attempting to add an entry to the access log
+java.lang.NullPointerException: null
+	at org.apache.catalina.connector.CoyoteAdapter.log(CoyoteAdapter.java:490)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2020-08-11 18:16:27.585 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 18:23:24.146 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 18:24:29.591 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 18:30:33.372 [restartedMain] WARN  o.s.b.d.autoconfigure.OptionalLiveReloadServer - Unable to start LiveReload server
+2020-08-11 18:38:44.386 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 18:40:17.907 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-08-11 18:45:24.254 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised

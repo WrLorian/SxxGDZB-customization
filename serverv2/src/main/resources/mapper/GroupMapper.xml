@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.mapper.GroupMapper">
+
+    <!--query-->
+    <select id="queryInfo" resultType="com.kiwihouse.dto.GroupDto" parameterType="com.kiwihouse.vo.kiwihouse.GroupQueryVo">
+        select g.group_id, g.group_name, g.cron, g.admin_id, g.add_time,a.admin_name
+        from `group` as g
+        left join administrator as a on g.admin_id=a.admin_id
+        <where>
+            <if test="adminId != null and adminId != ''">
+                and g.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+            <if test="groupName !=null and groupName!=''">
+                and g.group_name like CONCAT('%',#{groupName},'%')
+            </if>
+            <if test="cron != null and cron != '' and cron=='ycron'">
+                and g.cron!='ncron'
+            </if>
+            <if test="cron != null and cron != '' and cron=='ncron'">
+                and g.cron='ncron'
+            </if>
+        </where>
+        order by g.add_time desc limit #{page},#{limit}
+    </select>
+    <select id="queryInfoRow" resultType="java.lang.Integer" parameterType="com.kiwihouse.vo.kiwihouse.GroupQueryVo">
+        select count(*)
+        from `group` as g
+        left join administrator as a on g.admin_id=a.admin_id
+        <where>
+            <if test="adminId != null and adminId != ''">
+                and g.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+            <if test="groupName !=null and groupName!=''">
+                and g.group_name like CONCAT('%',#{groupName},'%')
+            </if>
+            <if test="cron != null and cron != '' and cron=='ycron'">
+                and g.cron!='ncron'
+            </if>
+            <if test="cron != null and cron != '' and cron=='ncron'">
+                and g.cron='ncron'
+            </if>
+        </where>
+    </select>
+
+    <!--add-->
+    <insert id="addInfo" parameterType="com.kiwihouse.vo.kiwihouse.GroupAddVo" useGeneratedKeys="true" keyProperty="groupId">
+        insert into `group`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupName != null and groupName != ''">
+                group_name,
+            </if>
+            <if test="cron != null and cron != ''">
+                cron,
+            </if>
+            <if test="adminId != null and adminId != ''">
+                admin_id,
+            </if>
+            add_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupName != null and groupName != ''">
+                #{groupName},
+            </if>
+            <if test="cron != null and cron != ''">
+                #{cron},
+            </if>
+            <if test="adminId != null and adminId != ''">
+                #{adminId},
+            </if>
+            #{addTime}
+        </trim>
+    </insert>
+
+    <!--update-->
+    <update id="updateGroup" parameterType="com.kiwihouse.vo.kiwihouse.GroupUpdateVo">
+        update `group`
+        <set>
+            <if test="groupId !=null and groupId !=''">
+                group_id=#{groupId},
+            </if>
+            <if test="groupName !=null and groupName !=''">
+                group_name=#{groupName},
+            </if>
+            <if test="adminId !=null and adminId !=''">
+                admin_id=#{adminId}
+            </if>
+        </set>
+        <where>
+            group_id=#{groupId}
+            <if test="doAdminId != null and doAdminId != ''">
+                and admin_id in (select admin_id from administrator as a where a.parent_id = #{doAdminId} or a.admin_id = #{doAdminId})
+            </if>
+        </where>
+    </update>
+    <update id="updateEqpt" parameterType="com.kiwihouse.vo.kiwihouse.GroupUpdateVo">
+        update equipment
+        <set>
+            <if test="groupId !=null and groupId !=''">
+                group_id=#{groupId},
+            </if>
+            <if test="adminId !=null and adminId !=''">
+                admin_id=#{adminId},
+            </if>
+        </set>
+        where group_id=#{groupId}
+    </update>
+    <update id="updateGroupIds" parameterType="java.util.List">
+        <foreach collection="list" item="map" index="index" open="" close="" separator=";">
+            update `group`
+            <set>
+                <if test="map.adminId !=null and map.adminId !=''">
+                    admin_id=#{map.adminId},
+                </if>
+            </set>
+            <where>
+                group_id=#{map.groupId}
+                <if test="map.doAdminId != null and map.doAdminId != ''">
+                    and admin_id in (select admin_id from administrator as a where a.parent_id = #{map.doAdminId} or a.admin_id = #{map.doAdminId})
+                </if>
+            </where>
+        </foreach>
+    </update>
+
+</mapper>

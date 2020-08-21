@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.mapper.KwhMgMapper">
+    <!--update-->
+    <update id="updateGroup" parameterType="java.lang.String">
+        update `group` set cron=#{cron} where group_id=#{groupId}
+    </update>
+
+    <select id="queryGroups" resultType="java.lang.String" parameterType="java.lang.String">
+        select group_id from `group` where admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId});
+    </select>
+
+    <select id="queryInfo" resultType="com.kiwihouse.dto.ElectricEnergy" parameterType="java.util.HashMap">
+        select kwh_id, kwh, ee.eqpt_sn, ee.group_id, times, ee.add_time
+        from electric_energy as ee
+        left join equipment as e on ee.eqpt_sn = e.eqpt_sn
+        <where>
+            <if test="eqptSn != null and eqptSn !=''">
+                and ee.eqpt_sn=#{eqptSn}
+            </if>
+            <if test="groupId != null and groupId !=''">
+                and ee.group_id=#{groupId}
+            </if>
+            <if test="adminId != null and adminId != ''">
+                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+        </where>
+        order by add_time desc limit #{page},#{limit}
+    </select>
+    <select id="queryInfoRow" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        select count(*)
+        from electric_energy as ee
+        left join equipment as e on ee.eqpt_sn = e.eqpt_sn
+        <where>
+            <if test="eqptSn != null and eqptSn !=''">
+                and ee.eqpt_sn=#{eqptSn}
+            </if>
+            <if test="siteId != null and siteId !=''">
+                and ee.site_id=#{siteId}
+            </if>
+            <if test="adminId != null and adminId != ''">
+                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+        </where>
+    </select>
+
+    <select id="queryMeterInfo" resultType="com.kiwihouse.dto.MeterNowDto" parameterType="java.lang.String">
+        select ai.eqpt_sn,ai.alarm_msg,ai.alarm_id,e.group_id,e.admin_id,(
+            select max(times) from electric_energy where eqpt_sn = #{eqptSn}
+        ) as times
+        from alarm_info as ai
+        left join equipment as e on ai.eqpt_sn=e.eqpt_sn
+        left join electric_energy as ee on ai.eqpt_sn=ee.eqpt_sn
+        where ai.alarm_type=1 and ai.eqpt_sn=#{eqptSn}
+        order by ai.add_time desc limit 1;
+    </select>
+
+    <insert id="insertMeterInfo" parameterType="com.kiwihouse.dto.MeterNowDto">
+        insert into `electric_energy`(`alarm_id`, `kwh`, `eqpt_sn`, `group_id`, `times`, `add_time`) VALUES (#{alarmId}, #{kwh}, #{eqptSn}, #{groupId}, #{times}, #{addTime});
+    </insert>
+</mapper>

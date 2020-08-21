@@ -1,0 +1,174 @@
+2020-08-21 09:09:48.065 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-08-21 09:09:48.073 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-08-21 09:09:48.075 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-08-21 09:09:48.077 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-08-21 09:09:48.077 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-08-21 09:09:48.078 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-08-21 09:09:48.078 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - ==>  Preparing: SELECT GROUP_CONCAT(rol.CODE) AS Roles FROM auth_user AS usr JOIN auth_user_role uro ON usr.UID = uro.USER_ID JOIN auth_role rol ON uro.ROLE_ID = rol.ID WHERE usr.USERNAME = ? 
+2020-08-21 09:09:48.079 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - ==> Parameters: admin(String)
+2020-08-21 09:09:48.079 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - <==      Total: 1
+2020-08-21 09:09:48.245 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE role_id = ?) 
+2020-08-21 09:09:48.245 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-08-21 09:09:48.247 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 20
+2020-08-21 09:09:48.248 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-08-21 09:09:48.248 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-08-21 09:09:48.249 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-08-21 09:10:30.654 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:10:30.654 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:10:30.672 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:10:30.673 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:10:30.673 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 1(Integer), 5(Integer)
+2020-08-21 09:10:30.675 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:10:33.990 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:10:33.991 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:10:33.992 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:10:33.993 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:10:33.993 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 36(Integer), 5(Integer)
+2020-08-21 09:10:33.996 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:10:36.006 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:10:36.006 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:10:36.007 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:10:36.008 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:10:36.008 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 34(Integer), 5(Integer)
+2020-08-21 09:10:36.009 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:10:36.838 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:10:36.838 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:10:36.839 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:10:36.840 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:10:36.840 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 33(Integer), 5(Integer)
+2020-08-21 09:10:36.842 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:10:39.941 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:10:39.942 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:10:39.943 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:10:39.944 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:10:39.944 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 32(Integer), 5(Integer)
+2020-08-21 09:10:39.945 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:10:40.782 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:10:40.782 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:10:40.783 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:10:40.783 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:10:40.783 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 31(Integer), 5(Integer)
+2020-08-21 09:10:40.784 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:10:42.965 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:10:42.965 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:10:42.967 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:10:42.967 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:10:42.967 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 30(Integer), 5(Integer)
+2020-08-21 09:10:42.968 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:10:43.726 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:10:43.726 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:10:43.729 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:10:43.730 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:10:43.730 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 29(Integer), 5(Integer)
+2020-08-21 09:10:43.731 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:10:44.557 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:10:44.558 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:10:44.559 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:10:44.559 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:10:44.560 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 28(Integer), 5(Integer)
+2020-08-21 09:10:44.561 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:10:45.333 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:10:45.334 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:10:45.335 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:10:45.335 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:10:45.335 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 27(Integer), 5(Integer)
+2020-08-21 09:10:45.336 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:10:46.005 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:10:46.005 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:10:46.007 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:10:46.007 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:10:46.007 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 26(Integer), 5(Integer)
+2020-08-21 09:10:46.008 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:10:46.726 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:10:46.726 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:10:46.728 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:10:46.729 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:10:46.729 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 25(Integer), 5(Integer)
+2020-08-21 09:10:46.730 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:10:59.678 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:10:59.678 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:10:59.679 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:10:59.680 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:10:59.680 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 24(Integer), 5(Integer)
+2020-08-21 09:10:59.681 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:11:00.382 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:11:00.382 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:11:00.383 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:11:00.383 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:11:00.384 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 23(Integer), 5(Integer)
+2020-08-21 09:11:00.385 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:11:01.189 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:11:01.190 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:11:01.191 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:11:01.192 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:11:01.192 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 22(Integer), 5(Integer)
+2020-08-21 09:11:01.193 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:11:01.733 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:11:01.733 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:11:01.734 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:11:01.735 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:11:01.735 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 21(Integer), 5(Integer)
+2020-08-21 09:11:01.736 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:11:02.294 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:11:02.294 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:11:02.295 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:11:02.296 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:11:02.296 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 20(Integer), 5(Integer)
+2020-08-21 09:11:02.297 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:11:02.822 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:11:02.822 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:11:02.830 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:11:02.830 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:11:02.831 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 19(Integer), 5(Integer)
+2020-08-21 09:11:02.832 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:11:03.406 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:11:03.406 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:11:03.407 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:11:03.407 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:11:03.408 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 18(Integer), 5(Integer)
+2020-08-21 09:11:03.409 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:11:03.990 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:11:03.990 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:11:03.992 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:11:03.993 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:11:03.993 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 17(Integer), 5(Integer)
+2020-08-21 09:11:03.994 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:12:06.389 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE role_id = ?) 
+2020-08-21 09:12:06.389 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-08-21 09:12:06.390 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 20
+2020-08-21 09:12:06.391 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-08-21 09:12:06.391 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-08-21 09:12:06.392 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-08-21 09:12:06.764 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:12:06.764 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:12:06.766 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:12:06.767 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:12:06.767 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 1(Integer), 5(Integer)
+2020-08-21 09:12:06.768 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:13:35.830 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE role_id = ?) 
+2020-08-21 09:13:35.830 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-08-21 09:13:35.832 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 20
+2020-08-21 09:13:35.832 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-08-21 09:13:35.832 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-08-21 09:13:35.833 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-08-21 09:13:36.377 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:13:36.378 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:13:36.379 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:13:36.380 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:13:36.380 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 1(Integer), 5(Integer)
+2020-08-21 09:13:36.381 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:14:02.313 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE role_id = ?) 
+2020-08-21 09:14:02.313 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-08-21 09:14:02.315 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 20
+2020-08-21 09:14:02.315 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-08-21 09:14:02.315 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-08-21 09:14:02.316 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-08-21 09:14:02.815 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_role_resource WHERE 1=1 
+2020-08-21 09:14:02.816 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-08-21 09:14:02.817 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-08-21 09:14:02.817 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT arr.ID,au.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID LIMIT ?,? 
+2020-08-21 09:14:02.817 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 1(Integer), 5(Integer)
+2020-08-21 09:14:02.818 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 5
+2020-08-21 09:16:07.730 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-08-21 09:16:07.730 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-08-21 09:16:07.733 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 31

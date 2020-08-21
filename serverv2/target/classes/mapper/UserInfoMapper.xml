@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kiwihouse.dao.mapper.UserInfoMapper">
+    <resultMap id="RUserInfoMap" type="com.kiwihouse.dao.entity.relation.RUserInfo">
+        <result column="permission_ids" property="permissionIds" typeHandler="com.kiwihouse.dao.mybatisHandler.ListIntegerHandler" />
+    </resultMap>
+
+    <select id="findByUsername" resultType="com.kiwihouse.dao.entity.UserInfo">
+        select uid,username,password,salt,state,role_id,display_name,a.phone,a.role_id
+        from user_info
+        where username=#{username} limit 1
+    </select>
+    <select id="findByPhone" resultType="com.kiwihouse.dao.entity.UserInfo">
+        select uid,username,password,salt,state,role_id,display_name,a.phone,a.role_id
+        from user_info
+        where phone=#{phone} limit 1
+    </select>
+    <select id="rFindByUsername" resultMap="RUserInfoMap">
+        select a.uid ,a.username,a.password,a.salt,a.state,a.display_name,a.phone,a.role_id,
+        b.name as roleName,
+        b.permission_ids
+        from user_info as a,sys_role as b
+        where a.username=#{username} and
+        a.role_id = b.role_id limit 1
+    </select>
+    <select id="rFindByPhone" resultMap="RUserInfoMap">
+        select a.uid ,a.username,a.password,a.salt,a.state,a.display_name,a.phone,a.role_id,
+        b.name as roleName,
+        b.permission_ids
+        from user_info as a,sys_role as b
+        where a.phone=#{phone} and
+        a.role_id = b.role_id limit 1
+    </select>
+</mapper>
+
+
+

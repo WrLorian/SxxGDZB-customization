@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.mapper.FireThresholdMapper">
+
+    <update id="updateInfo" parameterType="com.kiwihouse.vo.kiwihouse.ThresholdUpdateVo">
+        update fire_threshold
+        <set>
+            <if test="volH !=null and volH !=''">
+                volH=#{volH},
+            </if>
+            <if test="volL !=null and volL !=''">
+                volL=#{volL},
+            </if>
+            <if test="leakH !=null and leakH !=''">
+                leakH=#{leakH},
+            </if>
+            <if test="curH !=null and curH !=''">
+                curH=#{curH},
+            </if>
+            <if test="pwrH !=null and pwrH !=''">
+                pwrH=#{pwrH},
+            </if>
+            <if test="tempH !=null and tempH !=''">
+                tempH=#{tempH},
+            </if>
+            <if test="updateTime !=null and updateTime !=''">
+                update_time=#{updateTime},
+            </if>
+        </set>
+        where eqpt_sn=#{eqptSn}
+    </update>
+
+    <insert id="addInfo" parameterType="com.kiwihouse.vo.kiwihouse.ThresholdUpdateVo" useGeneratedKeys="true" keyProperty="thresholdId">
+        insert into fire_threshold(eqpt_sn,volH, volL, leakH, curH, pwrH, tempH, add_time) value(#{eqptSn},#{volH},#{volL},#{leakH},#{curH},#{pwrH},#{tempH},#{addTime})
+    </insert>
+
+    <select id="query" parameterType="java.util.HashMap" resultType="com.kiwihouse.dto.ThresholdDto">
+        select fh.threshold_id, fh.eqpt_sn, volH, volL, leakH, curH, pwrH, tempH, fh.add_time, fh.update_time
+        from fire_threshold as fh
+        left join equipment as e on fh.eqpt_sn=e.eqpt_sn
+        <where>
+            <if test="eqptSn != null and eqptSn != ''">
+                and e.eqpt_sn = #{eqptSn}
+            </if>
+            <if test="adminId!=null and adminId!=''">
+                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+        </where>
+    </select>
+    <select id="queryRow" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*)
+        from fire_threshold as fh
+        left join equipment as e on fh.eqpt_sn=e.eqpt_sn
+        <where>
+            <if test="eqptSn != null and eqptSn != ''">
+                and e.eqpt_sn = #{eqptSn}
+            </if>
+            <if test="adminId!=null and adminId!=''">
+                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+        </where>
+    </select>
+
+</mapper>

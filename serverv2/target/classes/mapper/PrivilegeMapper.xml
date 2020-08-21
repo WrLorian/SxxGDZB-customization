@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.mapper.PrivilegeMapper">
+
+    <!--intercept-->
+    <select id="verify" resultType="com.kiwihouse.dto.PrivilegeDto">
+        select ar.admin_id,ar.role_id,role.role_name,p.privilege_desc,p.request_url,p.request_method
+            from admin_role as ar
+            left join role on role.role_id = ar.role_id
+            left join role_privilege as rp on ar.role_id = rp.role_id
+            left join privilege as p on rp.privilege_id = p.privilege_id
+        where ar.admin_id=#{adminId};
+    </select>
+
+    <!--query POR information-->
+    <resultMap id="ProResult" type="com.kiwihouse.dto.PorRoleDto">
+        <id property="roleId" column="role_id"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleDesc" column="role_desc"/>
+        <result property="routerTree" column="router_tree"/>
+        <collection property="list" ofType="com.kiwihouse.dto.ProPrivilegeDto">
+            <id property="privilegeId" column="privilege_id"/>
+            <result property="privilegeDesc" column="privilege_desc"/>
+            <result property="requestUrl" column="request_url"/>
+            <result property="requestMethod" column="request_method"/>
+        </collection>
+    </resultMap>
+    <select id="queryPORInfo" resultMap="ProResult" parameterType="java.util.HashMap">
+        select role.role_id,role.role_name,role.role_desc,role.router_tree,rp.privilege_id,p.privilege_desc,p.request_url,p.request_method
+            from role
+            left join role_privilege as rp on role.role_id=rp.role_id
+            left join privilege as p on rp.privilege_id=p.privilege_id
+        <where>
+            <if test="roleId!=null and roleId!=''">
+                role.role_id=#{roleId}
+            </if>
+            <if test="roleName!=null and roleName!=''">
+                role.role_name like CONCAT('%',#{roleName},'%')
+            </if>
+        </where>
+    </select>
+    <select id="queryPORInfoRow" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        select count(*) from role
+        <where>
+            <if test="roleId!=null and roleId!=''">
+                role.role_id=#{roleId}
+            </if>
+        </where>
+    </select>
+
+    <!--query privilege information-->
+    <select id="queryInfo" resultType="com.kiwihouse.dto.ProPrivilegeDto">
+        select privilege_id, privilege_desc, request_url, request_method from privilege;
+    </select>
+    <select id="queryInfoRow" resultType="java.lang.Integer">
+        select count(*) from privilege;
+    </select>
+
+    <!--创建角色并赋权-->
+    <insert id="addRole" parameterType="com.kiwihouse.vo.kiwihouse.RoleAddVo" useGeneratedKeys="true" keyProperty="roleId">
+        insert into role(role_name,role_desc,router_tree,add_time) values(#{roleName},#{roleDesc},#{routerTree},#{addTime})
+    </insert>
+
+    <insert id="addRolePrivilege" parameterType="java.util.ArrayList">
+        INSERT INTO `role_privilege`(`role_id`, `privilege_id`, `add_time`) VALUES
+        <foreach collection="list" item="map" index="index" separator="," >
+            (
+                #{map.roleId},
+                #{map.privilegeId},
+                #{map.addTime}
+            )
+        </foreach>
+    </insert>
+    <insert id="addAdminRole" parameterType="java.util.ArrayList">
+        INSERT INTO `admin_role`(`admin_id`, `role_id`, `add_time`) VALUES
+        <foreach collection="list" item="map" index="index" separator="," >
+            (
+                #{map.adminId},
+                #{map.roleId},
+                #{map.addTime}
+            )
+        </foreach>
+    </insert>
+
+
+    <update id="updateRole" parameterType="com.kiwihouse.vo.kiwihouse.RoleUpdateVo">
+        update role
+        <set>
+            <if test="roleId !=null and roleId !=''">
+                role_id=#{roleId},
+            </if>
+            <if test="roleName !=null and roleName !=''">
+                role_name=#{roleName},
+            </if>
+            <if test="roleDesc !=null and roleDesc !=''">
+                role_desc=#{roleDesc},
+            </if>
+            <if test="routerTree !=null and routerTree !=''">
+                router_tree=#{routerTree},
+            </if>
+        </set>
+        where role_id=#{roleId}
+    </update>
+</mapper>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.mapper.DataStatisticsMapper">
+
+    <select id="queryPreDayFireEqpt" resultType="com.kiwihouse.dto.EqptWarn" parameterType="com.kiwihouse.vo.kiwihouse.DataStatisticsVo">
+        select count(distinct eqpt_sn) as eqptNum,DATE_FORMAT(add_time,'%Y-%m-%d') as add_time
+        from (
+                select alarm_msg,ai.add_time,ai.eqpt_sn
+                from alarm_info as ai
+                left join equipment as e on ai.eqpt_sn = e.eqpt_sn
+                <where>
+                    ai.alarm_type = 2
+                    <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
+                        and DATE_FORMAT(ai.add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+                    </if>
+                    <if test="adminId!=null and adminId!=''">
+                        and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+                    </if>
+                </where>
+            )t
+        where t.alarm_msg like '%2%' or t.alarm_msg like '%1%'
+        group by date_format(t.add_time,'%Y-%m-%d');
+
+    </select>
+
+    <select id="queryUnderVol" resultType="com.kiwihouse.dto.EqptWarn" parameterType="com.kiwihouse.vo.kiwihouse.DataStatisticsVo">
+        select count(distinct eqpt_sn) as eqptNum,DATE_FORMAT(add_time,'%Y-%m-%d') as add_time
+            from (
+                select alarm_msg,ai.add_time,ai.eqpt_sn
+                from alarm_info as ai
+                left join equipment as e on ai.eqpt_sn = e.eqpt_sn
+                <where>
+                    ai.alarm_type = 2
+                    <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
+                        and DATE_FORMAT(ai.add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+                    </if>
+                    <if test="adminId!=null and adminId!=''">
+                        and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+                    </if>
+                </where>
+            )t
+        where t.alarm_msg like '%"vol":"2%' group by DATE_FORMAT(add_time,'%Y-%m-%d');
+    </select>
+    <select id="queryOverVol" resultType="com.kiwihouse.dto.EqptWarn" parameterType="com.kiwihouse.vo.kiwihouse.DataStatisticsVo">
+        select count(distinct eqpt_sn) as eqptNum,DATE_FORMAT(add_time,'%Y-%m-%d') as add_time
+            from (
+                select alarm_msg,ai.add_time,ai.eqpt_sn
+                from alarm_info as ai
+                left join equipment as e on ai.eqpt_sn = e.eqpt_sn
+                <where>
+                    ai.alarm_type = 2
+                    <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
+                        and DATE_FORMAT(ai.add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+                    </if>
+                    <if test="adminId!=null and adminId!=''">
+                        and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+                    </if>
+                </where>
+            )t
+        where t.alarm_msg like '%"vol":"1%' group by DATE_FORMAT(add_time,'%Y-%m-%d');
+    </select>
+    <select id="queryCur" resultType="com.kiwihouse.dto.EqptWarn" parameterType="com.kiwihouse.vo.kiwihouse.DataStatisticsVo">
+        select count(distinct eqpt_sn) as eqptNum,DATE_FORMAT(add_time,'%Y-%m-%d') as add_time
+            from (
+                select alarm_msg,ai.add_time,ai.eqpt_sn
+                from alarm_info as ai
+                left join equipment as e on ai.eqpt_sn = e.eqpt_sn
+                <where>
+                    ai.alarm_type = 2
+                    <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
+                        and DATE_FORMAT(ai.add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+                    </if>
+                    <if test="adminId!=null and adminId!=''">
+                        and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+                    </if>
+                </where>
+            )t
+        where t.alarm_msg like '%"cur":"1%' group by DATE_FORMAT(add_time,'%Y-%m-%d');
+    </select>
+    <select id="queryOverload" resultType="com.kiwihouse.dto.EqptWarn" parameterType="com.kiwihouse.vo.kiwihouse.DataStatisticsVo">
+        select count(distinct eqpt_sn) as eqptNum,DATE_FORMAT(add_time,'%Y-%m-%d') as add_time
+            from (
+                select alarm_msg,ai.add_time,ai.eqpt_sn
+                from alarm_info as ai
+                left join equipment as e on ai.eqpt_sn = e.eqpt_sn
+                <where>
+                    ai.alarm_type = 2
+                    <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
+                        and DATE_FORMAT(ai.add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+                    </if>
+                    <if test="adminId!=null and adminId!=''">
+                        and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+                    </if>
+                </where>
+            )t
+        where t.alarm_msg like '%"overload":"1%' group by DATE_FORMAT(add_time,'%Y-%m-%d');
+    </select>
+    <select id="queryLeak" resultType="com.kiwihouse.dto.EqptWarn" parameterType="com.kiwihouse.vo.kiwihouse.DataStatisticsVo">
+        select count(distinct eqpt_sn) as eqptNum,DATE_FORMAT(add_time,'%Y-%m-%d') as add_time
+            from (
+                select alarm_msg,ai.add_time,ai.eqpt_sn
+                from alarm_info as ai
+                left join equipment as e on ai.eqpt_sn = e.eqpt_sn
+                <where>
+                    ai.alarm_type = 2
+                    <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
+                        and DATE_FORMAT(ai.add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+                    </if>
+                    <if test="adminId!=null and adminId!=''">
+                        and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+                    </if>
+                </where>
+            )t
+        where t.alarm_msg like '%"leak":"1%' group by DATE_FORMAT(add_time,'%Y-%m-%d');
+    </select>
+    <select id="queryTemp" resultType="com.kiwihouse.dto.EqptWarn" parameterType="com.kiwihouse.vo.kiwihouse.DataStatisticsVo">
+        select count(distinct eqpt_sn) as eqptNum,DATE_FORMAT(add_time,'%Y-%m-%d') as add_time
+            from (
+                select alarm_msg,ai.add_time,ai.eqpt_sn
+                from alarm_info as ai
+                left join equipment as e on ai.eqpt_sn = e.eqpt_sn
+                <where>
+                    ai.alarm_type = 2
+                    <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
+                        and DATE_FORMAT(ai.add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+                    </if>
+                    <if test="adminId!=null and adminId!=''">
+                        and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+                    </if>
+                </where>
+            )t
+        where t.alarm_msg like '%"temp":"1%' group by DATE_FORMAT(add_time,'%Y-%m-%d');
+    </select>
+
+    <select id="queryEqptNum" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(eqpt_sn) from equipment
+        <where>
+            <if test="adminId!=null and adminId!=''">
+                and admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+            <if test="eqptType!=null and eqptType!=''">
+                and eqpt_type=#{eqptType}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryFireAlmEqptNum" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(distinct eqpt_sn)
+            from (
+                select ai.alarm_msg,ai.eqpt_sn
+                from alarm_info as ai
+                left join equipment as e on ai.eqpt_sn = e.eqpt_sn
+                <where>
+                    ai.alarm_type = 2
+                    <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
+                        and DATE_FORMAT(ai.add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+                    </if>
+                    <if test="adminId!=null and adminId!=''">
+                        and admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+                    </if>
+                </where>
+            )t
+        where t.alarm_msg like '%2%' or t.alarm_msg like '%1%';
+    </select>
+    <select id="querySmokeAlmEqptNum" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(distinct si.eqpt_sn) from smoke_info as si
+        left join equipment as e on si.eqpt_sn = e.eqpt_sn
+        <where>
+            si.type=3
+            <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
+                and DATE_FORMAT(si.add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+            </if>
+            <if test="adminId!=null and adminId!=''">
+                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+        </where>
+    </select>
+    
+    <select id="querySmokeAlmNums" parameterType="java.util.HashMap" resultType="com.kiwihouse.dto.EqptWarn">
+        select count(distinct si.eqpt_sn) as eqptNum ,DATE_FORMAT(si.add_time,'%Y-%m-%d') as add_time
+        from smoke_info as si
+        left join equipment as e on si.eqpt_sn = e.eqpt_sn
+        <where>
+            si.type=3 and #{almType}>=#{almThreshold}
+            <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
+                and DATE_FORMAT(si.add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+            </if>
+            <if test="adminId!=null and adminId!=''">
+                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+        </where>
+        group by DATE_FORMAT(si.add_time,'%Y-%m-%d');
+    </select>
+
+    <select id="queryAllNewUsers" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        select count(distinct u.user_id) from user as u
+        left join equipment as e on e.user_id = u.user_id
+        <where>
+            <if test="addTime!=null and addTime!=''">
+                date_format(u.add_time,'%Y-%m-%d') <![CDATA[<= ]]> #{addTime}
+            </if>
+            <if test="adminId!=null and adminId!=''">
+                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPerDayNewUser" resultType="com.kiwihouse.dto.PerDayUsers" parameterType="java.util.HashMap">
+        select count(distinct u.user_id) as userNum,DATE_FORMAT(u.add_time,'%Y-%m-%d') as add_time
+        from user as u
+        left join equipment as e on e.user_id = u.user_id
+        <where>
+            <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
+                and DATE_FORMAT(u.add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+            </if>
+            <if test="adminId!=null and adminId!=''">
+                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+        </where>
+        group by DATE_FORMAT(u.add_time,'%Y-%m-%d');
+    </select>
+
+</mapper>

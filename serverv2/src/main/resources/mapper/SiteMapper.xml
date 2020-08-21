@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.mapper.SiteMapper">
+
+    <!--query-->
+    <select id="queryInfo" resultType="com.kiwihouse.dto.SiteDto" parameterType="com.kiwihouse.vo.kiwihouse.SiteQueryVo">
+        SELECT s.site_id,s.province,s.city,s.district,s.address as area,s.admin_id,s.add_time,
+               a.admin_name
+        from site as s
+        left join administrator as a on s.admin_id=a.admin_id
+        <where>
+            <if test="adminId != null and adminId != ''">
+                and s.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+            <if test="province != null and province != ''">
+                and s.province=#{province}
+            </if>
+            <if test="city != null and city != ''">
+                and s.city=#{city}
+            </if>
+            <if test="district != null and district != ''">
+                and s.district=#{district}
+            </if>
+            <if test="area != null and area != ''">
+                and s.address like CONCAT('%',#{area},'%')
+            </if>
+        </where>
+        order by s.add_time desc limit #{page},#{limit}
+    </select>
+    <select id="queryInfoRow" resultType="java.lang.Integer" parameterType="com.kiwihouse.vo.kiwihouse.SiteQueryVo">
+        select count(*)
+        from site as s
+        left join administrator as a on s.admin_id=a.admin_id
+        <where>
+            <if test="adminId != null and adminId != ''">
+                and s.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            </if>
+            <if test="province != null and province != ''">
+                and s.province=#{province}
+            </if>
+            <if test="city != null and city != ''">
+                and s.city=#{city}
+            </if>
+            <if test="district != null and district != ''">
+                and s.district=#{district}
+            </if>
+            <if test="area != null and area != ''">
+                and s.address like CONCAT('%',#{area},'%')
+            </if>
+        </where>
+    </select>
+    <select id="queryArea" resultType="java.lang.String" parameterType="java.lang.String">
+        select concat_ws('',province,city,district,address) from site where admin_id=#{adminId}
+    </select>
+
+
+    <!--update-->
+    <update id="addDeviceId" parameterType="java.lang.String">
+        update equipment set device_id=#{deviceId},register=1 where eqpt_id=#{eqptId}
+    </update>
+    <update id="updateInfo" parameterType="com.kiwihouse.dto.Eqpt4UpdateDto">
+        update equipment
+        <set>
+            <if test="eqptId !=null and eqptId !=''">
+                eqpt_id=#{eqptId},
+            </if>
+            <if test="eqptName !=null and eqptName !=''">
+                eqpt_name=#{eqptName},
+            </if>
+            <if test="imei !=null and imei !=''">
+                imei=#{imei},
+            </if>
+            <if test="eqptSn !=null and eqptSn !=''">
+                eqpt_sn=#{eqptSn},
+            </if>
+            <if test="eqptType !=null and eqptType !=''">
+                eqpt_type=#{eqptType},
+            </if>
+            <if test="power !=null and power !=''">
+                power=#{power},
+            </if>
+            <if test="voltage !=null and voltage !=''">
+                voltage=#{voltage},
+            </if>
+            <if test="electricity !=null and electricity !=''">
+                electricity=#{electricity},
+            </if>
+            <if test="userId !=null and userId !=''">
+                user_id=#{userId},
+            </if>
+        </set>
+        where eqpt_id=#{eqptId}
+    </update>
+
+    <!--add-->
+    <insert id="addInfo" parameterType="com.kiwihouse.vo.kiwihouse.SiteAddVo">
+        insert into site
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="province != null and province != ''">
+                province,
+            </if>
+            <if test="city != null and city != ''">
+                city,
+            </if>
+            <if test="district != null and district != ''">
+                district,
+            </if>
+            <if test="area != null and area != ''">
+                address,
+            </if>
+            <if test="adminId != null and adminId != ''">
+                admin_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="province != null and province != ''">
+                #{province},
+            </if>
+            <if test="city != null and city != ''">
+                #{city},
+            </if>
+            <if test="district != null and district != ''">
+                #{district},
+            </if>
+            <if test="area != null and area != ''">
+                #{area},
+            </if>
+            <if test="adminId != null and adminId != ''">
+                #{adminId},
+            </if>
+        </trim>
+    </insert>
+
+    <!--delete-->
+    <delete id="deleteInfo" parameterType="java.util.HashMap">
+        delete from site
+        <where>
+            <if test="siteId != null and siteId != ''">
+                and site_id=#{siteId}
+            </if>
+            <if test="adminId != null and adminId != ''">
+                and admin_id=#{adminId}
+            </if>
+        </where>
+    </delete>
+
+</mapper>
