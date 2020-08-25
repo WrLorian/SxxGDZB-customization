@@ -11,6 +11,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author tomsun28
@@ -63,4 +64,10 @@ public class RoleServiceImpl implements RoleService {
     public List<AuthRole> getRoleList() throws DataAccessException {
         return authRoleMapper.selectRoles();
     }
+
+	@Override
+	public List<Map<String, Integer>> queryAuthRole(Integer roleId) {
+		// TODO Auto-generated method stub
+		return authRoleMapper.queryAuthRole(roleId);
+	}
 }

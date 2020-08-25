@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author tomsun28
@@ -171,5 +172,14 @@ public class RoleController extends BaseController {
         }
     }
 
+    @ApiOperation(value = "获取用户对应所有角色信息",httpMethod = "POST")
+    @PostMapping("user/{roleId}")
+    public Response queryAuthRole(@PathVariable Integer roleId) {
+    	
+    	List<Map<String,Integer>> map  = roleService.queryAuthRole(roleId);
+    	
+		return new Response().Success(6666, "query success").addData("listRole", map);
+        
+    }
 
 }

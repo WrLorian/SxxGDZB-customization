@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.kiwihouse.dao.entity.SysMenu;
 
+import io.lettuce.core.dynamic.annotation.Param;
+
 
 public interface SysMenuMapper {
     int deleteByPrimaryKey(Integer menuId);
@@ -18,9 +20,21 @@ public interface SysMenuMapper {
 
     int updateByPrimaryKey(SysMenu record);
     /**
-     * 根据id获取用户所属权限菜单
+     * 	根据id获取用户所属权限菜单
      * @param uid
      * @return
      */
 	List<SysMenu> getAuthMenuList(Integer uid);
+	/**
+	 * 	修改菜单
+	 * @param sysMenu
+	 * @return
+	 */
+	int updateMenu(SysMenu sysMenu);
+	/**
+	 * 根据ids批量删除菜单
+	 * @param ids
+	 * @return
+	 */
+	int updateBatchMenuByIds(Long[] ids);
 }

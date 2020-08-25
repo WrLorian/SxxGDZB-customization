@@ -6,6 +6,7 @@ import com.kiwihouse.common.utils.RedisUtil;
 import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.controller.account.params.UserParams;
 import com.kiwihouse.dao.entity.AuthUser;
+import com.kiwihouse.dao.mapper.AuthUserRoleMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.AccountService;
 import com.kiwihouse.service.UserService;
@@ -54,6 +55,9 @@ public class AccountController extends BaseController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private AuthUserRoleMapper authUserRoleMapper;
 
     @Value("${kiwihouse.enableEncryptPassword}")
     private boolean isEncryptPassword;
@@ -73,6 +77,7 @@ public class AccountController extends BaseController {
         AuthUser authUser = userService.getUserByUsername(params.getUsername());
         authUser.setPassword(null);
         authUser.setSalt(null);
+        authUser.setRoleId(authUserRoleMapper.selectByUid(authUser.getUid()));
         // 根据appId获取其对应所拥有的角色(这里设计为角色对应资源，没有权限对应资源)
         String roles = accountService.loadAccountRoleByUsername(params.getUsername());
         //根据roles 查询 相应的 权限资源
@@ -84,9 +89,7 @@ public class AccountController extends BaseController {
         // 将签发的JWT存储到Redis： {JWT-SESSION-{appID} , jwt}
         //redisUtil.set("JWT-SESSION-" + params.getUsername(), jwt, refreshPeriodTime);
         LogExeManager.getInstance().executeLogTask(LogTaskFactory.loginLog(1, IpUtil.getIpFromRequest(WebUtils.toHttp(request)), (short) 1, "登录成功"));
-        request.getSession().setAttribute("user", authUser);
-        System.out.println("打印结果--------------->" + SecurityUtils.getSubject().getPrincipal());
-        
+        //request.getSession().setAttribute("user", authUser);
         return new Response().Success(Code.LOGIN_SUCC, "issue jwt success").addData("jwt", jwt).addData("user", authUser);
     }
 

@@ -25,24 +25,9 @@ public class ReturnPageController extends BaseController{
 	
 	private static String loginPage = "login";
 	
-	@RequestMapping(value = "/index")
-	public ModelAndView returnPage(ModelMap mmap,HttpServletRequest request) {
-//		AuthUser authUser  = authUserMapper.selectByUsername("admin");
-		AuthUser authUser = (AuthUser) request.getSession().getAttribute("user");
-    	mmap.addAttribute("user", authUser);
-    	System.out.println("获取对象：------------->" + SecurityUtils.getSubject().getPrincipal());
-		return new ModelAndView("index");
-	}
-	@RequestMapping(value = "/unauth")
-	public ModelAndView unauthPage(ModelMap mmap,HttpServletRequest request) {
-		return new ModelAndView("unauth");
-	}
-	
-	@RequestMapping(value = "/login")
-	public ModelAndView Logout() {
-		SecurityUtils.getSubject().logout();
-		System.out.println("-----------退出----------------------");
-		return new ModelAndView(loginPage);
+	@RequestMapping(value = "/{name}")
+	public ModelAndView returnPage(@PathVariable String name) {
+		return new ModelAndView(name);
 	}
 	
 	@RequestMapping(value = "/{name}/{url}")

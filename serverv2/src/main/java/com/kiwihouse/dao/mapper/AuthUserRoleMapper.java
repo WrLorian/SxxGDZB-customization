@@ -73,4 +73,10 @@ public interface AuthUserRoleMapper {
      * @throws DataAccessException when
      */
     int deleteByUniqueKey(AuthUserRole record) throws DataAccessException;
+    /**
+     * 根据用户id。查询roleId
+     * @param uid
+     * @return
+     */
+	Integer selectByUid(Integer uid);
 }

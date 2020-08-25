@@ -160,12 +160,18 @@ public interface AuthResourceMapper {
      * @param roleId
      * @return
      */
-	Integer selectAuthResourceCount(@Param("roleId") Integer roleId);
+	Integer selectAuthResourceCount(
+			@Param("roleId") Integer roleId,
+			@Param("auResourceVo") AuthResourceVo auResourceVo);
 	/**
 	 * 
 	 * @param page
 	 * @param limit
 	 * @return
 	 */
-	List<AuthResourceVo> selectAuthResourceList(@Param("page") Integer page, @Param("limit") Integer limit,@Param("roleId") Integer roleId);
+	List<AuthResourceVo> selectAuthResourceList(
+			@Param("page") Integer page, 
+			@Param("limit") Integer limit,
+			@Param("roleId") Integer roleId,
+			@Param("auResourceVo") AuthResourceVo auResourceVo);
 }

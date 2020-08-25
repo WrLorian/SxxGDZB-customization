@@ -164,12 +164,15 @@ public class ResourceController extends BaseController {
         }
     }
     
-    @ApiOperation(value = "查询权限", notes = "权限操作", httpMethod = "GET")
+    @SuppressWarnings("unused")
+	@ApiOperation(value = "查询权限", notes = "权限操作", httpMethod = "GET")
     @GetMapping("auth/select")
-    public Map<String, Object> list(Integer page, Integer limit) {
-    	Integer roleId = 100;
+    public Map<String, Object> list(Integer page, Integer limit,Integer roleId,AuthResourceVo auResourceVo) {
     	try {
-    		map = resourceService.selectPage(page,limit,roleId);
+    		if(auResourceVo==null) {
+    			auResourceVo = new AuthResourceVo();
+    		}
+    		map = resourceService.selectPage(page,limit,roleId,auResourceVo);
     		map.put("code", 0);
     		map.put("msg",Code.QUERY_SUCCESS);
 		} catch (Exception e) {

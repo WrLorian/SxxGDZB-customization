@@ -101,4 +101,10 @@ public class UserController extends BaseController {
 
         return new Response().Success(6666, "用户退出成功");
     }
+    @ApiOperation(value = "根据用户名称查询", httpMethod = "POST")
+    @PostMapping("/queryByName")
+    public Response queryInfo(HttpServletRequest request,String username) {
+    	AuthUser authUser = userService.getUserByUsername(username);
+        return new Response().Success(6666, "查询成功").addData("authUser", authUser);
+    }
 }

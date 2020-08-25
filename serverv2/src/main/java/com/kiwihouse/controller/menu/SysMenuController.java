@@ -1,15 +1,22 @@
 package com.kiwihouse.controller.menu;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.kiwihouse.dao.entity.AuthRole;
 import com.kiwihouse.dao.entity.SysMenu;
 import com.kiwihouse.dao.mapper.SysDictionaryMapper;
 import com.kiwihouse.domain.vo.Response;
@@ -29,7 +36,7 @@ public class SysMenuController {
 	@Autowired
 	SysDictionaryMapper sysDictionaryMapper;
 	
-	@ApiOperation(value = "根据UID获取用户所属权限菜单", httpMethod = "GET",notes = "根据UID")
+	@ApiOperation(value = "根据UID获取用户所属菜单显示在左侧导航栏", httpMethod = "GET",notes = "根据UID")
 	@PostMapping("/authMenuList")
 	@ResponseBody
 	public Response getAuthMenuList(Integer uid) {
@@ -58,5 +65,40 @@ public class SysMenuController {
 		return new Response().Success(6666,"return menu list success").addData("menuTree",jo);
 	}
 	
+	@ApiOperation(value = "根据UID获取用户所属菜单", httpMethod = "GET",notes = "根据UID")
+	@PostMapping("/authMenuLists")
+	@ResponseBody
+	public Response getAuthMenuLists(Integer uid) {
+		Map<String, Object> map = new HashMap<String, Object>();
+        List<SysMenu> treeNodes = new ArrayList<>();
+       
+        //得到左菜单
+        treeNodes = sysMenuService.getAuthMenuList(uid);
+        map.put("count",treeNodes.size());
+        map.put("code",0);
+        map.put("masg", "success");
+        map.put("data", treeNodes);
+		return new Response().Success(6666,"return menu list success").addData("menuTree",map);
+	}
 	
+	@ApiOperation(value = "更新菜单", httpMethod = "PUT")
+    @PutMapping("")
+    public Response updateMenu(@RequestBody SysMenu sysMenu) {
+		boolean flag = sysMenuService.updateMenu(sysMenu);
+        if (flag) {
+            return new Response().Success(6666, "update success");
+        } else {
+            return new Response().Fail(1111, "update fail");
+        }
+    }
+	@ApiOperation(value = "删除菜单", httpMethod = "DELETE")
+	@DeleteMapping("{ids}")
+    public Response deleteMenu(@PathVariable Long[] ids) {
+		boolean flag = sysMenuService.updateBatchMenuByIds(ids);
+        if (flag) {
+            return new Response().Success(6666, "delete success");
+        } else {
+            return new Response().Fail(1111, "delete fail");
+        }
+    }
 }

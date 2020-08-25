@@ -12,6 +12,14 @@ public class AuthResourceVo {
 	private Integer status;
 	private Date createTime;
     private Date updateTime;
+    private String codeRes;
+    
+	public String getCodeRes() {
+		return codeRes;
+	}
+	public void setCodeRes(String codeRes) {
+		this.codeRes = codeRes;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -66,4 +74,11 @@ public class AuthResourceVo {
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
+	@Override
+	public String toString() {
+		return "AuthResourceVo [id=" + id + ", name=" + name + ", code=" + code + ", uri=" + uri + ", type=" + type
+				+ ", method=" + method + ", status=" + status + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + "]";
+	}
+	
 }

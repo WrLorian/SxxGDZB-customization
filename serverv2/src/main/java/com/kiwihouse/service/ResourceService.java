@@ -109,7 +109,8 @@ public interface ResourceService {
      * 查询权限列表
      * @param i
      * @param limit
+     * @param auResourceVo 
      * @return
      */
-	Map<String, Object> selectPage(Integer page, Integer limit,Integer roleId);
+	Map<String, Object> selectPage(Integer page, Integer limit,Integer roleId, AuthResourceVo auResourceVo);
 }

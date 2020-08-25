@@ -11,5 +11,17 @@ public interface SysMenuService {
 	 * @return
 	 */
 	List<SysMenu> getAuthMenuList(Integer uid);
+	/**
+	 * 	修改菜单
+	 * @param sysMenu
+	 * @return
+	 */
+	boolean updateMenu(SysMenu sysMenu);
+	/**
+	 * 删除菜单
+	 * @param ids
+	 * @return
+	 */
+	boolean updateBatchMenuByIds(Long[] ids);
 
 }

@@ -32,8 +32,20 @@ public class AuthUser {
     private Integer isAdmin;
 
     private String groupIds;
+    
+    private Integer roleId;
+    
+    
+    
+    public Integer getRoleId() {
+		return roleId;
+	}
 
-    public Integer getUid() {
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+
+	public Integer getUid() {
         return uid;
     }
 

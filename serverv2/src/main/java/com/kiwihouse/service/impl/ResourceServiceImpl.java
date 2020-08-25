@@ -95,15 +95,15 @@ public class ResourceServiceImpl implements ResourceService {
     Map<String, Object> map = new HashMap<String, Object>();
     
 	@Override
-	public Map<String, Object> selectPage(Integer page, Integer limit,Integer roleId) {
+	public Map<String, Object> selectPage(Integer page, Integer limit,Integer roleId,AuthResourceVo auResourceVo) {
 		// TODO Auto-generated method stub
 		
-		map.put("count", authResourceMapper.selectAuthResourceCount(roleId));
+		map.put("count", authResourceMapper.selectAuthResourceCount(roleId,auResourceVo));
 		List<AuthResourceVo> list = new ArrayList<AuthResourceVo>();
 		if (page != null) {
-			list = authResourceMapper.selectAuthResourceList(page,limit,roleId);
+			list = authResourceMapper.selectAuthResourceList(page - 1,limit,roleId,auResourceVo);
 		} else {
-			list = authResourceMapper.selectAuthResourceList(page,limit,roleId);
+			list = authResourceMapper.selectAuthResourceList(page - 1,limit,roleId,auResourceVo);
 		}
 		map.put("data", list);
 		return map;

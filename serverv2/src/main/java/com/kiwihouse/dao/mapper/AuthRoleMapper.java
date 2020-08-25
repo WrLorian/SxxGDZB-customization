@@ -5,6 +5,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author tomsun28
@@ -72,4 +73,10 @@ public interface AuthRoleMapper {
      * @throws DataAccessException when
      */
     List<AuthRole> selectRoles() throws DataAccessException;
+    /**
+     * 	根据roleId 获取其之下的所有角色
+     * @param roleId
+     * @return
+     */
+	List<Map<String, Integer>> queryAuthRole(Integer roleId);
 }

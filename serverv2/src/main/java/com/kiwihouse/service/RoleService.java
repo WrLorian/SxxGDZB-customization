@@ -4,6 +4,7 @@ package com.kiwihouse.service;
 import com.kiwihouse.dao.entity.AuthRole;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author tomsun28
@@ -59,4 +60,10 @@ public interface RoleService {
      * @return java.util.List<com.kiwihouse.dao.entity.AuthRole>
      */
     List<AuthRole> getRoleList();
+    /**
+     * 	根据roleId 获取其之下的所有角色
+     * @param roleId
+     * @return
+     */
+	List<Map<String, Integer>> queryAuthRole(Integer roleId);
 }

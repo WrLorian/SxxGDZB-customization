@@ -75,8 +75,17 @@ public class SysMenu  extends BaseTreeNode {
 	
 	private String target;
 	
+	private Integer isBasic;
 	
 	
+	public Integer getIsBasic() {
+		return isBasic;
+	}
+
+	public void setIsBasic(Integer isBasic) {
+		this.isBasic = isBasic;
+	}
+
 	public String getHref() {
 		return this.url;
 	}
@@ -205,12 +214,5 @@ public class SysMenu  extends BaseTreeNode {
 		this.remark = remark;
 	}
 
-	@Override
-	public String toString() {
-		return "SysMenu [id=" + id + ", name=" + name + ", parentId=" + parentId + ", orderNum=" + orderNum + ", url="
-				+ url + ", visible=" + visible + ", perms=" + perms + ", icon=" + icon + ", createBy=" + createBy
-				+ ", createTime=" + createTime + ", updateBy=" + updateBy + ", updateTime=" + updateTime + ", remark="
-				+ remark + ", href=" + href + ", title=" + title + ", target=" + target + "]";
-	}
 
 }

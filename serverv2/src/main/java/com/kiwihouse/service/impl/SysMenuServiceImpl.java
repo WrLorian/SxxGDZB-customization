@@ -18,4 +18,18 @@ public class SysMenuServiceImpl implements SysMenuService{
 		return sysMenuMapper.getAuthMenuList(uid);
 	}
 
+	@Override
+	public boolean updateMenu(SysMenu sysMenu) {
+		// TODO Auto-generated method stub
+		 int num = sysMenuMapper.updateMenu(sysMenu);
+	     return num == 1? Boolean.TRUE : Boolean.FALSE;
+	}
+
+	@Override
+	public boolean updateBatchMenuByIds(Long[] ids) {
+		// TODO Auto-generated method stub
+		int num = sysMenuMapper.updateBatchMenuByIds(ids);
+        return num == 1? Boolean.TRUE : Boolean.FALSE;
+	}
+
 }
