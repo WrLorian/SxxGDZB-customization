@@ -230,34 +230,67 @@
     </select>
     
     <select id="selectAuthResourceCount" parameterType="java.lang.Integer" resultType="Integer" >
-    	SELECT COUNT(*) FROM auth_role_resource WHERE 1=1
-    	<choose>
-    		<when test="roleId gt 100">
+    	SELECT count(*) FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID
+    	WHERE 1 = 1
+    	
+    		<if test="roleId gt 100">
     			AND ar.ROLE_ID >#{roleId}
+    		</if>
+    		<if test="auResourceVo.code!=null and auResourceVo.code !=''">
+    			AND au.code = #{auResourceVo.code}
+    		</if>
+    		<if test="auResourceVo.type!=null and auResourceVo.type !=''">
+    			AND ar.type = #{auResourceVo.type}
+    		</if>
+    		<if test="auResourceVo.codeRes!=null and auResourceVo.codeRes !=''">
+    			AND ar.`CODE` like CONCAT('%', #{auResourceVo.codeRes}, '%')
+    		</if>
+    		<if test="auResourceVo.method!=null and auResourceVo.method!=''">
+    			AND ar.method = #{auResourceVo.method}
+    		</if>
+    		<if test="auResourceVo.uri!=null and auResourceVo.uri!=''">
+    			AND ar.URI like CONCAT('%',  #{auResourceVo.uri}, '%') 
+    		</if>
+    		<!-- <when test="arVo.role!=null">
+    			AND au.code = #{arVo.code}
     		</when>
-    		<otherwise>
-    			
-    		</otherwise>
-    	</choose>
+    		<when test="arVo.type!=null">
+    			AND arr.type = #{arVo.type}
+    		</when>
+    		<when test="arVo.method!=null">
+    			AND arr.method = #{arVo.method}
+    		</when> -->
+    		
     </select>
     
     
     <select id="selectAuthResourceList" parameterType="java.lang.Integer" resultMap="AuthResourceVoMap">
-    	SELECT arr.ID,ar.`NAME`,au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID
+    	SELECT arr.ID,ar.`NAME`,ar.`CODE` as 'codeRes',au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID
     	<!-- <if test="roleId == 100">
     	
     	</if>
     	<if test="roleId != 100">
     		AND ar.ROLE_ID >#{roleId}
     	</if> -->
-    	<choose>
-    		<when test="roleId gt 100">
+    	
+    		<if test="roleId gt 100">
     			AND ar.ROLE_ID >#{roleId}
-    		</when>
-    		<otherwise>
-    			
-    		</otherwise>
-    	</choose>
+    		</if>
+    		<if test="auResourceVo.code!=null and auResourceVo.code !=''">
+    			AND au.code = #{auResourceVo.code}
+    		</if>
+    		<if test="auResourceVo.type!=null and auResourceVo.type !=''">
+    			AND ar.type = #{auResourceVo.type}
+    		</if>
+    		<if test="auResourceVo.codeRes!=null and auResourceVo.codeRes !=''">
+    			AND ar.`CODE` like CONCAT('%', #{auResourceVo.codeRes}, '%') 
+    		</if>
+    		<if test="auResourceVo.method!=null and auResourceVo.method!=''">
+    			AND ar.method = #{auResourceVo.method}
+    		</if>
+    		<if test="auResourceVo.uri!=null and auResourceVo.uri!=''">
+    			AND ar.URI like CONCAT('%',  #{auResourceVo.uri}, '%') 
+    		</if>
     	<if test="limit != null">
 			LIMIT #{page},#{limit}
 		</if>

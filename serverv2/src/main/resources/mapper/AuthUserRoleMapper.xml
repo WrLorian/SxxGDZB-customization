@@ -87,4 +87,8 @@
   <delete id="deleteByUniqueKey" parameterType="com.kiwihouse.dao.entity.AuthUserRole">
     delete from auth_user_role  where user_id = #{userId} and role_id = #{roleId}
   </delete>
+  
+  <select id="selectByUid" parameterType="Integer" resultType="Integer">
+  		SELECT min(ROLE_ID) FROM auth_user_role WHERE USER_ID = 1
+  </select>
 </mapper>

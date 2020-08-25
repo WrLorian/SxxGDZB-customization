@@ -99,4 +99,11 @@
   <select id="selectRoles" resultMap="BaseResultMap">
     select * from auth_role
   </select>
+  
+  <select id="queryAuthRole" parameterType="Integer" resultType="java.util.HashMap">
+  		select CODE,ID from auth_role where 1= 1
+  		<if test="roleId!=100">
+  			role_id >= #{roleId}
+  		</if>
+  </select>
 </mapper>
