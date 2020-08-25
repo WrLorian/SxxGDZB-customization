@@ -61,7 +61,7 @@
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
                 <li class="layui-nav-item layuimini-setting">
-                    <a href="javascript:;">[[${user.username}]]</a>
+                    <a href="javascript:;" class="_username"></a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a href="javascript:;" layuimini-content-href="page/user-setting.html" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
@@ -132,14 +132,19 @@
 <script src="../js/lay-config.js?v=2.0.0" th:src="@{/js/lay-config.js?v=2.0.0}" charset="utf-8"></script>
 <script th:src="@{/js/common/common.js}"></script>
 <script>
-    layui.use(['jquery', 'layer', 'miniAdmin','miniTongji'], function () {
-    	var authorization = sessionStorage.getItem('Authorization');
+	//表示首页
+	var index = 0;
+	var options;
+	var miniAdmin;
+	layui.use(['jquery', 'layer', 'miniAdmin','miniTongji'], function () {
+    	var authorization = localStorage.getItem('Authorization');
+    	var authUser = JSON.parse(localStorage.getItem('authUser'));
         var $ = layui.jquery,
             layer = layui.layer,
-            miniAdmin = layui.miniAdmin,
             miniTongji = layui.miniTongji;
-        var options = {
-            iniUrl: getRootPath() + "/menu/authMenuList?uid=1",    // 初始化接口
+        miniAdmin = layui.miniAdmin;
+        options = {
+            iniUrl: getRootPath() + "/menu/authMenuList?uid="+authUser.uid,    // 初始化接口
             clearUrl: "api/clear.json", // 缓存清理接口
             urlHashLocation: true,      // 是否打开hash定位
             bgColorDefault: false,      // 主题默认配置
@@ -148,9 +153,9 @@
             loadingTime: 0,             // 初始化加载时间
             pageAnim: true,             // iframe窗口动画
             maxTabNum: 20,              // 最大的tab打开数量
+            authorization:authorization
         };
         miniAdmin.render(options);
-
         // 百度统计代码，只统计指定域名
         miniTongji.render({
             specific: true,
@@ -163,6 +168,21 @@
 		if(authorization == null ){
 			window.location.href = "/";
 		}
+		$.ajax({
+ 			url: "/user/queryByName",
+		    method: "post",
+		    dataType : "json",
+		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+		    data:{"username":authUser.username},
+		    async:false,
+		    success:function(data){
+		    	 	if(data.success){
+		    	 		$("._username").text(data.data.authUser.username);
+					}else{
+						
+					}
+		    }
+		  	});
         $('.login-out').on("click", function () {
             $.ajax({
      			url: "/user/exit",
@@ -172,7 +192,8 @@
 			    success:function(data){
 			    	 	if(data.success){
 			    	 		layer.msg('退出登录成功', function () {
-			    	 			sessionStorage.removeItem("Authorization");
+			    	 			localStorage.removeItem("Authorization");
+			    	 			localStorage.removeItem("authUser");
 			    	 			window.location.href = "/";
 			                });
 						}else{
@@ -180,9 +201,13 @@
 						}
 			    }
 			  	}); 
-            
         });
     });
+	//重新加载
+	function init(){
+		miniAdmin.render(options);
+	}
+    
 </script>
 </body>
 </html>

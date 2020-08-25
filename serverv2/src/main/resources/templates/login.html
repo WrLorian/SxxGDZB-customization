@@ -29,7 +29,7 @@
 		</div>
 		<div class="layui-form-item _input_username">
 			<i class="layui-icon layui-icon-password" ></i>
-				<input type="text" name="password" lay-verify="required"
+				<input type="password" name="password" lay-verify="required"
 					autocomplete="off" placeholder="请输入用户密码" class="layui-input">
 		</div>
 		<div class="layui-form-item">
@@ -47,36 +47,42 @@
 	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
 	<script th:src="@{/js/common/common.js}"></script>
 	<script type="text/javascript">
-	layui.use(['form', 'layedit', 'laydate'], function(){
-		var form = layui.form
-		  ,layer = layui.layer
-		  ,layedit = layui.layedit;
-		//监听提交
-		  form.on('submit(loginform)', function(data){
-			var date = data.field;
-			console.log(date);
-		    $.ajax({
-    	　　		url : getRootPath() + "/account/login",
-    	　　		type : "post",
-    	　　		dataType : "json",
-    	　　		contentType: "application/json;charset=utf-8",
-    	　　		data:JSON.stringify(data.field),//$('#login_form').serialize(),
-    	　　		success : function(data){
-   	　　				if(data.success){
-   	　　					sessionStorage.setItem('Authorization', data.data['jwt']);
-   	　　					window.location.href = getRootPath() + "/admin/index" ;
-   	　　					console.log("准备进入主页.......")
-   	　　				}else{
-   	　　					layer.msg(data.msg,{icon: 2});
-   	　　				}
-    	　　 		},error : function() {
-            		alert("异常！");
-        		}
-    		});
-		    
-		    return false;
-		  });
-	});
+	
+	$(document).ready(function(){ 
+		layui.use(['form', 'layedit', 'laydate'], function(){
+			var form = layui.form
+			  ,layer = layui.layer
+			  ,layedit = layui.layedit;
+			//监听提交
+			  form.on('submit(loginform)', function(data){
+				var date = data.field;
+				console.log(date);
+			    $.ajax({
+	    	　　		url : getRootPath() + "/account/login",
+	    	　　		type : "post",
+	    	　　		dataType : "json",
+	    	　　		contentType: "application/json;charset=utf-8",
+	    	　　		data:JSON.stringify(data.field),
+	    	　　		success : function(data){
+	    	　　			console.log(data);
+	   	　　				if(data.success){
+	   	　　					localStorage.setItem('Authorization', data.data['jwt']);
+	   	　　					localStorage.setItem("authUser",JSON.stringify(data.data['user']));
+	   	　　					window.location.href = getRootPath() + "/admin/index" ;
+	   	　　					console.log("准备进入主页.......")
+	   	　　				}else{
+	   	　　					layer.msg(data.msg,{icon: 2});
+	   	　　				}
+	    	　　 		},error : function() {
+	            		alert("异常！");
+	        		}
+	    		});
+			    
+			    return false;
+			  });
+		});
+	}); 
+	
 	</script>
 </body>
 </html>

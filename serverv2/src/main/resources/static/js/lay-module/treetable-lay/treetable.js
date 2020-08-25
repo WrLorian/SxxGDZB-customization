@@ -12,14 +12,26 @@ layui.define(['layer', 'table'], function (exports) {
             }
             // 获取数据
             if (param.data) {
-				console.log("直接获取数据")
                 treetable.init(param, param.data);
             } else {
-				console.log("------->")
-				console.log("加载数据")
-                $.getJSON(param.url, param.where, function (res) {
+                /*$.getJSON("../../api/menus.json", param.where, function (res) {
+                	console.log(res.data);
                     treetable.init(param, res.data);
                 });
+				console.log(param.authorization)*/
+			$.ajax({
+				 url: param.url,
+				    method: "post",
+				    dataType : "json",
+				    async:false,
+				    headers: { "Authorization": param.authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+				    success:function(data){
+				    	 	if(data.success){
+								menuTree = data.data.menuTree.data;
+								treetable.init(param, menuTree);
+				    	 	}
+				    }
+			});
 				
 				
             }
@@ -27,6 +39,7 @@ layui.define(['layer', 'table'], function (exports) {
         // 渲染表格
         init: function (param, data) {
             var mData = [];
+            
             var doneCallback = param.done;
             var tNodes = data;
             // 补上id和pid字段
@@ -47,7 +60,7 @@ layui.define(['layer', 'table'], function (exports) {
                     tt.pid = tt[param.treePidName];
                 }
             }
-
+            
             // 对数据进行排序
             var sort = function (s_pid, data) {
                 for (var i = 0; i < data.length; i++) {
@@ -62,7 +75,6 @@ layui.define(['layer', 'table'], function (exports) {
                 }
             };
             sort(param.treeSpid, tNodes);
-
             // 重写参数
             param.url = undefined;
             param.data = mData;
