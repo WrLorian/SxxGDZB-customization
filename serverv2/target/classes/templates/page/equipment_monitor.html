@@ -92,7 +92,9 @@
 <div th:include="include::footer"></div>
 <script th:inline="none">
 layui.use(['form', 'table'], function () {
-	var authorization = sessionStorage.getItem('Authorization');
+	var authorization = localStorage.getItem('Authorization');
+	var authUser = JSON.parse(localStorage.getItem('authUser'));
+	console.log(authUser)
     var $ = layui.jquery,
         form = layui.form,
         table = layui.table;
@@ -100,7 +102,7 @@ layui.use(['form', 'table'], function () {
     table.render({
         elem: '#currentTableId',
         url: getRootPath() + '/equipment/info',
-        headers: { "Authorization": authorization ,"dz-usr":1},//通过请求头来发送token，放弃了通过cookie的发送方式
+        headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
         toolbar: '#toolbarDemo',
         async : false,
         defaultToolbar: ['filter', 'exports', 'print', {
@@ -197,13 +199,12 @@ layui.use(['form', 'table'], function () {
             return false;
         } else if (obj.event === 'delete') {
             layer.confirm('真的删除行么', function (index) {
-                
             	$.ajax({
          			url: "/equipment/info/223",
          			type : "DELETE",
         	　　		dataType : "json",
         	　　		contentType: "application/json;charset=utf-8",
-    			    headers: { "Authorization": authorization,"dz-usr":1 },//通过请求头来发送token，放弃了通过cookie的发送方式
+    			    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
     			    success:function(data){
     			    	 	if(data.success){
     			    	 		alyer.msg("删除成功")

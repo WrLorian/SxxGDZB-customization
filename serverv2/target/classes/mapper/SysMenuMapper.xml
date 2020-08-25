@@ -198,6 +198,45 @@
   </update>
   
   <select id="getAuthMenuList" resultMap="BaseResultMap">
-  		SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE role_id = #{uid})
+  		SELECT * FROM `sys_menu` 
+  		WHERE id in(SELECT menu_id FROM auth_role_menu 
+  		WHERE role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = #{uid})) || is_basic > 0 AND visible > 0
   </select>
+  
+  <update id="updateMenu" parameterType="com.kiwihouse.dao.entity.SysMenu">
+  	update sys_menu
+  		<set>  
+        <if test="name!= null and name != '' ">  
+            name = #{name},  
+        </if>  
+        <if test="url!= null and url!= '' ">  
+            url = #{url},  
+        </if>  
+        <if test="icon != null ">  
+            icon = #{icon},  
+        </if>  
+    </set>  
+    WHERE id = #{id};   
+  </update>
+  <!-- 批量删除 -->
+  <!-- <delete id="deleteBatchMenuByIds">
+  		delete from sys_menu where id in
+		<foreach item="id" collection="ids" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+  </delete> -->
+   <!-- 批量更新 -->
+   <update id="updateBatchMenuByIds"  parameterType="java.util.List">  
+	    <foreach item="id" collection="ids" open="(" separator=","
+			close=")">
+	       UPDATE device
+	           <set>
+				is_basic = 0
+				</set>
+				<where>
+				ID = #{id}
+				</where>
+	    </foreach>      
+	</update>
 </mapper>

@@ -41,17 +41,15 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
             options.loadingTime = options.loadingTime || 1;
             options.pageAnim = options.pageAnim || false;
             options.maxTabNum = options.maxTabNum || 20;
-			var authorization = sessionStorage.getItem('Authorization');
 			$.ajax({
-				 url: "/menu/authMenuList?uid=1" ,
+				 url: options.iniUrl ,
 				    method: "post",
 				    dataType : "json",
 				    async:false,
-				    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+				    headers: { "Authorization": options.authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 				    success:function(data){
 				    	 	if(data.success){
 								menuTree = data.data.menuTree;
-								console.log(menuTree);
 								if (data == null) {
 				                    miniAdmin.error('暂无菜单信息')
 				                } else {
@@ -88,43 +86,6 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
 							}
 				    }
 	  			});
-			
-            /*$.getJSON(options.iniUrl, function (data) {
-                if (data == null) {
-                    miniAdmin.error('暂无菜单信息')
-                } else {
-					console.log(data);
-                    miniAdmin.renderLogo(data.logoInfo);
-                    miniAdmin.renderClear(options.clearUrl);
-                    miniAdmin.renderHome(data.homeInfo);
-                    miniAdmin.renderAnim(options.pageAnim);
-                    miniAdmin.listen();
-                    miniMenu.render({
-                        menuList: data.menuInfo,
-                        multiModule: options.multiModule,
-                        menuChildOpen: options.menuChildOpen
-                    });
-                    miniTab.render({
-                        filter: 'layuiminiTab',
-                        urlHashLocation: options.urlHashLocation,
-                        multiModule: options.multiModule,
-                        menuChildOpen: options.menuChildOpen,
-                        maxTabNum: options.maxTabNum,
-                        menuList: data.menuInfo,
-                        homeInfo: data.homeInfo,
-                        listenSwichCallback: function () {
-                            miniAdmin.renderDevice();
-                        }
-                    });
-                    miniTheme.render({
-                        bgColorDefault: options.bgColorDefault,
-                        listen: true,
-                    });
-                    miniAdmin.deleteLoader(options.loadingTime);
-                }
-            }).fail(function () {
-                miniAdmin.error('菜单接口有误');
-            });*/
         },
 
         /**

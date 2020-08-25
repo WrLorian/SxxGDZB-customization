@@ -12,7 +12,6 @@
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
-    
     	<fieldset class="table-search-fieldset">
             <legend>搜索信息</legend>
             <div style="margin: 10px 10px 10px 10px">
@@ -20,32 +19,42 @@
                     <div class="layui-form-item">
                     	<div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" name="eqptAddr" autocomplete="off" class="layui-input" placeholder="设备地址">
+                                <input type="text" name="codeRes" autocomplete="off" class="layui-input" placeholder="资源名称">
                             </div>
                         </div>
                         <div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" name="eqptSn" autocomplete="off" class="layui-input" placeholder="序列号">
+                                <select name="code" lay-verify="" placeholder="所属角色" id="code">
+								  <option value="">请选择角色</option>
+								</select>
                             </div>
                         </div>
                         <div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" name="username" autocomplete="off" class="layui-input" placeholder="用户名">
+                                <input type="text" name="uri" autocomplete="off" class="layui-input" placeholder="URL地址">
                             </div>
                         </div>
                         <div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" name="classify" autocomplete="off" class="layui-input" placeholder="用户手机号">
+                                <select name="type" lay-verify="" placeholder="资源类别">
+								  <option value="">请选择类别</option>
+								  <option value="1">菜单menu</option>
+								  <option value="2">资源element(rest-api)</option>
+								  <option value="3">资源分类</option>
+								</select>
                             </div>
                         </div>
                         <div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" name="classify" autocomplete="off" class="layui-input" placeholder="设备分组">
+                                <select name="method" lay-verify="" placeholder="请求类型">
+								  <option value="">请选择请求类型</option>
+								  <option value="GET">GET</option>
+								  <option value="POST">POST</option>
+								  <option value="PUT">PUT</option>
+								  <option value="DELETE">DELETE</option>
+								</select>
                             </div>
                         </div>
-                        
-                        
-                        
                         <div class="layui-inline">
                             <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
                         </div>
@@ -67,8 +76,6 @@
             <a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
             <a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete"></a>
 			<a class="layui-icon layui-icon-slider" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="parm"></a>
-			<a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="manay"></a>
-			<a class="layui-icon layui-icon-add-circle-fine" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="add"></a>
         </script>
 
     </div>
@@ -76,80 +83,112 @@
 <div th:include="include::footer"></div>
 <script th:inline="none">
 layui.use(['form', 'table'], function () {
-	var authorization = sessionStorage.getItem('Authorization');
+	var authorization = localStorage.getItem('Authorization');
+	var authUser = JSON.parse(localStorage.getItem('authUser'));
     var $ = layui.jquery,
         form = layui.form,
         table = layui.table;
-	
-    table.render({
-        elem: '#currentTableId',
-        url: getRootPath() + '/resource/auth/select',
-        headers: { "Authorization": authorization ,"dz-usr":1},//通过请求头来发送token，放弃了通过cookie的发送方式
-        //toolbar: '#toolbarDemo',
-        async : false,
-        defaultToolbar: ['filter', 'exports', 'print', {
-            title: '提示',
-            layEvent: 'LAYTABLE_TIPS',
-            icon: 'layui-icon-tips'
-        }],
-        data:{"eqptType":0},
-        cols: [[
-            {type: "checkbox"},
-            {field: 'name',title: '资源名称', sort: true},
-            {field: 'id',title: 'id', hide:true},
-            {field: 'code',title: '所属角色', sort: true},
-            {field: 'uri', title: '访问地址URL'
-   			 },
-            {field: 'type',  
-             title: '资源类别',
-			 },
-            {field: 'method',  title: '请求类型', sort: true},
-            {field: 'status',  title: '状态', sort: true},
-            {title: '操作', toolbar: '#currentTableBar', align: "center",width:'30%'}
-        ]],
-        limits: [5, 10, 20, 25, 50, 100],
-        limit: 5,
-        page: true,
-        skin: 'line'
-    });
-
+    var jsonEntity = {};
+    jsonEntity.roleId = authUser.roleId;
+    var currentPage = 1;
+    loadTickets(jsonEntity);
+    function loadTickets(jsonEntity){
+    	table.render({
+            elem: '#currentTableId',
+            url: getRootPath() + '/resource/auth/select',
+            headers: { "Authorization": authorization ,"dz-usr":1},//通过请求头来发送token，放弃了通过cookie的发送方式
+            where : jsonEntity,
+            async : false,
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {type: "checkbox"},
+                {field: 'codeRes',title: '资源名称', sort: true},
+                {field: 'name',title: '资源描述', sort: true},
+                {field: 'id',title: 'id', hide:true},
+                {field: 'code',title: '所属角色', sort: true},
+                {field: 'uri', title: '访问地址URL'},
+                {field: 'type',title: '资源类别'},
+                {field: 'method',  title: '请求类型', sort: true},
+                {field: 'status',  title: '状态', sort: true,
+					templet : function(row) {
+						if(row.status == 1){
+							return "正常";
+						}
+						return "禁用";
+				}},
+                {title: '操作', toolbar: '#currentTableBar', align: "center",width:'20%'}
+            ]],
+            limits: [5, 10, 20, 25, 50, 100],
+            limit: 5,
+            page: true,
+            skin: 'line',
+            done : function(res, curr, count) {
+				currentPage = curr;
+			}
+        });
+    }
+    initSelectRole();
+    //加载角色列表
+    function initSelectRole(){
+	   	$.ajax({
+			url: "/role/user/"+authUser.roleId,
+			type : "POST",
+	　　		dataType : "json",
+	　　		contentType: "application/json;charset=utf-8",
+		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+		    success:function(data){
+		    	 	if(data.success){
+		    	 		var html = "";
+		    	 		data.data.listRole.forEach(function(item){
+		    	 			html += "<option vaue="+item.CODE+"> "+item.CODE+" </option>"
+		    	 		});
+		    	 		$("#code").append(html);
+		    	 		form.render();
+					}else{
+						layer.msg(data.msg);
+					}
+		    }
+		});
+    }
+    
+    
+    
+    
     // 监听搜索操作
     form.on('submit(data-search-btn)', function (data) {
         var result = JSON.stringify(data.field);
-        layer.alert(result, {
-            title: '最终的搜索信息'
-        });
-
+        var jsonEntity = {};
+        $.each(data.field, function(key, val) {
+        	if(data.field[key] != null && data.field[key].length > 0){
+        		jsonEntity[key] = val;
+        	}
+       });
+        console.log(jsonEntity);
         //执行搜索重载
-        table.reload('currentTableId', {
-            page: {
-                curr: 1
-            }
-            , where: {
-                searchParams: result
-            }
-        }, 'data');
-
+        //flush(currentPage,jsonEntity);
+        loadTickets(jsonEntity);
         return false;
     });
-
+    //刷新
+	function flush(currentPage, jsonEntity) {
+		table.reload('currentTableId', {
+			page : {
+				curr : currentPage
+			},
+			where : jsonEntity
+		});
+	}
     /**
      * toolbar监听事件
      */
     table.on('toolbar(currentTableFilter)', function (obj) {
         if (obj.event === 'add') {  // 监听添加操作
-            var index = layer.open({
-                title: '添加用户',
-                type: 2,
-                shade: 0.2,
-                maxmin:true,
-                shadeClose: true,
-                area: ['100%', '100%'],
-                content: '/admin/add.html',
-            });
-            $(window).on("resize", function () {
-                layer.full(index);
-            });
+        	openPopUp('添加','/admin/role/add');
         } else if (obj.event === 'delete') {  // 监听删除操作
             var checkStatus = table.checkStatus('currentTableId')
                 , data = checkStatus.data;
@@ -165,15 +204,7 @@ layui.use(['form', 'table'], function () {
     table.on('tool(currentTableFilter)', function (obj) {
         var data = obj.data;
         if (obj.event === 'edit') {
-            var index = layer.open({
-                title: '编辑用户',
-                type: 2,
-                shade: 0.2,
-                maxmin:true,
-                shadeClose: true,
-                area: ['50%', '70%'],
-                content: '/admin/page/edit',
-            }); 
+            openPopUp('权限修改','/admin/role/edit');
             $(window).on("resize", function () {
                 layer.full(index);
             }); 
@@ -195,7 +226,6 @@ layui.use(['form', 'table'], function () {
     						}
     			    }
     			  	});
-            	
             	obj.del();
                 layer.close(index);
             });

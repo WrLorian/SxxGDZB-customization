@@ -5,3 +5,15 @@ function getRootPath(){
     var localhostPaht=curWwwPath.substring(0, pos);
     return localhostPaht;
 }
+
+function openPopUp(title,url){
+	var index = layer.open({
+        title: title,
+        type: 2,
+        shade: 0.2,
+        maxmin:true,
+        shadeClose: true,
+        area: ['50%', '70%'],
+        content: url
+    });
+}

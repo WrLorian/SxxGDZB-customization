@@ -51,6 +51,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
             }
             var ele = element;
             if (options.isIframe) ele = parent.layui.element;
+            console.log("创建Tab -------->" + options.title )
             ele.tabAdd('layuiminiTab', {
                 title: '<span class="layuimini-tab-active"></span><span>' + options.title + '</span><i class="layui-icon layui-unselect layui-tab-close">ဆ</i>' //用于演示
                 , content: '<iframe width="100%" height="100%" frameborder="no" border="0" marginwidth="0" marginheight="0"   src="' + options.href + '"></iframe>'
@@ -89,6 +90,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
          * 在iframe层打开新tab方法
          */
         openNewTabByIframe: function (options) {
+        	console.log("在iframe层打开新tab方法")
             options.href = options.href || null;
             options.title = options.title || null;
             var loading = parent.layer.load(0, {shade: false, time: 2 * 1000});
@@ -122,6 +124,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
          */
         check: function (tabId, isIframe) {
             // 判断选项卡上是否有
+        	console.log("判断选项卡上是否有")
             var checkTab = false;
             if (isIframe === undefined || isIframe === false) {
                 $(".layui-tab-title li").each(function () {
@@ -204,6 +207,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
              * 打开新窗口
              */
             $('body').on('click', '[layuimini-href]', function () {
+            	console.log("监听打开新窗口")
                 var loading = layer.load(0, {shade: false, time: 2 * 1000});
                 var tabId = $(this).attr('layuimini-href'),
                     href = $(this).attr('layuimini-href'),
@@ -225,6 +229,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
 
                 if (tabId === null || tabId === undefined) tabId = new Date().getTime();
                 var checkTab = miniTab.check(tabId);
+                console.log("checkTab------------->" + checkTab)
                 if (!checkTab) {
                     miniTab.create({
                         tabId: tabId,
@@ -242,6 +247,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
              * 在iframe子菜单上打开新窗口
              */
             $('body').on('click', '[layuimini-content-href]', function () {
+            	console.log("在iframe子菜单上打开新窗口")
                 var loading = parent.layer.load(0, {shade: false, time: 2 * 1000});
                 var tabId = $(this).attr('layuimini-content-href'),
                     href = $(this).attr('layuimini-content-href'),
@@ -398,27 +404,43 @@ layui.define(["element", "layer", "jquery"], function (exports) {
          * @returns {boolean}
          */
         listenHash: function (options) {
+        	console.log("监听hash变化")
             options.urlHashLocation = options.urlHashLocation || false;
             options.maxTabNum = options.maxTabNum || 20;
             options.homeInfo = options.homeInfo || {};
             options.menuList = options.menuList || [];
             if (!options.urlHashLocation) return false;
             var tabId = location.hash.replace(/^#\//, '');
+            console.log("tabId----------->" + tabId)
             if (tabId === null || tabId === undefined || tabId ==='') return false;
 
             // 判断是否为首页
             if(tabId ===options.homeInfo.href) return false;
-
+            console.log(options.menuList);
             // 判断是否为右侧菜单
             var menu = miniTab.searchMenu(tabId, options.menuList);
+            console.log("menu------------->")
+            console.log(menu);
             if (menu !== undefined) {
-                miniTab.create({
+            	console.log("开始创建---------->tab")
+            	var checkTab = miniTab.check(menu.href, false);
+                console.log("checkTab ------------->" + checkTab)
+            	if (!checkTab) {
+                    miniTab.create({
+                        tabId: tabId,
+                        href: tabId,
+                        title: menu.title,
+                        isIframe: false,
+                        maxTabNum: options.maxTabNum,
+                    });
+                }
+                /*miniTab.create({
                     tabId: tabId,
                     href: tabId,
                     title: menu.title,
                     isIframe: false,
                     maxTabNum: options.maxTabNum,
-                });
+                });*/
                 $('.layuimini-menu-left').attr('layuimini-tab-tag', 'no');
                 element.tabChange('layuiminiTab', tabId);
                 return false;
@@ -443,16 +465,27 @@ layui.define(["element", "layer", "jquery"], function (exports) {
                 }
             });
             if (isSearchMenu) return false;
-
+            console.log("既不是右侧菜单、快捷菜单,就直接打开")
             // 既不是右侧菜单、快捷菜单,就直接打开
             var title = sessionStorage.getItem('layuiminimenu_' + tabId) === null ? tabId : sessionStorage.getItem('layuiminimenu_' + tabId);
-            miniTab.create({
+            var checkTab = miniTab.check(tabId, false);
+            console.log("checkTab ------------->" + checkTab)
+        	if (!checkTab) {
+                miniTab.create({
+                    tabId: tabId,
+                    href: tabId,
+                    title: title,
+                    isIframe: false,
+                    maxTabNum: options.maxTabNum,
+                });
+            }
+            /*miniTab.create({
                 tabId: tabId,
                 href: tabId,
                 title: title,
                 isIframe: false,
                 maxTabNum: options.maxTabNum,
-            });
+            });*/
             element.tabChange('layuiminiTab', tabId);
             return false;
         },

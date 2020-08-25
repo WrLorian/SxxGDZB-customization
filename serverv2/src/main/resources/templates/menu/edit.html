@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form" id="menuFormId">
+	<input type="hidden" name="id">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">菜单名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" lay-verify="required" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
+            <tip>填写菜单的名称。</tip>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单路径</label>
+        <div class="layui-input-block">
+            <input type="text" name="url" autocomplete="off"  class="layui-input" placeholder="URL地址">
+        </div>
+    </div>
+    <div class="layui-form-item">
+	    <label class="layui-form-label">图标</label>
+	    <div class="layui-input-block">
+	      <input type="text" name="icon"  class="layui-input">
+	    </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="updBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script>
+var authorization = localStorage.getItem('Authorization');
+var authUser = JSON.parse(localStorage.getItem('authUser'));
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+        var dataRow = window.parent.dataRow;
+        var jsonEntity = {};
+        //var menuForm = $("#menuFormId").serialize();
+        var menuForm = $("#menuFormId");
+        $.each(dataRow, function(key, val) {
+        	/* if(dataRow[key] != null && dataRow[key].length > 0){
+        		jsonEntity[key] = val;
+        	} */
+        	menuForm.find("[name='"+key+"']").val(val);
+       });
+        form.render();
+        //加载信息
+        function init(){
+        	$.ajax({
+    			url: "/role/user/"+authUser.roleId,
+    			type : "POST",
+    	　　		dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+    		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+    		    success:function(data){
+    		    	 	if(data.success){
+    		    	 		var html = "";
+    		    	 		data.data.listRole.forEach(function(item){
+    		    	 			html += "<option vaue="+item.CODE+"> "+item.CODE+" </option>"
+    		    	 		});
+    		    	 		$("#code").append(html);
+    		    	 		form.render();
+    					}else{
+    						layer.msg(data.msg);
+    					}
+    		    }
+    		});
+        }
+       var indexHome = function(elem) {
+    	   if(elem.index == 0){
+    		    console.log("找到了index=0")
+       			return elem;
+       	   }
+       	return indexHome(elem.parent);
+   	}
+        
+        //监听提交
+        form.on('submit(updBtn)', function (data) {
+        	$.ajax({
+     			url: "/menu",
+			    type: "PUT",
+			    data:JSON.stringify(data.field),
+			    dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+			    success:function(data){
+			    	 	if(data.success){
+			    	 		console.log("首页index值----------->" + indexHome(window).index);
+			    	 		indexHome(window).init();
+			    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
+			    	 		parent.layer.close(iframeIndex);
+			    	 		window.parent.initTreeTable();
+						}else{
+							layer.msg(data.msg);
+						}
+			    }
+			}); 
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

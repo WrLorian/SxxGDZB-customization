@@ -16,15 +16,17 @@
         <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="CREATE_WHERE" jdbcType="TINYINT" property="createWhere"/>
         <result column="IS_ADMIN" jdbcType="INTEGER" property="isAdmin" />
-    <result column="GROUP_IDS" jdbcType="VARCHAR" property="groupIds" />
+        <result column="ROLE_ID" jdbcType="INTEGER" property="roleId" />
+   		<result column="GROUP_IDS" jdbcType="VARCHAR" property="groupIds" />
     </resultMap>
+    <resultMap id="AuthUserResultMap" type="com.kiwihouse.dao.entity.AuthUser"></resultMap>
     <sql id="Base_Column_List">
     UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, 
     UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS
   </sql>
-    <select id="selectByPrimaryKey"  resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey"  resultMap="AuthUserResultMap">
         select
-        <include refid="Base_Column_List"/>
+       <include refid="Base_Column_List"/>
         from auth_user
         where UID = #{uid,jdbcType=INTEGER}
     </select>
