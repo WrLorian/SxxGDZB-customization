@@ -28,6 +28,7 @@ layui.define(['layer', 'table'], function (exports) {
 				    success:function(data){
 				    	 	if(data.success){
 								menuTree = data.data.menuTree.data;
+								console.log(menuTree);
 								treetable.init(param, menuTree);
 				    	 	}
 				    }

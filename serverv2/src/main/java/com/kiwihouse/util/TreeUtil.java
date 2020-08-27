@@ -1,5 +1,6 @@
 package com.kiwihouse.util;
 
+import com.kiwihouse.dao.entity.SysMenu;
 import com.kiwihouse.domain.vo.BaseTreeNode;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,5 +39,4 @@ public class TreeUtil {
         }
         return trees;
     }
-
 }

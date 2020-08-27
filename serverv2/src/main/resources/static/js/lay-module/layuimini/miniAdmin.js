@@ -50,6 +50,10 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
 				    success:function(data){
 				    	 	if(data.success){
 								menuTree = data.data.menuTree;
+								//var arr = convert(treeArray);
+								//console.log(menuTree);
+								//var menuInfo = convert(menuTree.menuInfo);
+								localStorage.setItem('menuTree', JSON.stringify(menuTree.menuInfo));
 								if (data == null) {
 				                    miniAdmin.error('暂无菜单信息')
 				                } else {
@@ -82,7 +86,7 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
 				                    miniAdmin.deleteLoader(options.loadingTime);
 				                }
 							}else{
-								
+								miniAdmin.error('无菜单权限,请联系管理员')
 							}
 				    }
 	  			});

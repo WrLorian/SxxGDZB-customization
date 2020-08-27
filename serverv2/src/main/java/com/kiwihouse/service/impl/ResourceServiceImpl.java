@@ -101,9 +101,9 @@ public class ResourceServiceImpl implements ResourceService {
 		map.put("count", authResourceMapper.selectAuthResourceCount(roleId,auResourceVo));
 		List<AuthResourceVo> list = new ArrayList<AuthResourceVo>();
 		if (page != null) {
-			list = authResourceMapper.selectAuthResourceList(page - 1,limit,roleId,auResourceVo);
+			list = authResourceMapper.selectAuthResourceList((page - 1)*limit,limit,roleId,auResourceVo);
 		} else {
-			list = authResourceMapper.selectAuthResourceList(page - 1,limit,roleId,auResourceVo);
+			list = authResourceMapper.selectAuthResourceList(null,null,roleId,auResourceVo);
 		}
 		map.put("data", list);
 		return map;

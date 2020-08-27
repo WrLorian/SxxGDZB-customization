@@ -31,26 +31,26 @@
     delete from sys_menu
     where menu_id = #{menuId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.kiwihouse.dao.entity.SysMenu">
-    insert into sys_menu (menu_id, menu_name, parent_id, 
-      order_num, url, menu_type, 
-      visible, perms, icon, 
+  <insert id="insert" parameterType="com.kiwihouse.dao.entity.SysMenu" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_menu (id, name, parent_id, 
+       url, 
+       perms, icon, 
       create_by, create_time, update_by, 
       update_time, remark)
-    values (#{menuId,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
-      #{orderNum,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{menuType,jdbcType=CHAR}, 
-      #{visible,jdbcType=CHAR}, #{perms,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+       #{url,jdbcType=VARCHAR}, 
+       #{perms,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kiwihouse.dao.entity.SysMenu">
     insert into sys_menu
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="menuId != null">
-        menu_id,
+      <if test="id != null">
+        id,
       </if>
-      <if test="menuName != null">
-        menu_name,
+      <if test="name != null">
+        name,
       </if>
       <if test="parentId != null">
         parent_id,
@@ -60,9 +60,6 @@
       </if>
       <if test="url != null">
         url,
-      </if>
-      <if test="menuType != null">
-        menu_type,
       </if>
       <if test="visible != null">
         visible,
@@ -88,13 +85,16 @@
       <if test="remark != null">
         remark,
       </if>
+       <if test="isBasic != null">
+        is_basic,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="menuId != null">
-        #{menuId,jdbcType=INTEGER},
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
       </if>
-      <if test="menuName != null">
-        #{menuName,jdbcType=VARCHAR},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="parentId != null">
         #{parentId,jdbcType=INTEGER},
@@ -104,9 +104,6 @@
       </if>
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="menuType != null">
-        #{menuType,jdbcType=CHAR},
       </if>
       <if test="visible != null">
         #{visible,jdbcType=CHAR},
@@ -131,6 +128,9 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isBasic != null">
+        #{isBasic,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -200,7 +200,7 @@
   <select id="getAuthMenuList" resultMap="BaseResultMap">
   		SELECT * FROM `sys_menu` 
   		WHERE id in(SELECT menu_id FROM auth_role_menu 
-  		WHERE role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = #{uid})) || is_basic > 0 AND visible > 0
+  		WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = #{uid})) || is_basic > 0 
   </select>
   
   <update id="updateMenu" parameterType="com.kiwihouse.dao.entity.SysMenu">
@@ -211,7 +211,10 @@
         </if>  
         <if test="url!= null and url!= '' ">  
             url = #{url},  
-        </if>  
+        </if>
+        
+            parent_id = #{parentId},  
+        
         <if test="icon != null ">  
             icon = #{icon},  
         </if>  
@@ -227,16 +230,18 @@
 		</foreach>
   </delete> -->
    <!-- 批量更新 -->
-   <update id="updateBatchMenuByIds"  parameterType="java.util.List">  
-	    <foreach item="id" collection="ids" open="(" separator=","
-			close=")">
-	       UPDATE device
+   <update id="updateBatchMenuByIds" >  
+	    <foreach collection="array" item="item" index="index" open="" close="" separator=";">
+	       UPDATE sys_menu
 	           <set>
-				is_basic = 0
+				visible = 0
 				</set>
 				<where>
-				ID = #{id}
+				ID = #{item}
 				</where>
 	    </foreach>      
 	</update>
+	
+	
+	
 </mapper>

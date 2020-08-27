@@ -19,7 +19,6 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,19 +40,6 @@ public class ShiroConfig {
     @Autowired
     AccountProvider accountProvider;
 
-    /**
-     *  开启Shiro的注解(如@RequiresRoles,@RequiresPermissions)
-     * @return
-     * DefaultAdvisorAutoProxyCreator的顺序必须在shiroFilterFactoryBean之前，不然SecurityUtils.getSubject().getPrincipal()获取不到参数
-     */
-    @Bean
-    public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator(){
-        DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
-        advisorAutoProxyCreator.setProxyTargetClass(true);
-        advisorAutoProxyCreator.setUsePrefix(true);
-        return advisorAutoProxyCreator;
-    }
-    
     @Bean
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager, FilterChainManager filterChainManager) {
         RestShiroFilterFactoryBean shiroFilterFactoryBean = new RestShiroFilterFactoryBean();

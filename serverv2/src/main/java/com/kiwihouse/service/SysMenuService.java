@@ -1,6 +1,7 @@
 package com.kiwihouse.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kiwihouse.dao.entity.SysMenu;
 
@@ -22,6 +23,13 @@ public interface SysMenuService {
 	 * @param ids
 	 * @return
 	 */
-	boolean updateBatchMenuByIds(Long[] ids);
+	boolean updateBatchMenuByIds(String[] ids);
+	/**
+	 * 添加菜单
+	 * @param sysMenu 
+	 * @return
+	 */
+	boolean insert(SysMenu sysMenu);
+	
 
 }

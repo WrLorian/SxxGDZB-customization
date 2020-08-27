@@ -35,4 +35,9 @@ public class ReturnPageController extends BaseController{
 		return new ModelAndView(name + "/" + url);
 		
 	}
+	@RequestMapping(value = "/{name}/{url}/{path}")
+	public ModelAndView returnPage(@PathVariable String name,@PathVariable String url,@PathVariable String path) {
+		return new ModelAndView(name + "/" + url + "/" + path);
+		
+	}
 }

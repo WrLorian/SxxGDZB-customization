@@ -5,6 +5,8 @@
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="menu_id" jdbcType="INTEGER" property="menuId" />
   </resultMap>
+  
+  <resultMap type="com.kiwihouse.domain.vo.AuthRoleMenuDetails" id="AuthRoleMenuDetailsMap"></resultMap>
   <insert id="insert" parameterType="com.kiwihouse.dao.entity.AuthRoleMenu">
     insert into auth_role_menu (role_id, menu_id)
     values (#{roleId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER})
@@ -28,4 +30,76 @@
       </if>
     </trim>
   </insert>
+  
+  <select id="selectRoleMenuCount" parameterType="java.lang.Integer" resultType="Integer" >
+  		<choose>
+  			<when test="trigger !=null ">
+  				<!-- SELECT count(*) FROM `auth_role_menu` arm 
+  				LEFT JOIN sys_menu sys on arm.menu_id = sys.id 
+  				INNER JOIN auth_role ar on ar.id = arm.role_id WHERE 1=1 
+  				AND role_id != #{roleId} -->
+  				SELECT count(*) FROM sys_menu sys LEFT JOIN auth_role_menu arm on sys.id = arm.menu_id 
+				INNER JOIN auth_role ar on  ar.id = arm.role_id
+				WHERE sys.ID not in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId})
+  			</when>
+  			 <otherwise>
+  			 	SELECT count(*) FROM `auth_role_menu` arm 
+		    	LEFT JOIN sys_menu sys on arm.menu_id = sys.id 
+		    	INNER JOIN auth_role ar on  ar.id = arm.role_id
+		    	WHERE 1=1
+	    		<if test="roleId gt 100">
+	    			AND arm.ROLE_ID = #{roleId}
+	    		</if>
+	    		<if test="authRoleMenuDetails.code!=null and authRoleMenuDetails.code !=''">
+	    			AND ar.code = #{authRoleMenuDetails.code}
+		   		</if>
+		   		<if test="authRoleMenuDetails.name!=null and authRoleMenuDetails.name !=''">
+	   				AND sys.name like  CONCAT('%', #{authRoleMenuDetails.name}, '%') 
+	   			</if>
+             </otherwise>
+  		</choose>
+    </select>
+    
+    
+    <select id="selectRoleMenuList" parameterType="java.lang.Integer" resultMap="AuthRoleMenuDetailsMap">
+    	<choose>
+  			<when test="trigger !=null ">
+				SELECT sys.id ,sys.parent_id,sys.name ,sys.url FROM sys_menu sys 
+				WHERE sys.ID not in (SELECT menu_id FROM auth_role_menu WHERE role_id = #{roleId}) 
+  			</when>
+  			 <otherwise>
+  			 	SELECT arm.role_id ,sys.id,sys.parent_id,sys.name ,sys.url,ar.`CODE` FROM `auth_role_menu` arm 
+		    	LEFT JOIN sys_menu sys on arm.menu_id = sys.id 
+		    	INNER JOIN auth_role ar on  ar.id = arm.role_id
+		    	WHERE 1=1
+	    		<if test="roleId gt 100">
+	    			AND arm.ROLE_ID = #{roleId}
+	    		</if>
+		    	<if test="authRoleMenuDetails.code!=null and authRoleMenuDetails.code !=''">
+		    		AND ar.code = #{authRoleMenuDetails.code}
+		   		</if>
+		   		<if test="authRoleMenuDetails.name!=null and authRoleMenuDetails.name !=''">
+		   			AND sys.name like  CONCAT('%', #{authRoleMenuDetails.name}, '%') 
+		   		</if>
+             </otherwise>
+  		</choose>
+   		<if test="pageSize != null">
+			LIMIT #{currentPage},#{pageSize}
+		</if>
+    </select>
+    
+    <insert id="insertBatch" parameterType="java.util.List">
+		insert into auth_role_menu(role_id,menu_id)
+		values
+		<foreach item="menu" collection="list" index="index"  separator="," >
+			(#{menu.roleId},
+			#{menu.menuId})
+		</foreach>
+	</insert>
+	
+	<update id="update" parameterType="com.kiwihouse.dao.entity.AuthRoleMenu">
+		update auth_role_menu
+		    set role_id = #{roleId,jdbcType=INTEGER}
+		    where menu_id = #{menuId,jdbcType=INTEGER}
+	</update>
 </mapper>

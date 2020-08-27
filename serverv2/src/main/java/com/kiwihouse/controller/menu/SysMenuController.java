@@ -71,9 +71,10 @@ public class SysMenuController {
 	public Response getAuthMenuLists(Integer uid) {
 		Map<String, Object> map = new HashMap<String, Object>();
         List<SysMenu> treeNodes = new ArrayList<>();
-       
+        
         //得到左菜单
         treeNodes = sysMenuService.getAuthMenuList(uid);
+        //treeNodes = TreeUtil.buildTreeBy2Loop(treeNodes,0);
         map.put("count",treeNodes.size());
         map.put("code",0);
         map.put("masg", "success");
@@ -84,6 +85,7 @@ public class SysMenuController {
 	@ApiOperation(value = "更新菜单", httpMethod = "PUT")
     @PutMapping("")
     public Response updateMenu(@RequestBody SysMenu sysMenu) {
+		System.out.println("ParentId------------>" + sysMenu.getParentId());
 		boolean flag = sysMenuService.updateMenu(sysMenu);
         if (flag) {
             return new Response().Success(6666, "update success");
@@ -93,12 +95,29 @@ public class SysMenuController {
     }
 	@ApiOperation(value = "删除菜单", httpMethod = "DELETE")
 	@DeleteMapping("{ids}")
-    public Response deleteMenu(@PathVariable Long[] ids) {
-		boolean flag = sysMenuService.updateBatchMenuByIds(ids);
+    public Response deleteMenu(@PathVariable String ids) {
+		String [] idsStrArr = ids.split("_");
+		for(String str : idsStrArr) {
+			System.out.println(str.toString());
+		}
+		
+		boolean flag = sysMenuService.updateBatchMenuByIds(idsStrArr);
         if (flag) {
             return new Response().Success(6666, "delete success");
         } else {
             return new Response().Fail(1111, "delete fail");
+        }
+    }
+	
+	@ApiOperation(value = "添加菜单", httpMethod = "POST")
+    @PostMapping("")
+    public Response addRole(@RequestBody SysMenu sysMenu) {
+
+        boolean flag = sysMenuService.insert(sysMenu);
+        if (flag) {
+            return new Response().Success(6666, "add menu success");
+        } else {
+            return new Response().Fail(111, "add menu fail");
         }
     }
 }

@@ -14,7 +14,6 @@ layui.define(['table', 'jquery', 'form'], function (exports) {
      */
     tableSelect.prototype.render = function (opt) {
 	
-		console.log("******")
         var elem = $(opt.elem);
         var tableDone = opt.table.done || function(){};
 

@@ -83,7 +83,7 @@
             limit: 12,
             // 点击回调
             click: function (data) {
-                console.log(data);
+                $("#iconPicker").val(data.icon);
             },
             // 渲染成功后的回调
             success: function (d) {

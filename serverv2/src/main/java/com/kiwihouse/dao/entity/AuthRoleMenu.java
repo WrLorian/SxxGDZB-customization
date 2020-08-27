@@ -14,7 +14,15 @@ public class AuthRoleMenu {
 
 	private Integer roleId;
 	private Integer menuId;
+	private String ids;
+	
+	public String getIds() {
+		return ids;
+	}
 
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
 
 	public Integer getRoleId() {
 		return roleId;
@@ -32,6 +40,5 @@ public class AuthRoleMenu {
 		this.menuId = menuId;
 	}
 
-	
 
 }

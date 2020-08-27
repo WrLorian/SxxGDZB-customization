@@ -1,6 +1,9 @@
 package com.kiwihouse.dao.entity;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.kiwihouse.domain.vo.BaseTreeNode;
 
@@ -12,9 +15,9 @@ import com.kiwihouse.domain.vo.BaseTreeNode;
  * @author sxx
  * @since 2020-08-14
  */
-public class SysMenu  extends BaseTreeNode {
+public class SysMenu  extends BaseTreeNode implements Serializable{
 
-
+	private static final long serialVersionUID = 1L;
     /**
      * 主键
      */
@@ -77,7 +80,17 @@ public class SysMenu  extends BaseTreeNode {
 	
 	private Integer isBasic;
 	
+	private List<Integer> ids = new ArrayList<Integer>();
 	
+
+	public List<Integer> getIds() {
+		return ids;
+	}
+
+	public void setIds(List<Integer> ids) {
+		this.ids = ids;
+	}
+
 	public Integer getIsBasic() {
 		return isBasic;
 	}

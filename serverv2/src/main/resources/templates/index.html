@@ -139,6 +139,7 @@
 	layui.use(['jquery', 'layer', 'miniAdmin','miniTongji'], function () {
     	var authorization = localStorage.getItem('Authorization');
     	var authUser = JSON.parse(localStorage.getItem('authUser'));
+    	console.log(authUser)
         var $ = layui.jquery,
             layer = layui.layer,
             miniTongji = layui.miniTongji;

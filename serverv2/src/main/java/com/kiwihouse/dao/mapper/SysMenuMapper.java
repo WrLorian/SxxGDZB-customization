@@ -3,6 +3,7 @@ package com.kiwihouse.dao.mapper;
 import java.util.List;
 
 import com.kiwihouse.dao.entity.SysMenu;
+import com.kiwihouse.domain.vo.AuthResourceVo;
 
 import io.lettuce.core.dynamic.annotation.Param;
 
@@ -36,5 +37,6 @@ public interface SysMenuMapper {
 	 * @param ids
 	 * @return
 	 */
-	int updateBatchMenuByIds(Long[] ids);
+	int updateBatchMenuByIds(String [] ids);
+	
 }

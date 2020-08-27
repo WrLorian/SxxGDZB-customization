@@ -110,10 +110,6 @@ public class FilterChainManager {
      */
     public void reloadFilterChain() {
         ShiroFilterFactoryBean shiroFilterFactoryBean = SpringContextHolder.getBean(ShiroFilterFactoryBean.class);
-        // 身份认证失败，则跳转到登录页面的配置
-        //shiroFilterFactoryBean.setLoginUrl(loginUrl);
-        // 权限认证失败，则跳转到指定页面
-        shiroFilterFactoryBean.setUnauthorizedUrl("/admin/unauth");
         AbstractShiroFilter abstractShiroFilter = null;
         try {
             abstractShiroFilter = (AbstractShiroFilter) shiroFilterFactoryBean.getObject();

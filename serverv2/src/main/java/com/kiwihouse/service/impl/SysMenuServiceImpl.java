@@ -1,12 +1,16 @@
 package com.kiwihouse.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kiwihouse.dao.entity.SysMenu;
 import com.kiwihouse.dao.mapper.SysMenuMapper;
+import com.kiwihouse.domain.vo.AuthResourceVo;
 import com.kiwihouse.service.SysMenuService;
 @Service
 public class SysMenuServiceImpl implements SysMenuService{
@@ -15,6 +19,7 @@ public class SysMenuServiceImpl implements SysMenuService{
 	
 	@Override
 	public List<SysMenu> getAuthMenuList(Integer uid) {
+		
 		return sysMenuMapper.getAuthMenuList(uid);
 	}
 
@@ -26,10 +31,18 @@ public class SysMenuServiceImpl implements SysMenuService{
 	}
 
 	@Override
-	public boolean updateBatchMenuByIds(Long[] ids) {
+	public boolean updateBatchMenuByIds(String[] ids) {
 		// TODO Auto-generated method stub
 		int num = sysMenuMapper.updateBatchMenuByIds(ids);
         return num == 1? Boolean.TRUE : Boolean.FALSE;
 	}
+
+	@Override
+	public boolean insert(SysMenu sysMenu) {
+		int num = sysMenuMapper.insert(sysMenu);
+        return num == 1? Boolean.TRUE : Boolean.FALSE;
+	}
+	 
+	
 
 }

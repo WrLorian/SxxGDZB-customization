@@ -1,24 +1,39 @@
 package com.kiwihouse.controller.role;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.dao.entity.AuthResource;
 import com.kiwihouse.dao.entity.AuthRole;
 import com.kiwihouse.dao.entity.AuthUser;
+import com.kiwihouse.domain.vo.AuthResourceVo;
+import com.kiwihouse.domain.vo.AuthRoleMenuDetails;
 import com.kiwihouse.domain.vo.Response;
+import com.kiwihouse.service.AuthRoleMenuService;
 import com.kiwihouse.service.ResourceService;
 import com.kiwihouse.service.RoleService;
 import com.kiwihouse.service.UserService;
 import com.kiwihouse.shiro.filter.FilterChainManager;
+
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author tomsun28
@@ -38,6 +53,9 @@ public class RoleController extends BaseController {
 
     @Autowired
     private ResourceService resourceService;
+    
+    @Autowired
+    private AuthRoleMenuService authRoleMenuService;
 
     @Autowired
     private FilterChainManager filterChainManager;
@@ -179,7 +197,6 @@ public class RoleController extends BaseController {
     	List<Map<String,Integer>> map  = roleService.queryAuthRole(roleId);
     	
 		return new Response().Success(6666, "query success").addData("listRole", map);
-        
     }
-
+    
 }

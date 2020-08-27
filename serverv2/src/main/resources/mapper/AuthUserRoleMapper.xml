@@ -89,6 +89,6 @@
   </delete>
   
   <select id="selectByUid" parameterType="Integer" resultType="Integer">
-  		SELECT min(ROLE_ID) FROM auth_user_role WHERE USER_ID = 1
+  		SELECT min(ROLE_ID) FROM auth_user_role WHERE USER_ID = #{uid}
   </select>
 </mapper>

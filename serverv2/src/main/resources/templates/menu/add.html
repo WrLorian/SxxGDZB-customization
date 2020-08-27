@@ -14,32 +14,43 @@
     </style>
 </head>
 <body>
-<div class="layui-form layuimini-form">
+<div class="layui-form layuimini-form" style="height: 90%;">
     <div class="layui-form-item">
         <label class="layui-form-label required">菜单名称</label>
         <div class="layui-input-block">
-            <input type="text" name="codeRes" lay-verify="required" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
+            <input type="text" name="name" lay-verify="required" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
             <tip>填写菜单的名称。</tip>
         </div>
     </div>
    
     <div class="layui-form-item">
-        <label class="layui-form-label required">菜单路径</label>
+        <label class="layui-form-label">菜单路径</label>
         <div class="layui-input-block">
-            <input type="text" name="url" autocomplete="off" lay-verify="required" lay-reqtext="url不能为空" class="layui-input" placeholder="URL地址">
+            <input type="text" name="url"  class="layui-input" placeholder="URL地址">
         </div>
     </div>
     
     <div class="layui-form-item">
 	    <label class="layui-form-label">图标</label>
 	    <div class="layui-input-block">
-	      <input type="text" name="icon"  class="layui-input">
+	       <input type="text" id="iconPicker1" name="icon" value="" lay-filter="iconPicker1" class="hide">
 	    </div>
     </div>
-
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+	<div class="layui-form-item">
+	    <label class="layui-form-label">是否为根目录</label>
+	    <div class="layui-input-block">
+	       <input type="checkbox" checked="" name="isRoot" id="isRoot" lay-skin="switch" lay-filter="isRoot" lay-text="Yes|No">
+	    </div>
+    </div>
+    <div class="layui-form-item layui-hide" id="parentTree">
+	    <label class="layui-form-label">父节点选择</label>
+	    <div class="layui-input-block">
+	      <input type="text" name="parentId" id="parentId" data-id="" class="layui-input" readonly="true" lay-verify="parentVerify">
+	    </div>
+    </div>
+    <div class="layui-form-item" >
+        <div class="layui-input-block" style="position: absolute;bottom: 5%;right: 5%;">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn" >确认添加</button>
         </div>
     </div>
 </div>
@@ -47,10 +58,12 @@
 <script>
 var authorization = localStorage.getItem('Authorization');
 var authUser = JSON.parse(localStorage.getItem('authUser'));
+
 var dataRow = window.parent.dataRow;
-console.log(dataRow);
-    layui.use(['form'], function () {
+var menuTree = JSON.parse(localStorage.getItem('menuTree'));
+    layui.use(['form','iconPickerFa'], function () {
         var form = layui.form,
+        	iconPickerFa = layui.iconPickerFa,
             layer = layui.layer,
             $ = layui.$;
         //加载信息
@@ -75,21 +88,89 @@ console.log(dataRow);
     		    }
     		});
         }
+        form.on('switch(isRoot)', function(data){
+        	if (this.checked) {
+        		$("#parentTree").addClass('layui-hide');
+			} else {
+				$("#parentTree").removeClass('layui-hide');
+			}
+        	form.render();
+        });
+        iconPickerFa.render({
+            // 选择器，推荐使用input
+            elem: '#iconPicker1',
+            // fa 图标接口
+            url: "../../lib/font-awesome-4.7.0/less/variables.less",
+            // 是否开启搜索：true/false
+            search: true,
+            // 是否开启分页
+            page: true,
+            // 每页显示数量，默认12
+            limit: 12,
+            // 点击回调
+            click: function (data) {
+                $("#iconPicker1").val("fa " + data.icon);
+                form.render();
+            },
+            // 渲染成功后的回调
+            success: function (d) {
+                console.log(d);
+                
+            }
+        });
+        form.verify({
+			//数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]/^([1-9]||[1-9][0-9])\.[0-9]\.[0-9]$/
+			parentVerify : function(value) {
+				console.log("********************")
+				console.log($("#parentTree").hasClass("layui-hide"));
+				if(!$("#parentTree").hasClass("layui-hide")){
+					console.log($("#parentTree").text());
+					if($("#parentTree").text() == "" || $("#parentTree").text().NoSpace() == ""){
+						return  "不能为空";
+					}
+				}
+			}
+		});
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            var index = layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            }, function () {
-                // 关闭弹出层
-                layer.close(index);
-
-                var iframeIndex = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(iframeIndex);
-
-            });
+           
+            if(data.field.isRoot == "on"){
+            	data.field.parentId = 0;
+            }else{
+            	data.field.parentId = $("#parentId").attr('data-id');
+            }
+            data.field.createBy= authUser.username;
+            $.ajax({
+     			url: "/menu",
+			    type: "POST",
+			    data:JSON.stringify(data.field),
+			    dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+			    success:function(data){
+			    	console.log(data);
+			    	 	if(data.success){
+			    	 		indexHome(window).init();
+			    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
+			    	 		parent.layer.close(iframeIndex);
+			    	 		window.parent.initTreeTable();
+						}else{
+							layer.msg(data.msg);
+						}
+			    }
+			});
+            
             return false;
         });
+        
+        $("#parentId").on('click',function(){
+        	openPopUp('选择父节点','/admin/menu/tree',30,60);
+        	form.render();
+        })
     });
+    
+    
+    
 </script>
 </body>
 </html>

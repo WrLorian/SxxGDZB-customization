@@ -100,7 +100,7 @@ layui.define(["element","laytpl" ,"jquery"], function (exports) {
                     href: leftMenu.href,
                     target: leftMenu.target,
                     childOpenClass: options.childOpenClass,
-                    icon: leftMenu.icon,
+                    icon:  leftMenu.icon,
                     title: leftMenu.title,
                     children: children,
                     className: '',

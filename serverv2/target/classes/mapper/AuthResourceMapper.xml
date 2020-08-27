@@ -230,11 +230,12 @@
     </select>
     
     <select id="selectAuthResourceCount" parameterType="java.lang.Integer" resultType="Integer" >
-    	SELECT count(*) FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID
-    	WHERE 1 = 1
-    	
+    	SELECT count(*)
+    	FROM auth_resource ar 
+    	INNER JOIN auth_role_resource arr on arr.RESOURCE_ID = ar.ID
+			INNER JOIN auth_role au on arr.ROLE_ID = au.ID WHERE 1=1
     		<if test="roleId gt 100">
-    			AND ar.ROLE_ID >#{roleId}
+    			AND arr.ROLE_ID >= #{roleId}
     		</if>
     		<if test="auResourceVo.code!=null and auResourceVo.code !=''">
     			AND au.code = #{auResourceVo.code}
@@ -265,7 +266,10 @@
     
     
     <select id="selectAuthResourceList" parameterType="java.lang.Integer" resultMap="AuthResourceVoMap">
-    	SELECT arr.ID,ar.`NAME`,ar.`CODE` as 'codeRes',au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME FROM auth_role_resource arr INNER JOIN auth_role au on arr.ROLE_ID = au.ID INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID
+    	SELECT arr.ID,ar.`NAME`,ar.`CODE` as 'codeRes',au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME 
+    	FROM auth_resource ar 
+    	INNER JOIN auth_role_resource arr on arr.RESOURCE_ID = ar.ID
+			INNER JOIN auth_role au on arr.ROLE_ID = au.ID WHERE 1=1
     	<!-- <if test="roleId == 100">
     	
     	</if>
@@ -274,7 +278,7 @@
     	</if> -->
     	
     		<if test="roleId gt 100">
-    			AND ar.ROLE_ID >#{roleId}
+    			AND arr.ROLE_ID >= #{roleId}
     		</if>
     		<if test="auResourceVo.code!=null and auResourceVo.code !=''">
     			AND au.code = #{auResourceVo.code}
