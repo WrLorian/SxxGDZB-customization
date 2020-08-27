@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+<meta charset="UTF-8">
+<title>树列表</title>
+
+</head>
+<body>
+	<div id="menuTree" class="demo-tree"></div>
+</body>
+<div th:include="include::footer"></div>
+<script type="text/javascript">
+	layui.use(['tree', 'util'], function(){
+		  var tree = layui.tree
+		  ,layer = layui.layer
+		  ,util = layui.util;
+		 var menuTree = JSON.parse(localStorage.getItem('menuTree'));
+		 console.log(menuTree)
+		  //仅节点左侧图标控制收缩
+		  tree.render({
+		    elem: '#menuTree'
+		    ,data: menuTree
+		    ,onlyIconControl: true  //是否仅允许节点左侧图标控制展开收缩
+		    ,click: function(obj){
+		        console.log( obj.data);
+		        parent.layui.$('#parentId').val(obj.data.name);
+		        parent.layui.$('#parentId').attr("data-id",obj.data.id);
+		        var iframeIndex = parent.layer.getFrameIndex(window.name);
+  	 			parent.layer.close(iframeIndex);
+		    }
+		  });
+	})
+</script>
+</html>

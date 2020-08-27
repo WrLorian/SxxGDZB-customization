@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+<meta charset="UTF-8">
+<title>树列表</title>
+
+</head>
+<body>
+	
+	<div id="menuTree" class="demo-tree"></div>
+	
+	<!-- <div class="layui-btn-container">
+	  <button type="button" class="layui-btn layui-btn-sm" lay-demo="getChecked">确定</button>
+	  <button type="button" class="layui-btn layui-btn-sm" lay-demo="setChecked">取消</button>
+	</div> -->
+</body>
+<div th:include="include::footer"></div>
+
+<script type="text/javascript">
+var tree,layer,util;
+
+	layui.use(['tree', 'util'], function(){
+		  tree = layui.tree
+		  layer = layui.layer
+		  util = layui.util;
+		 var menuTree = JSON.parse(localStorage.getItem('menuTreeTwo'));
+		 console.log(menuTree);
+		 
+		  
+		  tree.render({
+		    elem: '#menuTree'
+		    ,data: menuTree
+		    ,showCheckbox: true  //是否显示复选框
+		    ,id: 'demoId1'
+		    ,isJump: true //是否允许点击节点时弹出新窗口跳转
+		    ,click: function(obj){
+		      
+		    }
+		  });
+		  util.event('lay-demo', {
+			    getChecked: function(othis){
+			      var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
+			      $.each(checkedData,function(index,xx){
+			    	  console.log(xx);
+			      })
+			    }
+			    ,setChecked: function(){
+			      tree.setChecked('demoId1', [12, 16]); //勾选指定节点
+			    }
+			    ,reload: function(){
+			      //重载实例
+			      tree.reload('demoId1', {
+			        
+			      });
+			    }
+			  });
+	})
+	
+	var callbackdata = function() {
+		 var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
+	      $.each(checkedData,function(index,xx){
+	    	  console.log(xx);
+	      })
+		return checkedData;
+	};
+</script>
+</html>
