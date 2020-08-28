@@ -3,7 +3,9 @@ package com.kiwihouse.controller.role;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,6 +65,18 @@ public class AuthRoleMenuController extends BaseController{
             return new Response().Success(6666, "add role success");
         } else {
             return new Response().Fail(111, "add role fail");
+        }
+    }
+	
+	@ApiOperation(value = "根据角色ID删除角色", httpMethod = "DELETE")
+    @DeleteMapping("{roleIds}/{menuIds}")
+    public Response deleteRoleMenuByRoleMenuId(@PathVariable String roleIds,@PathVariable String menuIds) {
+		
+        boolean flag = authRoleMenuService.deleteRoleMenuByRoleMenuId(roleIds,menuIds);
+        if (flag) {
+            return new Response().Success(6666, "delete success");
+        } else {
+            return new Response().Fail(1111, "delete fail");
         }
     }
 }

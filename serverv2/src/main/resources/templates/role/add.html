@@ -16,77 +16,77 @@
 <body>
 <div class="layui-form layuimini-form">
     <div class="layui-form-item">
-        <label class="layui-form-label required">资源名称</label>
-        <div class="layui-input-block">
-            <input type="text" name="codeRes" lay-verify="required" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
-            <tip>填写自己管理账号的名称。</tip>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">资源描述</label>
-        <div class="layui-input-block">
-            <input type="text" name="name"  placeholder="请输入资源名称" value="" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
         <label class="layui-form-label required">选择角色</label>
         <div class="layui-input-block">
-            <select name="code" lay-verify="" placeholder="所属角色" id="code">
+            <select name="roleId" lay-verify="roleId" lay-filter="roleId"  placeholder="所属角色" id="roleId">
 				<option value="">所属角色</option>
 			</select>
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label required">访问地址</label>
-        <div class="layui-input-block">
-            <input type="text" name="uri" autocomplete="off" lay-verify="required" lay-reqtext="url不能为空" class="layui-input" placeholder="URL地址">
+    <div class="layui-form-item ">
+        <label class="layui-form-label required">选择资源</label>
+        <div class="layui-input-inline">
+            <!-- <input type="text" name="name" placeholder="请输入" lay-verify="required" lay-reqtext="资源名称不能为空" autocomplete="off" class="layui-input" id="demo"> -->
+        	<textarea name="name" placeholder="请点击选择" lay-verify="required" lay-reqtext="资源名称不能为空"  autocomplete="off" id="demo" class="layui-textarea"></textarea>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">类别</label>
-        <div class="layui-input-block">
-             <select name="type" lay-verify="" placeholder="资源类别">
-				  <option value="1">菜单menu</option>
-				  <option value="2">资源element(rest-api)</option>
-				  <option value="3">资源分类</option>
-			 </select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">请求类型</label>
-        <div class="layui-input-block">
-            <select name="method" lay-verify="" placeholder="请求类型">
-			  <option value="GET">GET</option>
-			  <option value="POST">POST</option>
-			  <option value="PUT">PUT</option>
-			  <option value="DELETE">DELETE</option>
-			</select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-	    <label class="layui-form-label">状态</label>
-	    <div class="layui-input-block">
-	      <input type="checkbox" name="status" lay-skin="switch" lay-text="ON|OFF">
-	    </div>
     </div>
 
-    <div class="layui-form-item">
+    <div class="layui-form-item _submitBtn">
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
         </div>
     </div>
 </div>
 <div th:include="include::footer"></div>
-<script>
+<script th:inline="none">
 var authorization = localStorage.getItem('Authorization');
 var authUser = JSON.parse(localStorage.getItem('authUser'));
-    layui.use(['form'], function () {
+    layui.use(['form','tableSelect'], function () {
         var form = layui.form,
             layer = layui.layer,
+            table = layui.table,
+            tableSelect = layui.tableSelect,
             $ = layui.$;
-        //加载信息
-        function init(){
-        	$.ajax({
+        
+        //监听角色
+        form.on('select(roleId)', function(data) {
+        	$("#demo").attr("ts-selected","");
+        	$("#demo").text("");
+        	tableSelect.render({
+                elem: '#demo',
+                searchKey: 'resCode',
+                checkedKey: 'id',
+                searchType: 'more',
+                searchPlaceholder: '根据资源CODE搜索',
+                table: {
+                    url: getRootPath() + '/resourcerole/list',
+                    headers: { "Authorization": authorization,"dz-usr":authUser.uid },
+                    where:{"roleId":data.value,"trigger":1},
+                    cols: [[
+                        { type: 'checkbox' },
+                        { field: 'resCode', title: '资源CODE', width: '50%' },
+                        { field: 'resName', title: '资源名称', width: '50%' }
+                    ]]
+                },
+                
+                done: function (elem, data) {
+                    var NEWJSON = []
+                	var NEWJSONIDS = []
+                    layui.each(data.data, function (index, item) {
+                        NEWJSON.push(item.resName)
+                        NEWJSONIDS.push(item.id);
+                    })
+                    elem.val(NEWJSON.join(","))
+                    elem.attr("data-ids",NEWJSONIDS.join(","));
+                }
+            })
+			
+		});
+        
+        initSelectRole();
+        //加载角色列表
+        function initSelectRole(){
+    	   	$.ajax({
     			url: "/role/user/"+authUser.roleId,
     			type : "POST",
     	　　		dataType : "json",
@@ -96,9 +96,9 @@ var authUser = JSON.parse(localStorage.getItem('authUser'));
     		    	 	if(data.success){
     		    	 		var html = "";
     		    	 		data.data.listRole.forEach(function(item){
-    		    	 			html += "<option vaue="+item.CODE+"> "+item.CODE+" </option>"
+    		    	 			html += "<option value="+item.ID+"> "+item.CODE+" </option>"
     		    	 		});
-    		    	 		$("#code").append(html);
+    		    	 		$("#roleId").append(html);
     		    	 		form.render();
     					}else{
     						layer.msg(data.msg);
@@ -107,24 +107,67 @@ var authUser = JSON.parse(localStorage.getItem('authUser'));
     		});
         }
         
-        
-        
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            var index = layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            }, function () {
-
-                // 关闭弹出层
-                layer.close(index);
-
-                var iframeIndex = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(iframeIndex);
-
-            });
+            
+            console.log(data.field.name);
+            data.field.resIds = $("#demo").attr('data-ids');
+            console.log(data.field);
+           $.ajax({
+    			url: "/resourcerole",
+    			type : "POST",
+    	　　		dataType : "json",
+    	  		data:JSON.stringify(data.field),
+    	　　		contentType: "application/json;charset=utf-8",
+    		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+    		    success:function(data){
+    		    	 	if(data.success){
+    		    	 		layer.msg(data.msg, {
+  		    	 			  icon: 6,
+  		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+  		    	 			}, function(){
+  		    	 				var iframeIndex = parent.layer.getFrameIndex(window.name);
+  				    	 		parent.layer.close(iframeIndex);
+  		    	 			}); 
+    					}else{
+    						layer.msg(data.msg);
+    					}
+    		    }
+    		});
+            
             return false;
         });
     });
+    
+    function tableSelect(id){
+    	tableSelect.render({
+            elem: '#demo',
+            searchKey: 'my',
+            checkedKey: 'id',
+            searchPlaceholder: '自定义文字和name',
+            table: {
+                url: getRootPath() + '/rolemenu/menus',
+                headers: { "Authorization": authorization},
+                where:{"roleId":data.value,"trigger":1},
+                cols: [[
+                    { type: 'checkbox' },
+                    { field: 'name', title: '菜单名称', width: '50%' },
+                    { field: 'url', title: '访问路径', width: '50%' }
+                ]]
+            },
+            limits: [5, 10, 20, 25, 50, 100],
+            limit: 10,
+            page: true,
+            skin: 'line',
+            done: function (elem, data) {
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.username)
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        })
+    }
 </script>
 </body>
 </html>

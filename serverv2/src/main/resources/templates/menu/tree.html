@@ -11,12 +11,15 @@
 </body>
 <div th:include="include::footer"></div>
 <script type="text/javascript">
+var dataRow = window.parent.dataRow;
 	layui.use(['tree', 'util'], function(){
 		  var tree = layui.tree
 		  ,layer = layui.layer
 		  ,util = layui.util;
 		 var menuTree = JSON.parse(localStorage.getItem('menuTree'));
 		 console.log(menuTree)
+		 console.log("-----*------")
+		 console.log(dataRow)
 		  //仅节点左侧图标控制收缩
 		  tree.render({
 		    elem: '#menuTree'
@@ -24,10 +27,17 @@
 		    ,onlyIconControl: true  //是否仅允许节点左侧图标控制展开收缩
 		    ,click: function(obj){
 		        console.log( obj.data);
-		        parent.layui.$('#parentId').val(obj.data.name);
-		        parent.layui.$('#parentId').attr("data-id",obj.data.id);
-		        var iframeIndex = parent.layer.getFrameIndex(window.name);
-  	 			parent.layer.close(iframeIndex);
+		        if(dataRow.id != obj.data.id){
+		        	parent.layui.$('#parentId').val(obj.data.name);
+			        parent.layui.$('#parentId').attr("data-id",obj.data.id);
+			        var iframeIndex = parent.layer.getFrameIndex(window.name);
+	  	 			parent.layer.close(iframeIndex);
+		        }else{
+		        	layer.msg('该节点为当前节点', {
+						icon : 2
+					});
+		        }
+		        
 		    }
 		  });
 	})

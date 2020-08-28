@@ -33,5 +33,12 @@ public interface AuthRoleMenuService {
 	 * @return
 	 */
 	boolean update(AuthRoleMenu authRoleMenu);
+	/**
+	 * 批量删除角色与菜单的绑定关系
+	 * @param roleId
+	 * @param menuIds
+	 * @return
+	 */
+	boolean deleteRoleMenuByRoleMenuId(String roleId, String menuIds);
 
 }

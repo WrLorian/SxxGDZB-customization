@@ -8,6 +8,9 @@
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+  <resultMap id="AuthRoleResourceVotMap" type="com.kiwihouse.domain.vo.AuthRoleResourceVo">
+  
+  </resultMap>
   <sql id="Base_Column_List">
     ID, ROLE_ID, RESOURCE_ID, CREATE_TIME, UPDATE_TIME
   </sql>
@@ -87,5 +90,138 @@
   <delete id="deleteByUniqueKey">
     delete from auth_role_resource
     where role_id = #{roleId,jdbcType=INTEGER} and resource_id = #{resourceId,jdbcType=INTEGER}
+  </delete>
+  
+  <select id="selectRoleResourceCount" parameterType="java.lang.Integer" resultType="Integer">
+    		<choose>
+  			<when test="auRoleResourceVo.trigger ==1 ">
+				SELECT count(*)  
+				FROM auth_role_resource arr 
+				INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
+				WHERE arr.RESOURCE_ID not in(SELECT RESOURCE_ID FROM auth_role_resource WHERE ROLE_ID = #{auRoleResourceVo.roleId})
+  			</when>
+  			<when test="auRoleResourceVo.trigger ==2 ">
+				SELECT count(*) FROM (SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName   
+				FROM auth_role_resource arr 
+				INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
+				GROUP BY ar.ID) as tem
+  			</when>
+  			<when test="auRoleResourceVo.trigger ==3 ">
+				SELECT count(*) FROM (SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName ,arole.`CODE` roleCode,arole.`NAME` as roleName,arole.ID as 'roleId'  FROM auth_role_resource arr 
+				INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
+				INNER JOIN auth_role arole on arr.ROLE_ID = arole.ID where 1 = 1 AND arole.ID = #{auRoleResourceVo.roleId}) as tem
+  			</when>
+  			 <otherwise>
+  			 	SELECT count(*)  FROM auth_role_resource arr 
+				INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
+				INNER JOIN auth_role arole on arr.ROLE_ID = arole.ID where 1 = 1
+					<if test="auRoleResourceVo.resCode!=null and auRoleResourceVo.resCode !=''">
+		    			AND ar.`CODE` = #{auRoleResourceVo.resCode}
+		    		</if>
+		    		<if test="auRoleResourceVo.resName!=null and auRoleResourceVo.resName !=''">
+		    			AND ar.`NAME` like CONCAT('%', #{auRoleResourceVo.resName}, '%') 
+		    		</if>
+		    		<if test="auRoleResourceVo.roleCode!=null and auRoleResourceVo.roleCode!=''">
+		    			AND arole.`CODE` = #{auRoleResourceVo.roleCode}
+		    		</if>
+		    		<if test="auRoleResourceVo.roleName!=null and auRoleResourceVo.roleName!=''">
+		    			AND arole.`NAME` like CONCAT('%',  #{auRoleResourceVo.roleName}, '%') 
+		    		</if>
+		    		<if test="auRoleResourceVo.roleId!=null and auRoleResourceVo.roleId !=''">
+		    			AND arr.role_id >= #{auRoleResourceVo.roleId}
+		    		</if>
+		    	
+             </otherwise>
+  		</choose>
+  </select> 
+  
+  <select id="selectRoleResourceList" resultMap="AuthRoleResourceVotMap" >
+  	<choose>
+  			<when test="auRoleResourceVo.trigger ==1 ">
+				SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName   
+				FROM auth_role_resource arr 
+				INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
+				WHERE arr.RESOURCE_ID not in(SELECT RESOURCE_ID FROM auth_role_resource WHERE ROLE_ID = #{auRoleResourceVo.roleId})
+				GROUP BY ar.ID
+  			</when>
+  			<when test="auRoleResourceVo.trigger ==2 ">
+				SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName   
+				FROM auth_role_resource arr 
+				INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
+				GROUP BY ar.ID
+  			</when>
+  			<when test="auRoleResourceVo.trigger ==3 ">
+				SELECT ar.ID,ar.`CODE` resCode,ar.`NAME` as resName ,arole.`CODE` roleCode,arole.`NAME` as roleName,arole.ID as 'roleId'  FROM auth_role_resource arr 
+				INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
+				INNER JOIN auth_role arole on arr.ROLE_ID = arole.ID where 1 = 1 AND arole.ID = #{auRoleResourceVo.roleId}
+  			</when>
+  			 <otherwise>
+  			 	SELECT arr.ID,ar.`CODE` resCode,ar.`NAME` as resName ,arole.`CODE` roleCode,arole.`NAME` as roleName,arole.ID as 'roleId'  FROM auth_role_resource arr 
+				INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID 
+				INNER JOIN auth_role arole on arr.ROLE_ID = arole.ID where 1 = 1
+		    		<if test="auRoleResourceVo.resCode!=null and auRoleResourceVo.resCode !=''">
+		    			AND ar.`CODE` = #{auRoleResourceVo.resCode}
+		    		</if>
+		    		<if test="auRoleResourceVo.resName!=null and auRoleResourceVo.resName !=''">
+		    			AND ar.`NAME` like CONCAT('%', #{auRoleResourceVo.resName}, '%') 
+		    		</if>
+		    		<if test="auRoleResourceVo.roleCode!=null and auRoleResourceVo.roleCode!=''">
+		    			AND arole.`CODE` = #{auRoleResourceVo.roleCode}
+		    		</if>
+		    		<if test="auRoleResourceVo.roleName!=null and auRoleResourceVo.roleName!=''">
+		    			AND arole.`NAME` like CONCAT('%',  #{auRoleResourceVo.roleName}, '%') 
+		    		</if>
+		    		<if test="auRoleResourceVo.roleId!=null and auRoleResourceVo.roleId !=''">
+		    			AND arr.role_id >= #{auRoleResourceVo.roleId}
+		    		</if>
+             </otherwise>
+  		</choose>
+		<if test="limit != null">
+			LIMIT #{page},#{limit}
+		</if>
+  </select>
+  
+  <insert id="insertBatch" parameterType="java.util.List">
+		insert into auth_role_resource(ROLE_ID,RESOURCE_ID)
+		values
+		<foreach item="resource" collection="list" index="index"  separator="," >
+			(#{resource.roleId},
+			#{resource.resourceId})
+		</foreach>
+  </insert>
+  
+  <delete id="deleteBatch">
+		delete from auth_role_resource where id in(
+		<foreach collection="array" item="id" separator="," index="index">
+            #{id}
+        </foreach>
+        )
+  </delete>
+
+  <insert id="insertOrUpdateBatch"
+            parameterType="com.kiwihouse.dao.entity.AuthRoleResource" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO auth_role_resource
+        (ROLE_ID,
+         RESOURCE_ID,
+         CREATE_TIME,
+         UPDATE_TIME)
+         VALUES
+        <foreach item="t" collection="list" index="index"  separator="," >
+			(
+			#{t.roleId},
+			#{t.resourceId},
+			NOW(),
+			null
+			)
+		</foreach>
+         
+		ON DUPLICATE KEY UPDATE 
+		ROLE_ID = values(ROLE_ID),
+		RESOURCE_ID = VALUES(RESOURCE_ID),
+		UPDATE_TIME = VALUES(UPDATE_TIME)
+    </insert>
+	<delete id="deleteByRoleId" parameterType="java.lang.Integer" >
+    delete from auth_role_resource
+    where role_id = #{roleId,jdbcType=INTEGER} 
   </delete>
 </mapper>

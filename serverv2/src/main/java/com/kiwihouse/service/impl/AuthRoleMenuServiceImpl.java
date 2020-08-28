@@ -53,4 +53,20 @@ public class AuthRoleMenuServiceImpl implements AuthRoleMenuService{
 		// TODO Auto-generated method stub
 		return num == 1 ? Boolean.TRUE : Boolean.FALSE;
 	}
+
+	@Override
+	public boolean deleteRoleMenuByRoleMenuId(String roleIds, String menuIds) {
+		String [] arr = menuIds.split(",");
+		String [] roleArr = roleIds.split(",");
+		// TODO Auto-generated method stub
+		List<AuthRoleMenu> list = new ArrayList<AuthRoleMenu>();
+		for(int i=0;i<arr.length; i++) {
+			AuthRoleMenu authRoleMenu = new AuthRoleMenu();
+			authRoleMenu.setRoleId(Integer.valueOf(roleArr[i]));
+			authRoleMenu.setMenuId(Integer.valueOf(arr[i]));
+			list.add(authRoleMenu);
+		}
+		int num = authRoleMenuMapper.deleteBatch(list);
+		return num > 0 ? Boolean.TRUE : Boolean.FALSE;
+	}
 }

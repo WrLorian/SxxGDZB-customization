@@ -49,4 +49,10 @@ public interface AuthRoleMenuMapper {
 	 * @return
 	 */
 	int update(AuthRoleMenu authRoleMenu);
+	/**
+	 * 批量删除
+	 * @param list
+	 * @return
+	 */
+	int deleteBatch(List<AuthRoleMenu> list);
 }

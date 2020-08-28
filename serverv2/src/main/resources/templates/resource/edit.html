@@ -14,11 +14,12 @@
     </style>
 </head>
 <body>
-<div class="layui-form layuimini-form">
+<div class="layui-form layuimini-form" id="resourceForm">
+	<input type="hidden" name="id"  class="layui-input">
     <div class="layui-form-item">
         <label class="layui-form-label required">资源名称</label>
         <div class="layui-input-block">
-            <input type="text" name="codeRes" lay-verify="required" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
+            <input type="text" name="code" lay-verify="required" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
             <tip>填写自己管理账号的名称。</tip>
         </div>
     </div>
@@ -29,17 +30,9 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">选择角色</label>
+        <label class="layui-form-label">访问地址</label>
         <div class="layui-input-block">
-            <select name="code" lay-verify="" placeholder="所属角色" id="code">
-				<option value="">所属角色</option>
-			</select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label required">访问地址</label>
-        <div class="layui-input-block">
-            <input type="text" name="uri" autocomplete="off" lay-verify="required" lay-reqtext="url不能为空" class="layui-input" placeholder="URL地址">
+            <input type="text" name="uri" lay-reqtext="url不能为空" class="layui-input" placeholder="URL地址">
         </div>
     </div>
     <div class="layui-form-item">
@@ -70,7 +63,7 @@
 	    </div>
     </div>
 
-    <div class="layui-form-item">
+    <div class="layui-form-item _submitBtn">
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
         </div>
@@ -84,47 +77,45 @@ var authUser = JSON.parse(localStorage.getItem('authUser'));
         var form = layui.form,
             layer = layui.layer,
             $ = layui.$;
-        //加载信息
-        function init(){
-        	$.ajax({
-    			url: "/role/user/"+authUser.roleId,
-    			type : "POST",
-    	　　		dataType : "json",
-    	　　		contentType: "application/json;charset=utf-8",
-    	　　		async:false,
-    		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
-    		    success:function(data){
-    		    	 	if(data.success){
-    		    	 		var html = "";
-    		    	 		data.data.listRole.forEach(function(item){
-    		    	 			html += "<option vaue="+item.CODE+"> "+item.CODE+" </option>"
-    		    	 		});
-    		    	 		$("#code").append(html);
-    		    	 		form.render();
-    					}else{
-    						layer.msg(data.msg);
-    					}
-    		    }
-    		});
-        	
+        var dataRow = window.parent.dataRow;
+        var resourceForm = $("#resourceForm");
+        $.each(dataRow, function(key, val) {
+        	if(key == 'status'){
+        		if(val == 1){
+        			$('input[type="checkbox"]').prop('checked', true);
+        		}else{
+        			$('input[type="checkbox"]').prop('checked', false);
+        		}
+        	}else{
+        		resourceForm.find("[name='"+key+"']").val(val);
+        	}
         	form.render();
-        }
-        
-        
+       });
         
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            var index = layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            }, function () {
-
-                // 关闭弹出层
-                layer.close(index);
-
-                var iframeIndex = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(iframeIndex);
-
-            });
+        	if(data.field.status == "on"){
+             	data.field.status = 1;
+             }else{
+             	data.field.status = 0;
+             }
+            $.ajax({
+     			url: "/resource/menu",
+			    type: "PUT",
+			    data:JSON.stringify(data.field),
+			    dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+			    success:function(data){
+			    	 	if(data.success){
+			    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
+			    	 		parent.layer.close(iframeIndex);
+			    	 		window.parent.flush(window.parent.currentPage,window.parent.jsonEntity);
+						}else{
+							layer.msg(data.msg);
+						}
+			    }
+			}); 
             return false;
         });
     });

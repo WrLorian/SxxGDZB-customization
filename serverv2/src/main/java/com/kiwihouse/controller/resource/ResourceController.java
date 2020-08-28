@@ -4,7 +4,6 @@ import com.github.pagehelper.PageInfo;
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.dao.entity.AuthResource;
-import com.kiwihouse.domain.vo.AuthResourceVo;
 import com.kiwihouse.domain.vo.MenuTreeNode;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.ResourceService;
@@ -94,10 +93,10 @@ public class ResourceController extends BaseController {
     }
 
     @ApiOperation(value = "删除菜单", notes = "根据菜单ID删除菜单", httpMethod = "DELETE")
-    @DeleteMapping("menu/{menuId}")
-    public Response deleteMenuByMenuId(@PathVariable Integer menuId) {
+    @DeleteMapping("menu/{menuIds}")
+    public Response deleteMenuByMenuId(@PathVariable String menuIds) {
 
-        Boolean flag = resourceService.deleteMenuByMenuId(menuId);
+        Boolean flag = resourceService.deleteBatch(menuIds);
         if (flag) {
             return new Response().Success(6666, "delete menu success");
         } else {
@@ -167,12 +166,12 @@ public class ResourceController extends BaseController {
     @SuppressWarnings("unused")
 	@ApiOperation(value = "查询权限", notes = "权限操作", httpMethod = "GET")
     @GetMapping("auth/select")
-    public Map<String, Object> list(Integer page, Integer limit,Integer roleId,AuthResourceVo auResourceVo) {
+    public Map<String, Object> list(Integer page, Integer limit,Integer roleId,AuthResource auResource) {
     	try {
-    		if(auResourceVo==null) {
-    			auResourceVo = new AuthResourceVo();
+    		if(auResource==null) {
+    			auResource = new AuthResource();
     		}
-    		map = resourceService.selectPage(page,limit,roleId,auResourceVo);
+    		map = resourceService.selectPage(page,limit,roleId,auResource);
     		map.put("code", 0);
     		map.put("msg",Code.QUERY_SUCCESS);
 		} catch (Exception e) {

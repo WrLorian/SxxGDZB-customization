@@ -24,7 +24,6 @@ import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.dao.entity.AuthResource;
 import com.kiwihouse.dao.entity.AuthRole;
 import com.kiwihouse.dao.entity.AuthUser;
-import com.kiwihouse.domain.vo.AuthResourceVo;
 import com.kiwihouse.domain.vo.AuthRoleMenuDetails;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.AuthRoleMenuService;

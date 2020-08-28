@@ -1,7 +1,6 @@
 package com.kiwihouse.dao.mapper;
 
 import com.kiwihouse.dao.entity.AuthResource;
-import com.kiwihouse.domain.vo.AuthResourceVo;
 import com.kiwihouse.shiro.rule.RolePermRule;
 
 import io.lettuce.core.dynamic.annotation.Param;
@@ -162,16 +161,22 @@ public interface AuthResourceMapper {
      */
 	Integer selectAuthResourceCount(
 			@Param("roleId") Integer roleId,
-			@Param("auResourceVo") AuthResourceVo auResourceVo);
+			@Param("auResource") AuthResource auResource);
 	/**
 	 * 
 	 * @param page
 	 * @param limit
 	 * @return
 	 */
-	List<AuthResourceVo> selectAuthResourceList(
+	List<AuthResource> selectAuthResourceList(
 			@Param("page") Integer page, 
 			@Param("limit") Integer limit,
 			@Param("roleId") Integer roleId,
-			@Param("auResourceVo") AuthResourceVo auResourceVo);
+			@Param("auResource") AuthResource auResource);
+	/**
+	 * 批量删除
+	 * @param menuIdArr
+	 * @return
+	 */
+	int deleteBatch(String[] menuIdArr);
 }

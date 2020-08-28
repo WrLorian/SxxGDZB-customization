@@ -19,14 +19,7 @@
                     <div class="layui-form-item">
                     	<div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" name="codeRes" autocomplete="off" class="layui-input" placeholder="资源名称">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <div class="layui-input-inline">
-                                <select name="code" lay-verify="" placeholder="所属角色" id="code">
-								  <option value="">请选择角色</option>
-								</select>
+                                <input type="text" name="code" autocomplete="off" class="layui-input" placeholder="资源名称">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -75,91 +68,23 @@
         <script type="text/html" id="currentTableBar">
             <a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
             <a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete"></a>
-			<a class="layui-icon layui-icon-slider" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="parm"></a>
         </script>
 
     </div>
 </div>
 <div th:include="include::footer"></div>
 <script th:inline="none">
-var dataRow;
+var dataRow,table;
+var currentPage = 1;
+var authorization = localStorage.getItem('Authorization');
+var authUser = JSON.parse(localStorage.getItem('authUser'));
+var jsonEntity = {};
 layui.use(['form', 'table'], function () {
-	var authorization = localStorage.getItem('Authorization');
-	var authUser = JSON.parse(localStorage.getItem('authUser'));
     var $ = layui.jquery,
-        form = layui.form,
+        form = layui.form;
         table = layui.table;
-    var jsonEntity = {};
     jsonEntity.roleId = authUser.roleId;
-    var currentPage = 1;
     loadTickets(jsonEntity);
-    function loadTickets(jsonEntity){
-    	table.render({
-            elem: '#currentTableId',
-            url: getRootPath() + '/resource/auth/select',
-            headers: { "Authorization": authorization ,"dz-usr":1},//通过请求头来发送token，放弃了通过cookie的发送方式
-            where : jsonEntity,
-            async : false,
-            toolbar: '#toolbarDemo',
-            defaultToolbar: ['filter', 'exports', 'print', {
-                title: '提示',
-                layEvent: 'LAYTABLE_TIPS',
-                icon: 'layui-icon-tips'
-            }],
-            cols: [[
-                {type: "checkbox"},
-                {field: 'codeRes',title: '资源名称', sort: true},
-                {field: 'name',title: '资源描述', sort: true},
-                {field: 'id',title: 'id', hide:true},
-                {field: 'code',title: '所属角色', sort: true},
-                {field: 'uri', title: '访问地址URL'},
-                {field: 'type',title: '资源类别'},
-                {field: 'method',  title: '请求类型', sort: true},
-                {field: 'status',  title: '状态', sort: true,
-					templet : function(row) {
-						if(row.status == 1){
-							return "正常";
-						}
-						return "禁用";
-				}},
-                {title: '操作', toolbar: '#currentTableBar', align: "center",width:'20%'}
-            ]],
-            limits: [5, 10, 20, 25, 50, 100],
-            limit: 10,
-            page: true,
-            skin: 'line',
-            done : function(res, curr, count) {
-				currentPage = curr;
-			}
-        });
-    }
-    initSelectRole();
-    //加载角色列表
-    function initSelectRole(){
-	   	$.ajax({
-			url: "/role/user/"+authUser.roleId,
-			type : "POST",
-	　　		dataType : "json",
-	　　		contentType: "application/json;charset=utf-8",
-		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
-		    success:function(data){
-		    	 	if(data.success){
-		    	 		var html = "";
-		    	 		data.data.listRole.forEach(function(item){
-		    	 			html += "<option vaue="+item.CODE+"> "+item.CODE+" </option>"
-		    	 		});
-		    	 		$("#code").append(html);
-		    	 		form.render();
-					}else{
-						layer.msg(data.msg);
-					}
-		    }
-		});
-    }
-    
-    
-    
-    
     // 监听搜索操作
     form.on('submit(data-search-btn)', function (data) {
         var result = JSON.stringify(data.field);
@@ -169,21 +94,9 @@ layui.use(['form', 'table'], function () {
         		jsonEntity[key] = val;
         	}
        });
-        console.log(jsonEntity);
-        //执行搜索重载
-        //flush(currentPage,jsonEntity);
         loadTickets(jsonEntity);
         return false;
     });
-    //刷新
-	function flush(currentPage, jsonEntity) {
-		table.reload('currentTableId', {
-			page : {
-				curr : currentPage
-			},
-			where : jsonEntity
-		});
-	}
     /**
      * toolbar监听事件
      */
@@ -193,7 +106,25 @@ layui.use(['form', 'table'], function () {
         } else if (obj.event === 'delete') {  // 监听删除操作
             var checkStatus = table.checkStatus('currentTableId')
                 , data = checkStatus.data;
-            layer.alert(JSON.stringify(data));
+        	var idArr = [];
+        	$.each(data,function(index,xx){
+        		idArr.push(xx.id);
+        		$.ajax({
+         			url: "/resource/menu/"+idArr.join(','),
+         			type : "DELETE",
+        	　　		dataType : "json",
+        	　　		contentType: "application/json;charset=utf-8",
+    			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+    			    success:function(data){
+    			    	 	if(data.success){
+    			    	 		layer.msg("删除成功")
+    			    	 		flush(currentPage, jsonEntity);
+    						}else{
+    							layer.msg(data.msg);
+    						}
+    			    }
+    			 });
+        	})
         }
     });
 
@@ -203,37 +134,80 @@ layui.use(['form', 'table'], function () {
     });
 
     table.on('tool(currentTableFilter)', function (obj) {
-        var data = obj.data;
+        dataRow = obj.data;
         if (obj.event === 'edit') {
-            openPopUp('权限修改','/admin/resource/edit');
-            $(window).on("resize", function () {
-                layer.full(index);
-            }); 
+            openPopUp('资源修改','/admin/resource/edit');
             return false;
         } else if (obj.event === 'delete') {
-            layer.confirm('真的删除行么', function (index) {
-                
             	$.ajax({
-         			url: "/equipment/info/223",
+         			url: "/resource/menu/"+dataRow.id,
          			type : "DELETE",
         	　　		dataType : "json",
         	　　		contentType: "application/json;charset=utf-8",
-    			    headers: { "Authorization": authorization,"dz-usr":1 },//通过请求头来发送token，放弃了通过cookie的发送方式
+    			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
     			    success:function(data){
     			    	 	if(data.success){
-    			    	 		alyer.msg("删除成功")
+    			    	 		layer.msg("删除成功")
+    			    	 		obj.del();
     						}else{
     							layer.msg(data.msg);
     						}
     			    }
     			  	});
-            	obj.del();
-                layer.close(index);
-            });
+            	
         }
     });
 	
 });
+
+function loadTickets(jsonEntity){
+	table.render({
+        elem: '#currentTableId',
+        url: getRootPath() + '/resource/auth/select',
+        headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+        where : jsonEntity,
+        async : false,
+        toolbar: '#toolbarDemo',
+        defaultToolbar: ['filter', 'exports', 'print', {
+            title: '提示',
+            layEvent: 'LAYTABLE_TIPS',
+            icon: 'layui-icon-tips'
+        }],
+        cols: [[
+            {type: "checkbox"},
+            {field: 'code',title: '资源名称', sort: true},
+            {field: 'name',title: '资源描述', sort: true},
+            {field: 'id',title: 'id', hide:true},
+            {field: 'uri', title: '访问地址URL'},
+            {field: 'type',title: '资源类别'},
+            {field: 'method',  title: '请求类型', sort: true},
+            {field: 'status',  title: '状态', sort: true,
+				templet : function(row) {
+					if(row.status == 1){
+						return "正常";
+					}
+					return "禁用";
+			}},
+            {title: '操作', toolbar: '#currentTableBar', align: "center",width:'20%'}
+        ]],
+        limits: [5, 10, 20, 25, 50, 100],
+        limit: 10,
+        page: true,
+        skin: 'line',
+        done : function(res, curr, count) {
+			currentPage = curr;
+		}
+    });
+}
+//刷新
+function flush(currentPage, jsonEntity) {
+	table.reload('currentTableId', {
+		page : {
+			curr : currentPage
+		},
+		where : jsonEntity
+	});
+}
 </script>
 
 </body>

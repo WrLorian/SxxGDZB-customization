@@ -2,7 +2,6 @@ package com.kiwihouse.service.impl;
 
 
 import com.kiwihouse.dao.mapper.AuthResourceMapper;
-import com.kiwihouse.domain.vo.AuthResourceVo;
 import com.kiwihouse.dao.entity.AuthResource;
 import com.kiwihouse.service.ResourceService;
 
@@ -95,18 +94,24 @@ public class ResourceServiceImpl implements ResourceService {
     Map<String, Object> map = new HashMap<String, Object>();
     
 	@Override
-	public Map<String, Object> selectPage(Integer page, Integer limit,Integer roleId,AuthResourceVo auResourceVo) {
+	public Map<String, Object> selectPage(Integer page, Integer limit,Integer roleId,AuthResource authResource) {
 		// TODO Auto-generated method stub
-		
-		map.put("count", authResourceMapper.selectAuthResourceCount(roleId,auResourceVo));
-		List<AuthResourceVo> list = new ArrayList<AuthResourceVo>();
+		map.put("count", authResourceMapper.selectAuthResourceCount(roleId,authResource));
+		List<AuthResource> list = new ArrayList<AuthResource>();
 		if (page != null) {
-			list = authResourceMapper.selectAuthResourceList((page - 1)*limit,limit,roleId,auResourceVo);
+			list = authResourceMapper.selectAuthResourceList((page - 1)*limit,limit,roleId,authResource);
 		} else {
-			list = authResourceMapper.selectAuthResourceList(null,null,roleId,auResourceVo);
+			list = authResourceMapper.selectAuthResourceList(null,null,roleId,authResource);
 		}
 		map.put("data", list);
 		return map;
+	}
+
+	@Override
+	public Boolean deleteBatch(String menuIds) {
+		String [] menuIdArr = menuIds.split(",");
+		int num = authResourceMapper.deleteBatch(menuIdArr);
+        return num > 0 ? Boolean.TRUE : Boolean.FALSE;
 	}
 
 }

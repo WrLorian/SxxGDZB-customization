@@ -50,16 +50,11 @@
         </script>
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
-
-        <script type="text/html" id="currentTableBar">
-            <a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-            <a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete"></a>
-        </script>
-
     </div>
 </div>
 <div th:include="include::footer"></div>
 <script th:inline="none">
+var dataRow,table;
 layui.use(['form', 'table'], function () {
 	var authorization = localStorage.getItem('Authorization');
 	var authUser = JSON.parse(localStorage.getItem('authUser'));
@@ -86,11 +81,10 @@ layui.use(['form', 'table'], function () {
             }],
             cols: [[
                 {type: "checkbox"},
-                {field: 'roleId',title: '权限ID', sort: true},
+                {field: 'id',title: '菜单ID', sort: true},
                 {field: 'name',title: '菜单名称', sort: true},
                 {field: 'url',title: '访问路径', sort: true},
-                {field: 'code',title: '所属角色', sort: true},
-                {title: '操作', toolbar: '#currentTableBar', align: "center",width:'20%'}
+                {field: 'code',title: '所属角色', sort: true}
             ]],
             limits: [5, 10, 20, 25, 50, 100],
             limit: 10,
@@ -161,7 +155,37 @@ layui.use(['form', 'table'], function () {
         } else if (obj.event === 'delete') {  // 监听删除操作
             var checkStatus = table.checkStatus('currentTableId')
                 , data = checkStatus.data;
-            layer.alert(JSON.stringify(data));
+            //layer.alert(JSON.stringify(data));
+            var roleIds = [];
+            var menuIds = [];
+            console.log(data);
+            $.each(data,function(index,xx){
+            	roleIds.push(xx.roleId);
+            	menuIds.push(xx.id);
+            })
+        	$.ajax({
+    			url: "/rolemenu/"+roleIds.join(',') + "/" + menuIds.join(','),
+    			type : "DELETE",
+    	　　		dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+    		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+    		    success:function(data){
+    		    	 	if(data.success){
+    		    	 		layer.msg(data.msg, {
+  		    	 			  icon: 6,
+  		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+  		    	 			}, function(){
+  		    	 				indexHome(window).init();
+  	    		    	 		loadTickets();
+  		    	 			}); 
+    					}else{
+    						layer.msg(data.msg);
+    					}
+    		    }
+    		});
+        }else if(obj.event === 'upd'){
+        	dataRow = checkStatus.data;
+        	openPopUp('修改','/admin/role/menu/edit');
         }
     });
 
@@ -170,35 +194,6 @@ layui.use(['form', 'table'], function () {
         console.log(obj)
     });
 
-    table.on('tool(currentTableFilter)', function (obj) {
-        var data = obj.data;
-        dataRow = obj.data;
-        if (obj.event === 'edit') {
-            openPopUp('权限修改','/admin/role/menu/edit');
-             
-            return false;
-        } else if (obj.event === 'delete') {
-            layer.confirm('真的删除行么', function (index) {
-            	$.ajax({
-         			url: "/equipment/info/223",
-         			type : "DELETE",
-        	　　		dataType : "json",
-        	　　		contentType: "application/json;charset=utf-8",
-    			    headers: { "Authorization": authorization,"dz-usr":1 },//通过请求头来发送token，放弃了通过cookie的发送方式
-    			    success:function(data){
-    			    	 	if(data.success){
-    			    	 		alyer.msg("删除成功")
-    						}else{
-    							layer.msg(data.msg);
-    						}
-    			    }
-    			  	});
-            	obj.del();
-                layer.close(index);
-            });
-        }
-    });
-	
 });
 </script>
 

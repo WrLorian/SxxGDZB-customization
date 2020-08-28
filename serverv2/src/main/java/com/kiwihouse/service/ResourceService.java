@@ -1,8 +1,6 @@
 package com.kiwihouse.service;
 
 import com.kiwihouse.dao.entity.AuthResource;
-import com.kiwihouse.domain.vo.AuthResourceVo;
-
 import java.util.List;
 import java.util.Map;
 
@@ -112,5 +110,11 @@ public interface ResourceService {
      * @param auResourceVo 
      * @return
      */
-	Map<String, Object> selectPage(Integer page, Integer limit,Integer roleId, AuthResourceVo auResourceVo);
+	Map<String, Object> selectPage(Integer page, Integer limit,Integer roleId, AuthResource authResource);
+	/**
+	 * 批量删除菜单
+	 * @param menuIds
+	 * @return
+	 */
+	Boolean deleteBatch(String menuIds);
 }

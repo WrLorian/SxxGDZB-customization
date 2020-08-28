@@ -117,4 +117,12 @@ public class AuthResource {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+	@Override
+	public String toString() {
+		return "AuthResource [id=" + id + ", code=" + code + ", name=" + name + ", parentId=" + parentId + ", uri="
+				+ uri + ", type=" + type + ", method=" + method + ", icon=" + icon + ", status=" + status
+				+ ", createTime=" + createTime + ", updateTime=" + updateTime + "]";
+	}
+    
 }

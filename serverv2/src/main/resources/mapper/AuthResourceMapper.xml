@@ -14,10 +14,6 @@
         <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
-    <resultMap type="com.kiwihouse.domain.vo.AuthResourceVo" id="AuthResourceVoMap">
-    	<id column="ID" jdbcType="INTEGER" property="id"/>
-    	<result column="URI" jdbcType="VARCHAR" property="uri"/>
-    </resultMap>
     <sql id="Base_Column_List">
     ID, CODE, NAME, PARENT_ID, URI, TYPE, METHOD, ICON, STATUS, CREATE_TIME, UPDATE_TIME
   </sql>
@@ -230,27 +226,23 @@
     </select>
     
     <select id="selectAuthResourceCount" parameterType="java.lang.Integer" resultType="Integer" >
-    	SELECT count(*)
+    	<!-- SELECT count(*)
     	FROM auth_resource ar 
     	INNER JOIN auth_role_resource arr on arr.RESOURCE_ID = ar.ID
-			INNER JOIN auth_role au on arr.ROLE_ID = au.ID WHERE 1=1
-    		<if test="roleId gt 100">
-    			AND arr.ROLE_ID >= #{roleId}
+			INNER JOIN auth_role au on arr.ROLE_ID = au.ID WHERE 1=1 -->
+			SELECT COUNT(*)
+    			FROM auth_resource as ar WHERE 1=1
+    		<if test="auResource.type!=null and auResource.type !=''">
+    			AND ar.type = #{auResource.type}
     		</if>
-    		<if test="auResourceVo.code!=null and auResourceVo.code !=''">
-    			AND au.code = #{auResourceVo.code}
+    		<if test="auResource.code!=null and auResource.code !=''">
+    			AND ar.`CODE` like CONCAT('%', #{auResource.code}, '%')
     		</if>
-    		<if test="auResourceVo.type!=null and auResourceVo.type !=''">
-    			AND ar.type = #{auResourceVo.type}
+    		<if test="auResource.method!=null and auResource.method!=''">
+    			AND ar.method = #{auResource.method}
     		</if>
-    		<if test="auResourceVo.codeRes!=null and auResourceVo.codeRes !=''">
-    			AND ar.`CODE` like CONCAT('%', #{auResourceVo.codeRes}, '%')
-    		</if>
-    		<if test="auResourceVo.method!=null and auResourceVo.method!=''">
-    			AND ar.method = #{auResourceVo.method}
-    		</if>
-    		<if test="auResourceVo.uri!=null and auResourceVo.uri!=''">
-    			AND ar.URI like CONCAT('%',  #{auResourceVo.uri}, '%') 
+    		<if test="auResource.uri!=null and auResource.uri!=''">
+    			AND ar.URI like CONCAT('%',  #{auResource.uri}, '%') 
     		</if>
     		<!-- <when test="arVo.role!=null">
     			AND au.code = #{arVo.code}
@@ -265,11 +257,11 @@
     </select>
     
     
-    <select id="selectAuthResourceList" parameterType="java.lang.Integer" resultMap="AuthResourceVoMap">
-    	SELECT arr.ID,ar.`NAME`,ar.`CODE` as 'codeRes',au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME 
+    <select id="selectAuthResourceList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    	<!-- SELECT arr.ID,ar.`NAME`,ar.`CODE` as 'codeRes',au.`CODE`,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD,arr.CREATE_TIME,arr.UPDATE_TIME 
     	FROM auth_resource ar 
     	INNER JOIN auth_role_resource arr on arr.RESOURCE_ID = ar.ID
-			INNER JOIN auth_role au on arr.ROLE_ID = au.ID WHERE 1=1
+			INNER JOIN auth_role au on arr.ROLE_ID = au.ID WHERE 1=1 -->
     	<!-- <if test="roleId == 100">
     	
     	</if>
@@ -277,27 +269,31 @@
     		AND ar.ROLE_ID >#{roleId}
     	</if> -->
     	
-    		<if test="roleId gt 100">
+    		<!-- <if test="roleId gt 100">
     			AND arr.ROLE_ID >= #{roleId}
+    		</if> -->
+    		SELECT ar.ID,ar.`NAME`,ar.`CODE` ,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD
+    	FROM auth_resource ar WHERE 1=1
+    		<if test="auResource.type!=null and auResource.type !=''">
+    			AND ar.type = #{auResource.type}
     		</if>
-    		<if test="auResourceVo.code!=null and auResourceVo.code !=''">
-    			AND au.code = #{auResourceVo.code}
+    		<if test="auResource.code!=null and auResource.code !=''">
+    			AND ar.`CODE` like CONCAT('%', #{auResource.code}, '%') 
     		</if>
-    		<if test="auResourceVo.type!=null and auResourceVo.type !=''">
-    			AND ar.type = #{auResourceVo.type}
+    		<if test="auResource.method!=null and auResource.method!=''">
+    			AND ar.method = #{auResource.method}
     		</if>
-    		<if test="auResourceVo.codeRes!=null and auResourceVo.codeRes !=''">
-    			AND ar.`CODE` like CONCAT('%', #{auResourceVo.codeRes}, '%') 
-    		</if>
-    		<if test="auResourceVo.method!=null and auResourceVo.method!=''">
-    			AND ar.method = #{auResourceVo.method}
-    		</if>
-    		<if test="auResourceVo.uri!=null and auResourceVo.uri!=''">
-    			AND ar.URI like CONCAT('%',  #{auResourceVo.uri}, '%') 
+    		<if test="auResource.uri!=null and auResource.uri!=''">
+    			AND ar.URI like CONCAT('%',  #{auResource.uri}, '%') 
     		</if>
     	<if test="limit != null">
 			LIMIT #{page},#{limit}
 		</if>
     </select>
-
+	<delete id="deleteBatch">
+		delete from auth_resource where id in 
+        <foreach collection="array" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+	</delete>
 </mapper>

@@ -49,7 +49,7 @@
 	    </div>
     </div>
     <div class="layui-form-item" >
-        <div class="layui-input-block" style="position: absolute;bottom: 5%;right: 5%;">
+        <div class="layui-input-block _submitBtn">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn" >确认添加</button>
         </div>
     </div>
@@ -139,6 +139,7 @@ var menuTree = JSON.parse(localStorage.getItem('menuTree'));
             }else{
             	data.field.parentId = $("#parentId").attr('data-id');
             }
+            data.field.roleId = authUser.roleId;
             data.field.createBy= authUser.username;
             $.ajax({
      			url: "/menu",
@@ -153,7 +154,6 @@ var menuTree = JSON.parse(localStorage.getItem('menuTree'));
 			    	 		indexHome(window).init();
 			    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
 			    	 		parent.layer.close(iframeIndex);
-			    	 		window.parent.initTreeTable();
 						}else{
 							layer.msg(data.msg);
 						}

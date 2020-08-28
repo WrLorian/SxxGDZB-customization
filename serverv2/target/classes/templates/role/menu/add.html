@@ -32,7 +32,7 @@
     </div>
 
     <div class="layui-form-item">
-        <div class="layui-input-block"  style="position: absolute;bottom: 5%;right: 5%;">
+        <div class="layui-input-block _submitBtn" >
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
         </div>
     </div>
@@ -162,8 +162,10 @@ var names = [];
     		    	 			  icon: 6,
     		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
     		    	 			}, function(){
+    		    	 				indexHome(window).init();
     		    	 				var iframeIndex = parent.layer.getFrameIndex(window.name);
     				    	 		parent.layer.close(iframeIndex);
+    				    	 		window.parent.initTreeTable();
     		    	 		}); 
     		    	 		
     		    	 		

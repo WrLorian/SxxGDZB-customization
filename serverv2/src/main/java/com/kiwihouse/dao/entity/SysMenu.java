@@ -82,6 +82,15 @@ public class SysMenu  extends BaseTreeNode implements Serializable{
 	
 	private List<Integer> ids = new ArrayList<Integer>();
 	
+	private Integer roleId;
+	
+	public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
 
 	public List<Integer> getIds() {
 		return ids;
