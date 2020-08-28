@@ -3811,3 +3811,4 @@ Caused by: java.lang.IllegalArgumentException: Mapped Statements collection alre
 	at org.apache.ibatis.builder.xml.XMLMapperBuilder.buildStatementFromContext(XMLMapperBuilder.java:130)
 	at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:120)
 	... 179 common frames omitted
+2020-08-28 17:49:32.926 [log-pool-0] ERROR com.kiwihouse.support.factory.LogTaskFactory - 写入用户登录日志异常
