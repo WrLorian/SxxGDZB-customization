@@ -62,11 +62,15 @@ var names = [];
      	　　		contentType: "application/json;charset=utf-8",
      		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
      		    success:function(data){
-     		    	localStorage.setItem("menuTreeTwo",JSON.stringify(convert(data.data)));
+     		    	callBackData = function() {
+     					var d = {
+     						type : 'ADD',
+     						treeDate :JSON.stringify(convert(data.data))
+     					};
+     					return d;
+     				}
      		    }
      		});
-        	
-			
 		});
         function returnNodes(arr){
        	  //利用foreach循环遍历
@@ -128,7 +132,7 @@ var names = [];
     		    	 		$("#roleId").append(html);
     		    	 		form.render();
     					}else{
-    						layer.msg(data.msg);
+    						layer.msg(data.msg,{icon: 5, time: 2000});
     					}
     		    }
     		});
@@ -136,16 +140,6 @@ var names = [];
         
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            /* var index = layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            }, function () {
-
-                // 关闭弹出层
-                layer.close(index);
-                var iframeIndex = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(iframeIndex);
-
-            }); */
             console.log(data.field.name);
             data.field.ids = $("#demo").attr('data-ids');
             console.log(data.field);
@@ -165,12 +159,10 @@ var names = [];
     		    	 				indexHome(window).init();
     		    	 				var iframeIndex = parent.layer.getFrameIndex(window.name);
     				    	 		parent.layer.close(iframeIndex);
-    				    	 		window.parent.initTreeTable();
+    				    	 		window.parent.flush(window.parent.currentPage,window.parent.jsonEntity);
     		    	 		}); 
-    		    	 		
-    		    	 		
     					}else{
-    						layer.msg(data.msg);
+    						layer.msg(data.msg,{icon: 5, time: 2000});
     					}
     		    }
     		});
@@ -178,36 +170,6 @@ var names = [];
             return false;
         });
     });
-    
-    function tableSelect(id){
-    	tableSelect.render({
-            elem: '#demo',
-            searchKey: 'my',
-            checkedKey: 'id',
-            searchPlaceholder: '自定义文字和name',
-            table: {
-                url: getRootPath() + '/rolemenu/menu',
-                headers: { "Authorization": authorization},
-                where:{"roleId":data.value,"trigger":1},
-                cols: [[
-                    { type: 'checkbox' },
-                    { field: 'name', title: '菜单名称', width: '50%' },
-                    { field: 'url', title: '访问路径', width: '50%' }
-                ]]
-            },
-            limits: [5, 10, 20, 25, 50, 100],
-            limit: 10,
-            page: true,
-            skin: 'line',
-            done: function (elem, data) {
-                var NEWJSON = []
-                layui.each(data.data, function (index, item) {
-                    NEWJSON.push(item.username)
-                })
-                elem.val(NEWJSON.join(","))
-            }
-        })
-    }
 </script>
 </body>
 </html>

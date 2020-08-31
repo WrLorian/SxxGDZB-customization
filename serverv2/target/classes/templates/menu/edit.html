@@ -56,8 +56,6 @@
 </div>
 <div th:include="include::footer"></div>
 <script>
-var authorization = localStorage.getItem('Authorization');
-var authUser = JSON.parse(localStorage.getItem('authUser'));
 var dataRow = window.parent.dataRow;
     layui.use(['form','iconPickerFa'], function () {
         var form = layui.form,
@@ -193,7 +191,7 @@ var dataRow = window.parent.dataRow;
 			    	 		parent.layer.close(iframeIndex);
 			    	 		window.parent.initTreeTable();
 						}else{
-							layer.msg(data.msg);
+							layer.msg(data.msg,{icon: 5, time: 2000});
 						}
 			    }
 			}); 

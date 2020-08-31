@@ -101,9 +101,9 @@
   </select>
   
   <select id="queryAuthRole" parameterType="Integer" resultType="java.util.HashMap">
-  		select CODE,ID from auth_role where 1= 1
-  		<if test="roleId!=100">
+  		select CODE,ID from auth_role where 1= 1 AND id > #{roleId}
+  		<!-- <if test="roleId!=100">
   			AND id >= #{roleId}
-  		</if>
+  		</if> -->
   </select>
 </mapper>

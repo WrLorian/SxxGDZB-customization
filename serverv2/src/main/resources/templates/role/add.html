@@ -39,8 +39,6 @@
 </div>
 <div th:include="include::footer"></div>
 <script th:inline="none">
-var authorization = localStorage.getItem('Authorization');
-var authUser = JSON.parse(localStorage.getItem('authUser'));
     layui.use(['form','tableSelect'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -53,11 +51,10 @@ var authUser = JSON.parse(localStorage.getItem('authUser'));
         	$("#demo").attr("ts-selected","");
         	$("#demo").text("");
         	tableSelect.render({
-                elem: '#demo',
-                searchKey: 'resCode',
+        		elem: '#demo',
+                searchKey: 'resName',
                 checkedKey: 'id',
-                searchType: 'more',
-                searchPlaceholder: '根据资源CODE搜索',
+                searchPlaceholder: '根据资源名称搜索',
                 table: {
                     url: getRootPath() + '/resourcerole/list',
                     headers: { "Authorization": authorization,"dz-usr":authUser.uid },
@@ -109,10 +106,7 @@ var authUser = JSON.parse(localStorage.getItem('authUser'));
         
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            
-            console.log(data.field.name);
             data.field.resIds = $("#demo").attr('data-ids');
-            console.log(data.field);
            $.ajax({
     			url: "/resourcerole",
     			type : "POST",
@@ -130,7 +124,7 @@ var authUser = JSON.parse(localStorage.getItem('authUser'));
   				    	 		parent.layer.close(iframeIndex);
   		    	 			}); 
     					}else{
-    						layer.msg(data.msg);
+    						layer.msg(data.msg,{icon: 5, time: 2000});
     					}
     		    }
     		});
@@ -138,36 +132,6 @@ var authUser = JSON.parse(localStorage.getItem('authUser'));
             return false;
         });
     });
-    
-    function tableSelect(id){
-    	tableSelect.render({
-            elem: '#demo',
-            searchKey: 'my',
-            checkedKey: 'id',
-            searchPlaceholder: '自定义文字和name',
-            table: {
-                url: getRootPath() + '/rolemenu/menus',
-                headers: { "Authorization": authorization},
-                where:{"roleId":data.value,"trigger":1},
-                cols: [[
-                    { type: 'checkbox' },
-                    { field: 'name', title: '菜单名称', width: '50%' },
-                    { field: 'url', title: '访问路径', width: '50%' }
-                ]]
-            },
-            limits: [5, 10, 20, 25, 50, 100],
-            limit: 10,
-            page: true,
-            skin: 'line',
-            done: function (elem, data) {
-                var NEWJSON = []
-                layui.each(data.data, function (index, item) {
-                    NEWJSON.push(item.username)
-                })
-                elem.val(NEWJSON.join(","))
-            }
-        })
-    }
 </script>
 </body>
 </html>

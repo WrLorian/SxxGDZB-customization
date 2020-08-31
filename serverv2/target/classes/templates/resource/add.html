@@ -70,8 +70,6 @@
 </div>
 <div th:include="include::footer"></div>
 <script>
-var authorization = localStorage.getItem('Authorization');
-var authUser = JSON.parse(localStorage.getItem('authUser'));
     layui.use(['form'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -124,7 +122,7 @@ var authUser = JSON.parse(localStorage.getItem('authUser'));
   				    	 		window.parent.flush(window.parent.currentPage,window.parent.jsonEntity);
   		    	 			}); 
 						}else{
-							
+							layer.msg(data.msg,{icon: 5, time: 2000});
 						}
 			    }
 			});

@@ -57,21 +57,19 @@
 <script th:inline="none">
 var dataRow,table;
 layui.use(['form', 'table'], function () {
-	var authorization = localStorage.getItem('Authorization');
-	var authUser = JSON.parse(localStorage.getItem('authUser'));
     var $ = layui.jquery,
         form = layui.form;
         table = layui.table;
+    var currentPage = 1;
     var jsonEntity = {};
     jsonEntity.roleId = authUser.roleId;
-    var currentPage = 1;
-    loadTickets(jsonEntity);
     jsonEntity.roleId = authUser.roleId;
+    loadTickets(jsonEntity);
     function loadTickets(jsonEntity){
     	table.render({
             elem: '#currentTableId',
             url: getRootPath() + '/resourcerole/list',
-            headers: { "Authorization": authorization ,"dz-usr":1},//通过请求头来发送token，放弃了通过cookie的发送方式
+            headers: { "Authorization": authorization},//通过请求头来发送token，放弃了通过cookie的发送方式
             where : jsonEntity,
             async : false,
             toolbar: '#toolbarDemo',
@@ -170,7 +168,7 @@ layui.use(['form', 'table'], function () {
       		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
       		    	 			}); 
     						}else{
-    							layer.msg(data.msg);
+    							layer.msg(data.msg,{icon: 5, time: 2000});
     					}
     			    }
     			 });

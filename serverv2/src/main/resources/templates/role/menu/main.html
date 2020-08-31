@@ -46,6 +46,7 @@
             <div class="layui-btn-container">
                 <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
                 <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
+<button class="layui-btn layui-btn-sm layui-btn-danger data-update-btn" lay-event="upd"> 修改 </button>
             </div>
         </script>
 
@@ -55,15 +56,15 @@
 <div th:include="include::footer"></div>
 <script th:inline="none">
 var dataRow,table;
+var jsonEntity = {};
+var currentPage = 1;
 layui.use(['form', 'table'], function () {
 	var authorization = localStorage.getItem('Authorization');
 	var authUser = JSON.parse(localStorage.getItem('authUser'));
     var $ = layui.jquery,
-        form = layui.form,
-        table = layui.table;
-    var jsonEntity = {};
+        form = layui.form;
+        table = layui.table
     jsonEntity.roleId = authUser.roleId;
-    var currentPage = 1;
     loadTickets(jsonEntity);
     function loadTickets(jsonEntity){
     	
@@ -131,21 +132,11 @@ layui.use(['form', 'table'], function () {
         		jsonEntity[key] = val;
         	}
        });
-        console.log(jsonEntity);
         //执行搜索重载
         //flush(currentPage,jsonEntity);
         loadTickets(jsonEntity);
         return false;
     });
-    //刷新
-	function flush(currentPage, jsonEntity) {
-		table.reload('currentTableId', {
-			page : {
-				curr : currentPage
-			},
-			where : jsonEntity
-		});
-	}
     /**
      * toolbar监听事件
      */
@@ -155,7 +146,6 @@ layui.use(['form', 'table'], function () {
         } else if (obj.event === 'delete') {  // 监听删除操作
             var checkStatus = table.checkStatus('currentTableId')
                 , data = checkStatus.data;
-            //layer.alert(JSON.stringify(data));
             var roleIds = [];
             var menuIds = [];
             console.log(data);
@@ -179,12 +169,13 @@ layui.use(['form', 'table'], function () {
   	    		    	 		loadTickets();
   		    	 			}); 
     					}else{
-    						layer.msg(data.msg);
+    						layer.msg(data.msg,{icon: 5, time: 2000});
     					}
     		    }
     		});
         }else if(obj.event === 'upd'){
-        	dataRow = checkStatus.data;
+        	var checkStatus = table.checkStatus('currentTableId')
+            , dataRow = checkStatus.data;
         	openPopUp('修改','/admin/role/menu/edit');
         }
     });
@@ -195,6 +186,16 @@ layui.use(['form', 'table'], function () {
     });
 
 });
+
+//刷新
+function flush(currentPage, jsonEntity) {
+	table.reload('currentTableId', {
+		page : {
+			curr : currentPage
+		},
+		where : jsonEntity
+	});
+}
 </script>
 
 </body>

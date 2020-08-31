@@ -40,5 +40,10 @@ public class AuthRoleMenu {
 		this.menuId = menuId;
 	}
 
+	@Override
+	public String toString() {
+		return "AuthRoleMenu [roleId=" + roleId + ", menuId=" + menuId + ", ids=" + ids + "]";
+	}
+
 
 }

@@ -56,9 +56,6 @@
 </div>
 <div th:include="include::footer"></div>
 <script>
-var authorization = localStorage.getItem('Authorization');
-var authUser = JSON.parse(localStorage.getItem('authUser'));
-
 var dataRow = window.parent.dataRow;
 var menuTree = JSON.parse(localStorage.getItem('menuTree'));
     layui.use(['form','iconPickerFa'], function () {
@@ -151,11 +148,16 @@ var menuTree = JSON.parse(localStorage.getItem('menuTree'));
 			    success:function(data){
 			    	console.log(data);
 			    	 	if(data.success){
-			    	 		indexHome(window).init();
-			    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
-			    	 		parent.layer.close(iframeIndex);
+			    	 		layer.msg(data.msg, {
+   		    	 			  icon: 6,
+   		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+   		    	 			}, function(){
+	   		    	 			indexHome(window).init();
+				    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
+				    	 		parent.layer.close(iframeIndex);
+   		    	 			}); 
 						}else{
-							layer.msg(data.msg);
+							layer.msg(data.msg,{icon: 5, time: 2000});
 						}
 			    }
 			});

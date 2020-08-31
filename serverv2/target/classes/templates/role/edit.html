@@ -39,9 +39,7 @@
 </div>
 <div th:include="include::footer"></div>
 <script th:inline="none">
-var authorization = localStorage.getItem('Authorization');
-var authUser = JSON.parse(localStorage.getItem('authUser'));
-var ids = [];
+	var ids = [];
     layui.use(['form','tableSelect'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -56,9 +54,9 @@ var ids = [];
         	$("#demo").text("");
         	tableSelect.render({
                 elem: '#demo',
-                searchKey: 'name',
+                searchKey: 'resName',
                 checkedKey: 'id',
-                searchPlaceholder: '自定义文字和name',
+                searchPlaceholder: '根据资源名称搜索',
                 table: {
                     url: getRootPath() + '/resourcerole/list',
                     headers: { "Authorization": authorization,"dz-usr":authUser.uid },
@@ -165,7 +163,7 @@ var ids = [];
      				    	 		parent.layer.close(iframeIndex);
      		    	 			}); 
        					}else{
-       						layer.msg(data.msg);
+       						layer.msg(data.msg,{icon: 5, time: 2000});
        					}
        		    }
        		});

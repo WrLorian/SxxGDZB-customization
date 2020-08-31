@@ -49,9 +49,29 @@ public class AuthRoleMenuServiceImpl implements AuthRoleMenuService{
 
 	@Override
 	public boolean update(AuthRoleMenu authRoleMenu) {
-		int num = authRoleMenuMapper.update(authRoleMenu);
-		// TODO Auto-generated method stub
-		return num == 1 ? Boolean.TRUE : Boolean.FALSE;
+		try {
+			//先删除
+			authRoleMenuMapper.deleteByRole(authRoleMenu.getRoleId());
+			//后添加
+			String [] arr = authRoleMenu.getIds().split(",");
+			// TODO Auto-generated method stub
+			if(arr.length > 0) {
+				List<AuthRoleMenu> list = new ArrayList<AuthRoleMenu>();
+				for(String menuId : arr) {
+					AuthRoleMenu authRM = new AuthRoleMenu();
+					authRM.setRoleId(authRoleMenu.getRoleId());
+					authRM.setMenuId(Integer.valueOf(menuId));
+					list.add(authRM);
+				}
+				int num = authRoleMenuMapper.insertBatch(list);
+				return num > 0 ? Boolean.TRUE : Boolean.FALSE;
+			}else {
+				return Boolean.TRUE;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			return Boolean.FALSE;
+		}
 	}
 
 	@Override

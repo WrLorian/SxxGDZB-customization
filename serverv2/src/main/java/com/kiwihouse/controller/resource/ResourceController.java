@@ -7,6 +7,7 @@ import com.kiwihouse.dao.entity.AuthResource;
 import com.kiwihouse.domain.vo.MenuTreeNode;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.ResourceService;
+import com.kiwihouse.shiro.filter.FilterChainManager;
 import com.kiwihouse.util.TreeUtil;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -35,7 +36,8 @@ public class ResourceController extends BaseController {
     Map<String, Object> map = new HashMap<String, Object>();
     @Autowired
     private ResourceService resourceService;
-
+    @Autowired
+    private FilterChainManager filterChainManager;
     @ApiOperation(value = "获取用户被授权菜单",notes = "通过uid获取对应用户被授权的菜单列表,获取完整菜单树形结构")
     @GetMapping("authorityMenu")
     public Response getAuthorityMenu(HttpServletRequest request) {
@@ -74,6 +76,7 @@ public class ResourceController extends BaseController {
 
         Boolean flag = resourceService.addMenu(menu);
         if (flag) {
+        	filterChainManager.reloadFilterChain();
             return new Response().Success(6666,"add menu success");
         } else {
             return new Response().Fail(1111,"add menu fail");
@@ -86,6 +89,7 @@ public class ResourceController extends BaseController {
 
         Boolean flag = resourceService.modifyMenu(menu);
         if (flag) {
+        	filterChainManager.reloadFilterChain();
             return new Response().Success(6666,"update menu success");
         } else {
             return new Response().Fail(1111, "update menu fail");
@@ -98,6 +102,7 @@ public class ResourceController extends BaseController {
 
         Boolean flag = resourceService.deleteBatch(menuIds);
         if (flag) {
+        	filterChainManager.reloadFilterChain();
             return new Response().Success(6666, "delete menu success");
         } else {
             return new Response().Fail(1111, "delete menu fail");

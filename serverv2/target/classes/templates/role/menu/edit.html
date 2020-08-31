@@ -43,30 +43,59 @@ var authorization = localStorage.getItem('Authorization');
 var authUser = JSON.parse(localStorage.getItem('authUser'));
 var ids = [];
 var names = [];
+var addOrUpdateData = function() {
+	var data = {};
+	return data;
+};
     layui.use(['form','tableSelect'], function () {
         var form = layui.form,
             layer = layui.layer,
             table = layui.table,
             tableSelect = layui.tableSelect,
             $ = layui.$;
-        
         //监听角色
         form.on('select(roleId)', function(data) {
         	$("#demo").attr("ts-selected","");
         	$("#demo").val("");
+        	var treeDate = '';
+        	var checked = new Array();
         	$.ajax({
      			url: "/rolemenu/menu",
      			type : "GET",
      	　　		dataType : "json",
-     	　　		data:{"roleId":data.value,"trigger":1},
+     	　　		data:{"trigger":2},
      	　　		contentType: "application/json;charset=utf-8",
+     	　　		async:false,
      		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
      		    success:function(data){
-     		    	localStorage.setItem("menuTreeTwo",JSON.stringify(convert(data.data)));
+     		    	treeDate = JSON.stringify(convert(data.data));
+     		    }
+     		});
+        	$.ajax({
+     			url: "/rolemenu/menu",
+     			type : "GET",
+     	　　		dataType : "json",
+     	　　		data:{"roleId":data.value},
+     	　　		contentType: "application/json;charset=utf-8",
+     	　　		async:false,
+     		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+     		    success:function(data){
+     		    	$.each(data.data,function(index,xx){
+     		    		checked.push(xx.id);
+     		    	})
+     		    	callBackData = function() {
+    					var d = {
+    						type : 'UPDATE',
+    						treeDate :treeDate,
+    						checked :checked.setList()
+    					};
+    					return d;
+    				}
      		    }
      		});
         	
-			
+        	
+        	
 		});
         function returnNodes(arr){
        	  //利用foreach循环遍历
@@ -128,7 +157,7 @@ var names = [];
     		    	 		$("#roleId").append(html);
     		    	 		form.render();
     					}else{
-    						layer.msg(data.msg);
+    						layer.msg(data.msg,{icon: 5, time: 2000});
     					}
     		    }
     		});
@@ -136,22 +165,11 @@ var names = [];
         
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            /* var index = layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            }, function () {
-
-                // 关闭弹出层
-                layer.close(index);
-                var iframeIndex = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(iframeIndex);
-
-            }); */
-            console.log(data.field.name);
             data.field.ids = $("#demo").attr('data-ids');
             console.log(data.field);
             $.ajax({
     			url: "/rolemenu",
-    			type : "POST",
+    			type : "PUT",
     	　　		dataType : "json",
     	  		data:JSON.stringify(data.field),
     	　　		contentType: "application/json;charset=utf-8",
@@ -165,12 +183,10 @@ var names = [];
     		    	 				indexHome(window).init();
     		    	 				var iframeIndex = parent.layer.getFrameIndex(window.name);
     				    	 		parent.layer.close(iframeIndex);
-    				    	 		window.parent.initTreeTable();
+    				    	 		window.parent.flush(window.parent.currentPage,window.parent.jsonEntity);
     		    	 		}); 
-    		    	 		
-    		    	 		
     					}else{
-    						layer.msg(data.msg);
+    						layer.msg(data.msg,{icon: 5, time: 2000});
     					}
     		    }
     		});
@@ -182,7 +198,7 @@ var names = [];
     function tableSelect(id){
     	tableSelect.render({
             elem: '#demo',
-            searchKey: 'my',
+            searchKey: 'name',
             checkedKey: 'id',
             searchPlaceholder: '自定义文字和name',
             table: {
