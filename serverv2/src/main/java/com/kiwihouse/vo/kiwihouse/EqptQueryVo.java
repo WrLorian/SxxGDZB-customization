@@ -54,7 +54,7 @@ public class EqptQueryVo extends Basic {
 
     @ApiModelProperty(value = "页码",name = "page",required =true,example ="1")
     @NotNull(message = "page is not null")
-    @Min(value = 1,message = "page最小为1")
+    //@Min(value = 1,message = "page最小为1")
     private int page;
 
     @ApiModelProperty(value = "每页条数",name = "limit",required =true,example ="10")
@@ -70,4 +70,10 @@ public class EqptQueryVo extends Basic {
     private String district;
     @ApiModelProperty(hidden = true)
     private String[] groupIds;
+    /**
+     * 	设备名称
+     */
+    @ApiModelProperty(value = "设备名称",name = "eqptName",required =false)
+    private String eqptName;
+    
 }

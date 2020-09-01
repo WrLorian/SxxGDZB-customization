@@ -125,4 +125,10 @@ public interface AuthRoleResourceMapper {
 	 * @param roleId
 	 */
 	void deleteByRoleId(Integer roleId);
+	/**
+	 * 根据roles code查询角色权限
+	 * @param roles
+	 * @return
+	 */
+	String selectRoleRulesByRole(String roles);
 }

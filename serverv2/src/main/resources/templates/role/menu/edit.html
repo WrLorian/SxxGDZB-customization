@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-<div class="layui-form layuimini-form">
+<div class="layui-form layuimini-form _custom_form">
     <div class="layui-form-item">
         <label class="layui-form-label required">选择角色</label>
         <div class="layui-input-block">
@@ -71,11 +71,12 @@ var addOrUpdateData = function() {
      		    	treeDate = JSON.stringify(convert(data.data));
      		    }
      		});
+        	//获取角色当前的菜单权限
         	$.ajax({
      			url: "/rolemenu/menu",
      			type : "GET",
      	　　		dataType : "json",
-     	　　		data:{"roleId":data.value},
+     	　　		data:{"roleId":data.value,"trigger":3},
      	　　		contentType: "application/json;charset=utf-8",
      	　　		async:false,
      		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式

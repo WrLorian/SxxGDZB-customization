@@ -29,15 +29,15 @@ public class GroupQueryVo extends Basic {
 
 
     @Min(value = 1,message = "page is more than 1")
-    @NotNull(message = "page is not null")
+//    @NotNull(message = "page is not null")
     @ApiModelProperty(value = "页码",name = "page",example = "1")
-    private int page;
+    private Integer page;
 
 
     @Min(value = 1,message = "limit is more than 1")
-    @NotNull(message = "limit is not null")
+//    @NotNull(message = "limit is not null")
     @ApiModelProperty(value = "每页条数",name = "limit",example = "10")
-    private int limit;
+    private Integer limit;
 
 
 

@@ -1,38 +1,39 @@
 package com.kiwihouse.controller.account;
 
 
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.web.util.WebUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.utils.RedisUtil;
-import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.controller.account.params.UserParams;
+import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.dao.entity.AuthUser;
+import com.kiwihouse.dao.mapper.AuthRoleResourceMapper;
 import com.kiwihouse.dao.mapper.AuthUserRoleMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.AccountService;
 import com.kiwihouse.service.UserService;
 import com.kiwihouse.support.factory.LogTaskFactory;
 import com.kiwihouse.support.manager.LogExeManager;
-import com.kiwihouse.util.*;
+import com.kiwihouse.util.IpUtil;
+import com.kiwihouse.util.JsonWebTokenUtil;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.annotations.ApiOperation;
-
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.web.util.WebUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * post新增,get读取,put完整更新,patch部分更新,delete删除
@@ -59,6 +60,9 @@ public class AccountController extends BaseController {
     @Autowired
     private AuthUserRoleMapper authUserRoleMapper;
 
+    @Autowired
+    private AuthRoleResourceMapper authRoleResourceMapper;
+    
     @Value("${kiwihouse.enableEncryptPassword}")
     private boolean isEncryptPassword;
 
@@ -81,7 +85,7 @@ public class AccountController extends BaseController {
         // 根据appId获取其对应所拥有的角色(这里设计为角色对应资源，没有权限对应资源)
         String roles = accountService.loadAccountRoleByUsername(params.getUsername());
         //根据roles 查询 相应的 权限资源
-        //-
+        String perms = authRoleResourceMapper.selectRoleRulesByRole(roles);
         // 时间以秒计算,token有效刷新时间是token有效过期时间的2倍
         Integer refreshPeriodTime = 36000;
         String jwt = JsonWebTokenUtil.issueJWT(UUID.randomUUID().toString(), params.getUsername(),

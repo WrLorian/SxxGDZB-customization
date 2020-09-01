@@ -21,7 +21,7 @@ import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.UserInfo;
 import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.dao.entity.AuthUser;
-import com.kiwihouse.domain.vo.ResultInfo;
+import com.kiwihouse.dao.mapper.AuthUserMapper;
 import com.kiwihouse.dto.Eqpt4UpdateDto;
 import com.kiwihouse.dto.EqptInfoDto;
 import com.kiwihouse.service.CheckAdminService;
@@ -53,7 +53,8 @@ public class EquipmentController extends BaseController{
     EquipmentService equipmentService;
     @Autowired
     CheckAdminService checkAdminService;
-
+    @Autowired
+    AuthUserMapper authUserMapper;
     @ApiOperation(value = "queryInfo",
             notes = "<br>@description: <b>查询设备信息</b></br>" +
                     "<br>@Return: <b>以区为单位进行区分</b></br>" +
@@ -63,8 +64,7 @@ public class EquipmentController extends BaseController{
     @GetMapping("/info")
     public Map<String, Object> queryInfo(@Validated EqptQueryVo eqptQueryVo, HttpServletRequest request) {
         checkAdminService.verifyAdminId(request.getHeader("dz-usr"), eqptQueryVo);
-        AuthUser authUser =  getUser();
-        
+        AuthUser authUser  = authUserMapper.selectByPrimaryKey(Integer.valueOf(request.getHeader("dz-usr")));
         return equipmentService.queryInfo(eqptQueryVo, authUser);
     }
 

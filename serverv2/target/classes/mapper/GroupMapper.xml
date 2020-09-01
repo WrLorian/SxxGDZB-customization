@@ -21,7 +21,11 @@
                 and g.cron='ncron'
             </if>
         </where>
-        order by g.add_time desc limit #{page},#{limit}
+        order by g.add_time desc 
+        <if test="page != null">
+        	limit #{page},#{limit}
+        </if>
+        
     </select>
     <select id="queryInfoRow" resultType="java.lang.Integer" parameterType="com.kiwihouse.vo.kiwihouse.GroupQueryVo">
         select count(*)
@@ -121,5 +125,15 @@
             </where>
         </foreach>
     </update>
-
+	<select id="selectOneInfo" resultType="com.kiwihouse.dto.GroupDto" parameterType="com.kiwihouse.vo.kiwihouse.GroupQueryVo">
+		select g.group_id, g.group_name, g.cron, g.admin_id, g.add_time,a.admin_name
+        from `group` as g
+        left join administrator as a on g.admin_id=a.admin_id 
+        <where>
+        	<if test="groupName != null and groupName != '' ">
+        		g.group_name = #{groupName}
+        	</if>
+        </where>
+      
+	</select>
 </mapper>

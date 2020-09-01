@@ -37,4 +37,10 @@ public interface GroupMapper {
     Integer updateEqpt(GroupUpdateVo groupUpdateVo);
 
     Integer updateGroupIds(List<HashMap<String,Object>> groupIds);
+    /**
+     * 	查询分组信息
+     * @param groupAddVo
+     * @return
+     */
+    GroupDto selectOneInfo(GroupQueryVo groupQueryVo);
 }

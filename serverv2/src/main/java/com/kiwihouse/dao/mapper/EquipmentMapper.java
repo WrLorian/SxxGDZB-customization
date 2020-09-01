@@ -1,4 +1,4 @@
-package com.kiwihouse.mapper;
+package com.kiwihouse.dao.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,14 +78,14 @@ public interface EquipmentMapper {
     List<EqptInfoDto> querInfoByUserId(String userId);
     
     /**
-     * 根据条件查询  分页
+     * 	根据条件查询  分页
      * @param uid
      * @param eqptQueryVo
      * @return
      */
 	List<EqptInfoDto> querInfoByUserIdPage(EqptQueryVo eqptQueryVo);
 	/**
-	 * 根据条件查询记录总数
+	 *	 根据条件查询记录总数
 	 * @param eqptQueryVo
 	 * @param userId 
 	 * @return

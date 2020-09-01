@@ -86,7 +86,7 @@ function convert(rows) {
 	}
 	return nodes;
 }
-
+//返回数据全局定义
 var callBackData = function() {
 	var data = {};
 	return data;
@@ -102,6 +102,7 @@ Array.prototype.setList = function(){
         }  
     }  
     return arr;  
-} 
+}
+//缓存对象 --->待加入 jwt 身份验证 页面提示
 var authorization = localStorage.getItem('Authorization');
 var authUser = JSON.parse(localStorage.getItem('authUser'));

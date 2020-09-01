@@ -1,20 +1,25 @@
 package com.kiwihouse.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.utils.TimeUtil;
+import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.GroupDto;
 import com.kiwihouse.mapper.GroupMapper;
 import com.kiwihouse.util.ResultUtil;
-import com.kiwihouse.vo.entire.Result;
 import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.GroupAddVo;
 import com.kiwihouse.vo.kiwihouse.GroupQueryVo;
@@ -25,6 +30,7 @@ import com.kiwihouse.vo.kiwihouse.GroupUpdateVo;
  * @date 2020-03-05-下午 3:49
  */
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class GroupService {
     private final Logger logger = LoggerFactory.getLogger(GroupService.class);
 
@@ -38,29 +44,34 @@ public class GroupService {
      * @param groupQueryVo
      * @return
      */
-    public ResultList queryInfo(GroupQueryVo groupQueryVo) {
-        List<GroupDto> list = groupMapper.queryInfo(groupQueryVo);
-        if(list.isEmpty()){
-            return new ResultList(Code.QUERY_NULL.getCode(),Code.QUERY_NULL.getMsg(),null);
-        }else{
-            list.forEach(groupDto -> {
-                String cron = groupDto.getCron();
-                if(!StringUtils.isBlank(cron) && !"ncron".equals(cron)){
-                    String[] crons = cron.split(" ");
-                    groupDto.setTime(crons[2]+":"+crons[1]+":"+crons[0]);
-                    groupDto.setDate(crons[3]);
-                    String cron4 = crons[4];
-                    if("*".equals(cron4)){
-                        groupDto.setMonths(new String[]{"1","2","3","4","5","6","7","8","9","10","11","12"});
-                    }else{
-                        String[] split = cron4.split(",");
-                        groupDto.setMonths(split);
-                    }
-                }
-            });
-            Integer row = groupMapper.queryInfoRow(groupQueryVo);
-            return new ResultList(Code.QUERY_SUCCESS.getCode(),Code.QUERY_SUCCESS.getMsg(),new Result<>(row,list));
-        }
+    public Map<String, Object> queryInfo(GroupQueryVo groupQueryVo) {
+    	 Map<String, Object> map = new HashMap<String, Object>();
+ 		map.put("count",  groupMapper.queryInfoRow(groupQueryVo));
+ 		List<GroupDto> list = new ArrayList<GroupDto>();
+ 		if (groupQueryVo.getPage() != null) {
+ 			groupQueryVo.setPage((groupQueryVo.getPage() - 1) * groupQueryVo.getLimit());
+ 			list  = groupMapper.queryInfo(groupQueryVo);
+ 			list.forEach(groupDto -> {
+ 	            String cron = groupDto.getCron();
+ 	            if(!StringUtils.isBlank(cron) && !"ncron".equals(cron)){
+ 	                String[] crons = cron.split(" ");
+ 	                groupDto.setTime(crons[2]+":"+crons[1]+":"+crons[0]);
+ 	                groupDto.setDate(crons[3]);
+ 	                String cron4 = crons[4];
+ 	                if("*".equals(cron4)){
+ 	                    groupDto.setMonths(new String[]{"1","2","3","4","5","6","7","8","9","10","11","12"});
+ 	                }else{
+ 	                    String[] split = cron4.split(",");
+ 	                    groupDto.setMonths(split);
+ 	                }
+ 	            }
+ 	        });
+ 		} else {
+ 			
+ 		}
+ 		
+ 		map.put("data", list);
+		return map;
     }
 
     /**
@@ -68,10 +79,10 @@ public class GroupService {
      * @param groupAddVo
      * @return
      */
-    public ResultList addInfo(GroupAddVo groupAddVo) {
-        groupAddVo.setCron("ncron");
+    public Response addInfo(GroupAddVo groupAddVo) {
+        //groupAddVo.setCron("ncron");
         groupAddVo.setAddTime(TimeUtil.getCurrentTime());
-        return ResultUtil.verifyAdd(groupMapper.addInfo(groupAddVo));
+        return new Response().Success(6666,"return a add success").addData("add",ResultUtil.verifyAdd(groupMapper.addInfo(groupAddVo)));
     }
 
     /**
@@ -163,4 +174,13 @@ public class GroupService {
     public Integer updateEqpt(GroupUpdateVo groupUpdateVo){
         return groupMapper.updateEqpt(groupUpdateVo);
     }
+    /**
+     * 	查询分组信息
+     * @param groupAddVo
+     * @return
+     */
+	public GroupDto selectOneInfo(GroupQueryVo groupQueryVo) {
+		// TODO Auto-generated method stub
+		return groupMapper.selectOneInfo(groupQueryVo);
+	}
 }
