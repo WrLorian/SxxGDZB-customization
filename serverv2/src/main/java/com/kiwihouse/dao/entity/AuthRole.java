@@ -19,8 +19,18 @@ public class AuthRole {
     private Date createTime;
 
     private Date updateTime;
+    
+    private String groups;
 
-    public Integer getId() {
+    public String getGroups() {
+		return groups;
+	}
+
+	public void setGroups(String groups) {
+		this.groups = groups;
+	}
+
+	public Integer getId() {
         return id;
     }
 

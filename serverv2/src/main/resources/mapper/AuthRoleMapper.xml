@@ -8,6 +8,7 @@
     <result column="STATUS" jdbcType="SMALLINT" property="status" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="GROUPS" jdbcType="VARCHAR" property="groups" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, CODE, NAME, STATUS, CREATE_TIME, UPDATE_TIME
@@ -26,13 +27,16 @@
     insert into auth_role (CODE, NAME, STATUS, 
       CREATE_TIME, UPDATE_TIME)
     values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},#{groups,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.kiwihouse.dao.entity.AuthRole" useGeneratedKeys="true">
     insert into auth_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="code != null">
         CODE,
+      </if>
+      <if test="groups != null and groups != '' ">
+        GROUPS,
       </if>
       <if test="name != null">
         NAME,
@@ -50,6 +54,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="groups != null and groups != '' ">
+        #{groups,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -70,6 +77,9 @@
     <set>
       <if test="code != null">
         CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="groups != null and groups != '' ">
+       GROUPS = #{groups,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         NAME = #{name,jdbcType=VARCHAR},
@@ -92,7 +102,8 @@
       NAME = #{name,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=SMALLINT},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      GROUPS = #{groups,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=INTEGER}
   </update>
 
