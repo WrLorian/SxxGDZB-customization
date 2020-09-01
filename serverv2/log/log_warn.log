@@ -889,3 +889,80 @@ io.jsonwebtoken.ExpiredJwtException: JWT expired at 2020-09-01T17:28:09Z. Curren
 2020-09-01 17:58:38.136 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
 2020-09-01 17:59:03.388 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
 2020-09-01 17:59:07.800 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 22:15:19.096 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 22:16:21.094 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 22:16:57.108 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 22:17:15.924 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 22:17:50.328 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 22:17:50.727 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'groupController' defined in file [E:\Git\SxxGDZB-customization\serverv2\target\classes\com\kiwihouse\controller\group\GroupController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.kiwihouse.controller.group.GroupController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	GroupService cannot be resolved to a type
+	GroupService cannot be resolved to a type
+	GroupService cannot be resolved to a type
+	GroupService cannot be resolved to a type
+	GroupService cannot be resolved to a type
+	GroupService cannot be resolved to a type
+
+2020-09-01 22:23:58.757 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 22:58:13.723 [http-nio-8001-exec-6] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ts.administrator' doesn't exist
+### The error may exist in file [E:\Git\SxxGDZB-customization\serverv2\target\classes\mapper\GroupMapper.xml]
+### The error may involve com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo-Inline
+### The error occurred while setting parameters
+### SQL: select g.group_id, g.group_name, g.cron, g.admin_id, g.add_time,a.admin_name         from `group` as g         left join administrator as a on g.admin_id=a.admin_id           WHERE g.group_name = ?
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ts.administrator' doesn't exist
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: Table 'ts.administrator' doesn't exist]
+2020-09-01 22:58:30.450 [http-nio-8001-exec-8] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ts.administrator' doesn't exist
+### The error may exist in file [E:\Git\SxxGDZB-customization\serverv2\target\classes\mapper\GroupMapper.xml]
+### The error may involve com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo-Inline
+### The error occurred while setting parameters
+### SQL: select g.group_id, g.group_name, g.cron, g.admin_id, g.add_time,a.admin_name         from `group` as g         left join administrator as a on g.admin_id=a.admin_id           WHERE g.group_name = ?
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ts.administrator' doesn't exist
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: Table 'ts.administrator' doesn't exist]
+2020-09-01 22:58:30.533 [http-nio-8001-exec-9] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.dao.DuplicateKeyException: 
+### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Duplicate entry '000' for key 'group_group_name_uindex'
+### The error may exist in file [E:\Git\SxxGDZB-customization\serverv2\target\classes\mapper\GroupMapper.xml]
+### The error may involve com.kiwihouse.dao.mapper.GroupMapper.addInfo-Inline
+### The error occurred while setting parameters
+### SQL: insert into `group`          ( group_name,                                           cron,                                       add_time )           values ( ?,                                           ?,                                       ? )
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Duplicate entry '000' for key 'group_group_name_uindex'
+; Duplicate entry '000' for key 'group_group_name_uindex'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry '000' for key 'group_group_name_uindex']
+2020-09-01 22:59:27.573 [http-nio-8001-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ts.administrator' doesn't exist
+### The error may exist in file [E:\Git\SxxGDZB-customization\serverv2\target\classes\mapper\GroupMapper.xml]
+### The error may involve com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo-Inline
+### The error occurred while setting parameters
+### SQL: select g.group_id, g.group_name, g.cron, g.admin_id, g.add_time,a.admin_name         from `group` as g         left join administrator as a on g.admin_id=a.admin_id           WHERE g.group_name = ?
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ts.administrator' doesn't exist
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: Table 'ts.administrator' doesn't exist]
+2020-09-01 23:00:50.755 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:01:50.703 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:09:40.211 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:10:18.305 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:10:37.448 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:11:01.605 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:11:37.364 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:11:46.483 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:12:00.835 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:12:33.411 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:12:53.566 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:13:06.894 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:17:22.955 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:17:34.921 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:18:05.616 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:18:18.106 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:19:08.444 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:19:18.953 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:19:33.839 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:19:53.808 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:21:24.806 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:21:59.826 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:22:05.905 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:22:09.678 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:22:14.412 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:22:23.399 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:22:29.168 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:22:39.270 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:22:44.428 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:22:51.504 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised
+2020-09-01 23:25:31.178 [restartedMain] WARN  org.apache.tomcat.util.modeler.Registry - The MBean registry cannot be disabled because it has already been initialised

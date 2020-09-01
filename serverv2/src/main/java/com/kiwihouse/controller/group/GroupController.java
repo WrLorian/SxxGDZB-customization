@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.controller.common.BaseController;
-import com.kiwihouse.domain.vo.AuthRoleResourceVo;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.GroupDto;
 import com.kiwihouse.service.CheckAdminService;

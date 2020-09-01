@@ -73,9 +73,30 @@
             layer = layui.layer,
             laydate = layui.laydate;
         var dataRow = window.parent.dataRow;
-        var months = dataRow.months.toString().split(',');
-        
-    	$("._editGroupId").val(dataRow.groupId);
+        var months;
+        if(typeof(dataRow.cron) != "undefined" && dataRow.cron != null){
+        	if(dataRow.cron != 'ncron'){
+        		$('input[type="checkbox"]').prop('checked', true);
+        		$.each($("._Meter_Reading_Rules"),function(){
+        			$(this).removeClass('layui-hide');
+        		});
+        	}
+        }
+        if(typeof(dataRow.months) != "undefined" && dataRow.months != null){
+        	months = dataRow.months.toString().split(',');
+        }
+        if(typeof(dataRow.groupName) != "undefined" && dataRow.groupName != null){
+        	$("input[name=groupName]").val(dataRow.groupName);
+        }
+        if(typeof(dataRow.groupId) != "undefined" && dataRow.groupId != null){
+        	$("._editGroupId").val(dataRow.groupId);
+        }
+        if(typeof(dataRow.date) != "undefined" && dataRow.date != null){
+        	$("#data").val(dataRow.date);
+        }
+        if(typeof(dataRow.time) != "undefined" && dataRow.time != null){
+        	$("#test14").val(dataRow.time);
+        }
         var monDate = [];
     	for(var i = 1;i<13;i++){
     		var e = {};
@@ -84,10 +105,9 @@
     		if(isOrNoExist(months,i)){
     			e.selected = true;
     		}
-    		
     		monDate.push(e);
     	}
-    	
+    	form.render();
     	function isOrNoExist(monDate,v){
     		var flag = false;
     		$.each(monDate,function(index,xx){
@@ -144,7 +164,7 @@
         	　　		contentType: "application/json;charset=utf-8",
     			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
     			    success:function(data){
-    			    	if(data.data.GroupDto!=null){
+    			    	if(data.data.GroupDto!=null && data.data.GroupDto.groupName != value){
     			    		falg = true;
     			    	}
     			    }
@@ -180,7 +200,7 @@
         	console.log(data.field);
            $.ajax({
      			url: "/group/info",
-			    type: "POST",
+			    type: "PUT",
 			    data:JSON.stringify(data.field),
 			    dataType : "json",
     	　　		contentType: "application/json;charset=utf-8",

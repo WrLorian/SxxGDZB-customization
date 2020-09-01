@@ -24,8 +24,8 @@ public class GroupDto {
     private String cron;
     @ApiModelProperty(value = "添加时间",name = "addTime")
     private String addTime;
-    @ApiModelProperty(value = "所属管理员ID",name = "adminId")
-    private String adminId;
+    @ApiModelProperty(value = "角色标识",name = "code")
+    private String code;
     @ApiModelProperty(value = "所属管理员姓名",name = "adminName")
     private String adminName;
 

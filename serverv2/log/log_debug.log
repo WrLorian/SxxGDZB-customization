@@ -3934,3 +3934,739 @@
 2020-09-01 18:31:34.641 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
 2020-09-01 18:31:34.641 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
 2020-09-01 18:31:34.642 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:11:56.745 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 22:11:56.763 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 22:11:56.783 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 22:12:52.718 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:12:52.719 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:12:52.722 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:12:52.771 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:12:52.772 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:12:52.773 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:12:52.773 DEBUG c.k.dao.mapper.AuthUserRoleMapper.selectByUid - ==>  Preparing: SELECT min(ROLE_ID) FROM auth_user_role WHERE USER_ID = ? 
+2020-09-01 22:12:52.774 DEBUG c.k.dao.mapper.AuthUserRoleMapper.selectByUid - ==> Parameters: 1(Integer)
+2020-09-01 22:12:52.775 DEBUG c.k.dao.mapper.AuthUserRoleMapper.selectByUid - <==      Total: 1
+2020-09-01 22:12:52.775 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - ==>  Preparing: SELECT GROUP_CONCAT(rol.CODE) AS Roles FROM auth_user AS usr JOIN auth_user_role uro ON usr.UID = uro.USER_ID JOIN auth_role rol ON uro.ROLE_ID = rol.ID WHERE usr.USERNAME = ? 
+2020-09-01 22:12:52.776 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - ==> Parameters: admin(String)
+2020-09-01 22:12:52.777 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - <==      Total: 1
+2020-09-01 22:12:52.799 DEBUG c.k.d.m.A.selectRoleRulesByRole - ==>  Preparing: SELECT GROUP_CONCAT(ars.URI) AS Roles FROM auth_role_resource arr INNER JOIN auth_role ar on arr.ROLE_ID = ar.ID INNER JOIN auth_resource ars on ars.ID = arr.RESOURCE_ID WHERE ar.`CODE` in ( ? , ? ) 
+2020-09-01 22:12:52.800 DEBUG c.k.d.m.A.selectRoleRulesByRole - ==> Parameters: role_admin(String), role_user(String)
+2020-09-01 22:12:52.801 DEBUG c.k.d.m.A.selectRoleRulesByRole - <==      Total: 1
+2020-09-01 22:13:05.384 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:13:05.385 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:13:05.386 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:13:05.388 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:13:05.388 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:13:05.389 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:13:05.390 DEBUG c.k.dao.mapper.AuthUserRoleMapper.selectByUid - ==>  Preparing: SELECT min(ROLE_ID) FROM auth_user_role WHERE USER_ID = ? 
+2020-09-01 22:13:05.390 DEBUG c.k.dao.mapper.AuthUserRoleMapper.selectByUid - ==> Parameters: 1(Integer)
+2020-09-01 22:13:05.391 DEBUG c.k.dao.mapper.AuthUserRoleMapper.selectByUid - <==      Total: 1
+2020-09-01 22:13:05.392 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - ==>  Preparing: SELECT GROUP_CONCAT(rol.CODE) AS Roles FROM auth_user AS usr JOIN auth_user_role uro ON usr.UID = uro.USER_ID JOIN auth_role rol ON uro.ROLE_ID = rol.ID WHERE usr.USERNAME = ? 
+2020-09-01 22:13:05.393 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - ==> Parameters: admin(String)
+2020-09-01 22:13:05.394 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - <==      Total: 1
+2020-09-01 22:13:05.394 DEBUG c.k.d.m.A.selectRoleRulesByRole - ==>  Preparing: SELECT GROUP_CONCAT(ars.URI) AS Roles FROM auth_role_resource arr INNER JOIN auth_role ar on arr.ROLE_ID = ar.ID INNER JOIN auth_resource ars on ars.ID = arr.RESOURCE_ID WHERE ar.`CODE` in ( ? , ? ) 
+2020-09-01 22:13:05.395 DEBUG c.k.d.m.A.selectRoleRulesByRole - ==> Parameters: role_admin(String), role_user(String)
+2020-09-01 22:13:05.396 DEBUG c.k.d.m.A.selectRoleRulesByRole - <==      Total: 1
+2020-09-01 22:13:05.553 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:13:05.554 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:13:05.562 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 27
+2020-09-01 22:13:05.564 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:13:05.564 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:13:05.565 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:13:05.602 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:13:05.602 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:13:05.604 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:13:08.048 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==>  Preparing: SELECT COUNT(*) FROM auth_resource as ar WHERE 1=1 
+2020-09-01 22:13:08.048 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - ==> Parameters: 
+2020-09-01 22:13:08.050 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceCount - <==      Total: 1
+2020-09-01 22:13:08.052 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==>  Preparing: SELECT ar.ID,ar.`NAME`,ar.`CODE` ,ar.URI,ar.TYPE,ar.`STATUS`,ar.METHOD FROM auth_resource ar WHERE 1=1 LIMIT ?,? 
+2020-09-01 22:13:08.052 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:13:08.054 DEBUG c.k.d.m.AuthResourceMapper.selectAuthResourceList - <==      Total: 10
+2020-09-01 22:13:30.694 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:13:30.694 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:13:30.700 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 27
+2020-09-01 22:13:57.917 DEBUG com.kiwihouse.dao.mapper.SysMenuMapper.insert - ==>  Preparing: insert into sys_menu (id, name, parent_id, url, perms, icon, create_by, create_time, update_by, update_time, remark) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) 
+2020-09-01 22:13:57.919 DEBUG com.kiwihouse.dao.mapper.SysMenuMapper.insert - ==> Parameters: null, 分组(String), 0(Integer), /admin/group/main(String), null, (String), admin(String), null, null, null, null
+2020-09-01 22:13:58.069 DEBUG com.kiwihouse.dao.mapper.SysMenuMapper.insert - <==    Updates: 1
+2020-09-01 22:13:58.074 DEBUG c.k.dao.mapper.AuthRoleMenuMapper.insertBatch - ==>  Preparing: insert into auth_role_menu(role_id,menu_id) values (?, ?) 
+2020-09-01 22:13:58.074 DEBUG c.k.dao.mapper.AuthRoleMenuMapper.insertBatch - ==> Parameters: 100(Integer), 39(Integer)
+2020-09-01 22:13:58.179 DEBUG c.k.dao.mapper.AuthRoleMenuMapper.insertBatch - <==    Updates: 1
+2020-09-01 22:14:00.399 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:14:00.400 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:14:00.404 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:14:00.404 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:14:00.404 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:14:00.405 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:14:22.571 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:14:22.571 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:14:22.577 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:14:22.578 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:14:22.578 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:14:22.579 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:14:22.626 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:14:22.627 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:14:22.629 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:15:19.033 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 22:15:19.033 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 22:15:19.036 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 22:15:25.492 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:15:25.492 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:15:25.499 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:15:25.500 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:15:25.501 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:15:25.502 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:15:25.552 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:15:25.552 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:15:25.553 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:16:21.033 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 22:16:21.033 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 22:16:21.036 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 22:16:57.045 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 22:16:57.045 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 22:16:57.048 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 22:17:15.876 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 22:17:15.877 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 22:17:15.880 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 22:17:50.277 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 22:17:50.277 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 22:17:50.280 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 22:23:02.168 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 22:23:02.190 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 22:23:02.214 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 22:23:10.480 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:23:10.480 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:23:10.491 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:23:10.498 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:23:10.498 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:23:10.500 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:23:10.623 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:23:10.624 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:23:10.626 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:23:11.111 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join administrator as a on g.admin_id=a.admin_id 
+2020-09-01 22:23:11.111 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:23:58.683 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 22:23:58.683 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 22:23:58.686 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 22:24:27.635 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:24:27.637 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:24:27.647 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:24:27.648 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:24:27.648 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:24:27.649 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:24:27.728 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:24:27.728 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:24:27.730 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:24:28.218 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join administrator as a on g.admin_id=a.admin_id 
+2020-09-01 22:24:28.218 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:25:13.585 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 22:25:13.606 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 22:25:13.640 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 22:25:31.528 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:25:31.528 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:25:31.531 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:25:31.591 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:25:31.591 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:25:31.593 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:25:31.594 DEBUG c.k.dao.mapper.AuthUserRoleMapper.selectByUid - ==>  Preparing: SELECT min(ROLE_ID) FROM auth_user_role WHERE USER_ID = ? 
+2020-09-01 22:25:31.594 DEBUG c.k.dao.mapper.AuthUserRoleMapper.selectByUid - ==> Parameters: 1(Integer)
+2020-09-01 22:25:31.595 DEBUG c.k.dao.mapper.AuthUserRoleMapper.selectByUid - <==      Total: 1
+2020-09-01 22:25:31.596 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - ==>  Preparing: SELECT GROUP_CONCAT(rol.CODE) AS Roles FROM auth_user AS usr JOIN auth_user_role uro ON usr.UID = uro.USER_ID JOIN auth_role rol ON uro.ROLE_ID = rol.ID WHERE usr.USERNAME = ? 
+2020-09-01 22:25:31.596 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - ==> Parameters: admin(String)
+2020-09-01 22:25:31.598 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - <==      Total: 1
+2020-09-01 22:25:31.630 DEBUG c.k.d.m.A.selectRoleRulesByRole - ==>  Preparing: SELECT GROUP_CONCAT(ars.URI) AS Roles FROM auth_role_resource arr INNER JOIN auth_role ar on arr.ROLE_ID = ar.ID INNER JOIN auth_resource ars on ars.ID = arr.RESOURCE_ID WHERE ar.`CODE` in ( ? , ? ) 
+2020-09-01 22:25:31.631 DEBUG c.k.d.m.A.selectRoleRulesByRole - ==> Parameters: role_admin(String), role_user(String)
+2020-09-01 22:25:31.632 DEBUG c.k.d.m.A.selectRoleRulesByRole - <==      Total: 1
+2020-09-01 22:25:38.719 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:25:38.719 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:25:38.721 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:25:38.731 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:25:38.731 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:25:38.732 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:25:38.733 DEBUG c.k.dao.mapper.AuthUserRoleMapper.selectByUid - ==>  Preparing: SELECT min(ROLE_ID) FROM auth_user_role WHERE USER_ID = ? 
+2020-09-01 22:25:38.733 DEBUG c.k.dao.mapper.AuthUserRoleMapper.selectByUid - ==> Parameters: 1(Integer)
+2020-09-01 22:25:38.734 DEBUG c.k.dao.mapper.AuthUserRoleMapper.selectByUid - <==      Total: 1
+2020-09-01 22:25:38.734 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - ==>  Preparing: SELECT GROUP_CONCAT(rol.CODE) AS Roles FROM auth_user AS usr JOIN auth_user_role uro ON usr.UID = uro.USER_ID JOIN auth_role rol ON uro.ROLE_ID = rol.ID WHERE usr.USERNAME = ? 
+2020-09-01 22:25:38.734 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - ==> Parameters: admin(String)
+2020-09-01 22:25:38.735 DEBUG c.k.d.m.AuthUserMapper.selectUserRolesByUsername - <==      Total: 1
+2020-09-01 22:25:38.735 DEBUG c.k.d.m.A.selectRoleRulesByRole - ==>  Preparing: SELECT GROUP_CONCAT(ars.URI) AS Roles FROM auth_role_resource arr INNER JOIN auth_role ar on arr.ROLE_ID = ar.ID INNER JOIN auth_resource ars on ars.ID = arr.RESOURCE_ID WHERE ar.`CODE` in ( ? , ? ) 
+2020-09-01 22:25:38.735 DEBUG c.k.d.m.A.selectRoleRulesByRole - ==> Parameters: role_admin(String), role_user(String)
+2020-09-01 22:25:38.736 DEBUG c.k.d.m.A.selectRoleRulesByRole - <==      Total: 1
+2020-09-01 22:25:38.980 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:25:38.981 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:25:38.994 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:25:38.997 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:25:38.997 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:25:38.999 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:25:39.070 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:25:39.071 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:25:39.077 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:25:57.488 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join administrator as a on g.admin_id=a.admin_id 
+2020-09-01 22:25:57.494 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:26:24.354 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:26:24.355 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:26:24.362 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:26:24.363 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:26:24.364 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:26:24.366 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:26:24.433 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:26:24.433 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:26:24.436 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:26:31.738 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join administrator as a on g.admin_id=a.admin_id 
+2020-09-01 22:26:31.744 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:33:41.345 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 22:33:41.364 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 22:33:41.384 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 22:33:51.923 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:33:51.923 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:33:51.931 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:33:51.938 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:33:51.939 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:33:51.940 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:33:52.080 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:33:52.081 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:33:52.084 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:33:52.616 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:33:52.616 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:33:52.618 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:33:52.621 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:33:52.622 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:33:52.626 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:35:42.088 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:35:42.088 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:35:42.094 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:35:42.095 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:35:42.095 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:35:42.096 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:35:42.147 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:35:42.148 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:35:42.149 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:35:42.547 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:35:42.547 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:35:42.548 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:35:42.548 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:35:42.549 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:35:42.550 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:37:46.151 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:37:46.152 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:37:46.156 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:37:46.156 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:37:46.156 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:37:46.157 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:37:46.202 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:37:46.202 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:37:46.204 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:37:46.607 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:37:46.608 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:37:46.611 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:37:46.613 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:37:46.616 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:37:46.630 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:38:25.342 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:38:25.342 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:38:25.345 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:38:25.347 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:38:25.347 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:38:25.348 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:38:25.398 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:38:25.398 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:38:25.399 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:38:25.780 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:38:25.780 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:38:25.783 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:38:25.785 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:38:25.785 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:38:25.787 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:40:15.077 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:40:15.077 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:40:15.082 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:40:15.083 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:40:15.083 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:40:15.084 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:40:15.130 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:40:15.131 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:40:15.132 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:40:15.530 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:40:15.531 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:40:15.533 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:40:15.534 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:40:15.535 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:40:15.536 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:41:06.620 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:41:06.621 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:41:06.623 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:41:06.624 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:41:06.624 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:41:06.625 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:41:06.670 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:41:06.670 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:41:06.672 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:41:07.097 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:41:07.097 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:41:07.098 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:41:07.099 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:41:07.099 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:41:07.100 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:47:16.236 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:47:16.237 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:47:16.240 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:47:16.240 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:47:16.240 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:47:16.241 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:47:16.274 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:47:16.275 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:47:16.275 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:47:16.554 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:47:16.555 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:47:16.555 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:47:16.556 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:47:16.556 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:47:16.557 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:48:06.357 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:48:06.357 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:48:06.360 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:48:06.360 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:48:06.360 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:48:06.361 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:48:06.400 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:48:06.400 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:48:06.402 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:48:06.730 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:48:06.731 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:48:06.731 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:48:06.732 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:48:06.732 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:48:06.733 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:50:05.535 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:50:05.536 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:50:05.538 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:50:05.539 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:50:05.539 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:50:05.539 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:50:05.572 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:50:05.573 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:50:05.574 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:50:05.901 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:50:05.901 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:50:05.902 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:50:05.904 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:50:05.904 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:50:05.906 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:52:06.237 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:52:06.238 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:52:06.240 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:52:06.241 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:52:06.241 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:52:06.242 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:52:06.292 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:52:06.293 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:52:06.294 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:52:06.680 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:52:06.680 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:52:06.682 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:52:06.684 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:52:06.685 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:52:06.686 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:54:03.144 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:54:03.145 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:54:03.148 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:54:03.149 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:54:03.149 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:54:03.150 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:54:03.208 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:54:03.209 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:54:03.210 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:54:03.610 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:54:03.610 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:54:03.611 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:54:03.611 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:54:03.612 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:54:03.613 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:55:14.644 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:55:14.645 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:55:14.647 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:55:14.648 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:55:14.648 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:55:14.649 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:55:14.694 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:55:14.695 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:55:14.696 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:55:15.094 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:55:15.095 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:55:15.096 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:55:15.096 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:55:15.096 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:55:15.098 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:56:18.649 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:56:18.649 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:56:18.652 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:56:18.652 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:56:18.652 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:56:18.653 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:56:18.701 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:56:18.701 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:56:18.706 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:56:19.096 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:56:19.096 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:56:19.097 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:56:19.098 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:56:19.098 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:56:19.099 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:56:59.649 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:56:59.649 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:56:59.651 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:56:59.652 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:56:59.652 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:56:59.654 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:56:59.698 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:56:59.698 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:56:59.699 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:57:00.073 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:57:00.073 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:57:00.074 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:57:00.075 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:57:00.075 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:57:00.077 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:57:43.114 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:57:43.114 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:57:43.116 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:57:43.116 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:57:43.117 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:57:43.118 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:57:43.155 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:57:43.155 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:57:43.155 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:57:43.462 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:57:43.462 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:57:43.463 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:57:43.464 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:57:43.464 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:57:43.465 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 7
+2020-09-01 22:58:13.659 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.admin_id, g.add_time,a.admin_name from `group` as g left join administrator as a on g.admin_id=a.admin_id WHERE g.group_name = ? 
+2020-09-01 22:58:13.659 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - ==> Parameters: 000(String)
+2020-09-01 22:58:13.742 DEBUG com.kiwihouse.dao.mapper.GroupMapper.addInfo - ==>  Preparing: insert into `group` ( group_name, cron, add_time ) values ( ?, ?, ? ) 
+2020-09-01 22:58:13.743 DEBUG com.kiwihouse.dao.mapper.GroupMapper.addInfo - ==> Parameters: 000(String), ncron(String), 2020-09-01 22:58:13(String)
+2020-09-01 22:58:13.832 DEBUG com.kiwihouse.dao.mapper.GroupMapper.addInfo - <==    Updates: 1
+2020-09-01 22:58:16.069 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:58:16.069 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:58:16.070 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:58:16.071 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:58:16.072 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:58:16.074 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 8
+2020-09-01 22:58:30.447 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.admin_id, g.add_time,a.admin_name from `group` as g left join administrator as a on g.admin_id=a.admin_id WHERE g.group_name = ? 
+2020-09-01 22:58:30.447 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - ==> Parameters: 000(String)
+2020-09-01 22:58:30.465 DEBUG com.kiwihouse.dao.mapper.GroupMapper.addInfo - ==>  Preparing: insert into `group` ( group_name, cron, add_time ) values ( ?, ?, ? ) 
+2020-09-01 22:58:30.466 DEBUG com.kiwihouse.dao.mapper.GroupMapper.addInfo - ==> Parameters: 000(String), 00 00 00 1 1,2,3 ?(String), 2020-09-01 22:58:30(String)
+2020-09-01 22:59:15.861 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 22:59:15.865 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 22:59:15.867 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 22:59:15.867 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 22:59:15.868 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 22:59:15.868 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 22:59:15.919 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 22:59:15.919 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 22:59:15.921 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 22:59:16.296 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 22:59:16.296 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 22:59:16.297 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 22:59:16.298 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 22:59:16.298 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 22:59:16.300 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 8
+2020-09-01 22:59:27.570 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.admin_id, g.add_time,a.admin_name from `group` as g left join administrator as a on g.admin_id=a.admin_id WHERE g.group_name = ? 
+2020-09-01 22:59:27.570 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - ==> Parameters: 000(String)
+2020-09-01 23:00:50.676 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:00:50.676 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:00:50.680 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:01:50.647 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:01:50.647 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:01:50.649 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:02:13.564 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 23:02:13.565 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 23:02:13.569 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 23:02:13.570 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 23:02:13.570 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 23:02:13.571 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 23:02:13.610 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 23:02:13.610 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 23:02:13.611 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 23:02:13.941 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 23:02:13.942 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 23:02:13.943 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 23:02:13.943 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 23:02:13.944 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 23:02:13.945 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 8
+2020-09-01 23:02:30.825 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 23:02:30.825 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 23:02:30.827 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 23:02:30.827 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 23:02:30.827 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 23:02:30.828 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 23:02:30.859 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 23:02:30.860 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 23:02:30.860 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 23:02:31.103 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 23:02:31.162 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 23:02:31.163 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 23:02:31.164 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 23:02:31.164 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 23:02:31.166 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 8
+2020-09-01 23:02:50.463 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID WHERE g.group_name = ? 
+2020-09-01 23:02:50.463 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - ==> Parameters: onenet送检(String)
+2020-09-01 23:02:50.464 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - <==      Total: 1
+2020-09-01 23:03:47.916 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 23:03:47.916 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 23:03:47.918 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 23:03:47.918 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 23:03:47.918 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 23:03:47.919 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 23:03:47.974 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 23:03:47.975 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 23:03:47.976 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 23:03:48.427 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 23:03:48.427 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 23:03:48.429 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 23:03:48.430 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 23:03:48.430 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 23:03:48.432 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 8
+2020-09-01 23:04:01.227 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID WHERE g.group_name = ? 
+2020-09-01 23:04:01.227 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - ==> Parameters: onenet送检(String)
+2020-09-01 23:04:01.228 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - <==      Total: 1
+2020-09-01 23:04:12.348 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 23:04:12.349 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 23:04:12.350 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 23:04:12.351 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 23:04:12.351 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 23:04:12.352 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 23:04:12.402 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 23:04:12.402 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 23:04:12.403 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 23:04:12.830 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 23:04:12.831 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 23:04:12.832 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 23:04:12.833 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 23:04:12.833 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 23:04:12.835 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 8
+2020-09-01 23:09:40.158 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:09:40.158 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:09:40.161 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:10:18.257 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:10:18.257 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:10:18.260 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:10:37.384 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:10:37.384 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:10:37.390 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:11:01.521 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:11:01.521 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:11:01.525 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:11:37.317 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:11:37.317 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:11:37.319 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:11:46.436 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:11:46.436 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:11:46.438 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:12:00.792 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:12:00.792 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:12:00.794 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:12:33.364 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:12:33.365 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:12:33.367 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:12:53.511 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:12:53.512 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:12:53.514 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:13:06.843 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:13:06.844 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:13:06.846 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:16:28.631 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:16:28.651 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:16:28.672 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:16:37.006 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 23:16:37.007 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 23:16:37.016 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 23:16:37.022 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 23:16:37.023 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 23:16:37.024 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 23:16:37.326 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 23:16:37.326 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 23:16:37.329 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 23:16:37.719 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 23:16:37.720 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 23:16:37.722 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 23:16:37.723 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 23:16:37.724 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 23:16:37.728 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 8
+2020-09-01 23:17:22.882 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:17:22.882 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:17:22.885 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:17:34.852 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:17:34.853 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:17:34.856 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:17:36.505 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 23:17:36.505 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 23:17:36.513 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 23:17:36.515 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 23:17:36.516 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 23:17:36.517 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 23:17:36.601 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 23:17:36.602 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 23:17:36.604 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 23:17:37.035 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 23:17:37.035 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 23:17:37.037 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 23:17:37.038 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 23:17:37.039 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 23:17:37.042 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 8
+2020-09-01 23:18:05.565 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:18:05.565 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:18:05.567 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:18:18.056 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:18:18.056 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:18:18.058 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:18:52.729 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:18:52.760 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:18:52.787 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:18:56.903 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 23:18:56.903 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 23:18:56.915 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 23:18:56.924 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 23:18:56.924 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 23:18:56.926 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 23:18:57.070 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 23:18:57.071 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 23:18:57.073 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 23:18:57.469 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 23:18:57.469 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 23:18:57.471 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 23:18:57.473 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 23:18:57.473 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 23:18:57.477 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 8
+2020-09-01 23:19:08.362 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:19:08.362 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:19:08.365 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:19:18.891 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:19:18.892 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:19:18.894 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:19:23.140 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 23:19:23.141 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 23:19:23.146 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 23:19:23.147 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 23:19:23.147 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 23:19:23.148 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 23:19:23.185 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 23:19:23.185 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 23:19:23.187 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 23:19:23.534 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 23:19:23.535 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 23:19:23.536 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 23:19:23.536 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 23:19:23.536 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 23:19:23.539 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 8
+2020-09-01 23:19:33.784 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:19:33.785 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:19:33.787 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:19:35.151 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 23:19:35.152 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 23:19:35.156 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 23:19:35.157 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 23:19:35.157 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 23:19:35.159 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 23:19:35.203 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 23:19:35.203 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 23:19:35.205 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 23:19:35.561 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 23:19:35.561 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 23:19:35.562 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 23:19:35.563 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 23:19:35.563 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 23:19:35.565 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 8
+2020-09-01 23:19:53.762 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:19:53.762 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:19:53.764 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:19:57.271 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 23:19:57.272 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 23:19:57.277 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 23:19:57.294 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 23:19:57.295 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 23:19:57.296 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 23:21:24.749 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:21:24.749 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:21:24.752 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:21:59.769 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:21:59.770 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:21:59.773 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:22:05.851 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:22:05.852 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:22:05.854 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:22:09.608 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:22:09.609 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:22:09.611 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:22:14.360 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:22:14.360 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:22:14.363 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:22:23.351 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:22:23.351 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:22:23.354 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:22:29.125 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:22:29.125 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:22:29.127 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:22:39.217 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:22:39.217 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:22:39.219 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:22:44.383 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:22:44.383 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:22:44.385 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:22:51.453 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:22:51.453 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:22:51.454 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
+2020-09-01 23:23:46.190 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 23:23:46.191 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 23:23:46.195 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 23:23:46.196 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 23:23:46.197 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 23:23:46.198 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 23:23:46.264 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 23:23:46.264 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 23:23:46.265 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 23:23:46.701 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 23:23:46.701 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 23:23:46.702 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 23:23:46.703 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 23:23:46.703 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 23:23:46.706 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 8
+2020-09-01 23:24:19.964 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 23:24:19.965 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 23:24:19.967 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 23:24:19.967 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-01 23:24:19.967 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-01 23:24:19.968 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-01 23:24:20.003 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-01 23:24:20.004 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-01 23:24:20.004 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-01 23:24:20.288 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: select count(*) from `group` as g left join auth_role as a on g.role_id =a.id 
+2020-09-01 23:24:20.288 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 
+2020-09-01 23:24:20.289 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-01 23:24:20.290 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID order by g.add_time desc limit ?,? 
+2020-09-01 23:24:20.291 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 0(Integer), 10(Integer)
+2020-09-01 23:24:20.294 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 8
+2020-09-01 23:24:27.570 DEBUG c.k.dao.mapper.AuthRoleMapper.queryAuthRole - ==>  Preparing: select CODE,ID from auth_role where 1= 1 AND id > ? 
+2020-09-01 23:24:27.571 DEBUG c.k.dao.mapper.AuthRoleMapper.queryAuthRole - ==> Parameters: 100(Integer)
+2020-09-01 23:24:27.574 DEBUG c.k.dao.mapper.AuthRoleMapper.queryAuthRole - <==      Total: 3
+2020-09-01 23:24:27.582 DEBUG c.k.d.m.A.selectRoleResourceCount - ==>  Preparing: SELECT count(*) FROM auth_role_resource arr INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID INNER JOIN auth_role arole on arr.ROLE_ID = arole.ID where 1 = 1 AND arr.role_id > ? 
+2020-09-01 23:24:27.583 DEBUG c.k.d.m.A.selectRoleResourceCount - ==> Parameters: 100(Integer)
+2020-09-01 23:24:27.583 DEBUG c.k.d.m.A.selectRoleResourceCount - <==      Total: 1
+2020-09-01 23:24:27.584 DEBUG c.k.d.m.A.selectRoleResourceList - ==>  Preparing: SELECT arr.ID,ar.`CODE` resCode,ar.`NAME` as resName ,arole.`CODE` roleCode,arole.`NAME` as roleName,arole.ID as 'roleId' FROM auth_role_resource arr INNER JOIN auth_resource ar on arr.RESOURCE_ID = ar.ID INNER JOIN auth_role arole on arr.ROLE_ID = arole.ID where 1 = 1 AND arr.role_id > ? LIMIT ?,? 
+2020-09-01 23:24:27.584 DEBUG c.k.d.m.A.selectRoleResourceList - ==> Parameters: 100(Integer), 0(Integer), 10(Integer)
+2020-09-01 23:24:27.585 DEBUG c.k.d.m.A.selectRoleResourceList - <==      Total: 1
+2020-09-01 23:24:30.608 DEBUG c.k.d.m.AuthRoleMenuMapper.selectRoleMenuCount - ==>  Preparing: SELECT count(*) FROM `auth_role_menu` arm LEFT JOIN sys_menu sys on arm.menu_id = sys.id INNER JOIN auth_role ar on ar.id = arm.role_id WHERE 1=1 AND arm.ROLE_ID > ? 
+2020-09-01 23:24:30.609 DEBUG c.k.d.m.AuthRoleMenuMapper.selectRoleMenuCount - ==> Parameters: 100(Integer)
+2020-09-01 23:24:30.610 DEBUG c.k.d.m.AuthRoleMenuMapper.selectRoleMenuCount - <==      Total: 1
+2020-09-01 23:24:30.610 DEBUG c.k.dao.mapper.AuthRoleMapper.queryAuthRole - ==>  Preparing: select CODE,ID from auth_role where 1= 1 AND id > ? 
+2020-09-01 23:24:30.610 DEBUG c.k.dao.mapper.AuthRoleMapper.queryAuthRole - ==> Parameters: 100(Integer)
+2020-09-01 23:24:30.612 DEBUG c.k.dao.mapper.AuthRoleMapper.queryAuthRole - <==      Total: 3
+2020-09-01 23:24:30.612 DEBUG c.k.d.mapper.AuthRoleMenuMapper.selectRoleMenuList - ==>  Preparing: SELECT arm.role_id ,sys.id,sys.parent_id,sys.name ,sys.url,ar.`CODE` FROM `auth_role_menu` arm LEFT JOIN sys_menu sys on arm.menu_id = sys.id INNER JOIN auth_role ar on ar.id = arm.role_id WHERE 1=1 AND arm.ROLE_ID > ? LIMIT ?,? 
+2020-09-01 23:24:30.612 DEBUG c.k.d.mapper.AuthRoleMenuMapper.selectRoleMenuList - ==> Parameters: 100(Integer), 0(Integer), 10(Integer)
+2020-09-01 23:24:30.614 DEBUG c.k.d.mapper.AuthRoleMenuMapper.selectRoleMenuList - <==      Total: 10
+2020-09-01 23:24:32.593 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-01 23:24:32.594 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-01 23:24:32.597 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 28
+2020-09-01 23:25:31.122 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-01 23:25:31.122 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-01 23:25:31.125 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 14
