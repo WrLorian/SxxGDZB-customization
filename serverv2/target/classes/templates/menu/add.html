@@ -155,6 +155,7 @@ var menuTree = JSON.parse(localStorage.getItem('menuTree'));
 	   		    	 			indexHome(window).init();
 				    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
 				    	 		parent.layer.close(iframeIndex);
+				    	 		window.parent.initTreeTable();
    		    	 			}); 
 						}else{
 							layer.msg(data.msg,{icon: 5, time: 2000});

@@ -1,14 +1,13 @@
 package com.kiwihouse.dao.mapper;
 
-import com.kiwihouse.dao.entity.AuthResource;
-import com.kiwihouse.shiro.rule.RolePermRule;
+import java.util.List;
 
-import io.lettuce.core.dynamic.annotation.Param;
-
+import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.kiwihouse.dao.entity.AuthResource;
+import com.kiwihouse.shiro.rule.RolePermRule;
 
 /**
  * @author tomsun28

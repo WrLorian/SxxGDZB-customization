@@ -30,7 +30,7 @@ public class SiteDto {
     private String addTime;
     @ApiModelProperty(value = "管理员名称",name = "adminName")
     private String adminName;
-    @ApiModelProperty(value = "管理员Id",name = "adminId")
-    private String adminId;
+    @ApiModelProperty(value = "管理员Id",name = "roleId")
+    private String roleId;
 
 }

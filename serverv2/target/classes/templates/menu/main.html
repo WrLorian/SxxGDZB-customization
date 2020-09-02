@@ -35,6 +35,8 @@
 	var table,treetable;
 	var returnedItem = [];
     var ids = [];
+    var arr;
+    var treeOpenOrClose = false;
     layui.use(['table', 'treetable'], function () {
         var $ = layui.jquery;
         table = layui.table;
@@ -44,24 +46,17 @@
         //加载数据
         initTreeTable();
         $('#btn-expand').click(function () {
+        	treeOpenOrClose = true;
             treetable.expandAll('#munu-table');
         });
-
         $('#btn-fold').click(function () {
+        	treeOpenOrClose = false;
             treetable.foldAll('#munu-table');
         });
-        
-        var treeArray = new Array();
-        $.each( $(".treeTable-icon"),function(){
-     	   var tree = {};
-     	   tree.parentId = $(this).attr("lay-tpid");
-     	   tree.id = $(this).attr("lay-tid");
-     	   treeArray.push(tree);
-        })
-        var arr = convert(treeArray);
         //监听工具条
         table.on('tool(munu-table)', function (obj) {
             dataRow = obj.data;
+            console.log(dataRow);
             var layEvent = obj.event;
             if (layEvent === 'del') {
             	returnedItem = [];
@@ -88,6 +83,7 @@
     });
     
     function deleteBatch(ids){
+    	console.log(ids);
     	$.ajax({
  			url: "/menu/"+ids,
 		    type: "DELETE",
@@ -139,6 +135,18 @@
   	  })
   	  return ids;
     }
+    //得到需要的树 数据
+    function treeArrayF(){
+    	var treeArray = new Array();
+    	$.each( $(".treeTable-icon"),function(){
+      	   var tree = {};
+      	   tree.parentId = $(this).attr("lay-tpid");
+      	   tree.id = $(this).attr("lay-tid");
+      	   treeArray.push(tree);
+         })
+         arr = convert(treeArray);
+    }
+    
     //加载数据
     function initTreeTable(){
     	treetable.render({
@@ -159,6 +167,12 @@
                 {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
             ]],
             done: function () {
+            	treeArrayF();
+            	if(treeOpenOrClose){
+        			treetable.expandAll('#munu-table');
+        		}else{
+        			treetable.foldAll('#munu-table');
+        		}
                 layer.closeAll('loading');
             }
         });

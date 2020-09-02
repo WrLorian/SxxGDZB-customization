@@ -1,5 +1,7 @@
 package com.kiwihouse.vo.kiwihouse;
 
+import java.util.Date;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -75,5 +77,9 @@ public class EqptQueryVo extends Basic {
      */
     @ApiModelProperty(value = "设备名称",name = "eqptName",required =false)
     private String eqptName;
+    /**
+     * 	抄表时间
+     */
+    private Date addTime;
     
 }

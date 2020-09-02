@@ -33,7 +33,7 @@
     <div class="layui-form-item">
 	    <label class="layui-form-label required">所属分组</label>
 	    <div class="layui-input-block">
-	      <select name="groupId">
+	      <select name="groupId" id="groupId" lay-verify="required">
 	      	<option value=""> 请选择 </option>
 	      </select>
 	    </div>
@@ -42,67 +42,74 @@
 	<div class="layui-form-item">
         <label class="layui-form-label">设备名称</label>
         <div class="layui-input-block">
-            <input type="text" name="eqptName" lay-verify="required" class="layui-input" placeholder="URL地址">
+            <input type="text" name="eqptName" lay-verify="required" class="layui-input" placeholder="设备名称">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">额定电压</label>
         <div class="layui-input-block">
-            <input type="text" name="voltage" lay-verify="required" class="layui-input" placeholder="URL地址">
+            <select name="voltage" id="voltage" lay-search="" lay-filter="voltage">
+            <option value="">请选择</option>
+	        <option value="36">36V</option>
+	        <option value="110">110V</option>
+	        <option value="220">220V</option>
+	        <option value="380">380V</option>
+	      </select>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">额定电流</label>
         <div class="layui-input-block">
-            <input type="text" name="electricity" lay-verify="required" class="layui-input" placeholder="URL地址">
+            <input type="text" name="electricity"  class="layui-input" placeholder="额定电流">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">设备功率</label>
         <div class="layui-input-block">
-            <input type="text" name="power" lay-verify="required" class="layui-input" placeholder="URL地址">
+            <input type="text" name="power"  class="layui-input" placeholder="设备功率">
         </div>
     </div>
-    <div class="layui-form-item">
-    	 <label class="layui-form-label">选择地址</label>
-	    <div class="layui-input-inline">
-	      <select name="province" id="selProvince" lay-search="" lay-filter="selProvince">
-	        <option value="">请选择省</option>
-	      </select>
-	    </div>
-	    <div class="layui-input-inline">
-	      <select name="city" id="selCity" lay-search="" lay-filter="selCity">
-	      </select>
-	    </div>
-	    <div class="layui-input-inline">
-	      <select name="district" id="selDistrict" lay-search="" lay-filter="selDistrict">
-	        <option value="">请选择县/区</option>
-	        
-	      </select>
-	    </div>
+    <div class="layui-form-item" id="area-picker">
+    
+         <div class="layui-form-label">网点地址</div>
+         <div class="layui-input-inline" style="width: 200px;">
+             <select name="province" class="province-selector" data-value="广东省" lay-filter="province-1">
+                 <option value="">请选择省</option>
+             </select>
+         </div>
+         <div class="layui-input-inline" style="width: 200px;">
+             <select name="city" class="city-selector" data-value="深圳市" lay-filter="city-1">
+                 <option value="">请选择市</option>
+             </select>
+         </div>
+         <div class="layui-input-inline" style="width: 200px;">
+             <select name="district" class="county-selector" data-value="龙岗区" lay-filter="county-1">
+                 <option value="">请选择区</option>
+             </select>
+         </div>
 	</div>
     <div class="layui-form-item">
         <label class="layui-form-label">详细地址</label>
         <div class="layui-input-block">
-            <input type="text" name="address" lay-verify="required" class="layui-input" placeholder="URL地址">
+            <input type="text" name="address"  class="layui-input" placeholder="详细地址">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">经度</label>
         <div class="layui-input-block">
-            <input type="text" name="longitude" lay-verify="required" class="layui-input" placeholder="URL地址">
+            <input type="text" name="longitude"  class="layui-input" placeholder="经度">
         </div>
     </div>
 	<div class="layui-form-item">
         <label class="layui-form-label">纬度</label>
         <div class="layui-input-block">
-            <input type="text" name="latitude" lay-verify="required" class="layui-input" placeholder="URL地址">
+            <input type="text" name="latitude"  class="layui-input" placeholder="纬度">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">关联用户</label>
         <div class="layui-input-block">
-            <input type="text" name="userId" lay-verify="required" class="layui-input" placeholder="URL地址">
+            <input type="text" name="userId"  class="layui-input" placeholder="关联用户">
         </div>
     </div>
     <div class="layui-form-item" >
@@ -114,31 +121,43 @@
 <div th:include="include::footer"></div>
 <script>
 var dataRow = window.parent.dataRow;
-var menuTree = JSON.parse(localStorage.getItem('menuTree'));
-    layui.use(['form','iconPickerFa'], function () {
+    layui.use(['form','iconPickerFa','layarea'], function () {
         var form = layui.form,
         	iconPickerFa = layui.iconPickerFa,
             layer = layui.layer,
+            layarea = layui.layarea,
             $ = layui.$;
+        init();
+        
+        layarea.render({
+            elem: '#area-picker',
+             data: {
+                 province: '广东省',
+                 city: '广州市',
+                 county: '海珠区',
+             },
+            change: function (res) {
+                //选择结果
+                console.log(res);
+            }
+        });
+        
         //加载信息
         function init(){
         	$.ajax({
-    			url: "/role/user/"+authUser.roleId,
-    			type : "POST",
+    			url: "/group/info",
+    			type : "GET",
     	　　		dataType : "json",
     	　　		contentType: "application/json;charset=utf-8",
     		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
     		    success:function(data){
-    		    	 	if(data.success){
     		    	 		var html = "";
-    		    	 		data.data.listRole.forEach(function(item){
-    		    	 			html += "<option vaue="+item.CODE+"> "+item.CODE+" </option>"
+    		    	 		data.data.forEach(function(item){
+    		    	 			html += "<option value="+item.groupId+"> "+item.groupName+" </option>"
     		    	 		});
-    		    	 		$("#code").append(html);
+    		    	 		$("#groupId").append(html);
     		    	 		form.render();
-    					}else{
-    						layer.msg(data.msg);
-    					}
+    					
     		    }
     		});
         }
@@ -187,16 +206,19 @@ var menuTree = JSON.parse(localStorage.getItem('menuTree'));
 		});
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-           
             if(data.field.isRoot == "on"){
             	data.field.parentId = 0;
             }else{
             	data.field.parentId = $("#parentId").attr('data-id');
             }
             data.field.roleId = authUser.roleId;
+            data.field.uid = authUser.uid;
             data.field.createBy= authUser.username;
+            data.field.register = 0;
+            data.field.eqptType = 0;
+            console.log(data.field);
             $.ajax({
-     			url: "/menu",
+     			url: "/equipment/info",
 			    type: "POST",
 			    data:JSON.stringify(data.field),
 			    dataType : "json",

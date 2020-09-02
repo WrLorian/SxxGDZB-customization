@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.kiwihouse.dao.entity.SysMenu;
 
-import io.lettuce.core.dynamic.annotation.Param;
-
 
 public interface SysMenuMapper {
     int deleteByPrimaryKey(Integer menuId);

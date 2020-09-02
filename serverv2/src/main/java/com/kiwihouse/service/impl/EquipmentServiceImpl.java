@@ -40,8 +40,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	@Autowired
 	CommandIssueService commandIssueService;
 	
-//	@Autowired
-//	RedisUtil redisUtil;
+	@Autowired
+	RedisUtil redisUtil;
 
 	@Override
 	public Map<String, Object> queryInfo(EqptQueryVo eqptQueryVo, AuthUser authUser) {
@@ -56,9 +56,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 			list = equipmentMapper.querInfoByUserIdPage(eqptQueryVo);
 			list.forEach(eqpt -> {
 				eqpt.setEqptStatus(String.valueOf(Code.NOTONLINE.getCode()));
-//                  if (redisUtil.hasKey(eqpt.getImei())) {
-//                	  eqpt.setEqptStatus(String.valueOf(Code.ONLINE.getCode()));
-//                  }
+                  if (redisUtil.hasKey(eqpt.getImei())) {
+                	  eqpt.setEqptStatus(String.valueOf(Code.ONLINE.getCode()));
+                  }
 			});
 			List<EqptInfoDto> collect;
 			if ("1".equals(eqptQueryVo.getOnline())) {
@@ -84,9 +84,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 			list = equipmentMapper.querInfoByUserIdPage(eqptQueryVo);
 			list.forEach(eqpt -> {
 				eqpt.setEqptStatus(String.valueOf(Code.NOTONLINE.getCode()));
-//				if (redisUtil.hasKey(eqpt.getImei())) {
-//					eqpt.setEqptStatus(String.valueOf(Code.ONLINE.getCode()));
-//				}
+				if (redisUtil.hasKey(eqpt.getImei())) {
+					eqpt.setEqptStatus(String.valueOf(Code.ONLINE.getCode()));
+				}
 			});
 			int count = equipmentMapper.queryInfoCount(eqptQueryVo);
 			map.put("data", list);
@@ -118,55 +118,19 @@ public class EquipmentServiceImpl implements EquipmentService {
      */
 	@Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultList addInfo(EqptAddVo eqptAddVo, UserInfo userInfo) {
-        String userId = userInfo.getUserId();
-        String voltage = eqptAddVo.getVoltage();
-
-        boolean isAdminUser = userInfo.isAdmin();
-        EqptAddVo eqptAddVo1 = eqptAddVo;
-        if (isAdminUser) {
-            eqptAddVo1 = addSite(eqptAddVo);
-        } else {
-            eqptAddVo1.setUserId(userId);
-            eqptAddVo1.setDoAdminId("1");
-            eqptAddVo1.setGroupId("1");
+    public ResultList addInfo(EqptAddVo eqptAddVo) {
+		if (eqptAddVo.getVoltage() != null && eqptAddVo.getVoltage() .equals("220")) {
+            eqptAddVo.setEqptType(EqptTypeSta.DX);
+        } else if (eqptAddVo.getVoltage()  != null && eqptAddVo.getVoltage() .equals("380")) {
+            eqptAddVo.setEqptType(EqptTypeSta.SX);
         }
-
-        eqptAddVo1.setAddTime(TimeUtil.getCurrentTime());
-
-        if (voltage != null && voltage.equals("220")) {
-            eqptAddVo1.setEqptType(EqptTypeSta.DX);
-        } else if (voltage != null && voltage.equals("380")) {
-            eqptAddVo1.setEqptType(EqptTypeSta.SX);
-        }
-        EqptInfoDto info = equipmentMapper.queryInfoBySnAndImei(eqptAddVo.getEqptSn(), eqptAddVo.getImei());
-
-        if (info != null) {
-            if (!StringUtils.isBlank(info.getUserId()) && info.getUserId().equals(userId)) {
-                return ResultUtil.resp(Code.ADD_SUCCESS);
-            }
-            if (equipmentMapper.updateUserId(info.getImei(), info.getEqptSn(), userId) > 0) {
-                return ResultUtil.resp(Code.ADD_SUCCESS);
-            }
-            return ResultUtil.resp(Code.ADD_FAIL);
-        }
-        Integer row = equipmentMapper.addInfo(eqptAddVo1);
+		System.out.println(eqptAddVo);
+        Integer row = equipmentMapper.addInfo(eqptAddVo);
         if (row == 0) {
             return new ResultList(Code.ADD_FAIL.getCode(), Code.ADD_FAIL.getMsg(), null);
         } else {
 
-            String string = "";
-//            String register = eqptAddVo.getRegister();
-//            if ("1".equals(register)) {  //同时注册到onenet平台
-//                OneNetResult oneNetResult = commandIssueService.registerToOnenet(eqptAddVo.getEqptId(), eqptAddVo.getImei(), eqptAddVo.getImsi(), eqptAddVo.getEqptSn(), eqptAddVo.getEqptType(), eqptAddVo.getDoAdminId());
-//                String errno = oneNetResult.getErrno();
-//                if (OneNtCode.SUCC.equals(errno)) {
-//                    string = "-注册onenet成功";
-//                } else if (OneNtCode.INVALID_AUTH_INFO.equals(errno)) {
-//                    throw new RuntimeException("注册到onenet平台失败>> IMEI或IMSI不正确(大多数情况为IMEI错误)");
-//                }
-//            }
-            return new ResultList(Code.ADD_SUCCESS.getCode(), Code.ADD_SUCCESS.getMsg() + string, null);
+            return new ResultList(Code.ADD_SUCCESS.getCode(), Code.ADD_SUCCESS.getMsg(), null);
         }
     }
 
@@ -190,9 +154,9 @@ public class EquipmentServiceImpl implements EquipmentService {
     private Eqpt4UpdateDto addSite(Eqpt4UpdateDto updateDto) {
         //code不为空添加设备对应的地址，返回siteId
         if (!StringUtils.isBlank(updateDto.getCode())) {
-            if (StringUtils.isBlank(updateDto.getAdminId()) || StringUtils.isBlank(updateDto.getAddress())) {
-                throw new ParamException(Code.PARAM_FORMAT_ERROR.getCode(), "修改设备地址时必须同时传递详细地址以及adminId");
-            }
+//            if (StringUtils.isBlank(updateDto.getAdminId()) || StringUtils.isBlank(updateDto.getAddress())) {
+//                throw new ParamException(Code.PARAM_FORMAT_ERROR.getCode(), "修改设备地址时必须同时传递详细地址以及adminId");
+//            }
             CodeTransferUtil.transferAll(updateDto.getCode(), updateDto);
 
             SiteDto siteDto = equipmentMapper.querySiteInfoForUpdate(updateDto);

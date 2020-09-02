@@ -40,8 +40,18 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-            <a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete"></a>
+
+				 {{# if(d.cron != 'ncron'){ }}
+					<a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
+            		<a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除分组"></a>
+					<a class="layui-icon layui-icon-set-sm" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="set" title="分组设置"></a>
+					<a class="layui-icon layui-icon-pause" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="stop" title="停止抄表"></a>
+				{{# } else if(d.cron == 'ncron' ){}}
+					<a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
+            		<a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除分组"></a>
+					<a class="layui-icon layui-icon-set-sm" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="set" title="分组设置"></a>
+				{{# } }}
+            
         </script>
 
     </div>
@@ -111,22 +121,41 @@ layui.use(['form', 'table'], function () {
             openPopUp('资源修改','/admin/group/edit');
             return false;
         } else if (obj.event === 'delete') {
-            	$.ajax({
-         			url: "/resource/menu/"+dataRow.id,
-         			type : "DELETE",
-        	　　		dataType : "json",
-        	　　		contentType: "application/json;charset=utf-8",
-    			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-    			    success:function(data){
-    			    	 	if(data.success){
-    			    	 		layer.msg("删除成功")
-    			    	 		obj.del();
-    						}else{
-    							layer.msg(data.msg);
-    						}
-    			    }
-    			  	});
-            	
+           	/* $.ajax({
+        			url: "/resource/menu/"+dataRow.id,
+        			type : "DELETE",
+       	　　		dataType : "json",
+       	　　		contentType: "application/json;charset=utf-8",
+   			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+   			    success:function(data){
+   			    	 	if(data.success){
+   			    	 		layer.msg("删除成功")
+   			    	 		obj.del();
+   						}else{
+   							layer.msg(data.msg);
+   						}
+   			    }
+   			  	}); */
+        }else if(obj.event === 'set'){
+        	 openPopUp('分组设备','/admin/group/group_dev',60,80);
+        }
+        else if(obj.event === 'stop'){
+        	$.ajax({
+    			url: "/kwhmg/stop/"+dataRow.groupId,
+    			type : "POST",
+	   	　　		dataType : "json",
+	   	　　	 	headers: { "Authorization": authorization,'dz-usr':authUser.roleId },
+	   	　　		contentType: "application/json;charset=utf-8",
+				    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+				    success:function(data){
+				    	 	if(data.success){
+				    	 		layer.msg("删除成功")
+				    	 		obj.del();
+							}else{
+								layer.msg(data.msg);
+							}
+				    }
+				  });
         }
     });
 	
@@ -152,12 +181,32 @@ function loadTickets(jsonEntity){
             {rowspan: 2,field: 'code',title: '角色标识'},
             {field: 'adminName', title: '抄表规则',colspan: 3,align:'center'},
             {rowspan: 2,field: 'addTime',title: '添加时间'},
-            {rowspan: 2,title: '操作', toolbar: '#currentTableBar', align: "center",width:'10%'}
+            {rowspan: 2,title: '操作', toolbar: '#currentTableBar', align: "left",width:'10%'}
         ],[
-            { title: '抄表月份', field: 'months'/* ,templet : function(row) {
-				return row.months;
-			} */},
-            { title: '抄表日期', field: 'date'},
+            { title: '抄表月份', field: 'months' ,templet : function(row) {
+            	console.log(row.months);
+            	
+            	if(typeof(row.months) != "undefined" && row.months != null){
+            		var r = '';
+            		$.each(row.months,function(index,xx){
+            			console.log(index + '*****' +xx);
+            			r = r + xx + '月、';
+            		})
+            		return r;
+            	}else if(row.months == null){
+            		return '';
+            	}
+            	return row.months;
+			} },
+            { title: '抄表日期', field: 'date',templet :function(row){
+            	if(row.date == null){
+            		return '';
+            	}
+            	if(row.date == 'L'){
+            		return '每月的最后一天';
+            	}
+            	return row.date + '号';
+            }},
             { title: '抄表时间', field: 'time'}
         ]],
         limits: [5, 10, 20, 25, 50, 100],
@@ -165,6 +214,13 @@ function loadTickets(jsonEntity){
         page: true,
         skin: 'line',
         done : function(res, curr, count) {
+        	console.log(res);
+        	if(res.code == 8003){
+				//window.location.href = "/";
+				console.log(indexHome(window,0));
+				indexHome(window,0).Unclickable();
+				indexHome(window,0).JwtErr();
+			}
 			currentPage = curr;
 		}
     });

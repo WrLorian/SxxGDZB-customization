@@ -2,10 +2,10 @@ package com.kiwihouse.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.kiwihouse.dao.entity.AuthRoleMenu;
 import com.kiwihouse.domain.vo.AuthRoleMenuDetails;
-
-import io.lettuce.core.dynamic.annotation.Param;
 
 
 public interface AuthRoleMenuMapper {

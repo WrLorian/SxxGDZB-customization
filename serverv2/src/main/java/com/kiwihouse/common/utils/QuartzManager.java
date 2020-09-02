@@ -25,21 +25,21 @@ public class QuartzManager {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public static void addJob(String jobName, String jobGroupName,
                               String triggerName, String triggerGroupName,
-                              String adminId, String groupId,
+                              String roleId, String groupId,
                               Class jobClass, String cron) {
         try {
             Scheduler sched = schedulerFactory.getScheduler();
             // 任务名，任务组，任务执行类
             JobDetail jobDetail= JobBuilder.newJob(jobClass)
-                    .withIdentity(jobName+adminId+"-"+groupId, jobGroupName+adminId+"-"+groupId)
-                    .usingJobData("dz-usr",adminId)
+                    .withIdentity(jobName+roleId+"-"+groupId, jobGroupName+roleId+"-"+groupId)
+                    .usingJobData("dz-usr",roleId)
                     .usingJobData("groupId",groupId)
                     .build();
 
             // 触发器
             TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
             // 触发器名,触发器组
-            triggerBuilder.withIdentity(triggerName+adminId+"-"+groupId, triggerGroupName+adminId+"-"+groupId);
+            triggerBuilder.withIdentity(triggerName+roleId+"-"+groupId, triggerGroupName+roleId+"-"+groupId);
             triggerBuilder.startNow();
             // 触发器时间设定
             triggerBuilder.withSchedule(CronScheduleBuilder.cronSchedule(cron));
@@ -69,10 +69,10 @@ public class QuartzManager {
      */
     public static void modifyJobTime(String jobName, String jobGroupName,
                                      String triggerName, String triggerGroupName,
-                                     String adminId ,String cron) {
+                                     String roleId ,String cron) {
         try {
             Scheduler sched = schedulerFactory.getScheduler();
-            TriggerKey triggerKey = TriggerKey.triggerKey(triggerName+adminId, triggerGroupName+adminId);
+            TriggerKey triggerKey = TriggerKey.triggerKey(triggerName+roleId, triggerGroupName+roleId);
             CronTrigger trigger = (CronTrigger) sched.getTrigger(triggerKey);
             if (trigger == null) {
                 return;
@@ -115,15 +115,15 @@ public class QuartzManager {
      * @param triggerGroupName
      */
     public static void removeJob(String jobName, String jobGroupName,
-                                 String triggerName, String triggerGroupName,String groupId,String adminId) {
+                                 String triggerName, String triggerGroupName,String groupId,String roleId) {
         try {
             Scheduler sched = schedulerFactory.getScheduler();
 
-            TriggerKey triggerKey = TriggerKey.triggerKey(triggerName+adminId+"-"+groupId, triggerGroupName+adminId+"-"+groupId);
+            TriggerKey triggerKey = TriggerKey.triggerKey(triggerName+roleId+"-"+groupId, triggerGroupName+roleId+"-"+groupId);
 
             sched.pauseTrigger(triggerKey);// 停止触发器
             sched.unscheduleJob(triggerKey);// 移除触发器
-            sched.deleteJob(JobKey.jobKey(jobName+adminId+"-"+groupId, jobGroupName+adminId+"-"+groupId));// 删除任务
+            sched.deleteJob(JobKey.jobKey(jobName+roleId+"-"+groupId, jobGroupName+roleId+"-"+groupId));// 删除任务
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

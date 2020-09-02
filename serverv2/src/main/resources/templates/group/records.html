@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+    <div class="layui-input-block _chronometerBtn">
+			<button class="layui-btn layui-btn-normal" lay-submit
+				lay-filter="saveBtn">立即抄表</button>
+		</div>
+</div>
+<script type="text/html" id="xuhao">
+    {{d.LAY_TABLE_INDEX+1}}
+</script>
+<div th:include="include::footer"></div>
+<script th:inline="none">
+var dataRow,table;
+var currentPage = 1;
+var jsonEntity = {};
+var eqptSnList = new Array();
+layui.use(['form', 'table'], function () {
+    var $ = layui.jquery,
+        form = layui.form;
+        table = layui.table;
+        var dataRow = window.parent.dataRow;
+        console.log(dataRow);
+        jsonEntity.groupId = dataRow.groupId;
+        jsonEntity.eqptSn = dataRow.eqptSn;
+    loadTickets(jsonEntity);
+    $("._chronometerBtn").find('button').on('click',function(){
+    	eqptSnList.push(dataRow.eqptSn);
+    	 $.ajax({
+ 			url: "/kwhmg/meterNow",
+ 			type : "POST",
+ 			data : JSON.stringify(eqptSnList),
+	　　		dataType : "json",
+	　　		cache:true, 
+	　　		traditional:true,
+	        async:false, 
+	　　		contentType: "application/json;charset=utf-8",
+		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+		    success:function(data){
+		    	if(data.code === 5000){
+		    		layer.msg(data.msg, {
+	    	 			  icon: 6,
+	    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+	    	 		})
+		    	}
+		    }
+		 });
+    })
+});
+function loadTickets(jsonEntity){
+	table.render({
+        elem: '#currentTableId',
+        url: getRootPath() + '/kwhmg/info',
+        headers: { "Authorization": authorization ,"dz-usr":authUser.roleId},//通过请求头来发送token，放弃了通过cookie的发送方式
+        where : jsonEntity,
+        async : false,
+        toolbar: '#toolbarDemo',
+        defaultToolbar: ['filter', 'exports', 'print', {
+            title: '提示',
+            layEvent: 'LAYTABLE_TIPS',
+            icon: 'layui-icon-tips'
+        }],
+        cols: [[
+        	{title: '序号',templet: '#xuhao'},
+            {field: 'addTime',title: '抄表时间', sort: true},
+            {field: 'kwh',title: '抄表读数(kw/h)', sort: true}
+        ]],
+        limits: [5, 10, 20, 25, 50, 100],
+        limit: 5,
+        page: true,
+        skin: 'line',
+        done : function(res, curr, count) {
+        	console.log(res);
+        	if(res.code == 8003){
+				indexHome(window,0).Unclickable();
+				indexHome(window,0).JwtErr();
+			}
+			currentPage = curr;
+		}
+    });
+}
+//刷新
+function flush(currentPage, jsonEntity) {
+	table.reload('currentTableId', {
+		page : {
+			curr : currentPage
+		},
+		where : jsonEntity
+	});
+}
+</script>
+
+</body>
+</html>

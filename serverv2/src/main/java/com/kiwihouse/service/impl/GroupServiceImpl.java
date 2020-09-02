@@ -60,7 +60,7 @@ public class GroupServiceImpl implements GroupService{
  	            }
  	        });
  		} else {
- 			
+ 			list  = groupMapper.queryInfo(groupQueryVo);
  		}
  		
  		map.put("data", list);

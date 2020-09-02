@@ -65,7 +65,7 @@ public class EqptInfoDto {
     @ApiModelProperty(value = "设备添加时间")
     private String addTime;
     @ApiModelProperty(value = "管理员ID")
-    private String alarmId;
+    private String roleId;
 //    不知道干啥用的
 //    @ApiModelProperty(value = "")
 //    private String alarmMsg;

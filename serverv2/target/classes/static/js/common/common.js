@@ -27,13 +27,15 @@ String.prototype.NoSpace = function () {
     return this.replace(/\s+/g, "");
 };
 //得到主页
-var indexHome = function(elem) {
-	   if(elem.index == 0){
-		    console.log("找到了index=0")
+var indexHome = function(elem,i) {
+		if(typeof(i) != "undefined" || i != ''){
+			i = i + 1;
+		}
+	   if(elem.index == 0 || i > 5){
 			return elem;
 	   }
-	return indexHome(elem.parent);
-   }
+	return indexHome(elem.parent,i);
+}
 
 //list ---> listTree
 function convert(rows) {
@@ -102,6 +104,33 @@ Array.prototype.setList = function(){
         }  
     }  
     return arr;  
+}
+
+function JwtErr(elem){
+	layer.open({
+        type: 1
+        ,area: [ '35%', '50%']
+        ,id: 'JwtErr' //防止重复弹出
+        ,content: '<div style="padding: 20px 100px;">JwtErr验证失败，请重新登录验证!!!!! </div>'
+        ,btn: '关闭'
+        ,btnAlign: 'r' //按钮居中
+        ,shade: 0 //不显示遮罩
+        ,shadeClose :true
+        ,yes: function(){
+          layer.closeAll();
+          window.location.href = "/";
+        },cancel: function(){ 
+        	window.location.href = "/";
+          }
+      });
+}
+//禁止页面鼠标事件
+function Unclickable() {
+	$("body").css("pointer-events", "none");
+}
+//取消禁止页面鼠标事件
+function Mayclickable() {
+	$("body").css("pointer-events", "");
 }
 //缓存对象 --->待加入 jwt 身份验证 页面提示
 var authorization = localStorage.getItem('Authorization');

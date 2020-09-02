@@ -72,8 +72,8 @@ public class Eqpt4UpdateDto {
     @ApiModelProperty(value = "区域(当传递参数code时，address也必须传递)",name = "address",required =false)
     private String address;
 
-    @ApiModelProperty(value = "设备对应的管理员ID",name = "adminId",required = false)
-    private String adminId;
+    @ApiModelProperty(value = "设备对应的管理员ID",name = "roleId",required = false)
+    private String roleId;
 
     @ApiModelProperty(value = "区域ID",name = "siteId",required =false,hidden = true)
     private String siteId;

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form _custom_form">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">设备IMEI号</label>
+        <div class="layui-input-block">
+            <input type="text" name="imei" lay-verify="required" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
+            <tip>格式：</tip>
+        </div>
+    </div>
+   
+    <div class="layui-form-item">
+        <label class="layui-form-label required">设备序列号</label>
+        <div class="layui-input-block">
+            <input type="text" name="eqptSn" lay-verify="required" class="layui-input" placeholder="URL地址">
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+	    <label class="layui-form-label required">所属分组</label>
+	    <div class="layui-input-block">
+	      <select name="groupId" id="groupId" lay-verify="required">
+	      	<option value=""> 请选择 </option>
+	      </select>
+	    </div>
+    </div>
+	
+	<div class="layui-form-item">
+        <label class="layui-form-label">设备名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="eqptName" lay-verify="required" class="layui-input" placeholder="设备名称">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">额定电压</label>
+        <div class="layui-input-block">
+            <select name="voltage" id="voltage" lay-search="" lay-filter="voltage">
+            <option value="">请选择</option>
+	        <option value="36">36V</option>
+	        <option value="110">110V</option>
+	        <option value="220">220V</option>
+	        <option value="380">380V</option>
+	      </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">额定电流</label>
+        <div class="layui-input-block">
+            <input type="text" name="electricity"  class="layui-input" placeholder="额定电流">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">设备功率</label>
+        <div class="layui-input-block">
+            <input type="text" name="power"  class="layui-input" placeholder="设备功率">
+        </div>
+    </div>
+    <div class="layui-form-item" id="area-picker">
+    
+         <div class="layui-form-label">网点地址</div>
+         <div class="layui-input-inline" style="width: 200px;">
+             <select name="province" class="province-selector" lay-filter="province-1">
+                 <option value="">请选择省</option>
+             </select>
+         </div>
+         <div class="layui-input-inline" style="width: 200px;">
+             <select name="city" class="city-selector"  lay-filter="city-1">
+                 <option value="">请选择市</option>
+             </select>
+         </div>
+         <div class="layui-input-inline" style="width: 200px;">
+             <select name="district" class="county-selector" lay-filter="county-1">
+                 <option value="">请选择区</option>
+             </select>
+         </div>
+	</div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">详细地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="address"  class="layui-input" placeholder="详细地址">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">经度</label>
+        <div class="layui-input-block">
+            <input type="text" name="longitude"  class="layui-input" placeholder="经度">
+        </div>
+    </div>
+	<div class="layui-form-item">
+        <label class="layui-form-label">纬度</label>
+        <div class="layui-input-block">
+            <input type="text" name="latitude"  class="layui-input" placeholder="纬度">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">关联用户</label>
+        <div class="layui-input-block">
+            <input type="text" name="userId"  class="layui-input" placeholder="关联用户">
+        </div>
+    </div>
+    <div class="layui-form-item" >
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn" >确认添加</button>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script>
+var dataRow = window.parent.dataRow;
+console.log(dataRow);
+    layui.use(['form','iconPickerFa','layarea'], function () {
+        var form = layui.form,
+        	iconPickerFa = layui.iconPickerFa,
+            layer = layui.layer,
+            layarea = layui.layarea,
+            $ = layui.$;
+        init();
+        
+        layarea.render({
+            elem: '#area-picker',
+             data: {
+                 province:dataRow.province,
+                 city: dataRow.city,
+                 county: dataRow.district,
+             },
+            change: function (res) {
+                //选择结果
+                console.log(res);
+            }
+        });
+        
+        //加载信息
+        function init(){
+        	$.ajax({
+    			url: "/group/info",
+    			type : "GET",
+    	　　		dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+    		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+    		    success:function(data){
+    		    	 		var html = "";
+    		    	 		data.data.forEach(function(item){
+    		    	 			html += "<option value="+item.groupId+"> "+item.groupName+" </option>"
+    		    	 		});
+    		    	 		$("#groupId").append(html);
+    		    	 		form.render();
+    					
+    		    }
+    		});
+        }
+        form.on('switch(isRoot)', function(data){
+        	if (this.checked) {
+        		$("#parentTree").addClass('layui-hide');
+			} else {
+				$("#parentTree").removeClass('layui-hide');
+			}
+        	form.render();
+        });
+        iconPickerFa.render({
+            // 选择器，推荐使用input
+            elem: '#iconPicker1',
+            // fa 图标接口
+            url: "../../lib/font-awesome-4.7.0/less/variables.less",
+            // 是否开启搜索：true/false
+            search: true,
+            // 是否开启分页
+            page: true,
+            // 每页显示数量，默认12
+            limit: 12,
+            // 点击回调
+            click: function (data) {
+                $("#iconPicker1").val("fa " + data.icon);
+                form.render();
+            },
+            // 渲染成功后的回调
+            success: function (d) {
+                console.log(d);
+                
+            }
+        });
+        form.verify({
+			//数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]/^([1-9]||[1-9][0-9])\.[0-9]\.[0-9]$/
+			parentVerify : function(value) {
+				console.log("********************")
+				console.log($("#parentTree").hasClass("layui-hide"));
+				if(!$("#parentTree").hasClass("layui-hide")){
+					console.log($("#parentTree").text());
+					if($("#parentTree").text() == "" || $("#parentTree").text().NoSpace() == ""){
+						return  "不能为空";
+					}
+				}
+			}
+		});
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            if(data.field.isRoot == "on"){
+            	data.field.parentId = 0;
+            }else{
+            	data.field.parentId = $("#parentId").attr('data-id');
+            }
+            data.field.roleId = authUser.roleId;
+            data.field.uid = authUser.uid;
+            data.field.createBy= authUser.username;
+            data.field.register = 0;
+            data.field.eqptType = 0;
+            console.log(data.field);
+            $.ajax({
+     			url: "/equipment/info",
+			    type: "POST",
+			    data:JSON.stringify(data.field),
+			    dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+			    success:function(data){
+			    	console.log(data);
+			    	 	if(data.success){
+			    	 		layer.msg(data.msg, {
+   		    	 			  icon: 6,
+   		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+   		    	 			}, function(){
+	   		    	 			indexHome(window).init();
+				    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
+				    	 		parent.layer.close(iframeIndex);
+   		    	 			}); 
+						}else{
+							layer.msg(data.msg,{icon: 5, time: 2000});
+						}
+			    }
+			});
+            
+            return false;
+        });
+        
+        $("#parentId").on('click',function(){
+        	openPopUp('选择父节点','/admin/menu/tree',30,60);
+        	form.render();
+        })
+    });
+    
+    
+    
+</script>
+</body>
+</html>

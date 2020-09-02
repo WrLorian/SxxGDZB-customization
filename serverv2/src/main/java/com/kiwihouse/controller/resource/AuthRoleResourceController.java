@@ -1,6 +1,5 @@
 package com.kiwihouse.controller.resource;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.controller.common.BaseController;
-import com.kiwihouse.dao.entity.AuthResource;
 import com.kiwihouse.domain.vo.AuthRoleResourceVo;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.AuthRoleResourceService;

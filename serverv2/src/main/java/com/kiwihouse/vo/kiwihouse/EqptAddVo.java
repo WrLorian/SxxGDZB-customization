@@ -27,29 +27,23 @@ public class EqptAddVo {
     @ApiModelProperty(hidden = true)
     private String eqptId;
 
-    @NotBlank(message = "eqptName is not null")
     @ApiModelProperty(value = "设备名称", name = "eqptName", required = true)
     private String eqptName;
 
     @Imei
-    @NotBlank(message = "imei is not null")
     @ApiModelProperty(value = "IMEI号", name = "imei", required = true)
     private String imei;
 
-    @NotBlank(message = "imsi is not null")
     @ApiModelProperty(value = "IMSI号", name = "imsi", required = false)
     private String imsi;
 
-    @NotBlank(message = "register is not null")
     @ApiModelProperty(value = "是否同时注册到onenet平台(0-不注册，1-注册)", name = "register", required = true)
     private String register;
 
-    @NotBlank(message = "eqptSn is not null")
     @ApiModelProperty(value = "设备序列号（流水号）", name = "eqptSn", required = true)
     private String eqptSn;
 
     @NaturalNumber(message = "eqptType is natural number")
-    @NotBlank(message = "eqptType is not null")
     @ApiModelProperty(value = "设备类型(0-单相，1-烟感，2-三相)", name = "eqptType", required = true)
     private String eqptType;
 
@@ -94,10 +88,8 @@ public class EqptAddVo {
     @ApiModelProperty(value = "图片路径数组", name = "imgs", required = false)
     private List<String> imgs;
 
-
-
-    @ApiModelProperty(value = "执行操作的管理员ID", name = "doAdminId", hidden = true)
-    private String doAdminId;
+    @ApiModelProperty(value = "执行操作的角色ID", name = "doroleId", hidden = true)
+    private String doroleId;
     @ApiModelProperty(hidden = true)
     private String province;
     @ApiModelProperty(hidden = true)

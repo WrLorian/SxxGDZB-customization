@@ -65,3 +65,8 @@
 	padding-top: 10px;
 	width: 90%;
 }
+._chronometerBtn{
+	position: absolute;
+	bottom: 1.5%;
+	right: 1.5%;
+}

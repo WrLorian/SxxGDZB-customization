@@ -1,4 +1,4 @@
-package com.kiwihouse.mapper;
+package com.kiwihouse.dao.mapper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,4 +26,10 @@ public interface KwhMgMapper {
 
     MeterNowDto queryMeterInfo(String eqptSn);
     Integer insertMeterInfo(MeterNowDto meterNowDto);
+    /**
+     *	 获取抄表批次
+     * @param eqptSn
+     * @return
+     */
+	Integer selectTimesByEqptSn(String eqptSn);
 }

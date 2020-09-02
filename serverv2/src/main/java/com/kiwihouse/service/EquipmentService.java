@@ -29,7 +29,7 @@ public interface EquipmentService {
 	 * @param userInfo
 	 * @return
 	 */
-	ResultList addInfo(EqptAddVo eqptAddVo, UserInfo userInfo);
+	ResultList addInfo(EqptAddVo eqptAddVo);
 	/**
 	 * 	删除设备信息
 	 * @param eqptSn

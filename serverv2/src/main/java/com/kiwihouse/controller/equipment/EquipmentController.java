@@ -92,8 +92,7 @@ public class EquipmentController extends BaseController{
     @PostMapping("/info")
     public ResultList addInfo(@RequestBody @Validated EqptAddVo eqptAddVo, HttpServletRequest request) {
         logger.info("录入设备信息>> {}", new Log().setIp(request.getRemoteAddr()).setMsg("添加设备信息").setParam(eqptAddVo.toString()));
-        eqptAddVo.setDoAdminId(request.getHeader("dz-usr"));
-        return equipmentService.addInfo(eqptAddVo, new UserInfo(request));
+        return equipmentService.addInfo(eqptAddVo);
     }
 
     @ApiOperation(value = "deleteInfo",

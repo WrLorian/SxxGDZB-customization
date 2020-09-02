@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: header"></head>
+<head>
+<meta charset="utf-8">
+<title>layui</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+
+</head>
+<body>
+	<div class="layuimini-container">
+		<div class="layuimini-main">
+			<table class="layui-hide" id="currentTableId"
+				lay-filter="currentTableFilter"></table>
+		</div>
+		<div class="layui-input-block _chronometerBtn">
+			<button class="layui-btn layui-btn-normal" lay-submit
+				lay-filter="saveBtn">立即抄表</button>
+		</div>
+	</div>
+	<script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="records">抄表记录</a>
+</script>
+	<div th:include="include::footer"></div>
+	<script th:inline="none">
+var dataRow,table;
+var currentPage = 1;
+var jsonEntity = {};
+var dataRow = window.parent.dataRow;
+var eqptSnList;
+layui.use(['form', 'table'], function () {
+    var $ = layui.jquery,
+    	layer = layui.layer,
+        form = layui.form;
+        table = layui.table;
+    jsonEntity.groupId = dataRow.groupId;
+    loadTickets(jsonEntity);
+    
+    
+    table.on('tool(currentTableFilter)', function (obj) {
+        dataRow = obj.data;
+         if (obj.event === 'records') {
+        	 openPopUp('抄表记录','/admin/group/records',60,80);
+        }
+    });
+    
+    //kwhmg/meterNow
+    $("._chronometerBtn").find('button').on('click',function(){
+    	console.log(eqptSnList);
+    	 $.ajax({
+ 			url: "/kwhmg/meterNow",
+ 			type : "POST",
+ 			data : JSON.stringify(eqptSnList),
+	　　		dataType : "json",
+	　　		cache:true, 
+	　　		traditional:true,
+	        async:false, 
+	　　		contentType: "application/json;charset=utf-8",
+		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+		    success:function(data){
+		    	if(data.code === 5000){
+		    		layer.msg(data.msg, {
+	    	 			  icon: 6,
+	    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+	    	 		})
+		    	}
+		    }
+		 });
+    })
+});
+
+function loadTickets(){
+	table.render({
+        elem: '#currentTableId',
+        url: getRootPath() + '/equipment/info',
+        headers: { "Authorization": authorization,'dz-usr':authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+        where : jsonEntity,
+        async : false,
+        toolbar: '#toolbarDemo',
+        defaultToolbar: ['filter', 'exports', 'print', {
+            title: '提示',
+            layEvent: 'LAYTABLE_TIPS',
+            icon: 'layui-icon-tips'
+        }],
+        cols: [[
+            {field: 'eqptSn',title: '设备序列号', sort: true},
+            {field: '',title: '地址', sort: true,templet : function(row){
+            	return row.province + row.city + row.district + (row.eqptAdd == null ?'':row.eqptAdd);
+            }},
+            {field: 'code',title: '电能读数'},
+            {field: 'addTime', title: '抄表时间',align:'center'},
+            {title: '更多', align: "center",width:'20%',templet :function(row){
+            	if(row.eqptType == 0){
+            		return ' <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="records">抄表记录</a>';
+            	}else{
+            		return '';
+            	}
+            }}
+        ]],
+        limits: [5, 10, 20, 25, 50, 100],
+        limit: 10,
+        page: true,
+        skin: 'line',
+        done : function(res, curr, count) {
+        	eqptSnList = new Array();　
+        	if(res.data.length > 0){
+        		res.data.forEach(function(item){
+        			eqptSnList.push(item.eqptSn);
+        		});
+        	}else{
+        		
+        	}
+        	if(res.code == 8003){
+				//window.location.href = "/";
+				console.log(indexHome(window,0));
+				indexHome(window,0).Unclickable();
+				indexHome(window,0).JwtErr();
+			}
+			currentPage = curr;
+		}
+    });
+}
+//刷新
+function flush(currentPage, jsonEntity) {
+	table.reload('currentTableId', {
+		page : {
+			curr : currentPage
+		},
+		where : jsonEntity
+	});
+}
+</script>
+
+</body>
+</html>

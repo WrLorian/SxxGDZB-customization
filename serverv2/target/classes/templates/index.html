@@ -166,8 +166,10 @@
                 'layuimini-onepage.99php.cn',
             ],
         });
+        console.log(authorization);
 		if(authorization == null ){
 			window.location.href = "/";
+		}else{
 		}
 		$.ajax({
  			url: "/user/queryByName",
@@ -208,7 +210,6 @@
 	function init(){
 		miniAdmin.render(options);
 	}
-    
 </script>
 </body>
 </html>
