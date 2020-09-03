@@ -63,7 +63,7 @@ public class EquipmentController extends BaseController{
     @ApiResponses({@ApiResponse(code = 0, message = "回调参数", response = EqptInfoDto.class)})
     @GetMapping("/info")
     public Map<String, Object> queryInfo(@Validated EqptQueryVo eqptQueryVo, HttpServletRequest request) {
-        checkAdminService.verifyAdminId(request.getHeader("dz-usr"), eqptQueryVo);
+        //checkAdminService.verifyAdminId(request.getHeader("dz-usr"), eqptQueryVo);
         AuthUser authUser  = authUserMapper.selectByPrimaryKey(Integer.valueOf(request.getHeader("dz-usr")));
         return equipmentService.queryInfo(eqptQueryVo, authUser);
     }

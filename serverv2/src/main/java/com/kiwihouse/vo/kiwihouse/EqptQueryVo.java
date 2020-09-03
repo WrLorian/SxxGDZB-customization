@@ -55,15 +55,18 @@ public class EqptQueryVo extends Basic {
     private String userName;
 
     @ApiModelProperty(value = "页码",name = "page",required =true,example ="1")
-    @NotNull(message = "page is not null")
+//    @NotNull(message = "page is not null")
     //@Min(value = 1,message = "page最小为1")
-    private int page;
+    private Integer page;
 
     @ApiModelProperty(value = "每页条数",name = "limit",required =true,example ="10")
-    @NotNull(message = "limit is not null")
-    @Min(value = 1,message = "limit最小为10")
-    private int limit;
-
+//    @NotNull(message = "limit is not null")
+//    @Min(value = 1,message = "limit最小为10")
+    private Integer limit;
+    /**
+     * imei号
+     */
+    private String imei;
     @ApiModelProperty(hidden = true)
     private String province;
     @ApiModelProperty(hidden = true)

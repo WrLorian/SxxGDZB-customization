@@ -543,9 +543,12 @@
             <if test="userPhone != null and userPhone != ''">
                 and u.phone=#{userPhone}
             </if>
+            <if test="imei != null">
+            	and e.imei = #{imei}
+            </if>
         </where>
         order by e.add_time desc
-        <if test="limit gt 0">
+        <if test="limit != null">
         	limit #{page},#{limit}
         </if>
         
@@ -604,6 +607,9 @@
             </if>
             <if test="userPhone != null and userPhone != ''">
                 and u.phone=#{userPhone}
+            </if>
+             <if test="imei != null">
+            	and e.imei = #{imei}
             </if>
             </where>
     </select>

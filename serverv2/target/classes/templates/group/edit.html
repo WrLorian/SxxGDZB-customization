@@ -164,7 +164,7 @@
         	　　		contentType: "application/json;charset=utf-8",
     			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
     			    success:function(data){
-    			    	if(data.data.GroupDto!=null && data.data.GroupDto.groupName != value){
+    			    	if(data.data.GroupDto!=null && data.data.GroupDto.groupName != dataRow.groupName){
     			    		falg = true;
     			    	}
     			    }

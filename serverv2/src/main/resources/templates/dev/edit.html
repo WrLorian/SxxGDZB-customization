@@ -18,7 +18,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">设备IMEI号</label>
         <div class="layui-input-block">
-            <input type="text" name="imei" lay-verify="required" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
+            <input type="text" name="imei" lay-verify="required|imeiReq" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
             <tip>格式：</tip>
         </div>
     </div>
@@ -26,7 +26,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">设备序列号</label>
         <div class="layui-input-block">
-            <input type="text" name="eqptSn" lay-verify="required" class="layui-input" placeholder="URL地址">
+            <input type="text" name="eqptSn" lay-verify="required|eqptSnReq" class="layui-input" placeholder="URL地址">
         </div>
     </div>
     
@@ -129,7 +129,7 @@ console.log(dataRow);
             layarea = layui.layarea,
             $ = layui.$;
         init();
-        
+        //区域联动选择
         layarea.render({
             elem: '#area-picker',
              data: {
@@ -142,13 +142,13 @@ console.log(dataRow);
                 console.log(res);
             }
         });
-        
         //加载信息
         function init(){
         	$.ajax({
     			url: "/group/info",
     			type : "GET",
     	　　		dataType : "json",
+    	  		async : false,
     	　　		contentType: "application/json;charset=utf-8",
     		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
     		    success:function(data){
@@ -162,47 +162,41 @@ console.log(dataRow);
     		    }
     		});
         }
-        form.on('switch(isRoot)', function(data){
-        	if (this.checked) {
-        		$("#parentTree").addClass('layui-hide');
-			} else {
-				$("#parentTree").removeClass('layui-hide');
-			}
-        	form.render();
+        //form表单赋值
+        var custom_form = $("._custom_form")
+        $.each(dataRow, function(key, val) {
+        	custom_form.find("[name='"+key+"']").val(val);
         });
-        iconPickerFa.render({
-            // 选择器，推荐使用input
-            elem: '#iconPicker1',
-            // fa 图标接口
-            url: "../../lib/font-awesome-4.7.0/less/variables.less",
-            // 是否开启搜索：true/false
-            search: true,
-            // 是否开启分页
-            page: true,
-            // 每页显示数量，默认12
-            limit: 12,
-            // 点击回调
-            click: function (data) {
-                $("#iconPicker1").val("fa " + data.icon);
-                form.render();
-            },
-            // 渲染成功后的回调
-            success: function (d) {
-                console.log(d);
-                
-            }
-        });
+        form.render();
+        //验证规则
         form.verify({
 			//数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]/^([1-9]||[1-9][0-9])\.[0-9]\.[0-9]$/
-			parentVerify : function(value) {
-				console.log("********************")
-				console.log($("#parentTree").hasClass("layui-hide"));
-				if(!$("#parentTree").hasClass("layui-hide")){
-					console.log($("#parentTree").text());
-					if($("#parentTree").text() == "" || $("#parentTree").text().NoSpace() == ""){
-						return  "不能为空";
-					}
-				}
+			imeiReq : function(value) {
+				var entity = {};
+				entity.imei = value;
+				$.ajax({
+	     			url: "/equipment/info",
+				    type: "GET",
+				    data:JSON.stringify(entity),
+				    dataType : "json",
+	    	　　		contentType: "application/json;charset=utf-8",
+				    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+				    success:function(data){
+				    	console.log(data);
+				    	 	if(data.success){
+				    	 		layer.msg(data.msg, {
+	   		    	 			  icon: 6,
+	   		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+	   		    	 			}, function(){
+		   		    	 			indexHome(window).init();
+					    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
+					    	 		parent.layer.close(iframeIndex);
+	   		    	 			}); 
+							}else{
+								layer.msg(data.msg,{icon: 5, time: 2000});
+							}
+				    }
+				});
 			}
 		});
         //监听提交

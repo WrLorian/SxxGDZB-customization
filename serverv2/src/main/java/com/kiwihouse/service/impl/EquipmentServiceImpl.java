@@ -49,10 +49,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 		System.out.println(eqptQueryVo.toString());
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<EqptInfoDto> list = new ArrayList<EqptInfoDto>();
-		int limit = eqptQueryVo.getLimit();
-		int page = eqptQueryVo.getPage();
+		Integer limit = eqptQueryVo.getLimit();
+		Integer page = eqptQueryVo.getPage();
 		if (StringUtils.isNotBlank(eqptQueryVo.getOnline())) {// 如果查询设备状态
-			eqptQueryVo.setLimit(0);
+			eqptQueryVo.setLimit(null);
 			list = equipmentMapper.querInfoByUserIdPage(eqptQueryVo);
 			list.forEach(eqpt -> {
 				eqpt.setEqptStatus(String.valueOf(Code.NOTONLINE.getCode()));
@@ -79,8 +79,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 			map.put("count", collect.size());
 			map.put("code", 0);
 		} else {
-			eqptQueryVo.setPage(limit * (page - 1));
-			eqptQueryVo.setLimit(limit);
+			if(limit!=null) {
+				eqptQueryVo.setPage(limit * (page - 1));
+				eqptQueryVo.setLimit(limit);
+			}
 			list = equipmentMapper.querInfoByUserIdPage(eqptQueryVo);
 			list.forEach(eqpt -> {
 				eqpt.setEqptStatus(String.valueOf(Code.NOTONLINE.getCode()));
