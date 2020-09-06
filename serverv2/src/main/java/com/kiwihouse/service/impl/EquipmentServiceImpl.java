@@ -46,7 +46,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 	@Override
 	public Map<String, Object> queryInfo(EqptQueryVo eqptQueryVo, AuthUser authUser) {
 
-		System.out.println(eqptQueryVo.toString());
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<EqptInfoDto> list = new ArrayList<EqptInfoDto>();
 		Integer limit = eqptQueryVo.getLimit();
