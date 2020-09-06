@@ -65,7 +65,6 @@
         var jsonEntity = {};
         var returnedItem;
         var menuForm = $("#menuFormId");
-        console.log(dataRow);
         if(dataRow.parentId == 0){
         	$('input[type="checkbox"]').prop('checked', true);
         	$("#parentTree").addClass('layui-hide');
@@ -78,7 +77,6 @@
         $.each(dataRow, function(key, val) {
         	if(key == 'parentId'){
         		menuForm.find("[name='"+key+"']").attr("data-id",val);
-        		console.log(returnNodes(menuTree,val));
         		if(val != 0){
         			menuForm.find("[name='"+key+"']").val(returnNodes(menuTree,val).name);
         		}else{
@@ -109,7 +107,6 @@
             },
             // 渲染成功后的回调
             success: function (d) {
-                console.log(d);
                 
             }
         });
@@ -166,7 +163,6 @@
         }
         //监听提交
         form.on('submit(updBtn)', function (data) {
-        	console.log(JSON.stringify(data.field.isRoot));
         	 if(data.field.isRoot == "on"){
              	data.field.parentId = 0;
              }else{

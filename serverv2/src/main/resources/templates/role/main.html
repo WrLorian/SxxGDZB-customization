@@ -107,7 +107,6 @@ layui.use(['form', 'table'], function () {
 		    success:function(data){
 		    	 	if(data.success){
 		    	 		var html = "";
-		    	 		console.log(data.data);
 		    	 		data.data.listRole.forEach(function(item){
 		    	 			html += "<option vaue="+item.CODE+"> "+item.CODE+" </option>"
 		    	 		});
@@ -177,14 +176,6 @@ layui.use(['form', 'table'], function () {
         	openPopUp('修改','/admin/role/edit');
         }
     });
-
-    //监听表格复选框选择
-    table.on('checkbox(currentTableFilter)', function (obj) {
-        console.log(obj)
-    });
-
-    
-	
 });
 </script>
 

@@ -96,7 +96,6 @@
     		}
     	})
         form.on('switch(status)', function(data){
-        	console.log(this.checked);
         	if (this.checked) {
         		$.each($("._Meter_Reading_Rules"),function(){
         			$(this).removeClass('layui-hide');
@@ -157,7 +156,6 @@
             }else{
             	data.field.cron = "ncron";
             }
-        	console.log(data.field);
            $.ajax({
      			url: "/group/info",
 			    type: "POST",

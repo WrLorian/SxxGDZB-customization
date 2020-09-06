@@ -138,7 +138,6 @@ var dataRow = window.parent.dataRow;
              },
             change: function (res) {
                 //选择结果
-                console.log(res);
             }
         });
         
@@ -187,17 +186,13 @@ var dataRow = window.parent.dataRow;
             },
             // 渲染成功后的回调
             success: function (d) {
-                console.log(d);
                 
             }
         });
         form.verify({
 			//数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]/^([1-9]||[1-9][0-9])\.[0-9]\.[0-9]$/
 			parentVerify : function(value) {
-				console.log("********************")
-				console.log($("#parentTree").hasClass("layui-hide"));
 				if(!$("#parentTree").hasClass("layui-hide")){
-					console.log($("#parentTree").text());
 					if($("#parentTree").text() == "" || $("#parentTree").text().NoSpace() == ""){
 						return  "不能为空";
 					}
@@ -216,7 +211,6 @@ var dataRow = window.parent.dataRow;
             data.field.createBy= authUser.username;
             data.field.register = 0;
             data.field.eqptType = 0;
-            console.log(data.field);
             $.ajax({
      			url: "/equipment/info",
 			    type: "POST",
@@ -225,7 +219,6 @@ var dataRow = window.parent.dataRow;
     	　　		contentType: "application/json;charset=utf-8",
 			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
-			    	console.log(data);
 			    	 	if(data.success){
 			    	 		layer.msg(data.msg, {
    		    	 			  icon: 6,

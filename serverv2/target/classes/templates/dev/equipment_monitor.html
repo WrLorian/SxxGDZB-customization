@@ -112,7 +112,6 @@ layui.use(['form', 'table'], function () {
          		jsonEntity[key] = val;
          	}
         });
-         console.log(jsonEntity);
          //执行搜索重载
          loadTable(jsonEntity);
          return false;
@@ -125,17 +124,8 @@ layui.use(['form', 'table'], function () {
         if (obj.event === 'add') {  // 监听添加操作
         	openPopUp('添加','/admin/dev/add',60,80);
         } else if (obj.event === 'delete') {  // 监听删除操作
-            var checkStatus = table.checkStatus('currentTableId')
-                , data = checkStatus.data;
-            layer.alert(JSON.stringify(data));
         }
     });
-
-    //监听表格复选框选择
-    table.on('checkbox(currentTableFilter)', function (obj) {
-        console.log(obj)
-    });
-
     table.on('tool(currentTableFilter)', function (obj) {
     	dataRow = obj.data;
         if (obj.event === 'edit') {

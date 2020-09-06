@@ -49,7 +49,6 @@ layui.use(['form', 'table'], function () {
     
     //kwhmg/meterNow
     $("._chronometerBtn").find('button').on('click',function(){
-    	console.log(eqptSnList);
     	 $.ajax({
  			url: "/kwhmg/meterNow",
  			type : "POST",
@@ -114,8 +113,6 @@ function loadTickets(){
         		
         	}
         	if(res.code == 8003){
-				//window.location.href = "/";
-				console.log(indexHome(window,0));
 				indexHome(window,0).Unclickable();
 				indexHome(window,0).JwtErr();
 			}

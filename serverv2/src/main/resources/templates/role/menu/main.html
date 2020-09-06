@@ -148,7 +148,6 @@ layui.use(['form', 'table'], function () {
                 , data = checkStatus.data;
             var roleIds = [];
             var menuIds = [];
-            console.log(data);
             $.each(data,function(index,xx){
             	roleIds.push(xx.roleId);
             	menuIds.push(xx.id);
@@ -179,12 +178,6 @@ layui.use(['form', 'table'], function () {
         	openPopUp('修改','/admin/role/menu/edit');
         }
     });
-
-    //监听表格复选框选择
-    table.on('checkbox(currentTableFilter)', function (obj) {
-        console.log(obj)
-    });
-
 });
 
 //刷新

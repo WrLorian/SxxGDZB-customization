@@ -121,7 +121,6 @@
 <div th:include="include::footer"></div>
 <script>
 var dataRow = window.parent.dataRow;
-console.log(dataRow);
     layui.use(['form','iconPickerFa','layarea'], function () {
         var form = layui.form,
         	iconPickerFa = layui.iconPickerFa,
@@ -182,7 +181,6 @@ console.log(dataRow);
 	    	　　		contentType: "application/json;charset=utf-8",
 				    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 				    success:function(data){
-				    	console.log(data);
 				    	 	if(data.success){
 				    	 		layer.msg(data.msg, {
 	   		    	 			  icon: 6,
@@ -211,7 +209,6 @@ console.log(dataRow);
             data.field.createBy= authUser.username;
             data.field.register = 0;
             data.field.eqptType = 0;
-            console.log(data.field);
             $.ajax({
      			url: "/equipment/info",
 			    type: "POST",
@@ -220,7 +217,6 @@ console.log(dataRow);
     	　　		contentType: "application/json;charset=utf-8",
 			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
-			    	console.log(data);
 			    	 	if(data.success){
 			    	 		layer.msg(data.msg, {
    		    	 			  icon: 6,

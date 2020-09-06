@@ -33,7 +33,6 @@ layui.use(['form', 'table'], function () {
         form = layui.form;
         table = layui.table;
         var dataRow = window.parent.dataRow;
-        console.log(dataRow);
         jsonEntity.groupId = dataRow.groupId;
         jsonEntity.eqptSn = dataRow.eqptSn;
     loadTickets(jsonEntity);
@@ -83,7 +82,6 @@ function loadTickets(jsonEntity){
         page: true,
         skin: 'line',
         done : function(res, curr, count) {
-        	console.log(res);
         	if(res.code == 8003){
 				indexHome(window,0).Unclickable();
 				indexHome(window,0).JwtErr();

@@ -167,7 +167,6 @@ var addOrUpdateData = function() {
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             data.field.ids = $("#demo").attr('data-ids');
-            console.log(data.field);
             $.ajax({
     			url: "/rolemenu",
     			type : "PUT",

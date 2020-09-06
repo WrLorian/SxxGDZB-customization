@@ -56,7 +56,6 @@
 			//监听提交
 			  form.on('submit(loginform)', function(data){
 				var date = data.field;
-				console.log(date);
 			    $.ajax({
 	    	　　		url : getRootPath() + "/account/login",
 	    	　　		type : "post",
@@ -64,12 +63,10 @@
 	    	　　		contentType: "application/json;charset=utf-8",
 	    	　　		data:JSON.stringify(data.field),
 	    	　　		success : function(data){
-	    	　　			console.log(data);
 	   	　　				if(data.success){
 	   	　　					localStorage.setItem('Authorization', data.data['jwt']);
 	   	　　					localStorage.setItem("authUser",JSON.stringify(data.data['user']));
 	   	　　					window.location.href = getRootPath() + "/admin/index" ;
-	   	　　					console.log("准备进入主页.......")
 	   	　　				}else{
 	   	　　					layer.msg(data.msg,{icon: 2});
 	   	　　				}

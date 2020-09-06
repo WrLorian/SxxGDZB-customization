@@ -89,12 +89,9 @@
     	　　		async:false,
     		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
     		    success:function(data){
-    		    	console.log(data);
-    		    	
     		    	var vals = [];
    		    	 	if(data.code == 0){
    		    	 		$.each(data.data,function(index,xx){
-   		    	 			console.log(xx);
    	    		    		ids.push(xx.id);
    	    		    		vals.push(xx.resName);
    	    		    	})
@@ -136,11 +133,7 @@
         //监听提交
         form.on('submit(saveBtn)', function (data) {
            data.field.resIds = $("#demo").attr('data-ids');
-           console.log(data.field);
-           console.log(data.field.resIds)
-           console.log( ids.join(","))
            if(data.field.resIds == ids.join(",")){
-        	   console.log("相等")
         	   layer.msg("没有要修改的类容", {
   	 			  icon: 5,
   	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
