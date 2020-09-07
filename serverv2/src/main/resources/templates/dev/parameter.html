@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="layui-tab">
+  <ul class="layui-tab-title">
+    <li class="layui-this">设备参数</li>
+    <li>告警阈值</li>
+  </ul>
+  <div class="layui-tab-content">
+    <div class="layui-tab-item layui-show">
+     	<div class="layui-form layuimini-form _dev_param">
+		    <div class="layui-form-item">
+		        <label class="layui-form-label">设置电流变比</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="reg_01" lay-verify="numberIs|oneToFourNine" placeholder="范围1-9999。 " value="" class="layui-input">
+		        </div>
+		    </div>
+		   
+		    <div class="layui-form-item">
+		        <label class="layui-form-label required">设置漏电流变比</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="reg_02" lay-verify="numberIs|oneToFourNine" placeholder="范围1-9999。 " value="" class="layui-input">
+		        </div>
+		    </div>
+		    
+		    <div class="layui-form-item">
+			    <label class="layui-form-label required">设置电压上限</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="reg_03" placeholder="范围0.0-999.9。 " value="" class="layui-input">
+			    </div>
+		    </div>
+			
+			<div class="layui-form-item">
+		        <label class="layui-form-label">设置电压下限</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="reg_04" placeholder="范围0.0-999.9。 " value="" class="layui-input">
+		        </div>
+		    </div>
+		    <div class="layui-form-item">
+		        <label class="layui-form-label">设置电流上限</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="reg_05" placeholder="范围0.0-999.9。 " value="" class="layui-input">
+		        </div>
+		    </div>
+		    <div class="layui-form-item">
+		        <label class="layui-form-label">设置功率上限</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="reg_06" placeholder="范围0-99999。 " value="" class="layui-input">
+		        </div>
+		    </div>
+		    <div class="layui-form-item">
+		        <label class="layui-form-label">设置漏电流上限</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="reg_07" placeholder="范围0.0-999.9。  漏电流上线建议设置在30mA，因人体能承受的电流约为30mA。500mA以下漏电一般不会引起火灾。" value="" class="layui-input">
+		        </div>
+		    </div>
+		    <div class="layui-form-item">
+		        <label class="layui-form-label">设置温度上限</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="reg_08" placeholder="范围0.0-999.9。" value="" class="layui-input">
+		        </div>
+		    </div>
+		    <div class="layui-form-item">
+		        <label class="layui-form-label">设置数据上传间隔</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="reg_09" placeholder="范围1-9999。建议设定为30分钟上传一次设备普通数据。注：设备告警时，每隔1分钟上传一次设备数据" value="" class="layui-input">
+		        </div>
+		    </div>
+			<div class="layui-form-item">
+		        <label class="layui-form-label">设置蜂鸣器使能</label>
+		        <div class="layui-input-block">
+		            <select name="reg_10" id="reg_10" lay-search="" lay-filter="reg_10">
+			            <option value="">请选择</option>
+				        <option value="1">开启</option>
+				        <option value="0">关闭</option>
+			        </select>
+		        </div>
+		    </div>
+		    <div class="layui-form-item">
+		        <label class="layui-form-label">设置当前电能值</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="reg_11" placeholder="范围0.0-99999999.9。" value="" class="layui-input">
+		        </div>
+		    </div>
+		    <div class="layui-form-item" >
+		        <div class="layui-input-block">
+		            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="devParamBtn" >确认添加</button>
+		        </div>
+		    </div>
+		</div>
+    </div>
+    <div class="layui-tab-item">
+		<div class="layui-form layuimini-form _dev_alarm_num">
+		    <div class="layui-form-item">
+		        <label class="layui-form-label required">过流告警阈值</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="curH" lay-reqtext="过流告警阈值不能为空" placeholder="请输入过流告警临界值，超过临界值，立即发送告警短息，告警记录将转为维修工单，以下设置同理" value="" class="layui-input">
+		        </div>
+		    </div>
+		   
+		    <div class="layui-form-item">
+		        <label class="layui-form-label required">漏电告警阈值</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="leakH" lay-reqtext="漏电告警阈值不能为空" placeholder="请输入漏电告警临界值" value="" class="layui-input">
+		        </div>
+		    </div>
+		    
+		    <div class="layui-form-item">
+			    <label class="layui-form-label required">过载告警阈值</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="pwrH" lay-reqtext="过载告警阈值不能为空" placeholder="请输入过载告警功率临界值" value="" class="layui-input">
+			    </div>
+		    </div>
+			
+			<div class="layui-form-item">
+		        <label class="layui-form-label required">温升告警阈值</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="tempH" lay-reqtext="温升告警阈值不能为空" placeholder="请输入输入温升告警临界值" value="" class="layui-input">
+		        </div>
+		    </div>
+		    <div class="layui-form-item">
+		        <label class="layui-form-label required">过压告警阈值</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="volH" lay-reqtext="过压告警阈值不能为空" placeholder="请输入过压告警临界值" value="" class="layui-input">
+		        </div>
+		    </div>
+		    <div class="layui-form-item">
+		        <label class="layui-form-label required">欠压告警阈值</label>
+		        <div class="layui-input-block">
+		            <input type="text" name="volL" lay-reqtext="欠压告警阈值不能为空" placeholder="请输入欠压告警临界值" value="" class="layui-input">
+		        </div>
+		    </div>
+		    <div class="layui-form-item" >
+		        <div class="layui-input-block">
+		            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="devAlarmNumBtn" >确认添加</button>
+		        </div>
+		    </div>
+		</div>
+	</div>
+  </div>
+</div>
+
+
+
+<div th:include="include::footer"></div>
+<script>
+var dataRow = window.parent.dataRow;
+    layui.use(['form','iconPickerFa','layarea','element'], function () {
+        var form = layui.form,
+        	element = layui.element;
+        	iconPickerFa = layui.iconPickerFa,
+            layer = layui.layer,
+            layarea = layui.layarea,
+            $ = layui.$;
+        form.verify({
+        	oneToFourNine : function(value){
+        	console.log(parseFloat(value));
+       		if(parseFloat(value)> 9999 || parseFloat(value) < 0 && value != null){
+       			return '范围1-9999';
+       		}
+        	},zeroToThreeNine : function(value){
+        		if(parseFloat(value)> 999.9 || parseFloat(value) < 0 && value != null){
+        			return '范围0-999.9';
+        		}
+        	},zeroToFiveNine : function(value){
+        		if(parseFloat(value)> 99999 || parseFloat(value) < 0 && value != null){
+        			return '范围0-99999';
+        		}
+        	},zeroToEightNine : function(value){
+        		if(parseFloat(value)> 99999999.9 || parseFloat(value) < 0 && value != null){
+        			return '范围0-99999999.9';
+        		}
+        	},numberIs : function(value){
+        		console.log(value);
+        		if(/^\d+$/.test(value)==false && /^\d+\.\d+$/.test(value)==false  && value != '')
+                {
+                 return '你输入的不是数字';
+                }
+        	}
+			
+		});
+        //监听提交
+        form.on('submit(devParamBtn)', function (data) {
+           console.log(JSON.stringify(data.field));
+           var entity = {};
+           entity.register = JSON.stringify(data.field);
+           entity.eqptType = dataRow.eqptType;
+           entity.imei = dataRow.imei;
+          /*   $.ajax({
+     			url: "/onenet/issuedList",
+			    type: "POST",
+			    data:JSON.stringify(data.field),
+			    dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+			    success:function(data){
+			    	 	if(data.success){
+			    	 		layer.msg(data.msg, {
+   		    	 			  icon: 6,
+   		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+   		    	 			}, function(){
+	   		    	 			indexHome(window).init();
+				    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
+				    	 		parent.layer.close(iframeIndex);
+   		    	 			}); 
+						}else{
+							layer.msg(data.msg,{icon: 5, time: 2000});
+						}
+			    }
+			}); */
+            
+            return false;
+        });
+        
+        form.on('submit(devAlarmNumBtn)', function (data) {
+            data.field.eqptSn = dataRow.eqptSn;
+            console.log(JSON.stringify(data.field));
+           /*   $.ajax({
+      			url: "/onenet/issuedList",
+ 			    type: "POST",
+ 			    data:JSON.stringify(data.field),
+ 			    dataType : "json",
+     	　　		contentType: "application/json;charset=utf-8",
+ 			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+ 			    success:function(data){
+ 			    	 	if(data.success){
+ 			    	 		layer.msg(data.msg, {
+    		    	 			  icon: 6,
+    		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+    		    	 			}, function(){
+ 	   		    	 			indexHome(window).init();
+ 				    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
+ 				    	 		parent.layer.close(iframeIndex);
+    		    	 			}); 
+ 						}else{
+ 							layer.msg(data.msg,{icon: 5, time: 2000});
+ 						}
+ 			    }
+ 			}); */
+             
+             return false;
+         });
+    });
+    
+    
+    
+</script>
+</body>
+</html>

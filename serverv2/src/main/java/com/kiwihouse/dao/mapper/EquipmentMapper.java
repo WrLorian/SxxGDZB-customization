@@ -91,5 +91,11 @@ public interface EquipmentMapper {
 	 * @return
 	 */
 	Integer queryInfoCount(EqptQueryVo eqptQueryVo);
+	/**
+	 * 批量删除设备
+	 * @param aqptArr
+	 * @return
+	 */
+	int deleteBatch(String[] aqptArr);
 
 }

@@ -77,9 +77,9 @@ public class EquipmentController extends BaseController{
     public ResultList updateInfo(@RequestBody @Validated Eqpt4UpdateDto updateDto, HttpServletRequest request) {
         logger.info("更新设备信息>> {}", new Log().setIp(request.getRemoteAddr()).setMsg("更新设备信息").setParam(updateDto.toString()));
         String adminId = request.getHeader("dz-usr");
-        if (!checkAdminService.isEqptBelong2admin(updateDto.getEqptId(), adminId)) {
-            return new ResultList(Code.PRIVILEGE_FAIL.getCode(), "对设备Id为`" + updateDto.getEqptId() + "`的设备没有修改权限", null);
-        }
+//        if (!checkAdminService.isEqptBelong2admin(updateDto.getEqptId(), adminId)) {
+//            return new ResultList(Code.PRIVILEGE_FAIL.getCode(), "对设备Id为`" + updateDto.getEqptId() + "`的设备没有修改权限", null);
+//        }
         updateDto.setDoAdminId(adminId);
         return equipmentService.updateInfo(updateDto);
     }

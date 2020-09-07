@@ -88,8 +88,9 @@
 
         <script type="text/html" id="currentTableBar">
             <a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-			<a class="layui-icon layui-icon-slider" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="parm"></a>
-			<a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="manay"></a>
+			<a class="layui-icon layui-icon-slider" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="parameter"  title="设备参数"></a>
+			<a class="fa fa-ellipsis-h" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="more"  title="更多"></a>
+			<a class="fa fa-paper-plane-o" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event=" tailAfter"  title="功率跟踪"></a>
         </script>
 
     </div>
@@ -98,11 +99,13 @@
 <script th:inline="none">
 var table,form;
 var currentPage = 1;
+var jsonEntity = {};
 layui.use(['form', 'table'], function () {
     var $ = layui.jquery;
         form = layui.form;
         table = layui.table;
-     loadTable();
+        layer = layui.layer;
+     	loadTable();
      //监听搜索操作
      form.on('submit(data-search-btn)', function (data) {
     	 var result = JSON.stringify(data.field);
@@ -124,22 +127,45 @@ layui.use(['form', 'table'], function () {
         if (obj.event === 'add') {  // 监听添加操作
         	openPopUp('添加','/admin/dev/add',60,80);
         } else if (obj.event === 'delete') {  // 监听删除操作
+        	console.log(obj);
+        	var checkStatus = table.checkStatus('currentTableId')
+            , data = checkStatus.data;
+	    	var eqptSns = [];
+	    	$.each(data,function(index,xx){
+	    		eqptSns.push(xx.eqptSn);
+	    		 
+	    	})
+	    	if(eqptSns.length > 0){
+	    		$.ajax({
+	      			url: "/equipment/info/" + eqptSns.join('_'),
+	      			type : "DELETE",
+	     	　　		dataType : "json",
+	     	　　		contentType: "application/json;charset=utf-8",
+	 			    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+	 			    success:function(data){
+	 			    	 	if(data.success){
+	 			    	 		alyer.msg("删除成功")
+	 						}else{
+	 							layer.msg(data.msg);
+	 						}
+	 			    }
+	 			  }); 
+	    	}else{
+	    		alyer.msg("请选择要删除的设备");
+	    	}
         }
     });
     table.on('tool(currentTableFilter)', function (obj) {
     	dataRow = obj.data;
         if (obj.event === 'edit') {
             var index = layer.open({
-                title: '编辑用户',
+                title: '修改设备',
                 type: 2,
                 shade: 0.2,
                 maxmin:true,
                 shadeClose: true,
                 area: ['60%', '80%'],
                 content: '/admin/dev/edit',
-            }); 
-            $(window).on("resize", function () {
-                layer.full(index);
             }); 
             return false;
         } else if (obj.event === 'delete') {
@@ -162,6 +188,8 @@ layui.use(['form', 'table'], function () {
             	obj.del();
                 layer.close(index);
             });
+        } else if(obj.event === 'parameter'){//parameter;
+        	openPopUp('添加','/admin/dev/parameter',60,80);
         }
     });
 	//便利省

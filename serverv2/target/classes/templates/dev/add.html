@@ -18,7 +18,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">设备IMEI号</label>
         <div class="layui-input-block">
-            <input type="text" name="imei" lay-verify="required" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
+            <input type="text" name="imei" lay-verify="required|imeiReq" lay-reqtext="资源名称不能为空" placeholder="请输入资源名称" value="" class="layui-input">
             <tip>格式：</tip>
         </div>
     </div>
@@ -26,7 +26,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">设备序列号</label>
         <div class="layui-input-block">
-            <input type="text" name="eqptSn" lay-verify="required" class="layui-input" placeholder="URL地址">
+            <input type="text" name="eqptSn" lay-verify="required|eqptSnReq" class="layui-input" placeholder="URL地址">
         </div>
     </div>
     
@@ -191,11 +191,54 @@ var dataRow = window.parent.dataRow;
         });
         form.verify({
 			//数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]/^([1-9]||[1-9][0-9])\.[0-9]\.[0-9]$/
-			parentVerify : function(value) {
-				if(!$("#parentTree").hasClass("layui-hide")){
-					if($("#parentTree").text() == "" || $("#parentTree").text().NoSpace() == ""){
-						return  "不能为空";
-					}
+			imeiReq : function(value) {
+				
+				var reg = new RegExp(/^\d{15}$/);
+				if(!reg.test(value)) {
+					return 'IMEI必须是15位正整数';
+	            }
+				var entity = {};
+				entity.imei = value;
+				var falg = false;
+				$.ajax({
+         			url: "/equipment/info/",
+         			type : "GET",
+         			data : entity,
+        	　　		dataType : "json",
+        	　　		cache:true, 
+        	        async:false, 
+        	　　		contentType: "application/json;charset=utf-8",
+    			    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+    			    success:function(data){
+    			    	if(data.count > 0){
+    			    		falg = true;
+    			    	}
+    			    }
+    			 });
+				if(falg){
+					return 'IMEI'+value+'已存在';
+				}
+			},eqptSnReq:function(value){
+				var entity = {};
+				entity.eqptSn = value;
+				var falg = false;
+				$.ajax({
+         			url: "/equipment/info/",
+         			type : "GET",
+         			data : entity,
+        	　　		dataType : "json",
+        	　　		cache:true, 
+        	        async:false, 
+        	　　		contentType: "application/json;charset=utf-8",
+    			    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+    			    success:function(data){
+    			    	if(data.count > 0){
+    			    		falg = true;
+    			    	}
+    			    }
+    			 });
+				if(falg){
+					return '设备序列号'+value+'已存在';
 				}
 			}
 		});
@@ -219,14 +262,14 @@ var dataRow = window.parent.dataRow;
     	　　		contentType: "application/json;charset=utf-8",
 			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
-			    	 	if(data.success){
+			    	 	if(data.code == 5000){
 			    	 		layer.msg(data.msg, {
    		    	 			  icon: 6,
    		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
    		    	 			}, function(){
-	   		    	 			indexHome(window).init();
-				    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
+	   		    	 			var iframeIndex = parent.layer.getFrameIndex(window.name);
 				    	 		parent.layer.close(iframeIndex);
+				    	 		window.parent.flush(window.parent.currentPage,window.parent.jsonEntity);
    		    	 			}); 
 						}else{
 							layer.msg(data.msg,{icon: 5, time: 2000});

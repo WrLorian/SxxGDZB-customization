@@ -614,5 +614,10 @@
             </where>
     </select>
     
-
+	<delete id="deleteBatch">
+		delete from equipment where eqpt_sn in 
+        <foreach collection="array" item="eqptSn" separator="," open="(" close=")">
+            #{eqptSn}
+        </foreach>
+	</delete>
 </mapper>

@@ -177,17 +177,23 @@ public class EquipmentServiceImpl implements EquipmentService {
      * @return 是否删除成功
      */
     @Override
-    public ResultList deleteInfo(String eqptSn, UserInfo userInfo) {
-        if (!userInfo.isAdmin()) {
-            if (equipmentMapper.deleteUserId(eqptSn) > 0) {
-                return ResultUtil.resp(Code.UPDATE_SUCCESS);
-            }
-            return ResultUtil.resp(Code.UPDATE_FAIL);
+    public ResultList deleteInfo(String eqptSns, UserInfo userInfo) {
+    	String [] aqptArr = eqptSns.split("_");
+//    	if (!userInfo.isAdmin()) {
+//        	equipmentMapper.deleteBatch(aqptArr);
+//            if (equipmentMapper.deleteUserId(eqptSns) > 0) {
+//                return ResultUtil.resp(Code.UPDATE_SUCCESS);
+//            }
+//            return ResultUtil.resp(Code.UPDATE_FAIL);
+//        }
+//        if (StringUtils.isBlank(eqptSns)) {
+//            return new ResultList(Code.PARAM_FORMAT_ERROR.getCode(), Code.PARAM_FORMAT_ERROR.getMsg(), null);
+//        }
+//        return ResultUtil.verifyDelete(equipmentMapper.deleteInfo(eqptSns));
+    	if (equipmentMapper.deleteBatch(aqptArr) > 0) {
+            return ResultUtil.resp(Code.UPDATE_SUCCESS);
         }
-        if (StringUtils.isBlank(eqptSn)) {
-            return new ResultList(Code.PARAM_FORMAT_ERROR.getCode(), Code.PARAM_FORMAT_ERROR.getMsg(), null);
-        }
-        return ResultUtil.verifyDelete(equipmentMapper.deleteInfo(eqptSn));
+        return ResultUtil.resp(Code.UPDATE_FAIL);
 
     }
 
