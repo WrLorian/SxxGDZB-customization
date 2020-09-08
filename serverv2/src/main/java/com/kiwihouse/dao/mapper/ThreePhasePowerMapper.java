@@ -1,4 +1,4 @@
-package com.kiwihouse.mapper.ThreePhase;
+package com.kiwihouse.dao.mapper;
 
 import java.util.List;
 

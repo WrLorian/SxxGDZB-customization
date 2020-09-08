@@ -100,6 +100,7 @@
 var table,form;
 var currentPage = 1;
 var jsonEntity = {};
+var dataRow;
 layui.use(['form', 'table'], function () {
     var $ = layui.jquery;
         form = layui.form;
@@ -190,6 +191,8 @@ layui.use(['form', 'table'], function () {
             });
         } else if(obj.event === 'parameter'){//parameter;
         	openPopUp('添加','/admin/dev/parameter',60,80);
+        } else if(obj.event === 'more'){
+        	openPopUp('--','/admin/dev/mwh',100,100);
         }
     });
 	//便利省

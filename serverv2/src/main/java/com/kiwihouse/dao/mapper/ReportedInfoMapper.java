@@ -1,4 +1,4 @@
-package com.kiwihouse.mapper;
+package com.kiwihouse.dao.mapper;
 
 import java.util.List;
 

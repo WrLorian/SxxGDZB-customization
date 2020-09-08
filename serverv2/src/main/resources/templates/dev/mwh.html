@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script th:src="@{/js/echarts.min.js}"></script>
+    <style type="text/css">
+    	.grid-demo{
+    		height: 350px;
+    	}
+    	body{
+    		background-color: #1B1B1B;
+    	}
+    </style>
+</head>
+<body>
+<div >
+        <div class="layui-row">
+		    <div class="layui-col-md4" align="center">
+		      <div class="grid-demo grid-demo-bg1" id="main_01">
+		      </div>
+		       <span style="color: white;font-size: 30px">温升读数</span>
+		    </div>
+		    <div class="layui-col-md4" align="center">
+		      <div class="grid-demo" id="main_02"></div>
+		     <span style="color: white;font-size: 30px">漏电流读数</span>
+		    </div>
+		    <div class="layui-col-md4" align="center">
+		      <div class="grid-demo" id="main_03"></div>
+		      <span style="color: white;font-size: 30px">电能读数</span>
+		    </div>
+		</div>
+		<div class="layui-row">
+		    <div class="layui-col-md3" align="center">
+		      <div class="grid-demo grid-demo-bg1" id="main_04"></div>
+		      <span style="color: white;font-size: 24px">电流读数</span>
+		    </div>
+		    <div class="layui-col-md3"  align="center">
+		      <div class="grid-demo" id="main_05"></div>
+		      <span style="color: white;font-size: 24px">电压读数</span>
+		    </div>
+		    <div class="layui-col-md3" align="center">
+		      <div class="grid-demo" id="main_06"></div>
+		      <span style="color: white;font-size: 24px">功率读数</span>
+		    </div>
+		    <div class="layui-col-md3" align="center">
+		      <div class="grid-demo" id="main_07"></div>
+		      <span style="color: white;font-size: 24px">信号读数</span>
+		    </div>
+		</div>
+    </div>
+<div th:include="include::footer"></div>
+<script th:inline="none">
+	//eqptSn: 867808042090181
+	
+	var dataRow = window.parent.dataRow;
+	console.log(dataRow);
+	var entity = {};
+	entity.imei = dataRow.imei;
+	entity.alarmType = 1;
+	var myChart_01 = echarts.init(document.getElementById('main_01'));
+	var myChart_02 = echarts.init(document.getElementById('main_02'));
+	var myChart_03 = echarts.init(document.getElementById('main_03'));
+	var myChart_04 = echarts.init(document.getElementById('main_04'));
+	var myChart_05 = echarts.init(document.getElementById('main_05'));
+	var myChart_06 = echarts.init(document.getElementById('main_06'));
+	var myChart_07 = echarts.init(document.getElementById('main_07'));
+	var _option = function(name,min,max,d){
+		var option = {
+			    backgroundColor: '#1b1b1b',
+			    tooltip: {
+			        formatter: '{a} <br/>{c} {b}'
+			    },
+			    toolbox: {
+			        show: true,
+			        feature: {
+			            mark: {show: true},
+			            restore: {show: true},
+			            saveAsImage: {show: true}
+			        }
+			    },
+			    series: [
+			        {
+			            name: name,
+			            type: 'gauge',
+			            min: parseInt(min),
+			            max: parseInt(max),
+			            splitNumber: 10,
+			            radius: '80%',
+			            axisLine: {            // 坐标轴线
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                    color: [[0.09, 'lime'], [0.82, '#1e90ff'], [1, '#ff4500']],
+			                    width: 3,
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            axisLabel: {            // 坐标轴小标记
+			                fontWeight: 'bolder',
+			                color: '#fff',
+			                shadowColor: '#fff', //默认透明
+			                shadowBlur: 10
+			            },
+			            axisTick: {            // 坐标轴小标记
+			                length: 15,        // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                    color: 'auto',
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            splitLine: {           // 分隔线
+			                length: 25,         // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+			                    width: 3,
+			                    color: '#fff',
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            pointer: {           // 分隔线
+			                shadowColor: '#fff', //默认透明
+			                shadowBlur: 5
+			            },
+			            title: {
+			                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+			                    fontWeight: 'bolder',
+			                    fontSize: 20,
+			                    fontStyle: 'italic',
+			                    color: '#fff',
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            detail: {
+			                backgroundColor: 'rgba(30,144,255,0.8)',
+			                borderWidth: 1,
+			                borderColor: '#fff',
+			                shadowColor: '#fff', //默认透明
+			                shadowBlur: 5,
+			                offsetCenter: [0, '50%'],       // x, y，单位px
+			                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+			                    fontWeight: 'bolder',
+			                    color: '#fff'
+			                }
+			            },
+			            data: [d]
+			        }
+			        
+			    ]
+			};
+		return option;
+	}
+	
+	init();
+	function init(){
+		$.ajax({
+			url: "/receive/info",
+		    type: "GET",
+		    data:entity,
+		    dataType : "json",
+		    cache:true, 
+	        async:false, 
+	　　		contentType: "application/json;charset=utf-8",
+		    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+		    success:function(data){
+		    	if(data.code == 2000){
+		    		dataJson = JSON.parse(data.result.data.dataJson);
+		    		var d = {};
+		    		d.value = dataJson.line_temp;
+		    		d.name = '℃';
+		    		myChart_01.setOption(_option('温升读数',0,100,d));
+		    		d.value = dataJson.leak_cur;
+		    		d.name = 'mA';
+		    		myChart_02.setOption(_option('漏电流读数',0,100,d));
+		    		d.value = dataJson.kwh;
+		    		d.name = 'KWH';
+		    		myChart_03.setOption(_option('电能读数',0,1000,d));
+		    		d.value = dataJson.cur;
+		    		d.name = 'A';
+		    		myChart_04.setOption(_option('电流读数',0,100,d));
+		    		d.value = dataJson.vol;
+		    		d.name = 'V';
+		    		myChart_05.setOption(_option('电压读数',0,360,d));
+		    		d.value = dataJson.pwr;
+		    		d.name = 'W';
+		    		myChart_06.setOption(_option('功率读数',0,5000,d));
+		    		/* if(dataJson.csq > -1 && dataJson.csq < 8){
+		    			d.value = '弱';
+		    		}else if(dataJson.csq > 7 && dataJson.csq < 15.5){
+		    			d.value = '一般';
+		    		}else if(dataJson.csq > 15.4){
+		    			console.log("强")
+		    			d.value = '强';
+		    		} */
+		    		d.value = dataJson.csq;
+		    		d.name = '';
+		    		myChart_07.setOption(_option('信号读数',0,31,d));
+		    	}else{
+		    		
+		    	}
+		    }
+		});
+	}
+	/* setInterval(function (){
+	    option.series[0].data[0].value = (Math.random()*100).toFixed(2) - 0;
+	    myChart_01.setOption(option);
+	    myChart_02.setOption(option);
+	    myChart_03.setOption(option);
+	    myChart_04.setOption(option);
+	    myChart_05.setOption(option);
+	    myChart_06.setOption(option);
+	    myChart_07.setOption(option);
+	},5000); */
+</script>
+
+</body>
+</html>

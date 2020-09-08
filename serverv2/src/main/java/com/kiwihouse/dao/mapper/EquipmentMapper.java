@@ -68,8 +68,8 @@ public interface EquipmentMapper {
 
     SiteDto querySiteInfoForUpdate(Eqpt4UpdateDto updateDto);
 
-    @Select("select * from equipment where eqpt_sn=#{eqptSn} limit 1;")
-    EqptInfoDto queryInfoBySn(String eqptSn);
+    @Select("select * from equipment where imei=#{imei} limit 1;")
+    EqptInfoDto queryInfoByImei(String imei);
 
     @Select("select * from equipment where eqpt_sn=#{eqptSn} and imei=#{imei} limit 1;")
     EqptInfoDto queryInfoBySnAndImei(String eqptSn, String imei);
@@ -97,5 +97,8 @@ public interface EquipmentMapper {
 	 * @return
 	 */
 	int deleteBatch(String[] aqptArr);
+	
+	@Select("select * from equipment where eqpt_sn=#{eqptSn} limit 1;")
+	EqptInfoDto queryInfoBySn(String eqptSn);
 
 }
