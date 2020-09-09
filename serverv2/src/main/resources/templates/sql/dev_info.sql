@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 08/09/2020 18:40:56
+ Date: 09/09/2020 18:25:43
 */
 
 SET NAMES utf8mb4;
@@ -22,60 +22,54 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `dev_info`;
 CREATE TABLE `dev_info`  (
-  `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '设备数据ID',
-  `DATA_JSON` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'json格式设备数据',
-  `IMEI` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '设备IMEI号',
-  `ADD_TIME` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '数据录入时间',
-  `TYPE` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '设备类型',
-  PRIMARY KEY (`ID`) USING BTREE,
-  UNIQUE INDEX `IMEI_UNIQUE`(`IMEI`) USING BTREE COMMENT '唯一IMEI'
-) ENGINE = InnoDB AUTO_INCREMENT = 4224224 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '告警信息表' ROW_FORMAT = Dynamic;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `DATA_JSON` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `IMEI` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `ADD_TIME` datetime(0) DEFAULT NULL,
+  `TYPE` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of dev_info
 -- ----------------------------
-INSERT INTO `dev_info` VALUES (4224224, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039787530', '2020-09-08 15:54:06', NULL);
-INSERT INTO `dev_info` VALUES (4224225, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039984350', '2020-09-08 15:54:07', NULL);
-INSERT INTO `dev_info` VALUES (4224226, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983659', '2020-09-08 15:54:08', NULL);
-INSERT INTO `dev_info` VALUES (4224227, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039974617', '2020-09-08 15:54:09', NULL);
-INSERT INTO `dev_info` VALUES (4224228, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039974476', '2020-09-08 15:54:09', NULL);
-INSERT INTO `dev_info` VALUES (4224229, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039982925', '2020-09-08 15:54:10', NULL);
-INSERT INTO `dev_info` VALUES (4224230, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039974682', '2020-09-08 15:54:11', NULL);
-INSERT INTO `dev_info` VALUES (4224231, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983931', '2020-09-08 15:54:11', NULL);
-INSERT INTO `dev_info` VALUES (4224232, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983493', '2020-09-08 15:54:12', NULL);
-INSERT INTO `dev_info` VALUES (4224233, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039974385', '2020-09-08 15:54:16', NULL);
-INSERT INTO `dev_info` VALUES (4224234, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983840', '2020-09-08 15:54:17', NULL);
-INSERT INTO `dev_info` VALUES (4224235, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983634', '2020-09-08 15:54:18', NULL);
-INSERT INTO `dev_info` VALUES (4224236, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983576', '2020-09-08 15:54:18', NULL);
-INSERT INTO `dev_info` VALUES (4224237, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983477', '2020-09-08 15:54:19', NULL);
-INSERT INTO `dev_info` VALUES (4224238, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983436', '2020-09-08 15:54:20', NULL);
-INSERT INTO `dev_info` VALUES (4224239, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039974583', '2020-09-08 15:54:21', NULL);
-INSERT INTO `dev_info` VALUES (4224240, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039974641', '2020-09-08 15:54:22', NULL);
-INSERT INTO `dev_info` VALUES (4224241, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '355667780001167', '2020-09-08 15:54:23', NULL);
-INSERT INTO `dev_info` VALUES (4224242, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039984046', '2020-09-08 15:54:24', NULL);
-INSERT INTO `dev_info` VALUES (4224244, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039984301', '2020-09-08 15:55:43', NULL);
-INSERT INTO `dev_info` VALUES (4224245, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039982982', '2020-09-08 15:55:44', NULL);
-INSERT INTO `dev_info` VALUES (4224246, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983683', '2020-09-08 15:55:46', NULL);
-INSERT INTO `dev_info` VALUES (4224247, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039984319', '2020-09-08 15:55:47', NULL);
-INSERT INTO `dev_info` VALUES (4224248, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983386', '2020-09-08 15:55:49', NULL);
-INSERT INTO `dev_info` VALUES (4224249, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983444', '2020-09-08 15:55:51', NULL);
-INSERT INTO `dev_info` VALUES (4224250, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039982990', '2020-09-08 15:55:52', NULL);
-INSERT INTO `dev_info` VALUES (4224251, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039982966', '2020-09-08 15:55:53', NULL);
-INSERT INTO `dev_info` VALUES (4224252, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039984749', '2020-09-08 15:55:54', NULL);
-INSERT INTO `dev_info` VALUES (4224254, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983519', '2020-09-08 15:56:00', NULL);
-INSERT INTO `dev_info` VALUES (4224255, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983055', '2020-09-08 15:56:01', NULL);
-INSERT INTO `dev_info` VALUES (4224256, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039984582', '2020-09-08 15:56:03', NULL);
-INSERT INTO `dev_info` VALUES (4224257, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983501', '2020-09-08 15:56:05', NULL);
-INSERT INTO `dev_info` VALUES (4224258, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039984632', '2020-09-08 15:56:06', NULL);
-INSERT INTO `dev_info` VALUES (4224259, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983527', '2020-09-08 15:56:08', NULL);
-INSERT INTO `dev_info` VALUES (4224260, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039984657', '2020-09-08 15:56:09', NULL);
-INSERT INTO `dev_info` VALUES (4224261, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039974708', '2020-09-08 15:56:11', NULL);
-INSERT INTO `dev_info` VALUES (4224262, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039984624', '2020-09-08 15:56:12', NULL);
-INSERT INTO `dev_info` VALUES (4224263, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '869060039714583', '2020-09-08 15:56:13', NULL);
-INSERT INTO `dev_info` VALUES (4224264, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '867808043281334', '2020-09-08 15:56:15', NULL);
-INSERT INTO `dev_info` VALUES (4224265, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '867808042089654', '2020-09-08 15:56:17', NULL);
-INSERT INTO `dev_info` VALUES (4224266, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '867808042089605', '2020-09-08 15:56:42', NULL);
-INSERT INTO `dev_info` VALUES (4224267, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '867808042090520', '2020-09-08 15:56:44', NULL);
-INSERT INTO `dev_info` VALUES (4224268, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":27.5,\"pwr_fct\":0,\"leak_cur\":0}', '867808043283868', '2020-09-08 15:56:45', NULL);
+INSERT INTO `dev_info` VALUES (1, '告警信息丢失', '', NULL, NULL);
+INSERT INTO `dev_info` VALUES (2, '{\"csq\":19,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":1,\"line_temp\":21.6,\"pwr_fct\":0,\"leak_cur\":0}', '355667780001167', NULL, NULL);
+INSERT INTO `dev_info` VALUES (3, '{\"csq\":13,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":72.6,\"line_temp\":0,\"pwr_fct\":0,\"leak_cur\":0}', '869060039787530', NULL, NULL);
+INSERT INTO `dev_info` VALUES (4, '{\"csq\":11,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":0.2,\"line_temp\":0,\"pwr_fct\":0,\"leak_cur\":0}', '869060039974385', NULL, NULL);
+INSERT INTO `dev_info` VALUES (5, '{\"cur\":0,\"leak\":0,\"vol\":\"1-371.4\",\"temp\":0,\"overload\":0}', '869060039974476', NULL, NULL);
+INSERT INTO `dev_info` VALUES (6, '{\"csq\":31,\"cur\":6.80,\"vol\":222.9,\"pwr\":1507.5,\"kwh\":860.7,\"line_temp\":0,\"pwr_fct\":0.99,\"leak_cur\":0}', '869060039974583', NULL, NULL);
+INSERT INTO `dev_info` VALUES (7, '{\"csq\":16,\"cur\":18.13,\"vol\":236.3,\"pwr\":4276.1,\"kwh\":524,\"line_temp\":0,\"pwr_fct\":0.99,\"leak_cur\":0}', '869060039974617', NULL, NULL);
+INSERT INTO `dev_info` VALUES (8, '{\"csq\":7,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":7.5,\"line_temp\":0,\"pwr_fct\":0,\"leak_cur\":0}', '869060039974641', NULL, NULL);
+INSERT INTO `dev_info` VALUES (9, '{\"csq\":23,\"cur\":3.06,\"vol\":232.1,\"pwr\":669.2,\"kwh\":79.3,\"line_temp\":0,\"pwr_fct\":0.94,\"leak_cur\":0}', '869060039974682', NULL, NULL);
+INSERT INTO `dev_info` VALUES (10, '{\"csq\":18,\"cur\":74.98,\"vol\":219.9,\"pwr\":16493.8,\"kwh\":0.2,\"line_temp\":25.1,\"pwr_fct\":1,\"leak_cur\":0.4}', '869060039974708', NULL, NULL);
+INSERT INTO `dev_info` VALUES (11, '{\"csq\":31,\"cur\":12.48,\"vol\":229.6,\"pwr\":2445.4,\"kwh\":464.8,\"line_temp\":0,\"pwr_fct\":0.85,\"leak_cur\":0}', '869060039982925', NULL, NULL);
+INSERT INTO `dev_info` VALUES (12, '{\"csq\":23,\"cur\":1.10,\"vol\":222.7,\"pwr\":135.4,\"kwh\":27.2,\"line_temp\":0,\"pwr_fct\":0.54,\"leak_cur\":0}', '869060039982966', NULL, NULL);
+INSERT INTO `dev_info` VALUES (13, '{\"csq\":31,\"cur\":9.19,\"vol\":225.5,\"pwr\":1951.1,\"kwh\":139.6,\"line_temp\":0,\"pwr_fct\":0.94,\"leak_cur\":0}', '869060039982982', NULL, NULL);
+INSERT INTO `dev_info` VALUES (14, '{\"csq\":17,\"cur\":7.71,\"vol\":231.3,\"pwr\":1752.3,\"kwh\":771.5,\"line_temp\":0,\"pwr_fct\":0.98,\"leak_cur\":0}', '869060039982990', NULL, NULL);
+INSERT INTO `dev_info` VALUES (15, '{\"csq\":12,\"cur\":2.42,\"vol\":225,\"pwr\":517.5,\"kwh\":214.3,\"line_temp\":0,\"pwr_fct\":0.94,\"leak_cur\":0}', '869060039983055', NULL, NULL);
+INSERT INTO `dev_info` VALUES (16, '{\"csq\":10,\"cur\":10.12,\"vol\":224.5,\"pwr\":2247.9,\"kwh\":336.3,\"line_temp\":0,\"pwr_fct\":0.98,\"leak_cur\":0}', '869060039983386', NULL, NULL);
+INSERT INTO `dev_info` VALUES (17, '{\"csq\":31,\"cur\":20.06,\"vol\":240,\"pwr\":4767.8,\"kwh\":1447.3,\"line_temp\":0,\"pwr_fct\":0.98,\"leak_cur\":0}', '869060039983436', NULL, NULL);
+INSERT INTO `dev_info` VALUES (18, '{\"csq\":21,\"cur\":17.97,\"vol\":220.9,\"pwr\":3944.8,\"kwh\":3164.5,\"line_temp\":0,\"pwr_fct\":0.99,\"leak_cur\":0}', '869060039983444', NULL, NULL);
+INSERT INTO `dev_info` VALUES (19, '{\"csq\":19,\"cur\":74.95,\"vol\":219.9,\"pwr\":16487,\"kwh\":2.6,\"line_temp\":25,\"pwr_fct\":1,\"leak_cur\":994}', '869060039983477', NULL, NULL);
+INSERT INTO `dev_info` VALUES (20, '{\"cur\":0,\"leak\":0,\"vol\":0,\"temp\":0,\"overload\":0}', '869060039983493', NULL, NULL);
+INSERT INTO `dev_info` VALUES (21, '{\"csq\":18,\"cur\":0.57,\"vol\":231.2,\"pwr\":84.4,\"kwh\":52.9,\"line_temp\":0,\"pwr_fct\":0.63,\"leak_cur\":0}', '869060039983501', NULL, NULL);
+INSERT INTO `dev_info` VALUES (22, '{\"csq\":31,\"cur\":14.72,\"vol\":216.8,\"pwr\":3179.9,\"kwh\":386.4,\"line_temp\":0,\"pwr_fct\":0.99,\"leak_cur\":0}', '869060039983519', NULL, NULL);
+INSERT INTO `dev_info` VALUES (23, '{\"csq\":31,\"cur\":8.63,\"vol\":227.8,\"pwr\":1942,\"kwh\":311.3,\"line_temp\":0,\"pwr_fct\":0.98,\"leak_cur\":0}', '869060039983527', NULL, NULL);
+INSERT INTO `dev_info` VALUES (24, '{\"csq\":31,\"cur\":24.09,\"vol\":223.5,\"pwr\":5363.3,\"kwh\":3500.9,\"line_temp\":0,\"pwr_fct\":0.99,\"leak_cur\":0}', '869060039983576', NULL, NULL);
+INSERT INTO `dev_info` VALUES (25, '{\"csq\":14,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":0,\"line_temp\":0,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983634', NULL, NULL);
+INSERT INTO `dev_info` VALUES (26, '{\"csq\":19,\"cur\":5,\"vol\":220,\"pwr\":1100.2,\"kwh\":0.3,\"line_temp\":24.9,\"pwr_fct\":1,\"leak_cur\":991.5}', '869060039983659', NULL, NULL);
+INSERT INTO `dev_info` VALUES (27, '{\"csq\":22,\"cur\":12.35,\"vol\":236.1,\"pwr\":2889.8,\"kwh\":614,\"line_temp\":0,\"pwr_fct\":0.99,\"leak_cur\":0}', '869060039983683', NULL, NULL);
+INSERT INTO `dev_info` VALUES (28, '{\"csq\":30,\"cur\":13.19,\"vol\":239.3,\"pwr\":3003.4,\"kwh\":2214.1,\"line_temp\":0,\"pwr_fct\":0.95,\"leak_cur\":0}', '869060039983840', NULL, NULL);
+INSERT INTO `dev_info` VALUES (29, '{\"csq\":14,\"cur\":0,\"vol\":0,\"pwr\":0,\"kwh\":1.1,\"line_temp\":0,\"pwr_fct\":0,\"leak_cur\":0}', '869060039983931', NULL, NULL);
+INSERT INTO `dev_info` VALUES (30, '{\"cur\":0,\"leak\":0,\"vol\":\"2-0\",\"temp\":0,\"overload\":0}', '869060039984046', NULL, NULL);
+INSERT INTO `dev_info` VALUES (31, '{\"csq\":13,\"cur\":0.36,\"vol\":223.9,\"pwr\":46.6,\"kwh\":0,\"line_temp\":0,\"pwr_fct\":0.56,\"leak_cur\":0}', '869060039984301', NULL, NULL);
+INSERT INTO `dev_info` VALUES (32, '{\"csq\":31,\"cur\":9.02,\"vol\":214.1,\"pwr\":1926.8,\"kwh\":791.9,\"line_temp\":0,\"pwr_fct\":0.99,\"leak_cur\":0}', '869060039984319', NULL, NULL);
+INSERT INTO `dev_info` VALUES (33, '{\"csq\":24,\"cur\":12.81,\"vol\":222.6,\"pwr\":2793.5,\"kwh\":1188.9,\"line_temp\":0,\"pwr_fct\":0.97,\"leak_cur\":0}', '869060039984350', NULL, NULL);
+INSERT INTO `dev_info` VALUES (34, '{\"csq\":28,\"cur\":8.20,\"vol\":234.2,\"pwr\":1347.7,\"kwh\":244.9,\"line_temp\":0,\"pwr_fct\":0.70,\"leak_cur\":0}', '869060039984582', NULL, NULL);
+INSERT INTO `dev_info` VALUES (35, '{\"csq\":31,\"cur\":12.65,\"vol\":231.5,\"pwr\":2916.3,\"kwh\":1800.1,\"line_temp\":0,\"pwr_fct\":0.99,\"leak_cur\":0}', '869060039984624', NULL, NULL);
+INSERT INTO `dev_info` VALUES (36, '{\"csq\":31,\"cur\":11.53,\"vol\":237.1,\"pwr\":2719,\"kwh\":1133.9,\"line_temp\":0,\"pwr_fct\":0.99,\"leak_cur\":0}', '869060039984632', NULL, NULL);
+INSERT INTO `dev_info` VALUES (37, '{\"csq\":31,\"cur\":21.28,\"vol\":204,\"pwr\":4332.7,\"kwh\":1027.4,\"line_temp\":0,\"pwr_fct\":0.99,\"leak_cur\":0}', '869060039984657', NULL, NULL);
+INSERT INTO `dev_info` VALUES (38, '{\"csq\":31,\"cur\":28.99,\"vol\":224.4,\"pwr\":6488.8,\"kwh\":2279.8,\"line_temp\":0,\"pwr_fct\":0.99,\"leak_cur\":0}', '869060039984749', NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
