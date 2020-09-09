@@ -16,6 +16,6 @@ import lombok.ToString;
 @ApiModel(description = "基础信息类")
 public class Basic {
 
-    @ApiModelProperty(value = "管理员Id",name ="adminId",hidden = true)
-    private String adminId;
+    @ApiModelProperty(value = "角色Id",name ="roleId",hidden = true)
+    private String roleId;
 }

@@ -40,9 +40,9 @@ public class CheckAdminService {
      */
     public void verifyAdminId(String adminId, Basic basic){
         if(privilegeService.isTopMg(adminId)){
-            basic.setAdminId(null);
+            //basic.setAdminId(null);
         }else{
-            basic.setAdminId(adminId);
+           // basic.setAdminId(adminId);
         }
     }
 

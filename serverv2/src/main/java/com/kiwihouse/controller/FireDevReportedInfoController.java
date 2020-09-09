@@ -75,7 +75,7 @@ public class FireDevReportedInfoController {
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = AlarmEqptDto.class)})
     @GetMapping(value = "/alarm/info")
     public ResultList queryAlmInfo(@Validated AlmQueryVo almQueryVo, HttpServletRequest request) {
-        checkAdminService.verifyAdminId(request.getHeader("dz-usr"), almQueryVo);
+        //checkAdminService.verifyAdminId(request.getHeader("dz-usr"), almQueryVo);
         return reportedInfoService.queryAlmInfo(almQueryVo);
     }
 
@@ -106,9 +106,9 @@ public class FireDevReportedInfoController {
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = ReportedDto.class)})
     @GetMapping(value = "/pwr/info")
     public ResultList queryPwr(@Validated QueryPwrVo queryPwrVo, HttpServletRequest request) {
-        checkAdminService.verifyAdminId(request.getHeader("dz-usr"), queryPwrVo);
+        //checkAdminService.verifyAdminId(request.getHeader("dz-usr"), queryPwrVo);
 
-        EqptInfoDto eqptInfo = equipmentMapper.queryInfoBySn(queryPwrVo.getEqptSn());
+        EqptInfoDto eqptInfo = equipmentMapper.queryInfoByImei(queryPwrVo.getImei());
         if (eqptInfo.getEqptType().equals(EqptTypeSta.SX)) {
             ThreePhaseVo tpv = new ThreePhaseVo();
             tpv.setImei(eqptInfo.getImei());

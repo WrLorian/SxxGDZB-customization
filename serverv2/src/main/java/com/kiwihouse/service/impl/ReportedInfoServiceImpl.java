@@ -309,7 +309,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
     public ResultList queryAlmInfo(AlmQueryVo almQueryVo) {
 
         CodeTransferUtil.transferOne(almQueryVo.getCode(), almQueryVo);
-        PageHelper.startPage(almQueryVo.getPage(), almQueryVo.getLimit());
+        //PageHelper.startPage(almQueryVo.getPage(), almQueryVo.getLimit());
         List<AlarmEqptDto> list = reportedInfoMapper.queryAlmInfo(almQueryVo);
         if (list.isEmpty()) {
             return new ResultList(Code.QUERY_NULL.getCode(), Code.QUERY_NULL.getMsg(), null);

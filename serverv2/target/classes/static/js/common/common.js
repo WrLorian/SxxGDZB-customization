@@ -135,3 +135,59 @@ function Mayclickable() {
 //缓存对象 --->待加入 jwt 身份验证 页面提示
 var authorization = localStorage.getItem('Authorization');
 var authUser = JSON.parse(localStorage.getItem('authUser'));
+(function ($) {
+    $.getUrlParam = function (name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+})(jQuery);
+/**
+ * 得到多少天前后的日期
+ * @param a
+ * @returns
+ */
+function fun_date(a){
+    var date1 = new Date(),
+    time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
+    var date2 = new Date(date1);
+    date2.setDate(date1.getDate() + a);
+    var time2 = date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+date2.getDate() + " " +date2.getHours() + ":" + date2.getMinutes() + ":" + date2.getSeconds();
+    return time2;
+}
+function fun_month(a){
+	var date1 = new Date(),
+    time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
+    var date2 = new Date(date1);
+    date2.setMonth(date1.getMonth() + a);
+    var time2 = date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+date2.getDate() + " " +date2.getHours() + ":" + date2.getMinutes() + ":" + date2.getSeconds();
+    return time2;
+}
+function fun_hours(a){
+	var date1 = new Date(),
+    time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
+    var date2 = new Date(date1);
+    date2.setHours(date2.getHours() + a);
+    var time2 = date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+date2.getDate() + " " +date2.getHours() + ":" + date2.getMinutes() + ":" + date2.getSeconds();
+    return time2;
+}
+/**
+ * 时间格式转化 DATE ---> String
+ */
+Date.prototype.Format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1,
+        "d+": this.getDate(),
+        "h+": this.getHours(),
+        "m+": this.getMinutes(),
+        "s+": this.getSeconds(),
+        "q+": Math.floor((this.getMonth() + 3) / 3),
+        "S": this.getMilliseconds()
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}

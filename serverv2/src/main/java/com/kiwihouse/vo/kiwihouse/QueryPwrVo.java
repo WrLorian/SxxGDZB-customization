@@ -32,7 +32,10 @@ public class QueryPwrVo extends Basic {
     @Time
     @ApiModelProperty(value = "结束时间(格式：yyyy-MM-dd HH:mm:ss)", name = "endTime", required = false)
     private String endTime;
-
+    
+    @ApiModelProperty(value = "imei号", name = "imei", required = true)
+    private String imei;
+    
     public boolean verifyType() {
         switch (this.getType()) {
             case "day":

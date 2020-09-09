@@ -18,7 +18,48 @@
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
-        
+    <form class="layui-form" action="">
+         <div class="layui-form-item">
+         	 <div class="layui-inline">
+		      <label class="layui-form-label">设备序列号</label>
+		      <div class="layui-input-inline">
+		        <div class="layui-form-mid layui-word-aux _imei"></div>
+		      </div>
+		    </div>
+            
+            <div class="layui-inline">
+		      <label class="layui-form-label">设备地址</label>
+		      <div class="layui-input-inline">
+		         <div class="layui-form-mid layui-word-aux _address"></div>
+		      </div>
+		    </div>
+            
+            <div class="layui-inline">
+		      <label class="layui-form-label">设备状态</label>
+		      <div class="layui-input-inline">
+		        <div class="layui-form-mid layui-word-aux _eqptStatus"></div>
+		      </div>
+		    </div>
+         </div>
+         <div class="layui-form-item" >
+            <div class="layui-inline" >
+		      <label class="layui-form-label">统计时间段</label>
+		      <div class="layui-input-block">
+		        <input type="text" class="layui-input" id="test10">
+		      </div>
+		    </div>
+            <div class="layui-inline">
+		      <label class="layui-form-label">统计单位</label>
+		      <div class="layui-input-inline">
+		        <select>
+		        	<option value="s">分钟</option>
+		        	<option value="h">小时</option>
+		        	<option value="d">天</option>
+		        </select>
+		      </div>
+		    </div>
+         </div>
+         </form>
 		<div class="layui-row" >
 		   <div class="_chart" id="main_01">
 		   	
@@ -28,83 +69,167 @@
    </div>
 <div th:include="include::footer"></div>
 <script th:inline="none">
-layui.use(['layer', 'echarts'], function () {
+layui.use(['layer', 'echarts','laydate','form'], function () {
     var $ = layui.jquery,
         layer = layui.layer,
-        echarts = layui.echarts;
-
+        echarts = layui.echarts,
+    	laydate = layui.laydate,
+    	form = layui.form;
+    var timeArray = new Array();
+    var pwrArray = new Array();
+    var d = laydate.render({
+        elem: '#test10'
+        ,type: 'datetime'
+        ,range: true
+        ,value: fun_hours(-1) + " - " +new Date().Format("yyyy-MM-dd hh:mm:ss")//"2020-09-02 17:47:48 - 2020-09-09 17:47:48"
+        ,ready: function(date){
+            $(".laydate-footer-btns").after('<span lay-type="_week" class="_week">最近七天</span>');
+            $(".laydate-footer-btns").after('<span lay-type="_one_month" class="_one_month">最近一个月</span>');
+            $(".laydate-footer-btns").after('<span lay-type="_three_month" class="_three_month">最近三个月</span>');
+            var  _thisid=this.elem;
+            $("._week").on('click',function(){
+            	var date = new Date();
+            	var t = fun_date(-7) + " - " +  date.Format("yyyy-MM-dd hh:mm:ss");
+            	_thisid.val(t);
+            	$("#test10").focus();
+            	$(".laydate-btns-confirm").trigger('click');
+            })
+            $("._one_month").on('click',function(){
+            	var date = new Date();
+            	console.log(date.Format("yyyy-MM-dd hh:mm:ss"));
+            	var t = fun_month(-1) + " - " +  date.Format("yyyy-MM-dd hh:mm:ss");
+            	_thisid.val(t);
+            	$("#test10").focus();
+            	$(".laydate-btns-confirm").trigger('click');
+            })
+            $("._three_month").on('click',function(){
+            	var date = new Date();
+            	console.log(date.Format("yyyy-MM-dd hh:mm:ss"));
+            	var t = fun_month(-3) + " - " +  date.Format("yyyy-MM-dd hh:mm:ss");
+            	_thisid.val(t);
+            	$("#test10").focus();
+            	$(".laydate-btns-confirm").trigger('click');
+				
+            })
+        },done: function(value, date, endDate){
+            var arr = value.split(" - ");
+            var e = {};
+            e.startTime = $.trim(arr[0]);
+            e.endTime = $.trim(arr[0]);
+            e.imei = $("._imei").html();
+            e.type = 'min';
+            zxt(e);
+          }
+      });
+    init();
+    function init(){
+    	 var entity = {};
+    	 entity.imei = $.getUrlParam('imei');
+    	 $.ajax({
+    			url: "/equipment/info",
+    		    type: "GET",
+    		    data:entity,
+    		    dataType : "json",
+    		    cache:true, 
+    	        async:false, 
+    	　　		contentType: "application/json;charset=utf-8",
+    		    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+    		    success:function(data){
+    		    	console.log(data.data[0]);
+    		    	$("._imei").html(data.data[0].imei);
+    		    	$("._address").html(data.data[0].province + data.data[0].city +  data.data[0].district + data.data[0].address);
+    		    	$("._eqptStatus").html(data.data[0].eqptStatus == 9000 ? '掉线' : '在线');
+    		    }
+    		});
+    } 
     /**
      * 报表功能
      */
     var echartsRecords = echarts.init(document.getElementById('main_01'), 'walden');
-
-    var optionRecords =option = {
-    	    title: {
-    	        text: '折线图堆叠'
-    	    },
-    	    tooltip: {
-    	        trigger: 'axis'
-    	    },
-    	    legend: {
-    	        data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
-    	    },
-    	    grid: {
-    	        left: '3%',
-    	        right: '4%',
-    	        bottom: '3%',
-    	        containLabel: true
-    	    },
-    	    toolbox: {
-    	        feature: {
-    	            saveAsImage: {}
-    	        }
-    	    },
-    	    xAxis: {
-    	        type: 'category',
-    	        boundaryGap: false,
-    	        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-    	    },
-    	    yAxis: {
-    	        type: 'value'
-    	    },
-    	    series: [
-    	        {
-    	            name: '邮件营销',
-    	            type: 'line',
-    	            stack: '总量',
-    	            data: [120, 132, 101, 134, 90, 230, 210]
-    	        },
-    	        {
-    	            name: '联盟广告',
-    	            type: 'line',
-    	            stack: '总量',
-    	            data: [220, 182, 191, 234, 290, 330, 310]
-    	        },
-    	        {
-    	            name: '视频广告',
-    	            type: 'line',
-    	            stack: '总量',
-    	            data: [150, 232, 201, 154, 190, 330, 410]
-    	        },
-    	        {
-    	            name: '直接访问',
-    	            type: 'line',
-    	            stack: '总量',
-    	            data: [320, 332, 301, 334, 390, 330, 320]
-    	        },
-    	        {
-    	            name: '搜索引擎',
-    	            type: 'line',
-    	            stack: '总量',
-    	            data: [820, 932, 901, 934, 1290, 1330, 1320]
-    	        }
-    	    ]
-    	};
-    echartsRecords.setOption(optionRecords);
-
+    function zxt( e){
+    	$.ajax({
+    		url: "/receive/pwr/info",
+    	    type: "GET",
+    	    data:e,
+    	    dataType : "json",
+    	    cache:true, 
+            async:false, 
+    　　		contentType: "application/json;charset=utf-8",
+    	    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+    	    success:function(data){
+    	    	if(data.code == 2000){
+    	    		$.each(data.result.data,function(index,xx){
+        	    		timeArray.push(xx.addTime);
+        	    		pwrArray.push(xx.pwr);
+        	    	})
+    	    	}
+    	    	options();
+    	    }
+    	});
+    }
+    
+    function options(){
+    	var optionRecords = {
+        	    title: {
+        	        text: '功率折线图'
+        	    },
+        	    tooltip: {
+        	        trigger: 'axis'
+        	    },
+        	    legend: {
+        	        data: ['功率']
+        	    },
+        	    grid: {
+        	        left: '3%',
+        	        right: '4%',
+        	        bottom: '3%',
+        	        containLabel: true
+        	    },
+        	    dataZoom: [{
+    		    	show: true,    //只需要将这一项设置为0即可
+    		    	 start : 0,
+    		    	 end:100
+    	        }],
+        	    toolbox: {
+        	        feature: {
+        	            saveAsImage: {}
+        	        }
+        	    },
+        	    xAxis: {
+        	        type: 'category',
+        	        boundaryGap: false,
+        	        splitNumber:24,
+        	        data: timeArray
+        	    },
+        	    yAxis: {
+        	        type: 'value'
+        	    },
+        	    series: [
+        	        {
+        	            name: '功率',
+        	            type: 'line',
+        	            stack: '总量',
+        	            areaStyle: {
+        	        		normal: {
+        	        			color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ 
+        	        				//折线图颜色渐变                                    
+        	        				offset: 0,                                    
+        	        				color: 'rgba(62,139,222,0.6)'                                
+        	        				}, {
+        	        					offset: 1,
+        	        					color: 'rgba(62,139,222,0.01)'
+        	        					}])                            
+        	        	}                        
+        	        	} ,
+        	            data: pwrArray
+        	        }
+        	    ]
+        	};
+        echartsRecords.setOption(optionRecords);
+    }
     // echarts 窗口缩放自适应
     window.onresize = function () {
-    	hxtOne.resize();
+    	echartsRecords.resize();
     }
 
 });

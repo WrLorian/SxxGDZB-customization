@@ -17,6 +17,7 @@ import com.kiwihouse.dto.ThreePhase.ThreePhasePowerDao;
 import com.kiwihouse.dto.ThreePhase.ThreePhasePowerDto;
 import com.kiwihouse.service.ThreePhaseService;
 import com.kiwihouse.util.ResultUtil;
+import com.kiwihouse.vo.entire.Result;
 import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.ReportedQueryVo;
 import com.kiwihouse.vo.kiwihouse.ThreePhaseVo;
@@ -116,7 +117,10 @@ public class ThreePhaseServiceImpl implements ThreePhaseService{
 //	            queryVo.setUserId(userInfo.getUserId());
 //	        }
 	        ThreePhaseMeasureDto dto = threePhaseMeasureMapper.getLastStatus(queryVo.getImei());
-	        return ResultUtil.respList(Code.QUERY_SUCCESS, dto);
+	        if(dto == null) {
+	        	return new ResultList(Code.QUERY_NULL.getCode(), Code.QUERY_NULL.getMsg(), new Result<>(0, dto));
+	        }
+	        return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg(), new Result<>(1, dto));
 	    }
 
 	    /**

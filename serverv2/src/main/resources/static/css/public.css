@@ -70,3 +70,14 @@
 	bottom: 1.5%;
 	right: 1.5%;
 }
+/*垂直居中*/
+._center_vertically{
+	display: flex; 
+	display: -webkit-flex;
+	align-items:center;
+	justify-content:center;
+	z-index:100;
+}
+.layui-icon-refresh{
+	cursor: pointer;
+}

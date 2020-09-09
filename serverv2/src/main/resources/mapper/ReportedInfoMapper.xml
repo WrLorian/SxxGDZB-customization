@@ -10,9 +10,9 @@
         from alarm_info as ai
         inner join equipment as e on ai.eqpt_sn=e.eqpt_sn
         <where>
-            <if test="adminId != null and adminId != ''">
-                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id =
-                #{adminId})
+            <if test="roleId != null and roleId != ''">
+                and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id =
+                #{roleId})
             </if>
             <if test="userId != null and userId != ''">
                 and e.user_id = #{userId}
@@ -34,9 +34,9 @@
         from alarm_info as ai
         inner join equipment as e on ai.eqpt_sn=e.eqpt_sn
         <where>
-            <if test="adminId != null and adminId != ''">
-                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id =
-                #{adminId})
+            <if test="roleId != null and roleId != ''">
+                and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id =
+                #{roleId})
             </if>
             <if test="eqptSn != null and eqptSn != ''">
                 and ai.eqpt_sn=#{eqptSn}
@@ -53,10 +53,9 @@
             parameterType="com.kiwihouse.vo.kiwihouse.AlmQueryVo">
         select * from (
         select t.alarm_id,t.alarm_msg,t.alarm_status,t.eqpt_sn,t.add_time,
-        e.eqpt_type,e.user_id,e.site_id,e.eqpt_name,e.admin_id,e.eqpt_addr,
-        u.user_name,u.phone as userPhone,
-        c.cts_name,c.phone as ctsPhone,
-        s.province,s.city,s.district,s.address
+        e.eqpt_type,e.user_id,e.site_id,e.eqpt_name,e.role_id,e.province,e.city,e.district,e.eqpt_addr,
+        u.USERNAME,
+        c.cts_name,c.phone as ctsPhone
         from (
         select alarm_id,alarm_msg,alarm_status,eqpt_sn,add_time
         from alarm_info
@@ -68,15 +67,14 @@
         </where>
         )t
         left join equipment as e on t.eqpt_sn=e.eqpt_sn
-        left join `user` as u on e.user_id=u.user_id
+        left join auth_user as u on e.user_id=u.UID
         left join contacts as c on e.user_id=c.user_id
-        left join site as s on e.site_id=s.site_id
         where t.alarm_msg like '%2%' or t.alarm_msg like '%1%'
         )t1
         <where>
-            <if test="adminId != null and adminId != ''">
-                and t1.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id
-                = #{adminId})
+            <if test="roleId != null and roleId != ''">
+                and t1.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id
+                = #{roleId})
             </if>
             <if test="eqptSn != null and eqptSn != ''">
                 and eqpt_sn=#{eqptSn}
@@ -106,12 +104,12 @@
     <select id="queryPwr" resultType="com.kiwihouse.dto.FirePwrDto"
             parameterType="com.kiwihouse.vo.kiwihouse.QueryPwrVo">
         select pwr_msg,fp.eqpt_sn,fp.add_time
-        from device.fire_pwr as fp
-        inner join device.equipment as e on e.eqpt_sn=fp.eqpt_sn
+        from fire_pwr as fp
+        inner join equipment as e on e.eqpt_sn=fp.eqpt_sn
         <where>
-            <if test="adminId != null and adminId != ''">
-                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id =
-                #{adminId})
+            <if test="roleId != null and roleId != ''">
+                and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id =
+                #{roleId})
             </if>
             <if test="eqptSn != null and eqptSn != ''">
                 and fp.eqpt_sn=#{eqptSn}

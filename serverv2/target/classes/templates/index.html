@@ -208,6 +208,21 @@
 	function init(){
 		miniAdmin.render(options);
 	}
+	
+	
+	//报警监听receive/latestalarm/info/30/1/1000
+	alarmMonitor();
+	function alarmMonitor(){
+		 $.ajax({
+  			url: "/receive/latestalarm/info/30/1/1000",
+			    method: "GET",
+			    dataType : "json",
+			    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+			    success:function(data){
+			    	 	console.log(data);
+			    }
+		});
+	}
 </script>
 </body>
 </html>
