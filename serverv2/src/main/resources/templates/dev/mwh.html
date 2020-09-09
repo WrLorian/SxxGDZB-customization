@@ -11,44 +11,68 @@
     <style type="text/css">
     	.grid-demo{
     		height: 350px;
+    		width: 33.3333;
     	}
     	body{
     		background-color: #1B1B1B;
+    		width: 100%;
+    		height: 100%;
     	}
     </style>
 </head>
 <body>
 <div >
         <div class="layui-row">
+        	<input type="hidden" value="" class="_eqptType"> 
+		    <div class="layui-col-md12">
+		      <div class="grid-demo-bg1" style="color: white;padding-left: 20px;">
+		      	<br>
+		      	<span>设备：</span>
+		      	<span class="_imei"></span>  
+		      	<span>最新读数</span>
+		      	<span><i class="layui-icon layui-icon-refresh"></i></span>
+		      	<br>
+		      	<span>读数时间：</span>
+		      	<span class="_time"></span>
+		      	<br>
+		      	<span>设备地址：</span>
+		      	<span class="_address"></span>
+		      </div>
+		      <div align="right" class="_center_vertically" style="float: right;height: 100%;">
+		      	 <a href="#" style="color: white;padding-right: 20px;font-size: 24px;" >更多历史数据</a>
+		      </div>
+		    </div>
+		</div>
+        <div class="layui-row">
 		    <div class="layui-col-md4" align="center">
-		      <div class="grid-demo grid-demo-bg1" id="main_01">
+		      <div class="grid-demo grid-demo-bg1" id="main_01" data-unit = '℃' data-name='温升读数' data-min = '0' data-max = '100' data-value='0'>
 		      </div>
 		       <span style="color: white;font-size: 30px">温升读数</span>
 		    </div>
 		    <div class="layui-col-md4" align="center">
-		      <div class="grid-demo" id="main_02"></div>
+		      <div class="grid-demo" id="main_02" data-unit = 'mA' data-name='漏电流读数' data-min = '0' data-max = '100' data-value='0'></div>
 		     <span style="color: white;font-size: 30px">漏电流读数</span>
 		    </div>
 		    <div class="layui-col-md4" align="center">
-		      <div class="grid-demo" id="main_03"></div>
+		      <div class="grid-demo" id="main_03" data-unit = 'KWH' data-name='电能读数' data-min = '0' data-max = '1000' data-value='0'></div>
 		      <span style="color: white;font-size: 30px">电能读数</span>
 		    </div>
 		</div>
 		<div class="layui-row">
-		    <div class="layui-col-md3" align="center">
-		      <div class="grid-demo grid-demo-bg1" id="main_04"></div>
+		    <div class="layui-col-md3" align="center" >
+		      <div class="grid-demo grid-demo-bg1" id="main_04" data-unit = 'A' data-name='电流读数' data-min = '0' data-max = '100' data-value='0'></div>
 		      <span style="color: white;font-size: 24px">电流读数</span>
 		    </div>
 		    <div class="layui-col-md3"  align="center">
-		      <div class="grid-demo" id="main_05"></div>
+		      <div class="grid-demo" id="main_05" data-unit = 'V' data-name='电压读数' data-min = '0' data-max = '360' data-value='0'></div>
 		      <span style="color: white;font-size: 24px">电压读数</span>
 		    </div>
 		    <div class="layui-col-md3" align="center">
-		      <div class="grid-demo" id="main_06"></div>
+		      <div class="grid-demo" id="main_06" data-unit = 'W' data-name='功率读数' data-min = '0' data-max = '5000' data-value='0'></div>
 		      <span style="color: white;font-size: 24px">功率读数</span>
 		    </div>
 		    <div class="layui-col-md3" align="center">
-		      <div class="grid-demo" id="main_07"></div>
+		      <div class="grid-demo" id="main_07" data-unit = '' data-name='信号读数' data-min = '0' data-max = '31' data-value='0'></div>
 		      <span style="color: white;font-size: 24px">信号读数</span>
 		    </div>
 		</div>
@@ -56,20 +80,40 @@
 <div th:include="include::footer"></div>
 <script th:inline="none">
 	//eqptSn: 867808042090181
-	
-	var dataRow = window.parent.dataRow;
-	console.log(dataRow);
 	var entity = {};
-	entity.imei = dataRow.imei;
+	entity.imei = $.getUrlParam('imei');
 	entity.alarmType = 1;
-	var myChart_01 = echarts.init(document.getElementById('main_01'));
-	var myChart_02 = echarts.init(document.getElementById('main_02'));
-	var myChart_03 = echarts.init(document.getElementById('main_03'));
-	var myChart_04 = echarts.init(document.getElementById('main_04'));
-	var myChart_05 = echarts.init(document.getElementById('main_05'));
-	var myChart_06 = echarts.init(document.getElementById('main_06'));
-	var myChart_07 = echarts.init(document.getElementById('main_07'));
-	var _option = function(name,min,max,d){
+	var myChart_01 = echarts.init(document.getElementById('main_01'),'walden');
+	var myChart_02 = echarts.init(document.getElementById('main_02'),'walden');
+	var myChart_03 = echarts.init(document.getElementById('main_03'),'walden');
+	var myChart_04 = echarts.init(document.getElementById('main_04'),'walden');
+	var myChart_05 = echarts.init(document.getElementById('main_05'),'walden');
+	var myChart_06 = echarts.init(document.getElementById('main_06'),'walden');
+	var myChart_07 = echarts.init(document.getElementById('main_07'),'walden');
+	layui.use(['layer'], function () {
+		layer = layui.layer;
+		
+		initPanel();
+	})
+	$.ajax({
+		url: "/equipment/info",
+	    type: "GET",
+	    data:entity,
+	    dataType : "json",
+	    cache:true, 
+        async:false, 
+　　		contentType: "application/json;charset=utf-8",
+	    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+	    success:function(data){
+	    	console.log(data.data[0]);
+	    	$("._imei").text(data.data[0].imei);
+	    	$("._time").text(data.data[0].addTime);
+	    	$("._address").text(data.data[0].province + data.data[0].city +  data.data[0].district + data.data[0].address);
+	    	$("._eqptType").val(data.data[0].eqptType);
+	    }
+	});
+	
+	var _option = function(v){
 		var option = {
 			    backgroundColor: '#1b1b1b',
 			    tooltip: {
@@ -85,10 +129,10 @@
 			    },
 			    series: [
 			        {
-			            name: name,
+			            name: v.data('name'),
 			            type: 'gauge',
-			            min: parseInt(min),
-			            max: parseInt(max),
+			            min: parseInt(v.data('min')),
+			            max: parseInt(v.data('max')),
 			            splitNumber: 10,
 			            radius: '80%',
 			            axisLine: {            // 坐标轴线
@@ -146,18 +190,31 @@
 			                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
 			                    fontWeight: 'bolder',
 			                    color: '#fff'
-			                }
+			                },formatter: function (value) {
+			                    if(v.data('unit') == ''){
+			                    	if(value == 0){
+			                    		return '无';
+			                    	}else if(value < 7){
+			                    		return '弱';
+			                    	}else if(value >= 7 && value < 15){
+			                    		return '中';
+			                    	}else if(value >= 15){
+			                    		return '强';
+			                    	}
+			                    }
+			                	return value;
+			                },
 			            },
-			            data: [d]
+			            data: [{value: v.data('value'),name: v.data('unit')}]
 			        }
 			        
 			    ]
 			};
 		return option;
 	}
+	//加载仪表盘数据
 	
-	init();
-	function init(){
+	function initPanel(){
 		$.ajax({
 			url: "/receive/info",
 		    type: "GET",
@@ -169,52 +226,100 @@
 		    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 		    success:function(data){
 		    	if(data.code == 2000){
-		    		dataJson = JSON.parse(data.result.data.dataJson);
-		    		var d = {};
-		    		d.value = dataJson.line_temp;
-		    		d.name = '℃';
-		    		myChart_01.setOption(_option('温升读数',0,100,d));
-		    		d.value = dataJson.leak_cur;
-		    		d.name = 'mA';
-		    		myChart_02.setOption(_option('漏电流读数',0,100,d));
-		    		d.value = dataJson.kwh;
-		    		d.name = 'KWH';
-		    		myChart_03.setOption(_option('电能读数',0,1000,d));
-		    		d.value = dataJson.cur;
-		    		d.name = 'A';
-		    		myChart_04.setOption(_option('电流读数',0,100,d));
-		    		d.value = dataJson.vol;
-		    		d.name = 'V';
-		    		myChart_05.setOption(_option('电压读数',0,360,d));
-		    		d.value = dataJson.pwr;
-		    		d.name = 'W';
-		    		myChart_06.setOption(_option('功率读数',0,5000,d));
-		    		/* if(dataJson.csq > -1 && dataJson.csq < 8){
-		    			d.value = '弱';
-		    		}else if(dataJson.csq > 7 && dataJson.csq < 15.5){
-		    			d.value = '一般';
-		    		}else if(dataJson.csq > 15.4){
-		    			console.log("强")
-		    			d.value = '强';
-		    		} */
-		    		d.value = dataJson.csq;
-		    		d.name = '';
-		    		myChart_07.setOption(_option('信号读数',0,31,d));
+		    		if(typeof(data.result.data.dataJson) != "undefined" && data.result.data.dataJson != null){
+		    			dataJson = JSON.parse(data.result.data.dataJson);
+			    		$("#main_01").attr('data-value',dataJson.line_temp);
+			    		$("#main_02").attr('data-value',dataJson.leak_cur);
+			    		$("#main_03").attr('data-value',dataJson.kwh);
+			    		$("#main_04").attr('data-value',dataJson.cur)
+			    		$("#main_05").attr('data-value',dataJson.vol)
+			    		$("#main_06").attr('data-value',dataJson.pwr)
+			    		$("#main_07").attr('data-value',dataJson.csq)
+		    		}
 		    	}else{
-		    		
+		    		 layer.msg('查询数据为空', {
+		    			  //title:'提示',
+		    			  icon: 3,
+		    			  offset:'rt',
+		    			  anim: 2,
+		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+		    			}, function(){
+		    			  //do something
+		    			}); 
 		    	}
+		    	myChart_01.setOption(_option($("#main_01")));
+	    		myChart_02.setOption(_option($("#main_02")));
+	    		myChart_03.setOption(_option($("#main_03")));
+	    		myChart_04.setOption(_option($("#main_04")));
+	    		myChart_05.setOption(_option($("#main_05")));
+	    		myChart_06.setOption(_option($("#main_06")));
+	    		myChart_07.setOption(_option($("#main_07")));
 		    }
 		});
 	}
+	
+	$(".layui-icon-refresh").on('click',function(){
+		var e = {};
+		var r= {};
+		var array = new Array();
+		e.imei = $("._imei").text();
+		r.register = 3;
+		e.register = r;
+		e.eqptType = $("._eqptType").val();
+		array.push(e);
+		r.register = 3;
+		e.register = r;
+		array.push(e);
+		console.log(JSON.stringify(array));
+		$.ajax({
+			url: "/onenet/issuedList",
+		    type: "POST",
+		    data:JSON.stringify(array),
+		    dataType : "json",
+		    cache:true, 
+	        async:false, 
+	        traditional:true,
+	　　		contentType: "application/json;charset=utf-8",
+		    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+		    success:function(data){
+		    	if(data.result.data[e.imei] == 'read time out'){
+		    		layer.msg('连接超时', {
+		    			  icon: 2,
+		    			  offset:'rt',
+		    			  anim: 2,
+		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+		    		});
+		    	}else if(data.result.data[e.imei] == 'device not online') {
+		    		layer.msg('设备掉线', {
+		    			  icon: 2,
+		    			  offset:'rt',
+		    			  anim: 2,
+		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+		    			});
+		    	}else{
+		    		layer.msg(data.msg, {
+		    			  icon: 1,
+		    			  offset:'rt',
+		    			  anim: 2,
+		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+		    			});
+		    	}
+		    	
+		    }
+		});
+	})
+	window.onresize = function () {
+    	myChart_01.resize();
+		myChart_02.resize();
+		myChart_03.resize();
+		myChart_04.resize();
+		myChart_05.resize();
+		myChart_06.resize();
+		myChart_07.resize();
+    }
+	
 	/* setInterval(function (){
-	    option.series[0].data[0].value = (Math.random()*100).toFixed(2) - 0;
-	    myChart_01.setOption(option);
-	    myChart_02.setOption(option);
-	    myChart_03.setOption(option);
-	    myChart_04.setOption(option);
-	    myChart_05.setOption(option);
-	    myChart_06.setOption(option);
-	    myChart_07.setOption(option);
+	    initPanel();
 	},5000); */
 </script>
 
