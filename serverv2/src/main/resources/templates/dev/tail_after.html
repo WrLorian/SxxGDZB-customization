@@ -45,16 +45,16 @@
             <div class="layui-inline" >
 		      <label class="layui-form-label">统计时间段</label>
 		      <div class="layui-input-block">
-		        <input type="text" class="layui-input" id="test10">
+		        <input type="text" class="layui-input" id="times">
 		      </div>
 		    </div>
             <div class="layui-inline">
 		      <label class="layui-form-label">统计单位</label>
 		      <div class="layui-input-inline">
-		        <select>
-		        	<option value="s">分钟</option>
-		        	<option value="h">小时</option>
-		        	<option value="d">天</option>
+		        <select name="type" id="type" lay-search="" lay-filter="type">
+		        	<option value="min">分钟</option>
+		        	<option value="hour" selected="selected">小时</option>
+		        	<option value="day">天</option>
 		        </select>
 		      </div>
 		    </div>
@@ -77,8 +77,10 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
     	form = layui.form;
     var timeArray = new Array();
     var pwrArray = new Array();
+    var endTime;
+    var row;
     var d = laydate.render({
-        elem: '#test10'
+        elem: '#times'
         ,type: 'datetime'
         ,range: true
         ,value: fun_hours(-1) + " - " +new Date().Format("yyyy-MM-dd hh:mm:ss")//"2020-09-02 17:47:48 - 2020-09-09 17:47:48"
@@ -91,7 +93,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
             	var date = new Date();
             	var t = fun_date(-7) + " - " +  date.Format("yyyy-MM-dd hh:mm:ss");
             	_thisid.val(t);
-            	$("#test10").focus();
+            	$("#times").focus();
             	$(".laydate-btns-confirm").trigger('click');
             })
             $("._one_month").on('click',function(){
@@ -99,7 +101,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
             	console.log(date.Format("yyyy-MM-dd hh:mm:ss"));
             	var t = fun_month(-1) + " - " +  date.Format("yyyy-MM-dd hh:mm:ss");
             	_thisid.val(t);
-            	$("#test10").focus();
+            	$("#times").focus();
             	$(".laydate-btns-confirm").trigger('click');
             })
             $("._three_month").on('click',function(){
@@ -107,7 +109,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
             	console.log(date.Format("yyyy-MM-dd hh:mm:ss"));
             	var t = fun_month(-3) + " - " +  date.Format("yyyy-MM-dd hh:mm:ss");
             	_thisid.val(t);
-            	$("#test10").focus();
+            	$("#times").focus();
             	$(".laydate-btns-confirm").trigger('click');
 				
             })
@@ -115,13 +117,25 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
             var arr = value.split(" - ");
             var e = {};
             e.startTime = $.trim(arr[0]);
-            e.endTime = $.trim(arr[0]);
+            e.endTime = $.trim(arr[1]);
+            endTime = $.trim(arr[1]);
             e.imei = $("._imei").html();
-            e.type = 'min';
+            e.type = $("select[name='type']").val();
             zxt(e);
           }
       });
     init();
+    
+    form.on('select(type)', function(data) {
+		var arr = $("#times").val().split(" - ");
+        var e = {};
+        e.startTime = $.trim(arr[0]);
+        e.endTime = $.trim(arr[1]);
+        endTime = $.trim(arr[1]);
+        e.imei = $("._imei").html();
+        e.type = data.value;
+        zxt(e);
+	});
     function init(){
     	 var entity = {};
     	 entity.imei = $.getUrlParam('imei');
@@ -146,7 +160,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
      * 报表功能
      */
     var echartsRecords = echarts.init(document.getElementById('main_01'), 'walden');
-    function zxt( e){
+    function zxt(e){
     	$.ajax({
     		url: "/receive/pwr/info",
     	    type: "GET",
@@ -158,17 +172,29 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
     	    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
     	    success:function(data){
     	    	if(data.code == 2000){
+    	    		row = data.result.row;
     	    		$.each(data.result.data,function(index,xx){
         	    		timeArray.push(xx.addTime);
         	    		pwrArray.push(xx.pwr);
         	    	})
     	    	}
+    	    	console.log(row);
     	    	options();
     	    }
     	});
     }
-    
-    function options(){
+    initLoad();
+    function initLoad(){
+    	var arr = $("#times").val().split(" - ");
+        var e = {};
+        e.startTime = $.trim(arr[0]);
+        e.endTime = $.trim(arr[1]);
+        endTime = $.trim(arr[1]);
+        e.imei = $("._imei").html();
+        e.type = $("select[name='type']").val();
+        zxt(e);
+    }
+     function options(){
     	var optionRecords = {
         	    title: {
         	        text: '功率折线图'
@@ -187,7 +213,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	    },
         	    dataZoom: [{
     		    	show: true,    //只需要将这一项设置为0即可
-    		    	 start : 0,
+    		    	 start : 90,
     		    	 end:100
     	        }],
         	    toolbox: {
@@ -198,7 +224,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	    xAxis: {
         	        type: 'category',
         	        boundaryGap: false,
-        	        splitNumber:24,
+        	        splitNumber:10,
         	        data: timeArray
         	    },
         	    yAxis: {
@@ -221,6 +247,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	        					}])                            
         	        	}                        
         	        	} ,
+        	        	sampling:'average',
         	            data: pwrArray
         	        }
         	    ]

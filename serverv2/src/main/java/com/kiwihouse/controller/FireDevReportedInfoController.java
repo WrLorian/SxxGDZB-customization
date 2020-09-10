@@ -1,5 +1,7 @@
 package com.kiwihouse.controller;
 
+import java.text.ParseException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +107,7 @@ public class FireDevReportedInfoController {
             httpMethod = "GET")
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = ReportedDto.class)})
     @GetMapping(value = "/pwr/info")
-    public ResultList queryPwr(@Validated QueryPwrVo queryPwrVo, HttpServletRequest request) {
+    public ResultList queryPwr(@Validated QueryPwrVo queryPwrVo, HttpServletRequest request) throws ParseException {
         //checkAdminService.verifyAdminId(request.getHeader("dz-usr"), queryPwrVo);
 
         EqptInfoDto eqptInfo = equipmentMapper.queryInfoByImei(queryPwrVo.getImei());

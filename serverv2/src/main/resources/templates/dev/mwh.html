@@ -23,12 +23,14 @@
 <body>
 <div >
         <div class="layui-row">
-        	<input type="hidden" value="" class="_eqptType"> 
+        	
 		    <div class="layui-col-md12">
 		      <div class="grid-demo-bg1" style="color: white;padding-left: 20px;">
 		      	<br>
 		      	<span>设备：</span>
-		      	<span class="_imei"></span>  
+		      	<span class="_imei"></span>
+		      	<span>设备类型：</span>
+		      	<span class="_eqptType"></span>
 		      	<span>最新读数</span>
 		      	<span><i class="layui-icon layui-icon-refresh"></i></span>
 		      	<br>
@@ -43,37 +45,79 @@
 		      </div>
 		    </div>
 		</div>
-        <div class="layui-row">
+        <div class="layui-row _single_up">
 		    <div class="layui-col-md4" align="center">
 		      <div class="grid-demo grid-demo-bg1" id="main_01" data-unit = '℃' data-name='温升读数' data-min = '0' data-max = '100' data-value='0'>
 		      </div>
-		       <span style="color: white;font-size: 30px">温升读数</span>
+		       <span style="color: white;font-size: 30px" class="_gauge_param">温升读数</span>
 		    </div>
 		    <div class="layui-col-md4" align="center">
 		      <div class="grid-demo" id="main_02" data-unit = 'mA' data-name='漏电流读数' data-min = '0' data-max = '100' data-value='0'></div>
-		     <span style="color: white;font-size: 30px">漏电流读数</span>
+		     <span style="color: white;font-size: 30px" class="_gauge_param">漏电流读数</span>
 		    </div>
 		    <div class="layui-col-md4" align="center">
 		      <div class="grid-demo" id="main_03" data-unit = 'KWH' data-name='电能读数' data-min = '0' data-max = '1000' data-value='0'></div>
-		      <span style="color: white;font-size: 30px">电能读数</span>
+		      <span style="color: white;font-size: 30px" class="_gauge_param">电能读数</span>
 		    </div>
 		</div>
-		<div class="layui-row">
+		<div class="layui-row _triple_up">
+		    <div class="layui-col-md3" align="center">
+		      <div class="grid-demo grid-demo-bg1" id="main_01_01" data-unit = '℃' data-name='温升读数' data-min = '0' data-max = '100' data-value='0'>
+		      </div>
+		       <span style="color: white;font-size: 30px" class="_gauge_param">温升读数</span>
+		    </div>
+		    <div class="layui-col-md3" align="center">
+		      <div class="grid-demo" id="main_02_01" data-unit = 'mA' data-name='漏电流读数' data-min = '0' data-max = '100' data-value='0'></div>
+		     <span style="color: white;font-size: 30px" class="_gauge_param">漏电流读数</span>
+		    </div>
+		    <div class="layui-col-md3" align="center">
+		      <div class="grid-demo" id="main_03_01" data-unit = 'KWH' data-name='电能读数' data-min = '0' data-max = '9000' data-value='0'></div>
+		      <span style="color: white;font-size: 30px" class="_gauge_param">电能读数</span>
+		    </div>
+		    <div class="layui-col-md3" align="center">
+		      <div class="grid-demo" id="main_07_01" data-unit = '' data-name='信号读数' data-min = '0' data-max = '31' data-value='0'></div>
+		      <span style="color: white;font-size: 24px" class="_gauge_param">信号读数</span>
+		    </div>
+		</div>
+		<div class="layui-row _single_down">
 		    <div class="layui-col-md3" align="center" >
-		      <div class="grid-demo grid-demo-bg1" id="main_04" data-unit = 'A' data-name='电流读数' data-min = '0' data-max = '100' data-value='0'></div>
-		      <span style="color: white;font-size: 24px">电流读数</span>
+		      <div class="grid-demo grid-demo-bg1" id="main_04" data-unit = 'A' data-name='电流读数' data-min = '0' data-max = '100' data-value='0' ></div>
+		      <span style="color: white;font-size: 24px" class="_gauge_param">电流读数</span>
 		    </div>
 		    <div class="layui-col-md3"  align="center">
-		      <div class="grid-demo" id="main_05" data-unit = 'V' data-name='电压读数' data-min = '0' data-max = '360' data-value='0'></div>
-		      <span style="color: white;font-size: 24px">电压读数</span>
+		      <div class="grid-demo" id="main_05" data-unit = 'V' data-name='电压读数' data-min = '0' data-max = '360' data-value='0'  ></div>
+		      <span style="color: white;font-size: 24px" class="_gauge_param">电压读数</span>
 		    </div>
 		    <div class="layui-col-md3" align="center">
 		      <div class="grid-demo" id="main_06" data-unit = 'W' data-name='功率读数' data-min = '0' data-max = '5000' data-value='0'></div>
-		      <span style="color: white;font-size: 24px">功率读数</span>
+		      <span style="color: white;font-size: 24px" class="_gauge_param">功率读数</span>
 		    </div>
 		    <div class="layui-col-md3" align="center">
 		      <div class="grid-demo" id="main_07" data-unit = '' data-name='信号读数' data-min = '0' data-max = '31' data-value='0'></div>
-		      <span style="color: white;font-size: 24px">信号读数</span>
+		      <span style="color: white;font-size: 24px" class="_gauge_param">信号读数</span>
+		    </div>
+		</div>
+		
+		<div class="layui-row _triple_down">
+		    <div class="layui-col-md4" align="center" >
+		      <div class="grid-demo grid-demo-bg1" id="main_04_01" data-unit = 'A' 
+		      data-name='电流读数' data-min = '0' data-max = '100' 
+		      data-value='0' data-b="B相" data-c="C相" data-va='0' data-vb='0' data-vc='0'></div>
+		      <span style="color: white;font-size: 24px" class="_gauge_param">电流读数</span>
+		    </div>
+		    <div class="layui-col-md4"  align="center">
+		      <div class="grid-demo" id="main_05_01" data-unit = 'V' 
+		      data-name='电压读数' data-min = '0' data-max = '360' 
+		      data-value='0' data-b="B相" data-c="C相"
+		      data-va='0' data-vb='0' data-vc='0'></div>
+		      <span style="color: white;font-size: 24px" class="_gauge_param">电压读数</span>
+		    </div>
+		    <div class="layui-col-md4" align="center">
+		      <div class="grid-demo" id="main_06_01" data-unit = 'W' 
+		      data-name='功率读数' data-min = '0' data-max = '5000' 
+		      data-value='0' data-b="B相" data-c="C相"
+		      data-va='0' data-vb='0' data-vc='0'></div>
+		      <span style="color: white;font-size: 24px" class="_gauge_param">功率读数</span>
 		    </div>
 		</div>
     </div>
@@ -82,7 +126,7 @@
 	//eqptSn: 867808042090181
 	var entity = {};
 	entity.imei = $.getUrlParam('imei');
-	entity.alarmType = 1;
+	var eqptType;
 	var myChart_01 = echarts.init(document.getElementById('main_01'),'walden');
 	var myChart_02 = echarts.init(document.getElementById('main_02'),'walden');
 	var myChart_03 = echarts.init(document.getElementById('main_03'),'walden');
@@ -90,6 +134,14 @@
 	var myChart_05 = echarts.init(document.getElementById('main_05'),'walden');
 	var myChart_06 = echarts.init(document.getElementById('main_06'),'walden');
 	var myChart_07 = echarts.init(document.getElementById('main_07'),'walden');
+	
+	var myChart_01_01 = echarts.init(document.getElementById('main_01_01'),'walden');
+	var myChart_02_01 = echarts.init(document.getElementById('main_02_01'),'walden');
+	var myChart_03_01 = echarts.init(document.getElementById('main_03_01'),'walden');
+	var myChart_04_01 = echarts.init(document.getElementById('main_04_01'),'walden');
+	var myChart_05_01 = echarts.init(document.getElementById('main_05_01'),'walden');
+	var myChart_06_01 = echarts.init(document.getElementById('main_06_01'),'walden');
+	var myChart_07_01 = echarts.init(document.getElementById('main_07_01'),'walden');
 	layui.use(['layer'], function () {
 		layer = layui.layer;
 		
@@ -105,15 +157,25 @@
 　　		contentType: "application/json;charset=utf-8",
 	    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 	    success:function(data){
-	    	console.log(data.data[0]);
+	    	eqptType = data.data[0].eqptType;
 	    	$("._imei").text(data.data[0].imei);
 	    	$("._time").text(data.data[0].addTime);
 	    	$("._address").text(data.data[0].province + data.data[0].city +  data.data[0].district + data.data[0].address);
-	    	$("._eqptType").val(data.data[0].eqptType);
+	    	if(data.data[0].eqptType == 0){
+	    		$("._eqptType").attr('data-type',data.data[0].eqptType);
+	    		$("._eqptType").text('用电设备');
+	    	}
+	    	else if(data.data[0].eqptType == 1){
+	    		$("._eqptType").attr('data-type',data.data[0].eqptType);
+	    		$("._eqptType").text('烟感设备');
+	    	}else if(data.data[0].eqptType == 2){
+	    		$("._eqptType").attr('data-type',data.data[0].eqptType);
+	    		$("._eqptType").text('三相设备');
+	    	}
+	    	
 	    }
 	});
-	
-	var _option = function(v){
+	var _singleOption = function(v){
 		var option = {
 			    backgroundColor: '#1b1b1b',
 			    tooltip: {
@@ -196,9 +258,9 @@
 			                    		return '无';
 			                    	}else if(value < 7){
 			                    		return '弱';
-			                    	}else if(value >= 7 && value < 15){
+			                    	}else if(value >= 7 && value < 15.5){
 			                    		return '中';
-			                    	}else if(value >= 15){
+			                    	}else if(value >= 15.5){
 			                    		return '强';
 			                    	}
 			                    }
@@ -208,6 +270,261 @@
 			            data: [{value: v.data('value'),name: v.data('unit')}]
 			        }
 			        
+			    ]
+			};
+		return option;
+	}
+	
+	
+	var _tripleOption = function(v){
+		var option = {
+			    backgroundColor: '#1b1b1b',
+			    tooltip: {
+			        formatter: '{a} <br/>{c} {b}'
+			    },
+			    toolbox: {
+			        show: true,
+			        feature: {
+			            mark: {show: true},
+			            restore: {show: true},
+			            saveAsImage: {show: true}
+			        }
+			    },
+			    series: [
+			        {
+			            name: v.data('name'),
+			            type: 'gauge',
+			            min: parseInt(v.data('min')),
+			            max: parseInt(v.data('max')),
+			            splitNumber: 10,
+			            radius: '70%',
+			            axisLine: {            // 坐标轴线
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                    color: [[0.09, 'lime'], [0.82, '#1e90ff'], [1, '#ff4500']],
+			                    width: 3,
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            axisLabel: {            // 坐标轴小标记
+			                fontWeight: 'bolder',
+			                color: '#fff',
+			                shadowColor: '#fff', //默认透明
+			                shadowBlur: 10,
+			                formatter: function (value) {
+			                    if(v.data('unit') == 'W'){
+			                    	return value / 1000 + "K";
+			                    }
+			                	return value;
+			                }
+			            },
+			            axisTick: {            // 坐标轴小标记
+			                length: 15,        // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                    color: 'auto',
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            splitLine: {           // 分隔线
+			                length: 20,         // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+			                    width: 3,
+			                    color: '#fff',
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            pointer: {           // 分隔线
+			                shadowColor: '#fff', //默认透明
+			                shadowBlur: 5
+			            },
+			            title: {
+			                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+			                    fontWeight: 'bolder',
+			                    fontSize: 20,
+			                    fontStyle: 'italic',
+			                    color: '#fff',
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            detail: {
+			                backgroundColor: 'rgba(30,144,255,0.8)',
+			                borderWidth: 1,
+			                borderColor: '#fff',
+			                shadowColor: '#fff', //默认透明
+			                shadowBlur: 5,
+			                offsetCenter: [0, '50%'],       // x, y，单位px
+			                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+			                    fontWeight: 'bolder',
+			                    color: '#fff'
+			                },formatter: function (value) {
+			                    if(v.data('unit') == 'W'){
+			                    	return 0 - value;
+			                    }
+			                	return value;
+			                }
+			            },
+			            data: [{value: v.data('va'), name: v.data('unit')}]
+			        },
+			        {
+			            name: v.data('b'),
+	           			type: 'gauge',
+			            center: ['20%', '55%'],    // 默认全局居中
+			            radius: '40%',
+			            min: parseInt(v.data('min')),
+			            max: parseInt(v.data('max')),
+			            endAngle: 45,
+			            splitNumber: 5,
+			            axisLine: {            // 坐标轴线
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                    color: [[0.29, 'lime'], [0.86, '#1e90ff'], [1, '#ff4500']],
+			                    width: 2,
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            axisLabel: {            // 坐标轴小标记
+			                fontWeight: 'bolder',
+			                color: '#fff',
+			                shadowColor: '#fff', //默认透明
+			                shadowBlur: 10,
+			                formatter: function (value) {
+			                    if(v.data('unit') == 'W'){
+			                    	return value / 1000 + "K";
+			                    }
+			                	return value;
+			                }
+			            },
+			            axisTick: {            // 坐标轴小标记
+			                length: 5,        // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                    color: 'auto',
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            splitLine: {           // 分隔线
+			                length: 10,         // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+			                    width: 3,
+			                    color: '#fff',
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            pointer: {
+			                width: 5,
+			                shadowColor: '#fff', //默认透明
+			                shadowBlur: 5
+			            },
+			            title: {
+			                offsetCenter: [0, '-30%'],       // x, y，单位px
+			                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+			                    fontWeight: 'bolder',
+			                    fontStyle: 'italic',
+			                    color: '#fff',
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            detail: {
+			                
+			                borderColor: '#fff',
+			                shadowColor: '#fff', //默认透明
+			                shadowBlur: 5,
+			                width: 80,
+			                height: 30,
+			                offsetCenter: [25, '25%'],       // x, y，单位px
+			                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+			                    fontWeight: 'bolder',
+			                    color: '#fff',
+			                    fontSize : 14
+			                },formatter: function (value) {
+			                    if(v.data('unit') == 'W'){
+			                    	return 0 - value;
+			                    }
+			                	return value;
+			                }
+			            },
+			            data: [{value: v.data('vb'), name: v.data('unit')}]
+			        },
+			        {
+			            name: v.data('c'),
+			            type: 'gauge',
+			            center: ['80%', '55%'],    // 默认全局居中
+			            radius: '40%',
+			            min: parseInt(v.data('min')),
+			            max: parseInt(v.data('max')),
+			            startAngle: 135,
+			            endAngle: -45,
+			            splitNumber: 5,
+			            axisLine: {            // 坐标轴线
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                    color: [[0.2, 'lime'], [0.8, '#1e90ff'], [1, '#ff4500']],
+			                    width: 2,
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            axisTick: {            // 坐标轴小标记
+			                length: 5,        // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                    color: 'auto',
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            axisLabel: {
+			                fontWeight: 'bolder',
+			                color: '#fff',
+			                shadowColor: '#fff', //默认透明
+			                shadowBlur: 10,
+			                formatter: function (value) {
+			                    if(v.data('unit') == 'W'){
+			                    	return value / 1000 + "K";
+			                    }
+			                	return value;
+			                }
+			            },
+			            splitLine: {           // 分隔线
+			                length:10,         // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+			                    width:3,
+			                    color: '#fff',
+			                    shadowColor: '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            pointer: {
+			                width:2,
+			                shadowColor: '#fff', //默认透明
+			                shadowBlur: 5
+			            },
+			            title: {
+			                show: false
+			            },
+						detail: {
+			                borderColor: '#fff',
+			                shadowColor: '#fff', //默认透明
+			                shadowBlur: 5,
+			                width: 80,
+			                height: 30,
+			                offsetCenter: [0, '10%'],       // x, y，单位px
+			                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+			                    fontWeight: 'bolder',
+			                    color: '#fff',
+			                    fontSize : 14
+			                },formatter: function (value) {
+			                    if(v.data('unit') == 'W'){
+			                    	return 0 - value;
+			                    }
+			                	return value;
+			                }
+			            },
+			            data: [{value: v.data('vc'), name: v.data('unit')}]
+			        }
 			    ]
 			};
 		return option;
@@ -228,13 +545,34 @@
 		    	if(data.code == 2000){
 		    		if(typeof(data.result.data.dataJson) != "undefined" && data.result.data.dataJson != null){
 		    			dataJson = JSON.parse(data.result.data.dataJson);
-			    		$("#main_01").attr('data-value',dataJson.line_temp);
-			    		$("#main_02").attr('data-value',dataJson.leak_cur);
-			    		$("#main_03").attr('data-value',dataJson.kwh);
-			    		$("#main_04").attr('data-value',dataJson.cur)
-			    		$("#main_05").attr('data-value',dataJson.vol)
-			    		$("#main_06").attr('data-value',dataJson.pwr)
-			    		$("#main_07").attr('data-value',dataJson.csq)
+		    			console.log(dataJson);
+		    			if(eqptType != 2){
+		    				$("#main_01").attr('data-value',dataJson.line_temp);
+				    		$("#main_02").attr('data-value',dataJson.leak_cur);
+				    		$("#main_03").attr('data-value',dataJson.kwh);
+				    		$("#main_04").attr('data-value',dataJson.cur)
+				    		$("#main_05").attr('data-value',dataJson.vol)
+				    		$("#main_06").attr('data-value',dataJson.pwr)
+				    		$("#main_07").attr('data-value',dataJson.csq)
+		    			}
+		    		}else if(data.result.data != null ){
+		    			$("#main_01_01").attr('data-value',data.result.data.line_temp);
+			    		$("#main_02_01").attr('data-value',data.result.data.leak_cur);
+			    		$("#main_03_01").attr('data-value',data.result.data.kwh);
+			    		
+			    		$("#main_04_01").attr('data-va',data.result.data.curA)
+			    		$("#main_04_01").attr('data-vb',data.result.data.curB)
+			    		$("#main_04_01").attr('data-vc',data.result.data.curC)
+			    		
+			    		$("#main_05_01").attr('data-va',data.result.data.volA)
+			    		$("#main_05_01").attr('data-vb',data.result.data.volB)
+			    		$("#main_05_01").attr('data-vc',data.result.data.volC)
+			    		
+			    		$("#main_06_01").attr('data-va',0 - data.result.data.pwrA)
+			    		$("#main_06_01").attr('data-vb',0 - data.result.data.pwrB)
+			    		$("#main_06_01").attr('data-vc',0 - data.result.data.pwrC)
+			    		
+			    		$("#main_07_01").attr('data-value',data.result.data.csp)
 		    		}
 		    	}else{
 		    		 layer.msg('查询数据为空', {
@@ -247,13 +585,32 @@
 		    			  //do something
 		    			}); 
 		    	}
-		    	myChart_01.setOption(_option($("#main_01")));
-	    		myChart_02.setOption(_option($("#main_02")));
-	    		myChart_03.setOption(_option($("#main_03")));
-	    		myChart_04.setOption(_option($("#main_04")));
-	    		myChart_05.setOption(_option($("#main_05")));
-	    		myChart_06.setOption(_option($("#main_06")));
-	    		myChart_07.setOption(_option($("#main_07")));
+		    	if(eqptType != 2){
+		    		$("._single_up").show();
+		    		$("._single_down").show();
+		    		$("._triple_up").hide();
+		    		$("._triple_down").hide();
+		    		myChart_01.setOption(_singleOption($("#main_01")));
+		    		myChart_02.setOption(_singleOption($("#main_02")));
+		    		myChart_03.setOption(_singleOption($("#main_03")));
+		    		myChart_04.setOption(_singleOption($("#main_04")));
+		    		myChart_05.setOption(_singleOption($("#main_05")));
+		    		myChart_06.setOption(_singleOption($("#main_06")));
+		    		myChart_07.setOption(_singleOption($("#main_07")));
+		    	}else{//_single_up _triple_up _single_down _triple_down
+		    		$("._single_up").hide();
+		    		$("._single_down").hide();
+		    		$("._triple_up").show();
+		    		$("._triple_down").show();
+		    		myChart_01_01.setOption(_singleOption($("#main_01_01")));
+		    		myChart_02_01.setOption(_singleOption($("#main_02_01")));
+		    		myChart_03_01.setOption(_singleOption($("#main_03_01")));
+		    		myChart_04_01.setOption(_tripleOption($("#main_04_01")));
+		    		myChart_05_01.setOption(_tripleOption($("#main_05_01")));
+		    		myChart_06_01.setOption(_tripleOption($("#main_06_01")));
+		    		myChart_07_01.setOption(_singleOption($("#main_07_01")));
+		    	}
+		    	
 		    }
 		});
 	}
@@ -265,7 +622,7 @@
 		e.imei = $("._imei").text();
 		r.register = 3;
 		e.register = r;
-		e.eqptType = $("._eqptType").val();
+		e.eqptType = $("._eqptType").attr('data-type');
 		array.push(e);
 		r.register = 3;
 		e.register = r;
@@ -316,6 +673,13 @@
 		myChart_05.resize();
 		myChart_06.resize();
 		myChart_07.resize();
+		myChart_01_01.resize();
+		myChart_02_01.resize();
+		myChart_03_01.resize();
+		myChart_04_01.resize();
+		myChart_05_01.resize();
+		myChart_06_01.resize();
+		myChart_07_01.resize();
     }
 	
 	/* setInterval(function (){

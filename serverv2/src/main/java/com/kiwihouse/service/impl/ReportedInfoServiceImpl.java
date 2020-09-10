@@ -1,8 +1,12 @@
 package com.kiwihouse.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.OptionalDouble;
@@ -43,7 +47,8 @@ import com.kiwihouse.vo.kiwihouse.ReportedQueryVo;
 public class ReportedInfoServiceImpl implements ReportedInfoService{
 	@Autowired
     ReportedInfoMapper reportedInfoMapper;
-
+	static final Object room = new Object();
+	static List<FirePwrDto>  lists = new ArrayList<FirePwrDto>();
     /**
      * 查询四类上报信息(测量数据,告警信息,运行数据,设置参数)
      *
@@ -425,9 +430,10 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
      *
      * @param queryPwrVo 查询参数
      * @return 每半个小时对应的数据源
+     * @throws ParseException 
      */
     @Override
-    public ResultList queryPwr(QueryPwrVo queryPwrVo) {
+    public ResultList queryPwr(QueryPwrVo queryPwrVo) throws ParseException {
         if (!queryPwrVo.verifyType()) {
             return ResultUtil.paramsError("type参数不正确");
         }
@@ -435,19 +441,14 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
         //处理之前的开始时间和结束时间
         String startTime = queryPwrVo.getStartTime();
         String endTime = queryPwrVo.getEndTime();
-
         //扩大查询周期
         ExplainTime(queryPwrVo);
-
-
-        List<FirePwrDto> list = reportedInfoMapper.queryPwr(queryPwrVo);
-        if (list.isEmpty()) {
+        List<FirePwrDto>  lists = reportedInfoMapper.queryPwr(queryPwrVo);
+        if (lists.isEmpty()) {
             return ResultUtil.queryNull();
         }
-
-
-        String dataBeginTime = list.get(0).getAddTime();
-        String dataEndTime = list.get(list.size() - 1).getAddTime();
+        String dataBeginTime = lists.get(0).getAddTime();
+        String dataEndTime = lists.get(lists.size() - 1).getAddTime();
         List<String> dateList = null;
         switch (queryPwrVo.getType()) {
             case "day":
@@ -464,7 +465,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
         List<SinglePhasePowerDto> tmpList = new ArrayList<>();
         List<SinglePhasePowerDto> returnList = new ArrayList<>();
 
-        list.forEach(x -> {
+        lists.forEach(x -> {
             PwrMsg pwrMsg = JSONObject.parseObject(x.getPwrMsg(), PwrMsg.class);
             List<Double> pwrList = pwrMsg.getPwr();
             List<String> minList = TimeUtil.getMinList(x.getAddTime(), pwrMsg.getNum(), true);
@@ -530,6 +531,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
      */
     private void ExplainTime(QueryPwrVo queryPwrVo) {
 
+    	
         queryPwrVo.setStartTime(TimeUtil.getPassSecTime(queryPwrVo.getStartTime(), -7200));
         queryPwrVo.setEndTime(TimeUtil.getPassSecTime(queryPwrVo.getEndTime(), 7200));
     }
@@ -559,4 +561,5 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
         });
         return map;
     }
+    
 }

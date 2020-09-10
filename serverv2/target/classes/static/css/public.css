@@ -81,3 +81,7 @@
 .layui-icon-refresh{
 	cursor: pointer;
 }
+._gauge_param{
+	position:relative;
+	top: -50px;
+}

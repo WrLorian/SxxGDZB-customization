@@ -100,8 +100,12 @@
         </where>
         order by add_time desc
     </select>
-
-    <select id="queryPwr" resultType="com.kiwihouse.dto.FirePwrDto"
+	<resultMap id="FirePwrDtoMap" type="com.kiwihouse.dto.FirePwrDto">
+	 	<result column="pwr_msg" jdbcType="VARCHAR" property="pwrMsg"/>
+        <result column="eqpt_sn" jdbcType="VARCHAR" property="eqptSn"/>
+        <result column="ADD_TIME" jdbcType="VARCHAR" property="addTime"/>
+	</resultMap>
+    <select id="queryPwr"  resultMap="FirePwrDtoMap"
             parameterType="com.kiwihouse.vo.kiwihouse.QueryPwrVo">
         select pwr_msg,fp.eqpt_sn,fp.add_time
         from fire_pwr as fp
@@ -111,8 +115,8 @@
                 and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id =
                 #{roleId})
             </if>
-            <if test="eqptSn != null and eqptSn != ''">
-                and fp.eqpt_sn=#{eqptSn}
+            <if test="imei != null and imei != ''">
+                and fp.imei=#{imei}
             </if>
             <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
                 and fp.add_time between #{startTime} and #{endTime}

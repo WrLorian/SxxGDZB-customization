@@ -102,13 +102,14 @@ var currentPage = 1;
 var jsonEntity = {};
 var dataRow;
 var miniTab;
+jsonEntity.eqptType = $.getUrlParam('eqptType');
 layui.use(['form', 'table','miniTab'], function () {
     var $ = layui.jquery;
         form = layui.form;
         table = layui.table;
         layer = layui.layer;
         miniTab = layui.miniTab;
-     	loadTable();
+     	loadTable(jsonEntity);
      //监听搜索操作
      form.on('submit(data-search-btn)', function (data) {
     	 var result = JSON.stringify(data.field);
@@ -269,9 +270,34 @@ function loadTable(jsonEntity){
 					return row.province + row.city + row.district + row.eqptAdrr;
 				}},
             {field: 'eqptName',  
-             title: '名称',
+             title: '名称'
 			 },
-            {field: 'eqptStatus',  title: '状态', sort: true},
+			 {field: 'eqptType',  
+	          title: '设备类型',
+	          templet : function(row) {
+   				if (row.eqptType == 0)
+   				{
+   					return '用电设备';
+   				}else if(row.eqptType == 1){
+   					return '烟感设备';
+   				}else if(row.eqptType == 2){
+   					return '三相设备';
+   				}else{
+   					return '';
+   				}
+				
+			   }
+			 },
+            {field: 'eqptStatus',  title: '状态', sort: true,
+				 templet : function(row) {
+	   				if (row.eqptStatus == 9000)
+	   				{
+	   					return '在线';
+	   				}else{
+	   					return '离线';
+	   				}
+				}	 
+            },
             {field: 'addTime',  title: '激活日期', sort: true},
             {title: '操作', toolbar: '#currentTableBar', align: "center",width:'30%'}
         ]],
