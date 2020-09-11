@@ -9,6 +9,8 @@ import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.ResourceService;
 import com.kiwihouse.shiro.filter.FilterChainManager;
 import com.kiwihouse.util.TreeUtil;
+
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/resource")
+@Api(tags = "资源管理")
 public class ResourceController extends BaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseController.class);

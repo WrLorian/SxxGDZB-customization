@@ -3,7 +3,7 @@
 <head th:include="include :: header"></head>
 <head>
     <meta charset="utf-8">
-    <title>layui</title>
+    <title>分组添加</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -54,7 +54,7 @@
     <div class="layui-form-item _Meter_Reading_Rules layui-hide" >
 	    <label class="layui-form-label required">抄表时刻</label>
 	    <div class="layui-input-inline">
-	       <input type="text" class="layui-input" name="time" id="test14" placeholder="H点m分"  lay-verify="orNoRequired"> 
+	       <input type="text" class="layui-input" name="time" id="time" placeholder="H点m分"  lay-verify="orNoRequired"> 
 	    </div>
     </div>
     <div class="layui-form-item">
@@ -141,9 +141,8 @@
 				}
 			}
 		});
-        
         laydate.render({
-            elem: '#test14'
+            elem: '#time'
             ,type: 'time'
             ,trigger: 'click'
             

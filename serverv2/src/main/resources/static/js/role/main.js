@@ -1,54 +1,3 @@
-<!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
-<head th:include="include :: header"></head>
-<head>
-    <meta charset="utf-8">
-    <title>角色列表</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-</head>
-<body>
-<div class="layuimini-container">
-    <div class="layuimini-main">
-    	<fieldset class="table-search-fieldset">
-            <legend>搜索信息</legend>
-            <div style="margin: 10px 10px 10px 10px">
-                <form class="layui-form layui-form-pane" action="">
-                    <div class="layui-form-item">
-                    	<div class="layui-inline">
-                            <div class="layui-input-inline">
-                                <input type="text" name="resName" autocomplete="off" class="layui-input" placeholder="资源名称">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <div class="layui-input-inline">
-                                <select name="roleCode" lay-verify="" placeholder="所属角色" id="roleCode">
-								  <option value="">请选择角色</option>
-								</select>
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </fieldset>
-    	
-        <script type="text/html" id="toolbarDemo">
-            <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
-                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
-				<button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="upd"> 修改 </button>
-            </div>
-        </script>
-        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
-    </div>
-</div>
-<div th:include="include::footer"></div>
-<script th:inline="none">
 var dataRow,table;
 layui.use(['form', 'table'], function () {
     var $ = layui.jquery,
@@ -174,7 +123,3 @@ layui.use(['form', 'table'], function () {
         }
     });
 });
-</script>
-
-</body>
-</html>

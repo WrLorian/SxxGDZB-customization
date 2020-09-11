@@ -433,7 +433,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
      * @throws ParseException 
      */
     @Override
-    public ResultList queryPwr(QueryPwrVo queryPwrVo) throws ParseException {
+    public ResultList queryPwr(QueryPwrVo queryPwrVo) {
         if (!queryPwrVo.verifyType()) {
             return ResultUtil.paramsError("type参数不正确");
         }

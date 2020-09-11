@@ -3,15 +3,10 @@
 <head th:include="include :: header"></head>
 <head>
     <meta charset="utf-8">
-    <title>layui</title>
+    <title>角色菜单修改</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <style>
-        body {
-            background-color: #ffffff;
-        }
-    </style>
 </head>
 <body>
 <div class="layui-form layuimini-form _custom_form">
@@ -39,14 +34,12 @@
 </div>
 <div th:include="include::footer"></div>
 <script th:inline="none">
-var authorization = localStorage.getItem('Authorization');
-var authUser = JSON.parse(localStorage.getItem('authUser'));
-var ids = [];
-var names = [];
-var addOrUpdateData = function() {
-	var data = {};
-	return data;
-};
+	var ids = [];
+	var names = [];
+	var addOrUpdateData = function() {
+		var data = {};
+		return data;
+	};
     layui.use(['form','tableSelect'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -94,9 +87,6 @@ var addOrUpdateData = function() {
     				}
      		    }
      		});
-        	
-        	
-        	
 		});
         function returnNodes(arr){
        	  //利用foreach循环遍历
@@ -194,7 +184,7 @@ var addOrUpdateData = function() {
             return false;
         });
     });
-    
+    /*下拉table*/
     function tableSelect(id){
     	tableSelect.render({
             elem: '#demo',

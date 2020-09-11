@@ -7,6 +7,8 @@ import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.UserService;
 import com.kiwihouse.util.JsonWebTokenUtil;
+
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import org.apache.shiro.SecurityUtils;
@@ -31,6 +33,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/user")
+@Api(tags = "用户相关操作")
 public class UserController extends BaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);

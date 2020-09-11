@@ -33,6 +33,7 @@ import com.kiwihouse.util.IpUtil;
 import com.kiwihouse.util.JsonWebTokenUtil;
 
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -43,6 +44,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/account")
+@Api(tags = "用户登录注册")
 public class AccountController extends BaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);

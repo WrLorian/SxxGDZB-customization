@@ -3,7 +3,7 @@
 <head th:include="include :: header"></head>
 <head>
     <meta charset="utf-8">
-    <title>layui</title>
+    <title>分组修改</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -20,7 +20,7 @@
 </head>
 <body>
 <div class="layui-form layuimini-form _custom_form">
-	<input type="hidden" value="" class="_editGroupId">
+	<input type="hidden" value="" class="groupId" name='groupId'>
     <div class="layui-form-item">
         <label class="layui-form-label required">分组名称</label>
         <div class="layui-input-block">
@@ -55,7 +55,7 @@
     <div class="layui-form-item _Meter_Reading_Rules layui-hide" >
 	    <label class="layui-form-label required">抄表时刻</label>
 	    <div class="layui-input-inline">
-	       <input type="text" class="layui-input" name="time" id="test14" placeholder="H点m分"  lay-verify="orNoRequired"> 
+	       <input type="text" class="layui-input" name="time" id="time" placeholder="H点m分"  lay-verify="orNoRequired"> 
 	    </div>
     </div>
     <div class="layui-form-item">
@@ -89,13 +89,13 @@
         	$("input[name=groupName]").val(dataRow.groupName);
         }
         if(typeof(dataRow.groupId) != "undefined" && dataRow.groupId != null){
-        	$("._editGroupId").val(dataRow.groupId);
+        	$(".groupId").val(dataRow.groupId);
         }
         if(typeof(dataRow.date) != "undefined" && dataRow.date != null){
         	$("#data").val(dataRow.date);
         }
         if(typeof(dataRow.time) != "undefined" && dataRow.time != null){
-        	$("#test14").val(dataRow.time);
+        	$("#time").val(dataRow.time);
         }
         var monDate = [];
     	for(var i = 1;i<13;i++){
@@ -184,7 +184,7 @@
 		});
         
         laydate.render({
-            elem: '#test14'
+            elem: '#time'
             ,type: 'time'
             ,trigger: 'click'
             
@@ -205,7 +205,7 @@
     	　　		contentType: "application/json;charset=utf-8",
 			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
-		    	 	if(data.success){
+		    	 	if(data.code == 3000){
 		    	 		layer.msg(data.msg, {
  		    	 			  icon: 6,
  		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）

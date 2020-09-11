@@ -8,8 +8,8 @@
         from `group` as g
         left join auth_role as a on g.role_id=a.ID
         <where>
-            <if test="adminId != null and adminId != ''">
-                and g.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            <if test="roleId != null and roleId != ''">
+                and g.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id = #{roleId})
             </if>
             <if test="groupName !=null and groupName!=''">
                 and g.group_name like CONCAT('%',#{groupName},'%')
@@ -32,8 +32,8 @@
         from `group` as g
         left join auth_role as a on g.role_id =a.id
         <where>
-            <if test="adminId != null and adminId != ''">
-                and g.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
+            <if test="roleId != null and roleId != ''">
+                and g.role_id = #{roleId} <!-- //in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id = #{roleId}) -->
             </if>
             <if test="groupName !=null and groupName!=''">
                 and g.group_name like CONCAT('%',#{groupName},'%')
@@ -57,8 +57,8 @@
             <if test="cron != null and cron != ''">
                 cron,
             </if>
-            <if test="adminId != null and adminId != ''">
-                admin_id,
+            <if test="roleId != null and roleId != ''">
+                role_id,
             </if>
             add_time
         </trim>
@@ -69,8 +69,8 @@
             <if test="cron != null and cron != ''">
                 #{cron},
             </if>
-            <if test="adminId != null and adminId != ''">
-                #{adminId},
+            <if test="roleId != null and roleId != ''">
+                #{roleId},
             </if>
             #{addTime}
         </trim>
@@ -86,14 +86,14 @@
             <if test="groupName !=null and groupName !=''">
                 group_name=#{groupName},
             </if>
-            <if test="adminId !=null and adminId !=''">
-                admin_id=#{adminId}
+            <if test="roleId !=null and roleId !=''">
+                role_id=#{roleId}
             </if>
         </set>
         <where>
             group_id=#{groupId}
             <if test="doAdminId != null and doAdminId != ''">
-                and admin_id in (select admin_id from administrator as a where a.parent_id = #{doAdminId} or a.admin_id = #{doAdminId})
+                and role_id in (select role_id from administrator as a where a.parent_id = #{doAdminId} or a.role_id = #{doAdminId})
             </if>
         </where>
     </update>
@@ -103,8 +103,8 @@
             <if test="groupId !=null and groupId !=''">
                 group_id=#{groupId},
             </if>
-            <if test="adminId !=null and adminId !=''">
-                admin_id=#{adminId},
+            <if test="roleId !=null and roleId !=''">
+                role_id=#{roleId},
             </if>
         </set>
         where group_id=#{groupId}
@@ -113,14 +113,14 @@
         <foreach collection="list" item="map" index="index" open="" close="" separator=";">
             update `group`
             <set>
-                <if test="map.adminId !=null and map.adminId !=''">
-                    admin_id=#{map.adminId},
+                <if test="map.roleId !=null and map.roleId !=''">
+                    role_id=#{map.roleId},
                 </if>
             </set>
             <where>
                 group_id=#{map.groupId}
                 <if test="map.doAdminId != null and map.doAdminId != ''">
-                    and admin_id in (select admin_id from administrator as a where a.parent_id = #{map.doAdminId} or a.admin_id = #{map.doAdminId})
+                    and role_id in (select role_id from administrator as a where a.parent_id = #{map.doAdminId} or a.role_id = #{map.doAdminId})
                 </if>
             </where>
         </foreach>

@@ -3,10 +3,11 @@
 <head th:include="include :: header"></head>
 <head>
     <meta charset="utf-8">
-    <title>分组列表</title>
+    <title>layui</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
 </head>
 <body>
 <div class="layuimini-container">
@@ -18,7 +19,33 @@
                     <div class="layui-form-item">
                     	<div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" name="groupName" autocomplete="off" class="layui-input" placeholder="资源名称">
+                                <input type="text" name="code" autocomplete="off" class="layui-input" placeholder="资源名称">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-input-inline">
+                                <input type="text" name="uri" autocomplete="off" class="layui-input" placeholder="URL地址">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-input-inline">
+                                <select name="type" lay-verify="" placeholder="资源类别">
+								  <option value="">请选择类别</option>
+								  <option value="1">菜单menu</option>
+								  <option value="2">资源element(rest-api)</option>
+								  <option value="3">资源分类</option>
+								</select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-input-inline">
+                                <select name="method" lay-verify="" placeholder="请求类型">
+								  <option value="">请选择请求类型</option>
+								  <option value="GET">GET</option>
+								  <option value="POST">POST</option>
+								  <option value="PUT">PUT</option>
+								  <option value="DELETE">DELETE</option>
+								</select>
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -39,18 +66,8 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-
-				 {{# if(d.cron != 'ncron'){ }}
-					<a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-            		<a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除分组"></a>
-					<a class="layui-icon layui-icon-set-sm" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="set" title="分组设置"></a>
-					<a class="layui-icon layui-icon-pause" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="stop" title="停止抄表"></a>
-				{{# } else if(d.cron == 'ncron' ){}}
-					<a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-            		<a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除分组"></a>
-					<a class="layui-icon layui-icon-set-sm" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="set" title="分组设置"></a>
-				{{# } }}
-            
+            <a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
+            <a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete"></a>
         </script>
 
     </div>
@@ -83,7 +100,7 @@ layui.use(['form', 'table'], function () {
      */
     table.on('toolbar(currentTableFilter)', function (obj) {
         if (obj.event === 'add') {  // 监听添加操作
-        	openPopUp('添加','/admin/group/add');
+        	openPopUp('添加','/admin/resource/add');
         } else if (obj.event === 'delete') {  // 监听删除操作
             var checkStatus = table.checkStatus('currentTableId')
                 , data = checkStatus.data;
@@ -111,52 +128,34 @@ layui.use(['form', 'table'], function () {
     table.on('tool(currentTableFilter)', function (obj) {
         dataRow = obj.data;
         if (obj.event === 'edit') {
-            openPopUp('资源修改','/admin/group/edit');
+            openPopUp('资源修改','/admin/resource/edit');
             return false;
         } else if (obj.event === 'delete') {
-           	/* $.ajax({
-        			url: "/resource/menu/"+dataRow.id,
-        			type : "DELETE",
-       	　　		dataType : "json",
-       	　　		contentType: "application/json;charset=utf-8",
-   			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-   			    success:function(data){
-   			    	 	if(data.success){
-   			    	 		layer.msg("删除成功")
-   			    	 		obj.del();
-   						}else{
-   							layer.msg(data.msg);
-   						}
-   			    }
-   			  	}); */
-        }else if(obj.event === 'set'){
-        	 openPopUp('分组设备','/admin/group/group_dev',60,80);
-        }
-        else if(obj.event === 'stop'){
-        	$.ajax({
-    			url: "/kwhmg/stop/"+dataRow.groupId,
-    			type : "POST",
-	   	　　		dataType : "json",
-	   	　　	 	headers: { "Authorization": authorization,'dz-usr':authUser.roleId },
-	   	　　		contentType: "application/json;charset=utf-8",
-				    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-				    success:function(data){
-				    	 	if(data.success){
-				    	 		layer.msg("删除成功")
-				    	 		obj.del();
-							}else{
-								layer.msg(data.msg);
-							}
-				    }
-				  });
+            	$.ajax({
+         			url: "/resource/menu/"+dataRow.id,
+         			type : "DELETE",
+        	　　		dataType : "json",
+        	　　		contentType: "application/json;charset=utf-8",
+    			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+    			    success:function(data){
+    			    	 	if(data.success){
+    			    	 		layer.msg("删除成功")
+    			    	 		obj.del();
+    						}else{
+    							layer.msg(data.msg);
+    						}
+    			    }
+    			  	});
+            	
         }
     });
 	
 });
+
 function loadTickets(jsonEntity){
 	table.render({
         elem: '#currentTableId',
-        url: getRootPath() + '/group/info',
+        url: getRootPath() + '/resource/auth/select',
         headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
         where : jsonEntity,
         async : false,
@@ -167,46 +166,27 @@ function loadTickets(jsonEntity){
             icon: 'layui-icon-tips'
         }],
         cols: [[
-            {rowspan: 2,type: "checkbox"},
-            {rowspan: 2,field: 'groupId',title: '分组编号', sort: true},
-            {rowspan: 2,field: 'groupName',title: '分组名称', sort: true},
-            {rowspan: 2,field: 'code',title: '角色标识'},
-            {field: 'adminName', title: '抄表规则',colspan: 3,align:'center'},
-            {rowspan: 2,field: 'addTime',title: '添加时间'},
-            {rowspan: 2,title: '操作', toolbar: '#currentTableBar', align: "left",width:'10%'}
-        ],[
-            { title: '抄表月份', field: 'months' ,templet : function(row) {
-            	if(typeof(row.months) != "undefined" && row.months != null){
-            		var r = '';
-            		$.each(row.months,function(index,xx){
-            			r = r + xx + '月、';
-            		})
-            		return r;
-            	}else if(row.months == null){
-            		return '';
-            	}
-            	return row.months;
-			} },
-            { title: '抄表日期', field: 'date',templet :function(row){
-            	if(row.date == null){
-            		return '';
-            	}
-            	if(row.date == 'L'){
-            		return '每月的最后一天';
-            	}
-            	return row.date + '号';
-            }},
-            { title: '抄表时间', field: 'time'}
+            {type: "checkbox"},
+            {field: 'code',title: '资源名称', sort: true},
+            {field: 'name',title: '资源描述', sort: true},
+            {field: 'id',title: 'id', hide:true},
+            {field: 'uri', title: '访问地址URL'},
+            {field: 'type',title: '资源类别'},
+            {field: 'method',  title: '请求类型', sort: true},
+            {field: 'status',  title: '状态', sort: true,
+				templet : function(row) {
+					if(row.status == 1){
+						return "正常";
+					}
+					return "禁用";
+			}},
+            {title: '操作', toolbar: '#currentTableBar', align: "center",width:'20%'}
         ]],
         limits: [5, 10, 20, 25, 50, 100],
         limit: 10,
         page: true,
         skin: 'line',
         done : function(res, curr, count) {
-        	if(res.code == 8003){
-				indexHome(window,0).Unclickable();
-				indexHome(window,0).JwtErr();
-			}
 			currentPage = curr;
 		}
     });

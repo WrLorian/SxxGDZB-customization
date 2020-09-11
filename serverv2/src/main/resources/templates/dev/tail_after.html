@@ -75,15 +75,14 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         echarts = layui.echarts,
     	laydate = layui.laydate,
     	form = layui.form;
-    var timeArray = new Array();
-    var pwrArray = new Array();
     var endTime;
-    var row;
     var d = laydate.render({
         elem: '#times'
         ,type: 'datetime'
         ,range: true
-        ,value: fun_hours(-1) + " - " +new Date().Format("yyyy-MM-dd hh:mm:ss")//"2020-09-02 17:47:48 - 2020-09-09 17:47:48"
+        ,max : 'today'
+        ,btns: ['confirm']
+        ,value: fun_day(-1) + " - " +new Date().Format("yyyy-MM-dd hh:mm:ss")//"2020-09-02 17:47:48 - 2020-09-09 17:47:48"
         ,ready: function(date){
             $(".laydate-footer-btns").after('<span lay-type="_week" class="_week">最近七天</span>');
             $(".laydate-footer-btns").after('<span lay-type="_one_month" class="_one_month">最近一个月</span>');
@@ -91,7 +90,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
             var  _thisid=this.elem;
             $("._week").on('click',function(){
             	var date = new Date();
-            	var t = fun_date(-7) + " - " +  date.Format("yyyy-MM-dd hh:mm:ss");
+            	var t = fun_day(-7) + " - " +  date.Format("yyyy-MM-dd hh:mm:ss");
             	_thisid.val(t);
             	$("#times").focus();
             	$(".laydate-btns-confirm").trigger('click');
@@ -114,16 +113,24 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
 				
             })
         },done: function(value, date, endDate){
-            var arr = value.split(" - ");
-            var e = {};
-            e.startTime = $.trim(arr[0]);
-            e.endTime = $.trim(arr[1]);
-            endTime = $.trim(arr[1]);
-            e.imei = $("._imei").html();
-            e.type = $("select[name='type']").val();
-            zxt(e);
+        	if(value.length != 0){
+        		var arr = value.split(" - ");
+                var e = {};
+                e.startTime = $.trim(arr[0]);
+                e.endTime = $.trim(arr[1]);
+                endTime = $.trim(arr[1]);
+                e.imei = $("._imei").html();
+                e.type = $("select[name='type']").val();
+                zxt(e);
+        	}
+            
           }
       });
+    
+    /* $(".laydate-btns-clear").on('click',function(){
+    	$("#times").val('');
+    }) */
+    
     init();
     
     form.on('select(type)', function(data) {
@@ -152,7 +159,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
     		    	console.log(data.data[0]);
     		    	$("._imei").html(data.data[0].imei);
     		    	$("._address").html(data.data[0].province + data.data[0].city +  data.data[0].district + data.data[0].address);
-    		    	$("._eqptStatus").html(data.data[0].eqptStatus == 9000 ? '掉线' : '在线');
+    		    	$("._eqptStatus").html(data.data[0].eqptStatus == 9001 ? '掉线' : '在线');
     		    }
     		});
     } 
@@ -171,15 +178,43 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
     　　		contentType: "application/json;charset=utf-8",
     	    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
     	    success:function(data){
+    	    	var timeArray = new Array();
+    	        var pwrArray = new Array();
     	    	if(data.code == 2000){
-    	    		row = data.result.row;
     	    		$.each(data.result.data,function(index,xx){
         	    		timeArray.push(xx.addTime);
         	    		pwrArray.push(xx.pwr);
         	    	})
     	    	}
-    	    	console.log(row);
-    	    	options();
+    	    	var v = {};
+    	    	var dataZoom = {};
+    	    	var title = {};
+    	    	if(pwrArray.length > 10000 ){
+    	    		dataZoom.show = true;
+    	    		dataZoom.start = (1 - (1000 / pwrArray.length)) * 100;
+    	    		dataZoom.end = 100;
+    	    		v.dataZoom = dataZoom;
+    	    	}else if(pwrArray.length > 1000 ){
+    	    		dataZoom.show = true;
+    	    		dataZoom.start = (1 - (100 / pwrArray.length)) * 100;
+    	    		dataZoom.end = 100;
+    	    		v.dataZoom = dataZoom;
+    	    	}else if(pwrArray.length > 100){
+    	    		dataZoom.show = true;
+    	    		dataZoom.start = 10;
+    	    		dataZoom.end = 100;
+    	    		v.dataZoom = dataZoom;
+    	    	}else{
+    	    		dataZoom.show = false;
+    	    		v.dataZoom = dataZoom;
+    	    	}
+    	    	if(pwrArray.length == 0){
+    	    		title.text = '暂无数据';
+    	    		title.left = "center";
+    	    		title.top = "center";
+    	    	}
+    	    	v.title = title;
+    	    	options(v,timeArray,pwrArray);
     	    }
     	});
     }
@@ -194,11 +229,20 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         e.type = $("select[name='type']").val();
         zxt(e);
     }
-     function options(){
+     function options(v,timeArray,pwrArray){
+    	 console.log(timeArray);
     	var optionRecords = {
-        	    title: {
-        	        text: '功率折线图'
-        	    },
+        	    title: [
+        	    	{
+            	        text: '功率折线图'
+            	    },
+            	    v.title
+        	    ],
+        	    show: Object.keys(pwrArray).length === 0,
+        	    extStyle: {
+        	    color: "grey",
+        	      fontSize: 20
+        	     },
         	    tooltip: {
         	        trigger: 'axis'
         	    },
@@ -211,11 +255,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	        bottom: '3%',
         	        containLabel: true
         	    },
-        	    dataZoom: [{
-    		    	show: true,    //只需要将这一项设置为0即可
-    		    	 start : 90,
-    		    	 end:100
-    	        }],
+        	    dataZoom: [v.dataZoom],
         	    toolbox: {
         	        feature: {
         	            saveAsImage: {}
@@ -252,7 +292,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	        }
         	    ]
         	};
-        echartsRecords.setOption(optionRecords);
+        echartsRecords.setOption(optionRecords,true);
     }
     // echarts 窗口缩放自适应
     window.onresize = function () {

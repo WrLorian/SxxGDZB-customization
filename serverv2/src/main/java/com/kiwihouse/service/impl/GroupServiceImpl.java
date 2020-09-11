@@ -151,17 +151,17 @@ public class GroupServiceImpl implements GroupService{
 
     @Transactional(rollbackFor = Exception.class)
     public ResultList doUpdate(GroupUpdateVo groupUpdateVo){
-        String adminId = groupUpdateVo.getAdminId();
-        if(StringUtils.isBlank(adminId)){
-            return ResultUtil.verifyUpdate(updateGroup(groupUpdateVo));
-        }else{
+//        String adminId = groupUpdateVo.getAdminId();
+//        if(StringUtils.isBlank(adminId)){
+//            return ResultUtil.verifyUpdate(updateGroup(groupUpdateVo));
+//        }else{
             Integer groupRow = updateGroup(groupUpdateVo);
             if(0==groupRow){
                 return new ResultList(Code.UPDATE_NULL.getCode(),Code.UPDATE_NULL.getMsg(),null);
             }else{
                 return ResultUtil.verifyUpdate(updateEqpt(groupUpdateVo));
             }
-        }
+//        }
     }
 
     public Integer updateGroup(GroupUpdateVo groupUpdateVo){

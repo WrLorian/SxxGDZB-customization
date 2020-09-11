@@ -19,10 +19,12 @@ import com.kiwihouse.domain.vo.AuthRoleMenuDetails;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.AuthRoleMenuService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RequestMapping("/rolemenu")
 @RestController
+@Api(tags = "角色菜单管理")
 public class AuthRoleMenuController extends BaseController{
 	@Autowired
     private AuthRoleMenuService authRoleMenuService;

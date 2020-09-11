@@ -39,9 +39,6 @@ public class GroupQueryVo extends Basic {
     @ApiModelProperty(value = "每页条数",name = "limit",example = "10")
     private Integer limit;
 
-
-
-
     @ApiModelProperty(hidden = true)
     private String province;
     @ApiModelProperty(hidden = true)

@@ -19,10 +19,12 @@ import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.AuthRoleResourceService;
 import com.kiwihouse.shiro.filter.FilterChainManager;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/resourcerole")
+@Api(tags = "角色资源管理")
 public class AuthRoleResourceController extends BaseController{
 
 	@Autowired

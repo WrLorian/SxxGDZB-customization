@@ -147,7 +147,7 @@ var authUser = JSON.parse(localStorage.getItem('authUser'));
  * @param a
  * @returns
  */
-function fun_date(a){
+function fun_day(a){
     var date1 = new Date(),
     time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
     var date2 = new Date(date1);

@@ -32,6 +32,7 @@ import com.kiwihouse.service.RoleService;
 import com.kiwihouse.service.UserService;
 import com.kiwihouse.shiro.filter.FilterChainManager;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -40,6 +41,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RequestMapping("/role")
 @RestController
+@Api(tags = "角色管理")
 public class RoleController extends BaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RoleController.class);

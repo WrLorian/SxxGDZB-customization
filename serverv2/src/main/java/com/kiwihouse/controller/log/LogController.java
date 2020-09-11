@@ -8,6 +8,8 @@ import com.kiwihouse.dao.entity.AuthOperationLog;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.AccountLogService;
 import com.kiwihouse.service.OperationLogService;
+
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/log")
+@Api(tags = "日志")
 public class LogController extends BaseController {
 
     @Autowired
