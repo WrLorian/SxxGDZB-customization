@@ -591,9 +591,9 @@
 		e.register = r;
 		e.eqptType = $("._eqptType").attr('data-type');
 		array.push(e);
-		r.register = 3;
+		/* r.register = 3;
 		e.register = r;
-		array.push(e);
+		array.push(e); */
 		console.log(JSON.stringify(array));
 		$.ajax({
 			url: "/onenet/issuedList",
@@ -613,8 +613,15 @@
 		    			  anim: 2,
 		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
 		    		});
-		    	}else if(data.result.data[e.imei] == 'device not online') {
+		    	}else if(data.result.data[e.imei].error == 'device not online') {
 		    		layer.msg('设备掉线', {
+		    			  icon: 2,
+		    			  offset:'rt',
+		    			  anim: 2,
+		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+		    			});
+		    	}else if(data.result.data[e.imei].error == 'auth failed: not found'){
+		    		layer.msg('auth failed: not found', {
 		    			  icon: 2,
 		    			  offset:'rt',
 		    			  anim: 2,

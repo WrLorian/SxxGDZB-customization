@@ -101,14 +101,24 @@ public class EquipmentController extends BaseController{
             httpMethod = "DELETE")
     @ApiResponses(@ApiResponse(code = 0, message = "回调参数：只有code和msg,无具体数据result"))
     @ApiImplicitParam(paramType = "path", name = "eqptSn", dataType = "String", required = true, value = "设备序列号")
-    @DeleteMapping("/info/{eqptSn}")
-    public ResultList deleteInfo(@PathVariable String eqptSn, HttpServletRequest request) {
-        logger.info("删除设备信息>> {}", new Log().setIp(request.getRemoteAddr()).setMsg("删除设备信息").setParam(eqptSn));
-        if (!checkAdminService.isEqptSnBelong2admin(eqptSn, request.getHeader("dz-usr"))) {
-            return new ResultList(Code.PRIVILEGE_FAIL.getCode(), "对设备sn为`" + eqptSn + "`的设备没有删除权限", null);
+    @DeleteMapping("/info/{imeis}")
+    public ResultList deleteInfo(@PathVariable String imeis, HttpServletRequest request) {
+        logger.info("删除设备信息>> {}", new Log().setIp(request.getRemoteAddr()).setMsg("删除设备信息").setParam(imeis));
+        if (!checkAdminService.isEqptSnBelong2admin(imeis, request.getHeader("dz-usr"))) {
+            return new ResultList(Code.PRIVILEGE_FAIL.getCode(), "对设备sn为`" + imeis + "`的设备没有删除权限", null);
         }
-        return equipmentService.deleteInfo(eqptSn, new UserInfo(request));
+        return equipmentService.deleteInfo(imeis, new UserInfo(request));
     }
 
-
+    @ApiOperation(value = "selectOneInfo",
+            notes = "<br>@description: <b>查询设备信息</b></br>" +
+                    "<br>@Return: <b>以区为单位进行区分</b></br>" +
+                    "<br>@Date: <b>2019-12-30 10:33:36</b></br>",
+            httpMethod = "GET")
+    @ApiResponses({@ApiResponse(code = 0, message = "回调参数", response = EqptInfoDto.class)})
+    @GetMapping("/info/one")
+    public ResultList selectOneInfo(EqptQueryVo eqptQueryVo, HttpServletRequest request) {
+        return equipmentService.selectOneInfo(eqptQueryVo);
+    }
+    
 }

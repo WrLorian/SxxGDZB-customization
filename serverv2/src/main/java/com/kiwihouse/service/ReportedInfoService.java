@@ -1,5 +1,7 @@
 package com.kiwihouse.service;
 
+import java.text.ParseException;
+
 import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.AlmQueryVo;
 import com.kiwihouse.vo.kiwihouse.QueryPwrVo;
@@ -23,6 +25,6 @@ public interface ReportedInfoService {
 	 * @param queryPwrVo
 	 * @return
 	 */
-	ResultList queryPwr(QueryPwrVo queryPwrVo);
+	ResultList queryPwr(QueryPwrVo queryPwrVo) throws ParseException;
 
 }

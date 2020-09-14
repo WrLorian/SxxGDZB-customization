@@ -175,7 +175,7 @@ var dataRow = window.parent.dataRow;
 				var falg = false;
 				entity.imei = value;
 				$.ajax({
-	     			url: "/equipment/info",
+	     			url: "/equipment/info/one",
 				    type: "GET",
 				    data:entity,
 				    dataType : "json",
@@ -184,9 +184,9 @@ var dataRow = window.parent.dataRow;
 	    	　　		contentType: "application/json;charset=utf-8",
 				    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 				    success:function(data){
-				    	 	if(data.count > 0 && data.data[0].imei != dataRow.imei){
-				    	 		falg = true;
-							}
+			    	 	if(data.code == 2000 && data.result.data[0].imei != dataRow.imei){
+			    	 		falg = true;
+						}
 				    }
 				});
 				
@@ -197,8 +197,9 @@ var dataRow = window.parent.dataRow;
 				var entity = {};
 				var falg = false;
 				entity.eqptSn = value;
+				
 				$.ajax({
-	     			url: "/equipment/info",
+	     			url: "/equipment/info/one",
 				    type: "GET",
 				    data:entity,
 				    dataType : "json",
@@ -207,7 +208,7 @@ var dataRow = window.parent.dataRow;
 	    	　　		contentType: "application/json;charset=utf-8",
 				    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 				    success:function(data){
-				    	if(data.count > 0 && data.data[0].eqptSn != dataRow.eqptSn){
+				    	if(data.code == 2000 && data.result.data[0].eqptSn != dataRow.eqptSn){
 			    	 		falg = true;
 						}
 				    }

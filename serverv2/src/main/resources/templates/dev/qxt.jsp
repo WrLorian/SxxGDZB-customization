@@ -58,8 +58,6 @@ html, body {
 
 	
 			<div class="layui-inline" style="width: 100%"></div>
-	</div>
-
 </body>
 
 <script type="text/javascript">

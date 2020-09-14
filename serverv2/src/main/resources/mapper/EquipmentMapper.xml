@@ -544,7 +544,7 @@
                 and u.phone=#{userPhone}
             </if>
             <if test="imei != null">
-            	and e.imei = #{imei}
+            	and e.imei  like CONCAT('%',#{imei},'%')
             </if>
         </where>
         order by e.add_time desc
@@ -609,15 +609,30 @@
                 and u.phone=#{userPhone}
             </if>
              <if test="imei != null">
-            	and e.imei = #{imei}
+            	and e.imei  like CONCAT('%',#{imei},'%')
             </if>
             </where>
     </select>
     
 	<delete id="deleteBatch">
-		delete from equipment where eqpt_sn in 
-        <foreach collection="array" item="eqptSn" separator="," open="(" close=")">
-            #{eqptSn}
+		delete from equipment where imei in 
+        <foreach collection="array" item="imei" separator="," open="(" close=")">
+            #{imei}
         </foreach>
 	</delete>
+	
+	<select id="selectOneInfo" resultType="com.kiwihouse.dto.EqptInfoDto" parameterType="com.kiwihouse.vo.kiwihouse.EqptQueryVo">
+		  select
+        e.eqpt_id,e.imei,e.eqpt_sn,e.eqpt_name,e.eqpt_type,e.register,
+        e.imsi,e.device_id,e.power,e.voltage,e.electricity,e.user_id,e.site_id,e.role_id,e.add_time
+        from equipment as e
+        <where>
+            <if test="eqptSn != null and eqptSn != ''">
+                and e.eqpt_sn=#{eqptSn}
+            </if>
+           <if test="imei != null and imei != ''">
+                and e.imei=#{imei}
+            </if>
+        </where>
+	</select>
 </mapper>

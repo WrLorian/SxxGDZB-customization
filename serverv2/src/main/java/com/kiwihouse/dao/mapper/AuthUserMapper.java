@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author tomsun28
@@ -127,4 +128,11 @@ public interface AuthUserMapper {
      * @return
      */
 	List<String> queryUserIds(String adminId);
+	/**
+	 *  根据userId、roleId获取用户可以查询的用户信息
+	 * @param userId
+	 * @param roleId
+	 * @return
+	 */
+	List<Map<String, Integer>> queryAuthUserByRoleUserId(Integer userId, Integer roleId);
 }

@@ -54,7 +54,7 @@ public class CommandIssueService {
      */
     public ResultList commandsIssued(List<CommandVo> list, HttpServletRequest request) {
         HashMap<String, Object> map = new HashMap<>();
-        String adminId = request.getHeader("dz-usr");
+//        String adminId = request.getHeader("dz-usr");
         list.forEach(commandVo -> {
 
             String imei = commandVo.getImei();

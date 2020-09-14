@@ -36,6 +36,12 @@ public interface EquipmentService {
 	 * @param userInfo
 	 * @return
 	 */
-	ResultList deleteInfo(String eqptSn, UserInfo userInfo);
+	ResultList deleteInfo(String imeis, UserInfo userInfo);
+	/**
+	 * 查询单个设备信息
+	 * @param eqptQueryVo
+	 * @return
+	 */
+	ResultList selectOneInfo(EqptQueryVo eqptQueryVo);
 
 }

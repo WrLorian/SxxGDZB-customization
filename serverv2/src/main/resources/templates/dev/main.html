@@ -41,6 +41,11 @@
 						      </select>
 						    </div>
 						  </div>
+						<div class="layui-inline">
+                            <div class="layui-input-inline">
+                                <input type="text" name="imei" autocomplete="off" class="layui-input" placeholder="IMEI">
+                            </div>
+                        </div>
                     	<div class="layui-inline">
                             <div class="layui-input-inline">
                                 <input type="text" name="eqptAddr" autocomplete="off" class="layui-input" placeholder="设备地址">
@@ -134,31 +139,39 @@ layui.use(['form', 'table','miniTab'], function () {
         	console.log(obj);
         	var checkStatus = table.checkStatus('currentTableId')
             , data = checkStatus.data;
-	    	var eqptSns = [];
-	    	$.each(data,function(index,xx){
-	    		eqptSns.push(xx.eqptSn);
-	    		 
-	    	})
-	    	if(eqptSns.length > 0){
+	    	var imeis = [];
+	    	for (var i = 0; i < check_True.length; i++) {
+	    		imeis.push(check_True[i].imei);
+			}
+	    	if(imeis.length > 0){
 	    		$.ajax({
-	      			url: "/equipment/info/" + eqptSns.join('_'),
+	      			url: "/equipment/info/" + imeis.join('_'),
 	      			type : "DELETE",
 	     	　　		dataType : "json",
 	     	　　		contentType: "application/json;charset=utf-8",
 	 			    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
 	 			    success:function(data){
-	 			    	 	if(data.success){
-	 			    	 		alyer.msg("删除成功")
-	 						}else{
-	 							layer.msg(data.msg);
-	 						}
+ 			    	 	if(data.code == 4000){
+ 			    	 		layer.msg(data.msg);
+ 			    	 		location.reload();
+ 			    	 		/*刷新check_True*/
+ 			    	 		check_True = new Array();
+ 						}else{
+ 							layer.msg(data.msg);
+ 						}
 	 			    }
-	 			  }); 
+	 			  });
+	 			  
+	 			
 	    	}else{
-	    		alyer.msg("请选择要删除的设备");
+	    		layer.msg("请选择要删除的设备");
 	    	}
         }
     });
+    /*监听复选框*/
+    table.on('checkbox(currentTableFilter)', function(obj) {
+    	checkboxMonitor(obj);
+	});
     table.on('tool(currentTableFilter)', function (obj) {
     	dataRow = obj.data;
         if (obj.event === 'edit') {
@@ -172,26 +185,6 @@ layui.use(['form', 'table','miniTab'], function () {
                 content: '/admin/dev/edit',
             }); 
             return false;
-        } else if (obj.event === 'delete') {
-            layer.confirm('真的删除行么', function (index) {
-            	$.ajax({
-         			url: "/equipment/info/223",
-         			type : "DELETE",
-        	　　		dataType : "json",
-        	　　		contentType: "application/json;charset=utf-8",
-    			    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
-    			    success:function(data){
-    			    	 	if(data.success){
-    			    	 		alyer.msg("删除成功")
-    						}else{
-    							layer.msg(data.msg);
-    					}
-    			    }
-    			  	});
-            	
-            	obj.del();
-                layer.close(index);
-            });
         } else if(obj.event === 'parameter'){//parameter;
         	openPopUp('添加','/admin/dev/parameter',60,80);
         } else if(obj.event === 'more'){
@@ -305,6 +298,8 @@ function loadTable(jsonEntity){
         skin: 'line',
         done : function(res, curr, count) {
 			currentPage = curr;
+			table_Data = res.data;
+			checkRender();
 		}
     });
 }

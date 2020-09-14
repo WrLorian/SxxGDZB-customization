@@ -96,9 +96,15 @@ public interface EquipmentMapper {
 	 * @param aqptArr
 	 * @return
 	 */
-	int deleteBatch(String[] aqptArr);
+	int deleteBatch(String[] imeiArr);
 	
 	@Select("select * from equipment where eqpt_sn=#{eqptSn} limit 1;")
 	EqptInfoDto queryInfoBySn(String eqptSn);
+	/**
+	 * 查询单个设备
+	 * @param eqptQueryVo
+	 * @return
+	 */
+	EqptInfoDto selectOneInfo(EqptQueryVo eqptQueryVo);
 
 }

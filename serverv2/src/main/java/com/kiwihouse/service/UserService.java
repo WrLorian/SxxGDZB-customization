@@ -4,6 +4,7 @@ package com.kiwihouse.service;
 import com.kiwihouse.dao.entity.AuthUser;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author tomsun28
@@ -75,4 +76,11 @@ public interface UserService {
      * @return java.util.List<com.kiwihouse.dao.entity.AuthUser>
      */
     List<AuthUser> getNotAuthorityUserListByRoleId(Integer roleId);
+    /**
+     * 根据userId、roleId获取用户可以查询的用户信息
+     * @param userId
+     * @param roleId
+     * @return
+     */
+	List<Map<String, Integer>> queryAuthUserByRoleUserId(Integer userId, Integer roleId);
 }

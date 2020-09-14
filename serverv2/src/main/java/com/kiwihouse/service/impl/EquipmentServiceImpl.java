@@ -177,8 +177,8 @@ public class EquipmentServiceImpl implements EquipmentService {
      * @return 是否删除成功
      */
     @Override
-    public ResultList deleteInfo(String eqptSns, UserInfo userInfo) {
-    	String [] aqptArr = eqptSns.split("_");
+    public ResultList deleteInfo(String imeis, UserInfo userInfo) {
+    	String [] imeiArr = imeis.split("_");
 //    	if (!userInfo.isAdmin()) {
 //        	equipmentMapper.deleteBatch(aqptArr);
 //            if (equipmentMapper.deleteUserId(eqptSns) > 0) {
@@ -190,11 +190,29 @@ public class EquipmentServiceImpl implements EquipmentService {
 //            return new ResultList(Code.PARAM_FORMAT_ERROR.getCode(), Code.PARAM_FORMAT_ERROR.getMsg(), null);
 //        }
 //        return ResultUtil.verifyDelete(equipmentMapper.deleteInfo(eqptSns));
-    	if (equipmentMapper.deleteBatch(aqptArr) > 0) {
-            return ResultUtil.resp(Code.UPDATE_SUCCESS);
+    	if (equipmentMapper.deleteBatch(imeiArr) > 0) {
+            return ResultUtil.resp(Code.DELETE_SUCCESS);
         }
-        return ResultUtil.resp(Code.UPDATE_FAIL);
+        return ResultUtil.resp(Code.DELETE_FAIL);
 
     }
+
+	@Override
+	public ResultList selectOneInfo(EqptQueryVo eqptQueryVo) {
+		// TODO Auto-generated method stub
+		try {
+			EqptInfoDto eqpt = equipmentMapper.selectOneInfo(eqptQueryVo);
+			if(eqpt != null) {
+				return ResultUtil.respList(Code.QUERY_SUCCESS, eqpt);
+			}
+			return ResultUtil.resp(Code.QUERY_NULL);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ResultUtil.resp(Code.QUERY_FAIL);
+		}
+		
+		
+		
+	}
 
 }

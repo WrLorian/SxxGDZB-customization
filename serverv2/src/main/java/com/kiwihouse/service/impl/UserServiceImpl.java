@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author tomsun28
@@ -72,4 +73,10 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.selectUserListExtendByRoleId(roleId);
     }
+
+	@Override
+	public List<Map<String, Integer>> queryAuthUserByRoleUserId(Integer userId, Integer roleId) {
+		// TODO Auto-generated method stub
+		return userMapper.queryAuthUserByRoleUserId(userId,roleId);
+	}
 }

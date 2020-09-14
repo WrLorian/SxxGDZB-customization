@@ -7,12 +7,8 @@ function getRootPath(){
 }
 //弹框
 function openPopUp(title,url,w,h){
-	console.log(w)
-	console.log(h);
 	w = w || 50;
 	h = h || 70;
-	console.log("-----------" + w);
-	console.log("-----------" + h);
 	var index = layer.open({
         title: title,
         type: 2,
@@ -26,6 +22,23 @@ function openPopUp(title,url,w,h){
 String.prototype.NoSpace = function () {
     return this.replace(/\s+/g, "");
 };
+/*返回数组下标*/
+Array.prototype.indexOf = function(val) {
+	for (var i = 0; i < this.length; i++) {
+		if (this[i] == val)
+			return i;
+	}
+	return -1;
+};
+/*根据下标删除数组内容*/
+Array.prototype.remove = function(dx) {
+	for (var i = 0, n = 0; i < this.length; i++) {
+		if (this[i] != this[dx]) {
+			this[n++] = this[i]
+		}
+	}
+	this.length -= 1
+}
 //得到主页
 var indexHome = function(elem,i) {
 		if(typeof(i) != "undefined" || i != ''){
