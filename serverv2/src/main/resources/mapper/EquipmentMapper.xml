@@ -635,4 +635,16 @@
             </if>
         </where>
 	</select>
+	
+	<update id="updateBatch" >
+		<foreach collection="array" item="item" index="index" open="" close="" separator=";">
+	       UPDATE equipment
+	           <set>
+				group_id = NULL
+				</set>
+				<where>
+				eqpt_id = #{item}
+				</where>
+	    </foreach>
+	</update>
 </mapper>

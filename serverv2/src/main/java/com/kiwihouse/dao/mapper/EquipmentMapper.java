@@ -106,5 +106,10 @@ public interface EquipmentMapper {
 	 * @return
 	 */
 	EqptInfoDto selectOneInfo(EqptQueryVo eqptQueryVo);
+	/**
+	 * 批量修改设备的分组信息
+	 * @param eqptIdArr
+	 */
+	int updateBatch(String[] eqptIdArr);
 
 }

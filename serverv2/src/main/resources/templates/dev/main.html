@@ -186,6 +186,22 @@ layui.use(['form', 'table','miniTab'], function () {
             }); 
             return false;
         } else if(obj.event === 'parameter'){//parameter;
+        
+        	var e = {},r= {},array = new Array();
+    		e.imei = dataRow.imei;
+    		r.register = 3;
+    		e.register = r;
+    		e.eqptType = dataRow.eqptType;
+    		array.push(e);
+    		var e = {},r= {};
+    		e.imei = dataRow.imei;
+    		r.register = 4;
+    		e.register = r;
+    		e.eqptType = dataRow.eqptType;
+    		array.push(e);
+    		oneNet(array);
+    		
+    		
         	openPopUp('添加','/admin/dev/parameter',60,80);
         } else if(obj.event === 'more'){
         	var options = {

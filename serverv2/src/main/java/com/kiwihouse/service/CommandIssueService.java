@@ -91,6 +91,7 @@ public class CommandIssueService {
         obj.setRes_id(5750);
         //将封装好的参数放到val中
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(map);
+        System.out.println("-------------->" + jsonObject.toJSONString());
         obj.setVal(jsonObject.toJSONString());
 
         //将data对象放到list中

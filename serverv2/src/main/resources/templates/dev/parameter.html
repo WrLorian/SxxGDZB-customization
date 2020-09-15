@@ -30,14 +30,14 @@
 		    </div>
 		   
 		    <div class="layui-form-item">
-		        <label class="layui-form-label required">设置漏电流变比</label>
+		        <label class="layui-form-label">设置漏电流变比</label>
 		        <div class="layui-input-block">
 		            <input type="text" name="reg_02" lay-verify="numberIs|oneToFourNine" placeholder="范围1-9999。 " value="" class="layui-input">
 		        </div>
 		    </div>
 		    
 		    <div class="layui-form-item">
-			    <label class="layui-form-label required">设置电压上限</label>
+			    <label class="layui-form-label">设置电压上限</label>
 			    <div class="layui-input-block">
 			      <input type="text" name="reg_03" placeholder="范围0.0-999.9。 " value="" class="layui-input">
 			    </div>
@@ -192,6 +192,28 @@ var dataRow = window.parent.dataRow;
         	}
 			
 		});
+        init();
+        function init(){
+        	var entity = {};
+        	entity.alarmType = 3;
+        	entity.imei = dataRow.imei;
+        	$.ajax({
+     			url: "/receive/info",
+			    type: "GET",
+			    data:entity,
+			    dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+			    success:function(data){
+			    	var custom_form = $("._dev_param")
+			        $.each(data.result.data, function(key, val) {
+			        	custom_form.find("[name='"+key+"']").val(val);
+			        });
+			    	form.render();
+			    }
+			});
+        }
+        
         //监听提交
         form.on('submit(devParamBtn)', function (data) {
            console.log(JSON.stringify(data.field));

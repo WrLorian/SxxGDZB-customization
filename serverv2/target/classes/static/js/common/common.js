@@ -204,3 +204,49 @@ Date.prototype.Format = function (fmt) {
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+/*OneNet 请求 设备批量命令下发，异步操作*/
+function oneNet(e){
+	$.ajax({
+		url: "/onenet/issuedList",
+	    type: "POST",
+	    data:JSON.stringify(e),
+	    dataType : "json",
+	    cache:true, 
+        async:false, 
+        traditional:true,
+　　		contentType: "application/json;charset=utf-8",
+	    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+	    success:function(data){
+	    	console.log(data.result.data);
+	    	if(data.result.data[e[0].imei] == 'read time out'){
+	    		layer.msg('连接超时', {
+	    			  icon: 2,
+	    			  offset:'rt',
+	    			  anim: 2,
+	    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+	    		});
+	    	}else if(data.result.data[e[0].imei].error == 'device not online') {
+	    		layer.msg('设备掉线', {
+	    			  icon: 2,
+	    			  offset:'rt',
+	    			  anim: 2,
+	    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+	    			});
+	    	}else if(data.result.data[e[0].imei].error == 'auth failed: not found'){
+	    		layer.msg('auth failed: not found', {
+	    			  icon: 2,
+	    			  offset:'rt',
+	    			  anim: 2,
+	    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+	    			});
+	    	}else{
+	    		layer.msg(data.msg, {
+	    			  icon: 1,
+	    			  offset:'rt',
+	    			  anim: 2,
+	    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+	    			});
+	    	}
+	    }
+	});
+}

@@ -124,6 +124,7 @@
 	var entity = {},eqptType;
 	/*获取URL-->IMEI*/
 	entity.imei = $.getUrlParam('imei');
+	entity.alarmType = 1;
 	/*根据ID生成仪表盘Echarts对象*/
 	var _chart = function(id){
 		return  echarts.init(document.getElementById(id),'walden');
@@ -587,57 +588,17 @@
 	$(".layui-icon-refresh").on('click',function(){
 		var e = {},r= {},array = new Array();
 		e.imei = $("._imei").text();
-		r.register = 3;
-		e.register = r;
 		e.eqptType = $("._eqptType").attr('data-type');
-		array.push(e);
-		/* r.register = 3;
+		r.reg_00 = 3;
 		e.register = r;
-		array.push(e); */
-		console.log(JSON.stringify(array));
-		$.ajax({
-			url: "/onenet/issuedList",
-		    type: "POST",
-		    data:JSON.stringify(array),
-		    dataType : "json",
-		    cache:true, 
-	        async:false, 
-	        traditional:true,
-	　　		contentType: "application/json;charset=utf-8",
-		    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
-		    success:function(data){
-		    	if(data.result.data[e.imei] == 'read time out'){
-		    		layer.msg('连接超时', {
-		    			  icon: 2,
-		    			  offset:'rt',
-		    			  anim: 2,
-		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
-		    		});
-		    	}else if(data.result.data[e.imei].error == 'device not online') {
-		    		layer.msg('设备掉线', {
-		    			  icon: 2,
-		    			  offset:'rt',
-		    			  anim: 2,
-		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
-		    			});
-		    	}else if(data.result.data[e.imei].error == 'auth failed: not found'){
-		    		layer.msg('auth failed: not found', {
-		    			  icon: 2,
-		    			  offset:'rt',
-		    			  anim: 2,
-		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
-		    			});
-		    	}else{
-		    		layer.msg(data.msg, {
-		    			  icon: 1,
-		    			  offset:'rt',
-		    			  anim: 2,
-		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
-		    			});
-		    	}
-		    	
-		    }
-		});
+		array.push(e);
+		var e = {},r= {};
+		e.imei = $("._imei").text();
+		e.eqptType = $("._eqptType").attr('data-type');
+		r.reg_00 = 4;
+		e.register = r;
+		array.push(e);
+		oneNet(array);
 	})
 	//监听浏览器大小变化重新渲染
 	window.onresize = function () {
