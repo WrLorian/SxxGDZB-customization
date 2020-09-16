@@ -197,6 +197,7 @@
             }else{
             	data.field.cron = "ncron";
             }
+        	data.field.roleId = authUser.roleId;
            $.ajax({
      			url: "/group/info",
 			    type: "PUT",

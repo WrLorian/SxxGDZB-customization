@@ -130,6 +130,9 @@ layui.use(['form', 'table'], function () {
         		jsonEntity[key] = val;
         	}
        });
+        if(typeof(jsonEntity.roleId ) == 'undefined'){
+        	jsonEntity.roleId  = authUser.roleId;
+        }
         //执行搜索重载
         //flush(currentPage,jsonEntity);
         loadTickets(jsonEntity);

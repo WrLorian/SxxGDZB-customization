@@ -26,5 +26,7 @@ public class GroupUpdateVo {
     private String roleId;
     @ApiModelProperty(name = "执行管理员",value = "doAdminId",hidden = true)
     private String doAdminId;
+    @ApiModelProperty(name = "抄表规则",value = "cron")
+    private String cron;
 
 }

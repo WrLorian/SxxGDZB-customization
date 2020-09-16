@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 public class ImprovedSetParamDto {
 
     private Double CT;
-    private Double Beep;
+    private Integer Beep;
     private Double volH;
     private Double leakH;
     private Double curH;

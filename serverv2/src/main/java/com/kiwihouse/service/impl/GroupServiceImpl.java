@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.utils.TimeUtil;
+import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.dao.mapper.GroupMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.GroupDto;
@@ -31,6 +32,8 @@ public class GroupServiceImpl implements GroupService{
     @Autowired
     PrivilegeService privilegeService;
 
+    @Autowired
+    EquipmentMapper equipmentMapper;
     /**
      *
      * @param groupQueryVo
@@ -86,19 +89,32 @@ public class GroupServiceImpl implements GroupService{
      * @return
      */
     @Override
-    public ResultList deleteInfo(String groupId, String adminId) {
+    public ResultList deleteInfo(String groupId, Integer roleId,String eqptIds) {
 
         //不能删除非空分组
-        if(!verifyEqpt(groupId)){
-            return new ResultList(Code.DELETE_FAIL.getCode(),"不能删除非空分组",null);
-        }
-
-        if(privilegeService.isTopMg(adminId)){
-            //一级管理员执行删除
-            return doDelete(groupId);
+//        if(!verifyEqpt(groupId)){
+//            return new ResultList(Code.DELETE_FAIL.getCode(),"不能删除非空分组",null);
+//        }
+        if(roleId == 100){
+        	if(!"".equals(eqptIds)) {
+        		//修改设备分组
+        		//批量修改设备
+        		String[] eqptIdArr = eqptIds.split(",");
+//        		for(String s : eqptIdArr) {
+//        			
+//        		}
+        		equipmentMapper.updateBatch(eqptIdArr);
+        	}
+        	//一级管理员执行删除
+        	return doDelete(groupId);
         }else{
             //判断只能删除属于自己的分组
-            if(verifyGroupId(groupId,adminId)){
+            if(verifyGroupId(groupId,roleId)){
+            	if(!"".equals(eqptIds)) {
+            		//修改设备分组
+            		String[] eqptIdArr = eqptIds.split(",");
+            		equipmentMapper.updateBatch(eqptIdArr);
+            	}
                 return doDelete(groupId);
             }else{
                 return new ResultList(Code.PRIVILEGE_FAIL.getCode(),"没有删除权限",null);
@@ -125,8 +141,8 @@ public class GroupServiceImpl implements GroupService{
      * @param adminId
      * @return
      */
-    private boolean verifyGroupId(String groupId, String adminId){
-        List<String> list = groupMapper.queryGroups(adminId);
+    private boolean verifyGroupId(String groupId,Integer roleId){
+        List<String> list = groupMapper.queryGroups(roleId);
         return list.contains(groupId);
     }
 
@@ -138,15 +154,16 @@ public class GroupServiceImpl implements GroupService{
      */
     @Override
     public ResultList updateInfo(GroupUpdateVo groupUpdateVo) {
-        String doAdminId = groupUpdateVo.getDoAdminId();
-        if(privilegeService.isTopMg(doAdminId)) {
-            //一级管理员直接操作
-            groupUpdateVo.setDoAdminId(null);
-            return doUpdate(groupUpdateVo);
-        }else{
+//        String doAdminId = groupUpdateVo.getDoAdminId();
+//        if(privilegeService.isTopMg(doAdminId)) {
+//            //一级管理员直接操作
+//            groupUpdateVo.setDoAdminId(null);
+//            return doUpdate(groupUpdateVo);
+//        }else{
             //其他管理员需判断该分组是否属于他
-            return doUpdate(groupUpdateVo);
-        }
+//            return doUpdate(groupUpdateVo);
+//        }
+        return doUpdate(groupUpdateVo);
     }
 
     @Transactional(rollbackFor = Exception.class)

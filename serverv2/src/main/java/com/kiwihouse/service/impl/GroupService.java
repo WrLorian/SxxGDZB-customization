@@ -92,19 +92,19 @@ public class GroupService {
      * @param adminId 管理员ID
      * @return
      */
-    public ResultList deleteInfo(String groupId, String adminId) {
+    public ResultList deleteInfo(String groupId, Integer roleId) {
 
         //不能删除非空分组
         if(!verifyEqpt(groupId)){
             return new ResultList(Code.DELETE_FAIL.getCode(),"不能删除非空分组",null);
         }
 
-        if(privilegeService.isTopMg(adminId)){
+        if(roleId == 100){
             //一级管理员执行删除
             return doDelete(groupId);
         }else{
             //判断只能删除属于自己的分组
-            if(verifyGroupId(groupId,adminId)){
+            if(verifyGroupId(groupId,roleId)){
                 return doDelete(groupId);
             }else{
                 return new ResultList(Code.PRIVILEGE_FAIL.getCode(),"没有删除权限",null);
@@ -131,8 +131,8 @@ public class GroupService {
      * @param adminId
      * @return
      */
-    private boolean verifyGroupId(String groupId, String adminId){
-        List<String> list = groupMapper.queryGroups(adminId);
+    private boolean verifyGroupId(String groupId, Integer roleId){
+        List<String> list = groupMapper.queryGroups(roleId);
         return list.contains(groupId);
     }
 

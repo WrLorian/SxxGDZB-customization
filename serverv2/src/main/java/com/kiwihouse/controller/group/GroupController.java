@@ -90,8 +90,8 @@ public class GroupController extends BaseController{
     @PostMapping("/info")
     public Response addInfo(@RequestBody @Validated GroupAddVo groupAddVo, HttpServletRequest request){
         logger.info("录入区域信息>> {}",new Log().setIp(request.getRemoteAddr()).setMsg("添加区域信息").setParam(groupAddVo.toString()));
-        String adminId = request.getHeader("dz-usr");
-        groupAddVo.setAdminId(adminId);
+//        String adminId = request.getHeader("dz-usr");
+//        groupAddVo.setAdminId(adminId);
         return groupService.addInfo(groupAddVo);
     }
 
@@ -108,15 +108,16 @@ public class GroupController extends BaseController{
     }
 
     @ApiOperation(value = "deleteInfo",
-            notes = "<br>@description: <b>删除空分组</b></br>" +
+            notes = "<br>@description: <b>删除分组</b></br>" +
                     "<br>@Date: <b>2020-3-5 16:39:06</b></br>",
             httpMethod = "DELETE")
     @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
     @DeleteMapping("/info/{groupId}")
     public ResultList deleteInfo(@PathVariable String groupId, HttpServletRequest request){
-        logger.info("删除空分组>> {}",new Log().setIp(request.getRemoteAddr()).setMsg("删除空分组").setParam(groupId));
-        String adminId = request.getHeader("dz-usr");
-        return groupService.deleteInfo(groupId,adminId);
+        logger.info("删除分组>> {}",new Log().setIp(request.getRemoteAddr()).setMsg("删除空分组").setParam(groupId));
+        String roleId = request.getHeader("dz-roleId");
+        String eqptIds = request.getHeader("dz-eqptIds");
+        return groupService.deleteInfo(groupId,Integer.valueOf(roleId),eqptIds);
     }
 
 }

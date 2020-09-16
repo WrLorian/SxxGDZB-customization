@@ -35,4 +35,6 @@ public class GroupDto {
     private String date;
     @ApiModelProperty(value = "抄表时间",name = "time")
     private String time;
+    @ApiModelProperty(value = "分组设备ID",name = "time")
+    private String eqptIds;
 }

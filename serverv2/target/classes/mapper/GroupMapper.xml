@@ -4,47 +4,53 @@
 
     <!--query-->
     <select id="queryInfo" resultType="com.kiwihouse.dto.GroupDto" parameterType="com.kiwihouse.vo.kiwihouse.GroupQueryVo">
-        select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE`
-        from `group` as g
-        left join auth_role as a on g.role_id=a.ID
-        <where>
-            <if test="roleId != null and roleId != ''">
-                and g.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id = #{roleId})
-            </if>
-            <if test="groupName !=null and groupName!=''">
-                and g.group_name like CONCAT('%',#{groupName},'%')
-            </if>
-            <if test="cron != null and cron != '' and cron=='ycron'">
-                and g.cron!='ncron'
-            </if>
-            <if test="cron != null and cron != '' and cron=='ncron'">
-                and g.cron='ncron'
-            </if>
-        </where>
-        order by g.add_time desc 
+        SELECT *  from(SELECT g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE`, 
+ 				GROUP_CONCAT(e.eqpt_id SEPARATOR ',') as eqptIds 
+				from `group` as g 
+				LEFT join auth_role as a on g.role_id=a.ID 
+				INNER JOIN equipment as e on e.group_id = g.group_id 
+				 <where>
+				 	<if test="roleId != null and roleId != ''">
+		                and g.role_id >= #{roleId} 
+		            </if>
+		            <if test="groupName !=null and groupName!=''">
+		                and g.group_name like CONCAT('%',#{groupName},'%')
+		            </if>
+		            <if test="cron != null and cron != '' and cron=='ycron'">
+		                and g.cron!='ncron'
+		            </if>
+		            <if test="cron != null and cron != '' and cron=='ncron'">
+		                and g.cron='ncron'
+		            </if>
+		        </where>
+				GROUP BY group_id ) as tem 
+        ORDER BY add_time desc
         <if test="page != null">
         	limit #{page},#{limit}
         </if>
         
     </select>
     <select id="queryInfoRow" resultType="java.lang.Integer" parameterType="com.kiwihouse.vo.kiwihouse.GroupQueryVo">
-        select count(*)
-        from `group` as g
-        left join auth_role as a on g.role_id =a.id
-        <where>
-            <if test="roleId != null and roleId != ''">
-                and g.role_id = #{roleId} <!-- //in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id = #{roleId}) -->
-            </if>
-            <if test="groupName !=null and groupName!=''">
-                and g.group_name like CONCAT('%',#{groupName},'%')
-            </if>
-            <if test="cron != null and cron != '' and cron=='ycron'">
-                and g.cron!='ncron'
-            </if>
-            <if test="cron != null and cron != '' and cron=='ncron'">
-                and g.cron='ncron'
-            </if>
-        </where>
+        SELECT count(*)  from(SELECT g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE`, 
+ 				GROUP_CONCAT(e.eqpt_id SEPARATOR ',') as eqptIds 
+				from `group` as g 
+				LEFT join auth_role as a on g.role_id=a.ID 
+				INNER JOIN equipment as e on e.group_id = g.group_id 
+				 <where>
+				 	<if test="roleId != null and roleId != ''">
+		                and g.role_id >= #{roleId} 
+		            </if>
+		            <if test="groupName !=null and groupName!=''">
+		                and g.group_name like CONCAT('%',#{groupName},'%')
+		            </if>
+		            <if test="cron != null and cron != '' and cron=='ycron'">
+		                and g.cron!='ncron'
+		            </if>
+		            <if test="cron != null and cron != '' and cron=='ncron'">
+		                and g.cron='ncron'
+		            </if>
+		        </where>
+				GROUP BY group_id ) as tem 
     </select>
 
     <!--add-->
@@ -80,14 +86,11 @@
     <update id="updateGroup" parameterType="com.kiwihouse.vo.kiwihouse.GroupUpdateVo">
         update `group`
         <set>
-            <if test="groupId !=null and groupId !=''">
-                group_id=#{groupId},
-            </if>
             <if test="groupName !=null and groupName !=''">
                 group_name=#{groupName},
             </if>
-            <if test="roleId !=null and roleId !=''">
-                role_id=#{roleId}
+            <if test="cron !=null and cron !=''">
+                cron=#{cron}
             </if>
         </set>
         <where>

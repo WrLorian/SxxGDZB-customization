@@ -19,7 +19,7 @@ public class GroupAddVo {
     @ApiModelProperty(name = "分组名称(不允许重复)",value = "groupName")
     private String groupName;
     @ApiModelProperty(hidden = true)
-    private String adminId;
+    private String roleId;
     @ApiModelProperty(hidden = true)
     private String cron;
     @ApiModelProperty(hidden = true)

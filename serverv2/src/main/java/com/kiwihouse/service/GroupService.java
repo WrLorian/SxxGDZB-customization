@@ -37,9 +37,10 @@ public interface GroupService {
 	/**
 	 * 	删除空分组
 	 * @param groupId
-	 * @param adminId
+	 * @param roleId
+	 * @param eqptIds 
 	 * @return
 	 */
-	ResultList deleteInfo(String groupId, String adminId);
+	ResultList deleteInfo(String groupId, Integer roleId, String eqptIds);
 
 }

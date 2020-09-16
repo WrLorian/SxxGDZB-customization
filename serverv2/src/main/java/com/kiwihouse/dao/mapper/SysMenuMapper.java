@@ -30,7 +30,7 @@ public interface SysMenuMapper {
 	 */
 	int updateMenu(SysMenu sysMenu);
 	/**
-	 * 根据ids批量删除菜单
+	 * 根据ids修改删除菜单
 	 * @param ids
 	 * @return
 	 */

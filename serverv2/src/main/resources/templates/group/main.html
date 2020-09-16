@@ -18,7 +18,7 @@
                     <div class="layui-form-item">
                     	<div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" name="groupName" autocomplete="off" class="layui-input" placeholder="资源名称">
+                                <input type="text" name="groupName" autocomplete="off" class="layui-input" placeholder="分组名称">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -32,10 +32,9 @@
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
                 <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
-                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
             </div>
         </script>
-
+		<!--   <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button> -->
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
@@ -84,28 +83,6 @@ layui.use(['form', 'table'], function () {
     table.on('toolbar(currentTableFilter)', function (obj) {
         if (obj.event === 'add') {  // 监听添加操作
         	openPopUp('添加','/admin/group/add');
-        } else if (obj.event === 'delete') {  // 监听删除操作
-            var checkStatus = table.checkStatus('currentTableId')
-                , data = checkStatus.data;
-        	var idArr = [];
-        	$.each(data,function(index,xx){
-        		idArr.push(xx.id);
-        		$.ajax({
-         			url: "/resource/menu/"+idArr.join(','),
-         			type : "DELETE",
-        	　　		dataType : "json",
-        	　　		contentType: "application/json;charset=utf-8",
-    			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-    			    success:function(data){
-    			    	 	if(data.success){
-    			    	 		layer.msg("删除成功")
-    			    	 		flush(currentPage, jsonEntity);
-    						}else{
-    							layer.msg(data.msg);
-    						}
-    			    }
-    			 });
-        	})
         }
     });
     table.on('tool(currentTableFilter)', function (obj) {
@@ -114,21 +91,21 @@ layui.use(['form', 'table'], function () {
             openPopUp('资源修改','/admin/group/edit');
             return false;
         } else if (obj.event === 'delete') {
-           	/* $.ajax({
-        			url: "/resource/menu/"+dataRow.id,
-        			type : "DELETE",
-       	　　		dataType : "json",
-       	　　		contentType: "application/json;charset=utf-8",
-   			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-   			    success:function(data){
-   			    	 	if(data.success){
-   			    	 		layer.msg("删除成功")
-   			    	 		obj.del();
-   						}else{
-   							layer.msg(data.msg);
-   						}
-   			    }
-   			  	}); */
+        	if(dataRow.eqptIds == null || dataRow.eqptIds == ''){
+        		deleteGroup(dataRow.groupId);
+        	}else{
+        		var index = layer.confirm('该分组下已有设备，是否继续删除', {
+					btn : [ '放弃', '删除' ],icon: 3, title:'提示'
+				}, function() {
+					layer.msg('已放弃', {
+						icon : 1
+					});
+					layer.close(index);
+				}, function() {
+					deleteGroup(dataRow.groupId,dataRow.eqptIds);
+				});
+        	}
+           	
         }else if(obj.event === 'set'){
         	 openPopUp('分组设备','/admin/group/group_dev',60,80);
         }
@@ -141,9 +118,13 @@ layui.use(['form', 'table'], function () {
 	   	　　		contentType: "application/json;charset=utf-8",
 				    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 				    success:function(data){
-				    	 	if(data.success){
-				    	 		layer.msg("删除成功")
-				    	 		obj.del();
+				    	 	if(data.code == 4000){
+				    	 		var item = obj.data;
+				    	 		item.cron = "ncron";
+				    	 		item.months = null;
+				    	 		item.date = null;
+				    	 		item.time = '';
+				    	 		obj.update(item);
 							}else{
 								layer.msg(data.msg);
 							}
@@ -151,7 +132,22 @@ layui.use(['form', 'table'], function () {
 				  });
         }
     });
-	
+	function deleteGroup(groupId,eqptIds){
+		$.ajax({
+			url: "/group/info/"+groupId,
+			type : "DELETE",
+   	　　		dataType : "json",
+   	　　		contentType: "application/json;charset=utf-8",
+			    headers: { "Authorization": authorization ,"dz-roleId":authUser.roleId,"dz-eqptIds":eqptIds},//通过请求头来发送token，放弃了通过cookie的发送方式
+			    success:function(data){
+			    	if(data.code == 4004){
+			    		layer.msg(data.msg);
+			    	}else{
+			    		layer.msg(data.msg);
+			    	}
+			    }
+		  });
+	}
 });
 function loadTickets(jsonEntity){
 	table.render({

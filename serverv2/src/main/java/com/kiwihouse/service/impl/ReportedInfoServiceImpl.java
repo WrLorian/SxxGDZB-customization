@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,7 @@ import com.kiwihouse.vo.entire.Result;
 import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.AlmQueryVo;
 import com.kiwihouse.vo.kiwihouse.QueryPwrVo;
+import com.kiwihouse.vo.kiwihouse.Register;
 import com.kiwihouse.vo.kiwihouse.ReportedQueryVo;
 
 @Service
@@ -311,10 +313,10 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
      * @return 告警信息
      */
     @Override
-    public ResultList queryAlmInfo(AlmQueryVo almQueryVo) {
-
+    public ResultList  queryAlmInfo(AlmQueryVo almQueryVo) {
         CodeTransferUtil.transferOne(almQueryVo.getCode(), almQueryVo);
-        //PageHelper.startPage(almQueryVo.getPage(), almQueryVo.getLimit());
+        PageHelper.startPage(almQueryVo.getPage(), almQueryVo.getLimit());
+        //Integer count = reportedInfoMapper.queryAlmInfoCount(almQueryVo);
         List<AlarmEqptDto> list = reportedInfoMapper.queryAlmInfo(almQueryVo);
         if (list.isEmpty()) {
             return new ResultList(Code.QUERY_NULL.getCode(), Code.QUERY_NULL.getMsg(), null);
@@ -343,10 +345,11 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 
                 String alarmMsg = alarmEqptDto.getAlarmMsg();
                 WarnMsgDto warnMsgDto = JSONObject.parseObject(alarmMsg, WarnMsgDto.class);
+                System.out.println(warnMsgDto.toString());
                 HashMap<String, Object> almMap = new HashMap<>();
 
                 String cur = warnMsgDto.getCur();
-                if (!"0".equals(cur)) {
+                if (!"0".equals(cur) && cur != null) {
                     String[] split = cur.split("-");
                     if (2 == split.length) {
                         WarmMsgValue warmMsgValue = new WarmMsgValue();
@@ -356,7 +359,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
                     }
                 }
                 String temp = warnMsgDto.getTemp();
-                if (!"0".equals(temp)) {
+                if (!"0".equals(temp) && StringUtils.isNotBlank(temp)) {
                     String[] split = temp.split("-");
                     if (2 == split.length) {
                         WarmMsgValue warmMsgValue = new WarmMsgValue();
@@ -366,7 +369,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
                     }
                 }
                 String leak = warnMsgDto.getLeak();
-                if (!"0".equals(leak)) {
+                if (!"0".equals(leak) && StringUtils.isNotBlank(leak)) {
                     String[] split = leak.split("-");
                     if (2 == split.length) {
                         WarmMsgValue warmMsgValue = new WarmMsgValue();
@@ -376,7 +379,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
                     }
                 }
                 String overload = warnMsgDto.getOverload();
-                if (!"0".equals(overload)) {
+                if (!"0".equals(overload) && StringUtils.isNotBlank(overload)) {
                     String[] split = overload.split("-");
                     if (2 == split.length) {
                         WarmMsgValue warmMsgValue = new WarmMsgValue();
@@ -561,5 +564,96 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
         });
         return map;
     }
+
+	@Override
+	public ResultList devRunInfo(ReportedQueryVo reportedQueryVo) {
+		// TODO Auto-generated method stub
+		try {
+			ReportedDto rep = reportedInfoMapper.devRunInfo(reportedQueryVo);
+			if(rep == null) {
+				return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_NULL.getMsg(), new Result<>(0, null));
+			}
+			ImprovedSetParamDto improvedSetParamDto = JSONObject.parseObject(rep.getAlarmMsg(), ImprovedSetParamDto.class);
+            improvedSetParamDto.setAddTime(rep.getAddTime())
+                    .setAlarmType(rep.getAlarmType())
+                    .setEqptSn(rep.getEqptSn())
+                    .setImei(rep.getImei());
+            Register res = new Register();
+            res.setReg_01(improvedSetParamDto.getCT().toString());
+            res.setReg_02(improvedSetParamDto.getLCT().toString());
+            res.setReg_03(improvedSetParamDto.getVolH().toString());
+            res.setReg_04(improvedSetParamDto.getVolL().toString());
+            res.setReg_05(improvedSetParamDto.getCurH().toString());
+            res.setReg_06(improvedSetParamDto.getPwrH().toString());
+            res.setReg_07(improvedSetParamDto.getLeakH().toString());
+            res.setReg_08(improvedSetParamDto.getTempH().toString());
+            res.setReg_09(improvedSetParamDto.getInterval().toString());
+            res.setReg_10(improvedSetParamDto.getBeep().toString());
+			return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg(), new Result<>(1, res));
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_FAIL.getMsg(), new Result<>(0, null));
+		}
+	}
+
+	@Override
+	public ResultList devAlarmInfo(ReportedQueryVo reportedQueryVo) {
+		// TODO Auto-generated method stub
+		try {
+			ReportedDto rep = reportedInfoMapper.devRunInfo(reportedQueryVo);
+			if(rep == null) {
+				return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_NULL.getMsg(), new Result<>(0, null));
+			}
+			ImprovedWarnMsgDto improvedWarnMsgDto = JSONObject.parseObject(rep.getAlarmMsg(), ImprovedWarnMsgDto.class);
+            improvedWarnMsgDto.setAddTime(rep.getAddTime())
+                    .setAlarmType(rep.getAlarmType())
+                    .setEqptSn(rep.getEqptSn())
+                    .setImei(rep.getImei());
+			String cur = improvedWarnMsgDto.getCur();
+            if (!"0".equals(cur)) {
+                String[] split = cur.split("-");
+                if (2 == split.length) {
+                	improvedWarnMsgDto.setCur(split[0]);
+                	improvedWarnMsgDto.setCurValue(split[1]);
+                }
+            }
+            String temp = improvedWarnMsgDto.getTemp();
+            if (!"0".equals(temp)) {
+                String[] split = temp.split("-");
+                if (2 == split.length) {
+                	improvedWarnMsgDto.setTemp(split[0]);
+                	improvedWarnMsgDto.setTempValue(split[1]);
+                }
+            }
+            String leak = improvedWarnMsgDto.getLeak();
+            if (!"0".equals(leak)) {
+                String[] split = leak.split("-");
+                if (2 == split.length) {
+                	improvedWarnMsgDto.setLeak(split[0]);
+                	improvedWarnMsgDto.setLeakValue(split[1]);
+                }
+            }
+            String overload = improvedWarnMsgDto.getOverload();
+            if (!"0".equals(overload)) {
+                String[] split = overload.split("-");
+                if (2 == split.length) {
+                	improvedWarnMsgDto.setOverload(split[0]);
+                	improvedWarnMsgDto.setOverloadValue(split[1]);
+                }
+            }
+            String vol = improvedWarnMsgDto.getVol();
+            if (!"0".equals(vol)) {
+                String[] split = vol.split("-");
+                if (2 == split.length) {
+                	improvedWarnMsgDto.setVol(split[0]);
+                	improvedWarnMsgDto.setVolValue(split[1]);
+                }
+            }
+			return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg(), new Result<>(1, improvedWarnMsgDto));
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_FAIL.getMsg(), new Result<>(0, null));
+		}
+	}
     
 }

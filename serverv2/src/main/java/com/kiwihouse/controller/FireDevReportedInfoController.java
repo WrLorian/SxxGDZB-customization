@@ -1,6 +1,7 @@
 package com.kiwihouse.controller;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,10 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kiwihouse.common.bean.Code;
+import com.kiwihouse.common.bean.DataType;
 import com.kiwihouse.common.bean.EqptTypeSta;
 import com.kiwihouse.common.bean.UserInfo;
 import com.kiwihouse.common.utils.TimeUtil;
+import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.dao.mapper.EquipmentMapper;
+import com.kiwihouse.domain.vo.AuthRoleResourceVo;
 import com.kiwihouse.dto.AlarmEqptDto;
 import com.kiwihouse.dto.EqptInfoDto;
 import com.kiwihouse.dto.ReportedDto;
@@ -40,7 +45,7 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/receive")
 @Api(tags = "火警上报信息")
-public class FireDevReportedInfoController {
+public class FireDevReportedInfoController extends BaseController{
 
     @Autowired
     ReportedInfoService reportedInfoService;
@@ -65,8 +70,15 @@ public class FireDevReportedInfoController {
         if (eqptInfo.getEqptType().equals(EqptTypeSta.SX)) {
             return threePhaseService.getLastStatus(reportedQueryVo);
         } else {
-//          return reportedInfoService.queryInfo(reportedQueryVo);
-        	return devInfoService.selectDevByNewTime(reportedQueryVo.getImei());
+        	if(DataType.FIRE_REPORT_cl.equals(reportedQueryVo.getAlarmType())) {
+        		return devInfoService.selectDevByNewTime(reportedQueryVo.getImei());
+        	}else if(DataType.FIRE_REPORT_alm.equals(reportedQueryVo.getAlarmType())) {
+        		//火警设备告警信息
+        		return reportedInfoService.devAlarmInfo(reportedQueryVo);
+        	}else {
+        		//火警设备运行信息
+        		return reportedInfoService.devRunInfo(reportedQueryVo);
+        	}
         }
     }
 
@@ -76,9 +88,24 @@ public class FireDevReportedInfoController {
             httpMethod = "GET")
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = AlarmEqptDto.class)})
     @GetMapping(value = "/alarm/info")
-    public ResultList queryAlmInfo(@Validated AlmQueryVo almQueryVo, HttpServletRequest request) {
+    public  Map<String, Object>  queryAlmInfo(@Validated AlmQueryVo almQueryVo, HttpServletRequest request) {
         //checkAdminService.verifyAdminId(request.getHeader("dz-usr"), almQueryVo);
-        return reportedInfoService.queryAlmInfo(almQueryVo);
+    	ResultList resultList =  reportedInfoService.queryAlmInfo(almQueryVo);
+    	if(resultList.getResult() != null) {
+    		map.put("data", resultList.getResult().getData());
+    		map.put("code", 0);
+    		map.put("count", resultList.getResult().getRow());
+    		map.put("msg",Code.QUERY_SUCCESS);
+    	}else {
+    		return putMsgToJsonString(0, Code.QUERY_NULL.getMsg(), 0, null);
+    	}
+    	try {
+    		
+		} catch (Exception e) {
+			// TODO: handle exception
+			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
+		}
+        return map;
     }
 
     @ApiOperation(value = "queryLatestAlmInfo",
@@ -87,7 +114,7 @@ public class FireDevReportedInfoController {
             httpMethod = "GET")
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = AlarmEqptDto.class)})
     @GetMapping(value = "/latestalarm/info/{second}/{page}/{limit}")
-    public ResultList queryLatestAlmInfo(@PathVariable int page, @PathVariable int limit, @PathVariable int second, HttpServletRequest request) {
+    public Map<String, Object> queryLatestAlmInfo(@PathVariable int page, @PathVariable int limit, @PathVariable int second, HttpServletRequest request) {
 
         String currentTime = TimeUtil.getCurrentTime();
         String passSecTime = TimeUtil.getPassSecTime(currentTime, -second);

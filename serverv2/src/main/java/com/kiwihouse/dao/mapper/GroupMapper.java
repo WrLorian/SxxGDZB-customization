@@ -26,8 +26,8 @@ public interface GroupMapper {
     @Delete("delete from `group` where group_id = #{groupId}")
     Integer toDelete(String groupId);
 
-    @Select("select group_id from `group` where admin_id = #{adminId}")
-    List<String> queryGroups(String adminId);
+    @Select("select group_id from `group` where role_id < #{roleId}")
+    List<String> queryGroups(Integer roleId);
 
     @Select("select eqpt_id from equipment where group_id = #{groupId}")
     List<String> queryEqpts(String groupId);
