@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.kiwihouse.common.bean.UserInfo;
 import com.kiwihouse.dao.entity.AuthUser;
+import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.Eqpt4UpdateDto;
 import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.EqptAddVo;
@@ -22,26 +23,26 @@ public interface EquipmentService {
 	 * @param updateDto
 	 * @return
 	 */
-	ResultList updateInfo(Eqpt4UpdateDto updateDto);
+	Response updateInfo(Eqpt4UpdateDto updateDto);
 	/**
 	 * 	录入设备信息
 	 * @param eqptAddVo
 	 * @param userInfo
 	 * @return
 	 */
-	ResultList addInfo(EqptAddVo eqptAddVo);
+	Response addInfo(EqptAddVo eqptAddVo);
 	/**
 	 * 	删除设备信息
 	 * @param eqptSn
 	 * @param userInfo
 	 * @return
 	 */
-	ResultList deleteInfo(String imeis, UserInfo userInfo);
+	Response deleteInfo(String imeis, UserInfo userInfo);
 	/**
 	 * 查询单个设备信息
 	 * @param eqptQueryVo
 	 * @return
 	 */
-	ResultList selectOneInfo(EqptQueryVo eqptQueryVo);
+	Response selectOneInfo(EqptQueryVo eqptQueryVo);
 
 }

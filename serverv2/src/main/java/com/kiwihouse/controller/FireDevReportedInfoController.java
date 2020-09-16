@@ -20,6 +20,7 @@ import com.kiwihouse.common.utils.TimeUtil;
 import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.domain.vo.AuthRoleResourceVo;
+import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.AlarmEqptDto;
 import com.kiwihouse.dto.EqptInfoDto;
 import com.kiwihouse.dto.ReportedDto;
@@ -63,7 +64,7 @@ public class FireDevReportedInfoController extends BaseController{
             httpMethod = "GET")
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = ReportedDto.class)})
     @GetMapping(value = "/info")
-    public ResultList queryInfo(@Validated ReportedQueryVo reportedQueryVo, HttpServletRequest request) {
+    public Response queryInfo(@Validated ReportedQueryVo reportedQueryVo, HttpServletRequest request) {
         //checkAdminService.verifyAdminId(request.getHeader("dz-usr"), reportedQueryVo);
     	reportedQueryVo.setUserId(request.getHeader("dz-usr"));
         EqptInfoDto eqptInfo = equipmentMapper.queryInfoByImei(reportedQueryVo.getImei());
@@ -134,7 +135,7 @@ public class FireDevReportedInfoController extends BaseController{
             httpMethod = "GET")
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = ReportedDto.class)})
     @GetMapping(value = "/pwr/info")
-    public ResultList queryPwr(@Validated QueryPwrVo queryPwrVo, HttpServletRequest request) throws ParseException {
+    public Response queryPwr(@Validated QueryPwrVo queryPwrVo, HttpServletRequest request) throws ParseException {
         //checkAdminService.verifyAdminId(request.getHeader("dz-usr"), queryPwrVo);
 
         EqptInfoDto eqptInfo = equipmentMapper.queryInfoByImei(queryPwrVo.getImei());

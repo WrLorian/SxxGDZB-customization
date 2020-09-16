@@ -89,4 +89,16 @@ public class AuthRoleMenuServiceImpl implements AuthRoleMenuService{
 		int num = authRoleMenuMapper.deleteBatch(list);
 		return num > 0 ? Boolean.TRUE : Boolean.FALSE;
 	}
+
+	@Override
+	public int deleteBatch(String[] idsStrArr) {
+		// TODO Auto-generated method stub
+		return  authRoleMenuMapper.deleteBatchByMenuId(idsStrArr);
+	}
+
+	@Override
+	public void deleteBatchByMenuId(String[] ids) {
+		// TODO Auto-generated method stub
+		int num =  authRoleMenuMapper.deleteBatchByMenuId(ids);
+	}
 }

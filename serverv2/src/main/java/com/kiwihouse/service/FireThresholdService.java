@@ -1,13 +1,18 @@
 package com.kiwihouse.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.utils.TimeUtil;
+import com.kiwihouse.domain.vo.Response;
+import com.kiwihouse.dto.ThresholdDto;
 import com.kiwihouse.mapper.FireThresholdMapper;
 import com.kiwihouse.util.ResultUtil;
+import com.kiwihouse.vo.entire.Result;
 import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.ThresholdUpdateVo;
 
@@ -21,17 +26,25 @@ public class FireThresholdService {
     @Autowired
     FireThresholdMapper fireThresholdMapper;
 
-    public ResultList updateInfo(ThresholdUpdateVo updateVo) {
+    public Response updateInfo(ThresholdUpdateVo updateVo) {
 
         ThresholdUpdateVo thresholdUpdateVo = fireThresholdMapper.queryInfo(updateVo.getEqptSn());
         if(null==thresholdUpdateVo){
             updateVo.setAddTime(TimeUtil.getCurrentTime());
             Integer row = fireThresholdMapper.addInfo(updateVo);
-            return ResultUtil.verifyAdd(row);
+            if (null == row || row == 0) {
+            	return new Response().Success(Code.ADD_FAIL.getCode(), Code.ADD_FAIL.getMsg());
+            } else {
+            	return new Response().Success(Code.ADD_SUCCESS.getCode(), Code.ADD_SUCCESS.getMsg());
+            }
         }else {
             updateVo.setUpdateTime(TimeUtil.getCurrentTime());
             Integer row = fireThresholdMapper.updateInfo(updateVo);
-            return ResultUtil.verifyUpdate(row);
+            if (null == row || row == 0) {
+            	return new Response().Success(Code.UPDATE_FAIL.getCode(), Code.UPDATE_FAIL.getMsg());
+            } else {
+            	return new Response().Success(Code.UPDATE_SUCCESS.getCode(), Code.UPDATE_SUCCESS.getMsg());
+            }
         }
     }
 
@@ -40,14 +53,19 @@ public class FireThresholdService {
      * @param eqptSn
      * @return
      */
-    public ResultList queryInfo(String eqptSn,String adminId,boolean isTopMg) {
+    public Response queryInfo(String imei,String adminId) {
         HashMap<String,Object> map = new HashMap<>();
-        map.put("eqptSn",eqptSn);
-        if(isTopMg) {
-            map.put("adminId",null);
-        }else{
-            map.put("adminId",adminId);
+        map.put("imei",imei);
+        List<ThresholdDto> list = fireThresholdMapper.query(map);
+        Integer row = fireThresholdMapper.queryRow(map);
+        if (list.isEmpty()) {
+        	return new Response().Success(Code.QUERY_NULL.getCode(), Code.QUERY_NULL.getMsg());
+        } else {
+            if (null == row || row == 0) {
+            	return new Response().Success(Code.EXECUTION_ERROR.getCode(), Code.EXECUTION_ERROR.getMsg());
+            } else {
+            	return new Response().Success(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg()).addData("data", list);
+            }
         }
-        return ResultUtil.verifyQuery(fireThresholdMapper.query(map),fireThresholdMapper.queryRow(map));
     }
 }

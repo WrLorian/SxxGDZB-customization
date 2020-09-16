@@ -1,6 +1,6 @@
 package com.kiwihouse.service;
 
-import com.kiwihouse.vo.entire.ResultList;
+import com.kiwihouse.domain.vo.Response;
 
 public interface DevInfoService {
 	/**
@@ -8,6 +8,6 @@ public interface DevInfoService {
 	 * @param imei
 	 * @return
 	 */
-	ResultList selectDevByNewTime(String imei);
+	Response selectDevByNewTime(String imei);
 
 }

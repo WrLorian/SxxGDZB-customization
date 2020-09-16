@@ -181,7 +181,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
     	    	var timeArray = new Array();
     	        var pwrArray = new Array();
     	    	if(data.code == 2000){
-    	    		$.each(data.result.data,function(index,xx){
+    	    		$.each(data.data.data,function(index,xx){
         	    		timeArray.push(xx.addTime);
         	    		pwrArray.push(xx.pwr);
         	    	})

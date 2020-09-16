@@ -26,6 +26,7 @@ import com.kiwihouse.common.utils.CodeTransferUtil;
 import com.kiwihouse.common.utils.GroupList;
 import com.kiwihouse.common.utils.TimeUtil;
 import com.kiwihouse.dao.mapper.ReportedInfoMapper;
+import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.AlarmEqptDto;
 import com.kiwihouse.dto.FirePwrDto;
 import com.kiwihouse.dto.ImprovedReportedDto;
@@ -436,9 +437,9 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
      * @throws ParseException 
      */
     @Override
-    public ResultList queryPwr(QueryPwrVo queryPwrVo) {
+    public Response queryPwr(QueryPwrVo queryPwrVo) {
         if (!queryPwrVo.verifyType()) {
-            return ResultUtil.paramsError("type参数不正确");
+           return new Response().Success(Code.QUERY_FAIL, "参数值不正确");
         }
 
         //处理之前的开始时间和结束时间
@@ -448,7 +449,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
         ExplainTime(queryPwrVo);
         List<FirePwrDto>  lists = reportedInfoMapper.queryPwr(queryPwrVo);
         if (lists.isEmpty()) {
-            return ResultUtil.queryNull();
+            return new Response().Success(Code.QUERY_NULL, Code.QUERY_NULL.getMsg());
         }
         String dataBeginTime = lists.get(0).getAddTime();
         String dataEndTime = lists.get(lists.size() - 1).getAddTime();
@@ -495,12 +496,12 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
                         returnList.add(item);
                     }
                 });
-                return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg(), new Result<>(returnList.size(), returnList));
+                return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", returnList);
             case "min":
-                return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg(), new Result<>(tmpList.size(), tmpList));
+            	return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", tmpList);
 
         }
-        return ResultUtil.queryNull();
+        return new Response().Success(Code.QUERY_NULL, Code.QUERY_NULL.getMsg());
 
 
     }
@@ -566,12 +567,12 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
     }
 
 	@Override
-	public ResultList devRunInfo(ReportedQueryVo reportedQueryVo) {
+	public Response devRunInfo(ReportedQueryVo reportedQueryVo) {
 		// TODO Auto-generated method stub
 		try {
 			ReportedDto rep = reportedInfoMapper.devRunInfo(reportedQueryVo);
 			if(rep == null) {
-				return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_NULL.getMsg(), new Result<>(0, null));
+				return new Response().Success(Code.QUERY_NULL, Code.QUERY_NULL.getMsg());
 			}
 			ImprovedSetParamDto improvedSetParamDto = JSONObject.parseObject(rep.getAlarmMsg(), ImprovedSetParamDto.class);
             improvedSetParamDto.setAddTime(rep.getAddTime())
@@ -589,20 +590,20 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
             res.setReg_08(improvedSetParamDto.getTempH().toString());
             res.setReg_09(improvedSetParamDto.getInterval().toString());
             res.setReg_10(improvedSetParamDto.getBeep().toString());
-			return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg(), new Result<>(1, res));
+            return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", res);
 		} catch (Exception e) {
 			// TODO: handle exception
-			return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_FAIL.getMsg(), new Result<>(0, null));
+			return new Response().Success(Code.QUERY_FAIL, Code.QUERY_FAIL.getMsg());
 		}
 	}
 
 	@Override
-	public ResultList devAlarmInfo(ReportedQueryVo reportedQueryVo) {
+	public Response devAlarmInfo(ReportedQueryVo reportedQueryVo) {
 		// TODO Auto-generated method stub
 		try {
 			ReportedDto rep = reportedInfoMapper.devRunInfo(reportedQueryVo);
 			if(rep == null) {
-				return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_NULL.getMsg(), new Result<>(0, null));
+				return new Response().Success(Code.QUERY_NULL, Code.QUERY_NULL.getMsg());
 			}
 			ImprovedWarnMsgDto improvedWarnMsgDto = JSONObject.parseObject(rep.getAlarmMsg(), ImprovedWarnMsgDto.class);
             improvedWarnMsgDto.setAddTime(rep.getAddTime())
@@ -649,10 +650,10 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
                 	improvedWarnMsgDto.setVolValue(split[1]);
                 }
             }
-			return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg(), new Result<>(1, improvedWarnMsgDto));
+            return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", improvedWarnMsgDto);
 		} catch (Exception e) {
 			// TODO: handle exception
-			return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_FAIL.getMsg(), new Result<>(0, null));
+			return new Response().Success(Code.QUERY_FAIL, Code.QUERY_FAIL.getMsg());
 		}
 	}
     

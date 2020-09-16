@@ -27,8 +27,8 @@
 <div th:include="include::footer"></div>
 <!-- 操作列 -->
 <script type="text/html" id="auth-state">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script th:inline="none">
 	var dataRow;
@@ -36,6 +36,8 @@
 	var returnedItem = [];
     var ids = [];
     var arr;
+    var objArr = [];
+    var roleIdArr = [];
     var treeOpenOrClose = false;
     layui.use(['table', 'treetable'], function () {
         var $ = layui.jquery;
@@ -56,34 +58,53 @@
         //监听工具条
         table.on('tool(munu-table)', function (obj) {
             dataRow = obj.data;
-            console.log(dataRow);
             var layEvent = obj.event;
             if (layEvent === 'del') {
             	returnedItem = [];
                 ids = [];
             	ids = returnIds(returnNodes(arr,dataRow.id));
                 if(ids.length > 1 ){
-                	var index = layer.confirm('该节点存在子节点，是否继续删除', {
-    					btn : [ '放弃', '删除' ],icon: 3, title:'提示'
-    				}, function() {
-    					layer.msg('已放弃', {
-    						icon : 1
+                	//判断角色是否一致
+                	var f = isPower(getRoleIdArr(objArr,ids),authUser.roleId);
+                	if(f){
+                		var index = layer.confirm('该节点存在子节点，是否继续删除', {
+        					btn : [ '放弃', '删除' ],icon: 3, title:'提示'
+        				}, function() {
+        					layer.msg('已放弃', {
+        						icon : 1
+        					});
+        					layer.close(index);
+        				}, function() {
+        					DELETE("/menu/"+ids.join('_'),true);
+        				});
+                	}else{
+                		layer.msg('存在角色不一致的菜单', {
+    						icon : 2
     					});
-    					layer.close(index);
-    				}, function() {
-    					deleteBatch(ids.join('_'));
-    				});
+                	}
                 }else{
-                	deleteBatch(ids.join('_'));
+                	if(authUser.roleId == dataRow.roleId){
+                		DELETE("/menu/"+ids.join('_'),true);
+                	}else{
+                		layer.msg('存在角色不一致的菜单', {
+    						icon : 2
+    					});
+                	}
                 }
             } else if (layEvent === 'edit') {
-            	openPopUp('修改','/admin/menu/edit');
+            	if(authUser.roleId == dataRow.roleId){
+            		openPopUp('修改','/admin/menu/edit');
+            	}else{
+            		layer.msg('存在角色不一致的菜单', {
+						icon : 2
+					});
+            	}
+            	
             }
         });
     });
     
-    function deleteBatch(ids){
-    	console.log(ids);
+    /* function deleteBatch(ids){
     	$.ajax({
  			url: "/menu/"+ids,
 		    type: "DELETE",
@@ -94,14 +115,13 @@
 		    	 	if(data.success){
 		    	 		indexHome(window).init();
 		    	 		initTreeTable();
-		    	 		layer.closeAll();
 		    	 		layer.msg(data.msg,{icon: 6, time: 2000});
 					}else{
 						layer.msg(data.msg,{icon: 5, time: 2000});
 					}
 		    }
 		}); 
-    }
+    } */
     
     //根据id得到对应的树结构数据
     function returnNodes(arr, id){
@@ -139,13 +159,17 @@
     	var treeArray = new Array();
     	$.each( $(".treeTable-icon"),function(){
       	   var tree = {};
+      	   console.log($(this).attr("lay-tpid"));
       	   tree.parentId = $(this).attr("lay-tpid");
       	   tree.id = $(this).attr("lay-tid");
       	   treeArray.push(tree);
          })
          arr = convert(treeArray);
     }
-    
+    //公用方法调用 
+    function flush(){
+    	initTreeTable();
+    }
     //加载数据
     function initTreeTable(){
     	treetable.render({
@@ -154,7 +178,7 @@
             treeIdName: 'id',
             treePidName: 'parentId',
             elem: '#munu-table',
-            url: '/menu/authMenuLists?uid=' + authUser.uid,
+            url: '/menu/authMenuLists?roleId=' + authUser.roleId,
             authorization:authorization,
             page: false,
             cols: [[
@@ -163,9 +187,11 @@
                 {field: 'url', title: '菜单url'},
                 {field: 'orderNum', width: 80, align: 'center', title: '排序号'},
                 {field: 'icon', width: 200, align: 'center', title: '图标'},
+                {field: 'createBy', width: 200, align: 'center', title: '创建者'},
                 {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
             ]],
-            done: function () {
+            done: function (res, curr, count) {
+            	objArr = res.data;
             	treeArrayF();
             	if(treeOpenOrClose){
         			treetable.expandAll('#munu-table');
@@ -175,6 +201,27 @@
                 layer.closeAll('loading');
             }
         });
+    }
+    function getRoleIdArr(objArr,ids){
+    	roleIdArr = [];
+    	$.each(ids,function(index,val){
+    		$.each(objArr,function(i,v){
+    			if(val == v.id){
+    				roleIdArr.push(v.roleId);
+    			}
+    		})
+    	})
+    	return roleIdArr;
+    }
+    
+    var isPower = function(roleIdArr,roleId){
+    	var is = true;
+    	$.each(roleIdArr,function(index,val){
+    		if(val != roleId){
+    			is = false;
+    		}
+    	})
+    	return is;
     }
     
     $("#btn-add").on('click',function(){

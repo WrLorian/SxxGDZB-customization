@@ -67,7 +67,7 @@
 
         <script type="text/html" id="currentTableBar">
             <a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-            <a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete"></a>
+            <a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete" title="删除"></a>
         </script>
 
     </div>
@@ -107,21 +107,22 @@ layui.use(['form', 'table'], function () {
         	var idArr = [];
         	$.each(data,function(index,xx){
         		idArr.push(xx.id);
-        		$.ajax({
+        		DELETE("/resource/menu/"+idArr.join(','));
+        		/* $.ajax({
          			url: "/resource/menu/"+idArr.join(','),
          			type : "DELETE",
         	　　		dataType : "json",
         	　　		contentType: "application/json;charset=utf-8",
     			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
     			    success:function(data){
-    			    	 	if(data.success){
-    			    	 		layer.msg("删除成功")
-    			    	 		flush(currentPage, jsonEntity);
-    						}else{
-    							layer.msg(data.msg);
-    						}
+   			    	 	if(data.success){
+   			    	 		layer.msg(data.msg)
+   			    	 		flush(currentPage, jsonEntity);
+   						}else{
+   							layer.msg(data.msg);
+   						}
     			    }
-    			 });
+    			 }); */
         	})
         }
     });
@@ -131,25 +132,24 @@ layui.use(['form', 'table'], function () {
             openPopUp('资源修改','/admin/resource/edit');
             return false;
         } else if (obj.event === 'delete') {
-            	$.ajax({
-         			url: "/resource/menu/"+dataRow.id,
-         			type : "DELETE",
-        	　　		dataType : "json",
-        	　　		contentType: "application/json;charset=utf-8",
-    			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-    			    success:function(data){
-    			    	 	if(data.success){
-    			    	 		layer.msg("删除成功")
-    			    	 		obj.del();
-    						}else{
-    							layer.msg(data.msg);
-    						}
-    			    }
-    			  	});
-            	
+        	DELETE("/resource/menu/"+dataRow.id);
+           	/* $.ajax({
+        			url: "/resource/menu/"+dataRow.id,
+        			type : "DELETE",
+	       	　　		dataType : "json",
+	       	　　		contentType: "application/json;charset=utf-8",
+	   			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+	   			    success:function(data){
+   			    	 	if(data.success){
+   			    	 		layer.msg(data.msg);
+   			    	 		obj.del();
+   						}else{
+   							layer.msg(data.msg);
+   						}
+	   			    }
+   			}); */
         }
     });
-	
 });
 
 function loadTickets(jsonEntity){

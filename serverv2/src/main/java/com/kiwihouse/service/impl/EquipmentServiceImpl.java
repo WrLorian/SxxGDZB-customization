@@ -18,9 +18,9 @@ import com.kiwihouse.common.customException.ParamException;
 import com.kiwihouse.common.utils.CodeTransferUtil;
 import com.kiwihouse.common.utils.GroupList;
 import com.kiwihouse.common.utils.RedisUtil;
-import com.kiwihouse.common.utils.TimeUtil;
 import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.dao.mapper.EquipmentMapper;
+import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.Eqpt4UpdateDto;
 import com.kiwihouse.dto.EqptInfoDto;
 import com.kiwihouse.dto.SiteDto;
@@ -105,10 +105,15 @@ public class EquipmentServiceImpl implements EquipmentService {
      * @return 是否更新成功
      */
 	@Override
-    public ResultList updateInfo(Eqpt4UpdateDto updateDto) {
+    public Response updateInfo(Eqpt4UpdateDto updateDto) {
         //1.如果code存在，判断该区域是否已存在，存在则将设备siteId改为该siteId，不存在则录入地址然后将设备siteId改为该新录入的siteId
         Eqpt4UpdateDto eqpt4UpdateDto = addSite(updateDto);
-        return ResultUtil.verifyUpdate(equipmentMapper.updateInfo(eqpt4UpdateDto));
+        Integer row = equipmentMapper.updateInfo(eqpt4UpdateDto);
+        if (null == row || row == 0) {
+        	return new Response().Success(Code.UPDATE_FAIL.getCode(), Code.UPDATE_FAIL.getMsg());
+        } else {
+        	return new Response().Success(Code.UPDATE_SUCCESS.getCode(), Code.UPDATE_SUCCESS.getMsg());
+        }
     }
 
     /**
@@ -119,19 +124,17 @@ public class EquipmentServiceImpl implements EquipmentService {
      */
 	@Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultList addInfo(EqptAddVo eqptAddVo) {
+    public Response addInfo(EqptAddVo eqptAddVo) {
 		if (eqptAddVo.getVoltage() != null && eqptAddVo.getVoltage() .equals("220")) {
             eqptAddVo.setEqptType(EqptTypeSta.DX);
         } else if (eqptAddVo.getVoltage()  != null && eqptAddVo.getVoltage() .equals("380")) {
             eqptAddVo.setEqptType(EqptTypeSta.SX);
         }
-		System.out.println(eqptAddVo);
         Integer row = equipmentMapper.addInfo(eqptAddVo);
         if (row == 0) {
-            return new ResultList(Code.ADD_FAIL.getCode(), Code.ADD_FAIL.getMsg(), null);
+        	return new Response().Success(Code.ADD_FAIL.getCode(), Code.ADD_FAIL.getMsg());
         } else {
-
-            return new ResultList(Code.ADD_SUCCESS.getCode(), Code.ADD_SUCCESS.getMsg(), null);
+        	return new Response().Success(Code.ADD_SUCCESS.getCode(), Code.ADD_SUCCESS.getMsg());
         }
     }
 
@@ -177,7 +180,7 @@ public class EquipmentServiceImpl implements EquipmentService {
      * @return 是否删除成功
      */
     @Override
-    public ResultList deleteInfo(String imeis, UserInfo userInfo) {
+    public Response deleteInfo(String imeis, UserInfo userInfo) {
     	String [] imeiArr = imeis.split("_");
 //    	if (!userInfo.isAdmin()) {
 //        	equipmentMapper.deleteBatch(aqptArr);
@@ -191,24 +194,24 @@ public class EquipmentServiceImpl implements EquipmentService {
 //        }
 //        return ResultUtil.verifyDelete(equipmentMapper.deleteInfo(eqptSns));
     	if (equipmentMapper.deleteBatch(imeiArr) > 0) {
-            return ResultUtil.resp(Code.DELETE_SUCCESS);
+    		return new Response().Success(Code.DELETE_SUCCESS.getCode(), Code.DELETE_SUCCESS.getMsg());
         }
-        return ResultUtil.resp(Code.DELETE_FAIL);
+        return new Response().Success(Code.DELETE_FAIL.getCode(), Code.DELETE_FAIL.getMsg());
 
     }
 
 	@Override
-	public ResultList selectOneInfo(EqptQueryVo eqptQueryVo) {
+	public Response selectOneInfo(EqptQueryVo eqptQueryVo) {
 		// TODO Auto-generated method stub
 		try {
 			EqptInfoDto eqpt = equipmentMapper.selectOneInfo(eqptQueryVo);
 			if(eqpt != null) {
-				return ResultUtil.respList(Code.QUERY_SUCCESS, eqpt);
+				return new Response().Success(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg()).addData("data", eqpt);
 			}
-			return ResultUtil.resp(Code.QUERY_NULL);
+			return new Response().Success(Code.QUERY_NULL.getCode(), Code.QUERY_NULL.getMsg());
 		} catch (Exception e) {
 			// TODO: handle exception
-			return ResultUtil.resp(Code.QUERY_FAIL);
+			return new Response().Success(Code.QUERY_FAIL.getCode(), Code.QUERY_FAIL.getMsg());
 		}
 		
 		

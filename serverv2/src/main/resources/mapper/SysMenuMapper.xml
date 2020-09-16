@@ -16,6 +16,7 @@
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="is_basic" jdbcType="VARCHAR" property="isBasic" />
   </resultMap>
   <sql id="Base_Column_List">
     menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, 
@@ -200,7 +201,7 @@
   <select id="getAuthMenuList" resultMap="BaseResultMap">
   		SELECT * FROM `sys_menu` 
   		WHERE id in(SELECT menu_id FROM auth_role_menu 
-  		WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = #{uid})) || is_basic > 0 
+  		WHERE visible > 0 AND role_id = #{roleId}) || is_basic > 0 
   </select>
   
   <update id="updateMenu" parameterType="com.kiwihouse.dao.entity.SysMenu">
@@ -212,7 +213,6 @@
         <if test="url!= null and url!= '' ">  
             url = #{url},  
         </if>
-        
             parent_id = #{parentId},  
         
         <if test="icon != null ">  
@@ -242,6 +242,12 @@
 	    </foreach>      
 	</update>
 	
-	
+	<delete id="deleteBatch">
+		delete from sys_menu where id in
+		<foreach item="id" collection="ids" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
 	
 </mapper>

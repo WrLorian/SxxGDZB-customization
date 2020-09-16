@@ -250,3 +250,107 @@ function oneNet(e){
 	    }
 	});
 }
+/*3:上报告警信息，4:上报系统参数*/
+var onenetVariable = function(imei,eqptType){
+	var e = {},r= {},array = new Array();
+	e.imei = imei;
+	r.reg_00 = 3;
+	e.register = r;
+	e.eqptType = eqptType;
+	array.push(e);
+	var e = {},r= {};
+	e.imei = imei;
+	r.reg_00 = 4;
+	e.register = r;
+	e.eqptType = eqptType;
+	array.push(e);
+	return array;
+}
+/***
+ * url ---> 路径
+ * isLeft --> 是否刷新左菜单	
+ * 
+ * 
+ ***/
+function DELETE(url,isLeft){
+	$.ajax({
+		url: url,
+		type : "DELETE",
+　　		dataType : "json",
+　　		contentType: "application/json;charset=utf-8",
+	    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+	    success:function(data){
+    	 	if(data.success){
+    	 		if(isLeft){
+    	 			indexHome(window).init();
+    	 			flush();
+    	 		}else{
+    	 			flush(currentPage, jsonEntity);
+    	 		}
+    	 		layer.msg(data.msg,{icon:6, time: 2000});
+			}else{
+				layer.msg(data.msg,{icon: 5, time: 2000});
+			}
+	    }
+	});
+}
+
+function UPDATE(url,parameterDate,isLeft){
+	$.ajax({
+		url: url,
+	    type: "PUT",
+	    data:JSON.stringify(parameterDate),
+	    dataType : "json",
+　　		contentType: "application/json;charset=utf-8",
+	    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+	    success:function(data){
+	    	 	if(data.success){
+	    	 		layer.msg(data.msg, {
+	    	 			icon: 6,
+	    	 			time: 1000 //2秒关闭（如果不配置，默认是3秒）
+    	 			}, function(){
+    	 				var iframeIndex = parent.layer.getFrameIndex(window.name);
+		    	 		parent.layer.close(iframeIndex);
+    	 				if(isLeft){
+    	 					indexHome(window).init();
+    	 					window.parent.flush();
+    	 				}else{
+    	 					window.parent.flush(window.parent.currentPage,window.parent.jsonEntity);
+    	 				}
+    	 			});
+				}else{
+					layer.msg(data.msg,{icon: 5, time: 2000});
+				}
+	    }
+	});
+}
+
+function ADD(url,parameterDate,isLeft){
+	$.ajax({
+			url: url,
+		    type: "POST",
+		    data:JSON.stringify(parameterDate),
+		    dataType : "json",
+	　　		contentType: "application/json;charset=utf-8",
+		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+		    success:function(data){
+	    	 	if(data.success){
+	    	 		layer.msg(data.msg, {
+	    	 			  icon: 6,
+	    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+	    	 			}, function(){
+	    	 				var iframeIndex = parent.layer.getFrameIndex(window.name);
+			    	 		parent.layer.close(iframeIndex);
+	    	 				if(isLeft){
+	    	 					indexHome(window).init();
+	    	 					window.parent.flush();
+	    	 				}else{
+	    	 					window.parent.flush(window.parent.currentPage,window.parent.jsonEntity);
+	    	 				}
+	    	 			}); 
+				}else{
+					layer.msg(data.msg,{icon: 5, time: 2000});
+				}
+		    }
+	});
+}

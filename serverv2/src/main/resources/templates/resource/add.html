@@ -74,28 +74,6 @@
         var form = layui.form,
             layer = layui.layer,
             $ = layui.$;
-        //加载信息
-        function init(){
-        	$.ajax({
-    			url: "/role/user/"+authUser.roleId,
-    			type : "POST",
-    	　　		dataType : "json",
-    	　　		contentType: "application/json;charset=utf-8",
-    		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
-    		    success:function(data){
-    		    	 	if(data.success){
-    		    	 		var html = "";
-    		    	 		data.data.listRole.forEach(function(item){
-    		    	 			html += "<option vaue="+item.CODE+"> "+item.CODE+" </option>"
-    		    	 		});
-    		    	 		$("#code").append(html);
-    		    	 		form.render();
-    					}else{
-    						layer.msg(data.msg);
-    					}
-    		    }
-    		});
-        }
         //监听提交
         form.on('submit(saveBtn)', function (data) {
         	if(data.field.status == "on"){

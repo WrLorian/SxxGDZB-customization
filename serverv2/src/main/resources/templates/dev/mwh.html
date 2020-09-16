@@ -527,30 +527,31 @@
 	　　		contentType: "application/json;charset=utf-8",
 		    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 		    success:function(data){
+		    	var vData = data.data.data;
 		    	if(data.code == 2000){
-		    		if(typeof(data.result.data.dataJson) != "undefined" && data.result.data.dataJson != null){
-		    			dataJson = JSON.parse(data.result.data.dataJson);
+		    		if(typeof(vData) != "undefined" && vData != null){
+		    			dataJson = JSON.parse(vData.dataJson);
 		    			if(eqptType != 2){
 		    				/*根据返回参数---> ID 设置value值*/
 		    				$.each(dataJson, function(key, val) {
 		    		        	$("#" + key).attr('data-value',val);
 		    		       });
 		    			}
-		    		}else if(data.result.data != null ){
-		    			$("#line_temp_01").data('value',data.result.data.lineTemp);
-			    		$("#leak_cur_01").data('value',data.result.data.leakCur);
-			    		$("#kwh_01").data('value',data.result.data.kwh);
-			    		$("#cur_01").data('va',data.result.data.curA)
-			    		$("#cur_01").data('vb',data.result.data.curB)
-			    		$("#cur_01").data('vc',data.result.data.curC)
-			    		$("#vol_01").data('va',data.result.data.volA)
-			    		$("#vol_01").data('vb',data.result.data.volB)
-			    		$("#vol_01").data('vc',data.result.data.volC)
-			    		$("#pwr_01").data('va',0 - data.result.data.pwrA)
-			    		$("#pwr_01").data('vb',0 - data.result.data.pwrB)
-			    		$("#pwr_01").data('vc',0 - data.result.data.pwrC)
+		    		}else if(vData != null ){
+		    			$("#line_temp_01").data('value',data.data.data.lineTemp);
+			    		$("#leak_cur_01").data('value',data.data.data.leakCur);
+			    		$("#kwh_01").data('value',data.data.data.kwh);
+			    		$("#cur_01").data('va',data.data.data.curA)
+			    		$("#cur_01").data('vb',data.data.data.curB)
+			    		$("#cur_01").data('vc',data.data.data.curC)
+			    		$("#vol_01").data('va',data.data.data.volA)
+			    		$("#vol_01").data('vb',data.data.data.volB)
+			    		$("#vol_01").data('vc',data.data.data.volC)
+			    		$("#pwr_01").data('va',0 - data.data.data.pwrA)
+			    		$("#pwr_01").data('vb',0 - data.data.data.pwrB)
+			    		$("#pwr_01").data('vc',0 - data.data.data.pwrC)
 			    		
-			    		$("#csq_01").data('value',data.result.data.csp)
+			    		$("#csq_01").data('value',data.data.data.csp)
 		    		}
 		    	}else{
 		    		 layer.msg('查询数据为空', {
@@ -586,19 +587,7 @@
 	}
 	/*点击刷新按钮--->上报*/
 	$(".layui-icon-refresh").on('click',function(){
-		var e = {},r= {},array = new Array();
-		e.imei = $("._imei").text();
-		e.eqptType = $("._eqptType").attr('data-type');
-		r.reg_00 = 3;
-		e.register = r;
-		array.push(e);
-		var e = {},r= {};
-		e.imei = $("._imei").text();
-		e.eqptType = $("._eqptType").attr('data-type');
-		r.reg_00 = 4;
-		e.register = r;
-		array.push(e);
-		oneNet(array);
+		oneNet(onenetVariable($("._imei").text(),$("._eqptType").attr('data-type')));
 	})
 	//监听浏览器大小变化重新渲染
 	window.onresize = function () {

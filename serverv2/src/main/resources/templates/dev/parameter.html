@@ -107,40 +107,40 @@
 		    <div class="layui-form-item">
 		        <label class="layui-form-label required">过流告警阈值</label>
 		        <div class="layui-input-block">
-		            <input type="text" name="curH" lay-reqtext="过流告警阈值不能为空" placeholder="请输入过流告警临界值，超过临界值，立即发送告警短息，告警记录将转为维修工单，以下设置同理" value="" class="layui-input">
+		            <input type="text" name="curH" lay-verify="required|numberIs" lay-reqtext="过流告警阈值不能为空" placeholder="请输入过流告警临界值，超过临界值，立即发送告警短息，告警记录将转为维修工单，以下设置同理" value="" class="layui-input">
 		        </div>
 		    </div>
 		   
 		    <div class="layui-form-item">
 		        <label class="layui-form-label required">漏电告警阈值</label>
 		        <div class="layui-input-block">
-		            <input type="text" name="leakH" lay-reqtext="漏电告警阈值不能为空" placeholder="请输入漏电告警临界值" value="" class="layui-input">
+		            <input type="text" name="leakH" lay-verify="required|numberIs" lay-reqtext="漏电告警阈值不能为空" placeholder="请输入漏电告警临界值" value="" class="layui-input">
 		        </div>
 		    </div>
 		    
 		    <div class="layui-form-item">
 			    <label class="layui-form-label required">过载告警阈值</label>
 			    <div class="layui-input-block">
-			      <input type="text" name="pwrH" lay-reqtext="过载告警阈值不能为空" placeholder="请输入过载告警功率临界值" value="" class="layui-input">
+			      <input type="text" name="pwrH" lay-verify="required|numberIs" lay-reqtext="过载告警阈值不能为空" placeholder="请输入过载告警功率临界值" value="" class="layui-input">
 			    </div>
 		    </div>
 			
 			<div class="layui-form-item">
 		        <label class="layui-form-label required">温升告警阈值</label>
 		        <div class="layui-input-block">
-		            <input type="text" name="tempH" lay-reqtext="温升告警阈值不能为空" placeholder="请输入输入温升告警临界值" value="" class="layui-input">
+		            <input type="text" name="tempH" lay-verify="required|numberIs" lay-reqtext="温升告警阈值不能为空" placeholder="请输入输入温升告警临界值" value="" class="layui-input">
 		        </div>
 		    </div>
 		    <div class="layui-form-item">
 		        <label class="layui-form-label required">过压告警阈值</label>
 		        <div class="layui-input-block">
-		            <input type="text" name="volH" lay-reqtext="过压告警阈值不能为空" placeholder="请输入过压告警临界值" value="" class="layui-input">
+		            <input type="text" name="volH" lay-verify="required|numberIs" lay-reqtext="过压告警阈值不能为空" placeholder="请输入过压告警临界值" value="" class="layui-input">
 		        </div>
 		    </div>
 		    <div class="layui-form-item">
 		        <label class="layui-form-label required">欠压告警阈值</label>
 		        <div class="layui-input-block">
-		            <input type="text" name="volL" lay-reqtext="欠压告警阈值不能为空" placeholder="请输入欠压告警临界值" value="" class="layui-input">
+		            <input type="text" name="volL" lay-verify="required|numberIs" lay-reqtext="欠压告警阈值不能为空" placeholder="请输入欠压告警临界值" value="" class="layui-input">
 		        </div>
 		    </div>
 		    <div class="layui-form-item" >
@@ -157,7 +157,8 @@
 
 <div th:include="include::footer"></div>
 <script>
-var dataRow = window.parent.dataRow;
+	var dataRow = window.parent.dataRow;
+	var formDATe;
     layui.use(['form','iconPickerFa','layarea','element'], function () {
         var form = layui.form,
         	element = layui.element;
@@ -167,7 +168,6 @@ var dataRow = window.parent.dataRow;
             $ = layui.$;
         form.verify({
         	oneToFourNine : function(value){
-        	console.log(parseFloat(value));
        		if(parseFloat(value)> 9999 || parseFloat(value) < 0 && value != null){
        			return '范围1-9999';
        		}
@@ -205,11 +205,30 @@ var dataRow = window.parent.dataRow;
     	　　		contentType: "application/json;charset=utf-8",
 			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
+			    	formDATe = data.data.data;
 			    	var custom_form = $("._dev_param")
-			        $.each(data.result.data, function(key, val) {
+			        $.each(formDATe, function(key, val) {
 			        	custom_form.find("[name='"+key+"']").val(val);
 			        });
 			    	form.render();
+			    }
+			});
+        	
+        	$.ajax({
+     			url: "/threshold/info",
+			    type: "GET",
+			    data:{'imei': dataRow.imei},
+			    dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+			    success:function(data){
+			    	if(data.code == 2000){
+			    		var custom_form = $("._dev_alarm_num")
+				        $.each(data.data.data[0], function(key, val) {
+				        	custom_form.find("[name='"+key+"']").val(val);
+				        });
+				    	form.render();
+			    	}
 			    }
 			});
         }
@@ -218,41 +237,30 @@ var dataRow = window.parent.dataRow;
         form.on('submit(devParamBtn)', function (data) {
            console.log(JSON.stringify(data.field));
            var entity = {};
-           entity.register = JSON.stringify(data.field);
-           entity.eqptType = dataRow.eqptType;
-           entity.imei = dataRow.imei;
-          /*   $.ajax({
-     			url: "/onenet/issuedList",
-			    type: "POST",
-			    data:JSON.stringify(data.field),
-			    dataType : "json",
-    	　　		contentType: "application/json;charset=utf-8",
-			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-			    success:function(data){
-			    	 	if(data.success){
-			    	 		layer.msg(data.msg, {
-   		    	 			  icon: 6,
-   		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
-   		    	 			}, function(){
-	   		    	 			indexHome(window).init();
-				    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
-				    	 		parent.layer.close(iframeIndex);
-   		    	 			}); 
-						}else{
-							layer.msg(data.msg,{icon: 5, time: 2000});
-						}
-			    }
-			}); */
-            
+           $.each(data.field, function(key, val) {
+	        	if( (val.length != 0 && formDATe[key] != null) && parseFloat(val) != parseFloat(formDATe[key]) ){
+	        		entity[key] = val;
+	        	}
+	        });
+           if(!$.isEmptyObject(entity)){
+               var e = {},r= {},array = new Array();
+	       		e.imei = dataRow.imei;
+	       		r.register = entity;
+	       		e.register = r;
+	       		e.eqptType = dataRow.eqptType;
+	       		array.push(e);
+                oneNet(array);
+                var iframeIndex = parent.layer.getFrameIndex(window.name);
+    	 		parent.layer.close(iframeIndex);
+           }
             return false;
         });
         
         form.on('submit(devAlarmNumBtn)', function (data) {
             data.field.eqptSn = dataRow.eqptSn;
-            console.log(JSON.stringify(data.field));
-           /*   $.ajax({
-      			url: "/onenet/issuedList",
- 			    type: "POST",
+           $.ajax({
+      			url: "/threshold/info",
+ 			    type: "PUT",
  			    data:JSON.stringify(data.field),
  			    dataType : "json",
      	　　		contentType: "application/json;charset=utf-8",
@@ -271,7 +279,7 @@ var dataRow = window.parent.dataRow;
  							layer.msg(data.msg,{icon: 5, time: 2000});
  						}
  			    }
- 			}); */
+ 			});
              
              return false;
          });

@@ -1,9 +1,6 @@
 package com.kiwihouse.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +16,9 @@ public class SysMenuServiceImpl implements SysMenuService{
 	@Autowired
 	AuthRoleMenuService authRoleMenuService;
 	@Override
-	public List<SysMenu> getAuthMenuList(Integer uid) {
+	public List<SysMenu> getAuthMenuList(Integer roleId) {
 		
-		return sysMenuMapper.getAuthMenuList(uid);
+		return sysMenuMapper.getAuthMenuList(roleId);
 	}
 
 	@Override
@@ -35,6 +32,8 @@ public class SysMenuServiceImpl implements SysMenuService{
 	public boolean updateBatchMenuByIds(String[] ids) {
 		// TODO Auto-generated method stub
 		int num = sysMenuMapper.updateBatchMenuByIds(ids);
+		//解除绑定
+		authRoleMenuService.deleteBatchByMenuId(ids);
         return num == 1? Boolean.TRUE : Boolean.FALSE;
 	}
 
@@ -44,6 +43,13 @@ public class SysMenuServiceImpl implements SysMenuService{
 		System.out.println("新添加的ID" + sysMenu.getId());
 		//将新增的菜单加至当前角色
 		authRoleMenuService.insertBatch(sysMenu.getRoleId(), sysMenu.getId().toString());
+        return num == 1? Boolean.TRUE : Boolean.FALSE;
+	}
+
+	@Override
+	public boolean deleteBatchMenuByIds(String[] idsStrArr) {
+		// TODO Auto-generated method stub
+		int num = authRoleMenuService.deleteBatch(idsStrArr);
         return num == 1? Boolean.TRUE : Boolean.FALSE;
 	}
 	 

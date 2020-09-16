@@ -12,6 +12,7 @@ import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.utils.TimeUtil;
 import com.kiwihouse.dao.mapper.ThreePhaseMeasureMapper;
 import com.kiwihouse.dao.mapper.ThreePhasePowerMapper;
+import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.ThreePhase.ThreePhaseMeasureDto;
 import com.kiwihouse.dto.ThreePhase.ThreePhasePowerDao;
 import com.kiwihouse.dto.ThreePhase.ThreePhasePowerDto;
@@ -34,10 +35,10 @@ public class ThreePhaseServiceImpl implements ThreePhaseService{
 	     * @return 三相列表
 	     */
 	    @Override
-	    public ResultList getMaxPowerList(ThreePhaseVo threePhaseVo) {
+	    public Response getMaxPowerList(ThreePhaseVo threePhaseVo) {
 
 	        if (!threePhaseVo.verifyDataType()) {
-	            return ResultUtil.paramsError("dataType参数不正确");
+	            return new Response().Fail(Code.VERIFY_FAIL, "dataType参数不正确");
 	        }
 
 	        List<String> dateList = null;
@@ -45,7 +46,7 @@ public class ThreePhaseServiceImpl implements ThreePhaseService{
 
 	        List<ThreePhasePowerDao> list = threePhasePowerMapper.getMaxPower(threePhaseVo);
 	        if (list.size() == 0) {
-	            return ResultUtil.queryNull();
+	            return new Response().Success(Code.QUERY_NULL, Code.QUERY_NULL.getMsg());
 	        }
 	        String dataBeginTime = list.get(0).getAddTime();
 	        String dataEndTime = list.get(list.size() - 1).getAddTime();
@@ -83,7 +84,15 @@ public class ThreePhaseServiceImpl implements ThreePhaseService{
 	            }
 	        });
 	        if (threePhaseVo.getDataType().equals("min")) {
-	            return ResultUtil.verifyQuery(tmpList, tmpList.size());
+	        	if (tmpList.isEmpty()) {
+	                return new Response().Success(Code.QUERY_NULL, Code.QUERY_NULL.getMsg());
+	            } else {
+	                if (tmpList.size() == 0) {
+	                	return new Response().Success(Code.EXECUTION_ERROR, Code.EXECUTION_ERROR.getMsg());
+	                } else {
+	                	return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", list);
+	                }
+	            }
 	        }
 	        for (String x : dateList) {
 	            double maxPower = 0;
@@ -100,8 +109,15 @@ public class ThreePhaseServiceImpl implements ThreePhaseService{
 	                ret.add(item);
 	            }
 	        }
-	        //Integer row = threePhaseMeasureMapper.GetListCount(threePhaseVo);
-	        return ResultUtil.verifyQuery(ret, ret.size());
+	        if (ret.isEmpty()) {
+	        	return new Response().Success(Code.QUERY_NULL, Code.QUERY_NULL.getMsg());
+	        } else {
+	            if (ret.size() == 0) {
+	            	return new Response().Success(Code.EXECUTION_ERROR, Code.EXECUTION_ERROR.getMsg());
+	            } else {
+	            	return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", list);
+	            }
+	        }
 	    }
 
 	    /**
@@ -111,16 +127,16 @@ public class ThreePhaseServiceImpl implements ThreePhaseService{
 	     * @return
 	     */
 	    @Override
-	    public ResultList getLastStatus(ReportedQueryVo queryVo) {
+	    public Response getLastStatus(ReportedQueryVo queryVo) {
 //	        if(!userInfo.isAdmin()){
 //	            queryVo.setAdminId("");
 //	            queryVo.setUserId(userInfo.getUserId());
 //	        }
 	        ThreePhaseMeasureDto dto = threePhaseMeasureMapper.getLastStatus(queryVo.getImei());
 	        if(dto == null) {
-	        	return new ResultList(Code.QUERY_NULL.getCode(), Code.QUERY_NULL.getMsg(), new Result<>(0, dto));
+	        	return new Response().Success(Code.QUERY_NULL, Code.QUERY_NULL.getMsg());
 	        }
-	        return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg(), new Result<>(1, dto));
+	        return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", dto);
 	    }
 
 	    /**

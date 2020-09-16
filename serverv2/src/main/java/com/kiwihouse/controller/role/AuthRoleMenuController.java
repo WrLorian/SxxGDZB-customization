@@ -53,9 +53,9 @@ public class AuthRoleMenuController extends BaseController{
     public Response addRoleMenu(@RequestBody AuthRoleMenu authRoleMenu ) {
         boolean flag = authRoleMenuService.insertBatch(authRoleMenu.getRoleId(),authRoleMenu.getIds());
         if (flag) {
-            return new Response().Success(6666, "add role success");
+            return new Response().Success(Code.ADD_SUCCESS, Code.ADD_SUCCESS.getMsg());
         } else {
-            return new Response().Fail(111, "add role fail");
+            return new Response().Fail(Code.ADD_FAIL, Code.ADD_FAIL.getMsg());
         }
     }
 	
@@ -64,9 +64,9 @@ public class AuthRoleMenuController extends BaseController{
     public Response updRoleMenu(@RequestBody AuthRoleMenu authRoleMenu ) {
         boolean flag = authRoleMenuService.update(authRoleMenu);
         if (flag) {
-            return new Response().Success(6666, "add role success");
+            return new Response().Success(Code.UPDATE_SUCCESS, Code.UPDATE_SUCCESS.getMsg());
         } else {
-            return new Response().Fail(111, "add role fail");
+            return new Response().Fail(Code.UPDATE_FAIL, Code.UPDATE_FAIL.getMsg());
         }
     }
 	
@@ -76,9 +76,9 @@ public class AuthRoleMenuController extends BaseController{
 		
         boolean flag = authRoleMenuService.deleteRoleMenuByRoleMenuId(roleIds,menuIds);
         if (flag) {
-            return new Response().Success(6666, "delete success");
+            return new Response().Success(Code.DELETE_SUCCESS, Code.DELETE_SUCCESS.getMsg());
         } else {
-            return new Response().Fail(1111, "delete fail");
+            return new Response().Fail(Code.DELETE_FAIL, Code.DELETE_FAIL.getMsg());
         }
     }
 }

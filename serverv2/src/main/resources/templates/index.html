@@ -144,7 +144,7 @@
             miniTongji = layui.miniTongji;
         miniAdmin = layui.miniAdmin;
         options = {
-            iniUrl: getRootPath() + "/menu/authMenuList?uid="+authUser.uid,    // 初始化接口
+            iniUrl: getRootPath() + "/menu/authMenuList?roleId="+authUser.roleId,    // 初始化接口
             clearUrl: "api/clear.json", // 缓存清理接口
             urlHashLocation: true,      // 是否打开hash定位
             bgColorDefault: false,      // 主题默认配置
@@ -208,6 +208,7 @@
 	function init(){
 		miniAdmin.render(options);
 	}
+	console.log(authUser);
 	//报警监听receive/latestalarm/info/30/1/1000
 	alarmMonitor();
 	function alarmMonitor(){

@@ -1,6 +1,6 @@
 package com.kiwihouse.service;
 
-import com.kiwihouse.vo.entire.ResultList;
+import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.vo.kiwihouse.ReportedQueryVo;
 import com.kiwihouse.vo.kiwihouse.ThreePhaseVo;
 
@@ -10,12 +10,12 @@ public interface ThreePhaseService {
 	 * @param reportedQueryVo
 	 * @return
 	 */
-	ResultList getLastStatus(ReportedQueryVo reportedQueryVo);
+	Response getLastStatus(ReportedQueryVo reportedQueryVo);
 	/**
 	 * 	查询三相信息
 	 * @param tpv
 	 * @return
 	 */
-	ResultList getMaxPowerList(ThreePhaseVo tpv);
+	Response getMaxPowerList(ThreePhaseVo tpv);
 
 }

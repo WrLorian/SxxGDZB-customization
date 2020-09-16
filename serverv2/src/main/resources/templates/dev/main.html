@@ -151,7 +151,7 @@ layui.use(['form', 'table','miniTab'], function () {
 	     	　　		contentType: "application/json;charset=utf-8",
 	 			    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
 	 			    success:function(data){
- 			    	 	if(data.code == 4000){
+ 			    	 	if(data.success){
  			    	 		layer.msg(data.msg);
  			    	 		location.reload();
  			    	 		/*刷新check_True*/
@@ -186,22 +186,7 @@ layui.use(['form', 'table','miniTab'], function () {
             }); 
             return false;
         } else if(obj.event === 'parameter'){//parameter;
-        
-        	var e = {},r= {},array = new Array();
-    		e.imei = dataRow.imei;
-    		r.register = 3;
-    		e.register = r;
-    		e.eqptType = dataRow.eqptType;
-    		array.push(e);
-    		var e = {},r= {};
-    		e.imei = dataRow.imei;
-    		r.register = 4;
-    		e.register = r;
-    		e.eqptType = dataRow.eqptType;
-    		array.push(e);
-    		oneNet(array);
-    		
-    		
+    		oneNet(onenetVariable(dataRow.imei,dataRow.eqptType));
         	openPopUp('添加','/admin/dev/parameter',60,80);
         } else if(obj.event === 'more'){
         	var options = {

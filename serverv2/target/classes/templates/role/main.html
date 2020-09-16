@@ -49,14 +49,14 @@
 </div>
 <div th:include="include::footer"></div>
 <script th:inline="none">
-var dataRow,table;
+var dataRow,table, currentPage,jsonEntity;
 layui.use(['form', 'table'], function () {
     var $ = layui.jquery,
         form = layui.form;
         table = layui.table;
-    var currentPage = 1;
+        currentPage = 1;
     /*请求参数*/
-    var jsonEntity = {};
+    jsonEntity = {};
     jsonEntity.roleId = authUser.roleId;
     loadTickets(jsonEntity);
     
@@ -103,7 +103,7 @@ layui.use(['form', 'table'], function () {
 		    success:function(data){
 		    	 	if(data.success){
 		    	 		var html = "";
-		    	 		data.data.listRole.forEach(function(item){
+		    	 		data.data.list.forEach(function(item){
 		    	 			html += "<option vaue="+item.CODE+"> "+item.CODE+" </option>"
 		    	 		});
 		    	 		$("#roleCode").append(html);
@@ -129,15 +129,6 @@ layui.use(['form', 'table'], function () {
         loadTickets(jsonEntity);
         return false;
     });
-    //刷新表格
-	function flush(currentPage, jsonEntity) {
-		table.reload('currentTableId', {
-			page : {
-				curr : currentPage
-			},
-			where : jsonEntity
-		});
-	}
     /**
      * toolbar监听事件
      */
@@ -152,30 +143,40 @@ layui.use(['form', 'table'], function () {
             	$.each(data,function(index,xx){
             		ids.push(xx.id);
             	})
-            	$.ajax({
+            	DELETE("/resourcerole/"+ids.join(','));
+            	/* $.ajax({
          			url: "/resourcerole/"+ids.join(','),
          			type : "DELETE",
         	　　		dataType : "json",
         	　　		contentType: "application/json;charset=utf-8",
     			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
     			    success:function(data){
-    			    	 	if(data.success){
-    			    	 		flush(currentPage, jsonEntity);
-    			    	 		layer.msg(data.msg, {
-      		    	 			  icon: 6,
-      		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
-      		    	 			}); 
-    						}else{
-    							layer.msg(data.msg,{icon: 5, time: 2000});
+   			    	 	if(data.success){
+   			    	 		flush(currentPage, jsonEntity);
+   			    	 		layer.msg(data.msg, {
+     		    	 			  icon: 6,
+     		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+     		    	 		}); 
+   						}else{
+   							layer.msg(data.msg,{icon: 5, time: 2000});
     					}
     			    }
-    			 });
+    			 }); */
             }
         }else if(obj.event === 'upd'){
         	openPopUp('修改','/admin/role/edit');
         }
     });
 });
+//刷新表格
+function flush(currentPage, jsonEntity) {
+	table.reload('currentTableId', {
+		page : {
+			curr : currentPage
+		},
+		where : jsonEntity
+	});
+}
 </script>
 
 </body>

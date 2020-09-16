@@ -22,7 +22,7 @@ public interface SysMenuMapper {
      * @param uid
      * @return
      */
-	List<SysMenu> getAuthMenuList(Integer uid);
+	List<SysMenu> getAuthMenuList(Integer roleId);
 	/**
 	 * 	修改菜单
 	 * @param sysMenu

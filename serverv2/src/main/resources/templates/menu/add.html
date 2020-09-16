@@ -56,35 +56,13 @@
 </div>
 <div th:include="include::footer"></div>
 <script>
-var dataRow = window.parent.dataRow;
-var menuTree = JSON.parse(localStorage.getItem('menuTree'));
+	var dataRow = window.parent.dataRow;
+	//var menuTree = JSON.parse(localStorage.getItem('menuTree'));
     layui.use(['form','iconPickerFa'], function () {
         var form = layui.form,
         	iconPickerFa = layui.iconPickerFa,
             layer = layui.layer,
             $ = layui.$;
-        //加载信息
-        function init(){
-        	$.ajax({
-    			url: "/role/user/"+authUser.roleId,
-    			type : "POST",
-    	　　		dataType : "json",
-    	　　		contentType: "application/json;charset=utf-8",
-    		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
-    		    success:function(data){
-    		    	 	if(data.success){
-    		    	 		var html = "";
-    		    	 		data.data.listRole.forEach(function(item){
-    		    	 			html += "<option vaue="+item.CODE+"> "+item.CODE+" </option>"
-    		    	 		});
-    		    	 		$("#code").append(html);
-    		    	 		form.render();
-    					}else{
-    						layer.msg(data.msg);
-    					}
-    		    }
-    		});
-        }
         form.on('switch(isRoot)', function(data){
         	if (this.checked) {
         		$("#parentTree").addClass('layui-hide');
@@ -126,7 +104,6 @@ var menuTree = JSON.parse(localStorage.getItem('menuTree'));
 		});
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-           
             if(data.field.isRoot == "on"){
             	data.field.parentId = 0;
             }else{
@@ -134,7 +111,8 @@ var menuTree = JSON.parse(localStorage.getItem('menuTree'));
             }
             data.field.roleId = authUser.roleId;
             data.field.createBy= authUser.username;
-            $.ajax({
+            ADD("/menu",data.field,true);
+            /* $.ajax({
      			url: "/menu",
 			    type: "POST",
 			    data:JSON.stringify(data.field),
@@ -142,25 +120,23 @@ var menuTree = JSON.parse(localStorage.getItem('menuTree'));
     	　　		contentType: "application/json;charset=utf-8",
 			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
-			    	 	if(data.success){
-			    	 		layer.msg(data.msg, {
-   		    	 			  icon: 6,
-   		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
-   		    	 			}, function(){
-	   		    	 			indexHome(window).init();
-				    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
-				    	 		parent.layer.close(iframeIndex);
-				    	 		window.parent.initTreeTable();
-   		    	 			}); 
-						}else{
-							layer.msg(data.msg,{icon: 5, time: 2000});
-						}
+		    	 	if(data.success){
+		    	 		layer.msg(data.msg, {
+  		    	 			  icon: 6,
+  		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+  		    	 			}, function(){
+   		    	 			indexHome(window).init();
+			    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
+			    	 		parent.layer.close(iframeIndex);
+			    	 		window.parent.initTreeTable();
+  		    	 			}); 
+					}else{
+						layer.msg(data.msg,{icon: 5, time: 2000});
+					}
 			    }
-			});
-            
+			}); */
             return false;
         });
-        
         $("#parentId").on('click',function(){
         	openPopUp('选择父节点','/admin/menu/tree',30,60);
         	form.render();

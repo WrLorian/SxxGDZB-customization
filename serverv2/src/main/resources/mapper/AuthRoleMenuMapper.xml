@@ -151,4 +151,11 @@
 		delete from auth_role_menu where role_id = #{roleId}
 	</delete>
 	
+	<delete id="deleteBatchByMenuId"> 
+        delete from auth_role_menu where menu_id in
+		<foreach item="menuId" collection="ids" open="(" separator=","
+			close=")">
+			#{menuId}
+		</foreach>
+	</delete>
 </mapper>

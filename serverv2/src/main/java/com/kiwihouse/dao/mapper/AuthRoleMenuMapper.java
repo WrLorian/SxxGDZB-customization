@@ -61,4 +61,10 @@ public interface AuthRoleMenuMapper {
 	 * @return
 	 */
 	int deleteByRole(Integer roleId);
+	/**
+	 * 根据MenuId批量删除
+	 * @param ids
+	 * @return
+	 */
+	int deleteBatchByMenuId(String[] ids);
 }

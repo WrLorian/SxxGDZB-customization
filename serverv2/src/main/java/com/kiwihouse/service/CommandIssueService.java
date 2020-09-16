@@ -67,6 +67,7 @@ public class CommandIssueService {
 //            }
             HashMap<String, Integer> hashMap = ReflectUtil.GetNoneEmptyFieldMap(commandVo.getRegister());
             String response = commandsIssued(hashMap, imei, commandVo.getEqptType());
+            System.out.println("response--------->" + response);
             map.put(imei, response);
         });
 

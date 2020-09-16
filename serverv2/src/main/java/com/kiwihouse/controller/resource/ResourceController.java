@@ -80,9 +80,9 @@ public class ResourceController extends BaseController {
         Boolean flag = resourceService.addMenu(menu);
         if (flag) {
         	filterChainManager.reloadFilterChain();
-            return new Response().Success(6666,"add menu success");
+            return new Response().Success(Code.ADD_SUCCESS,Code.ADD_SUCCESS.getMsg());
         } else {
-            return new Response().Fail(1111,"add menu fail");
+            return new Response().Fail(Code.ADD_FAIL,Code.ADD_FAIL.getMsg());
         }
     }
 
@@ -93,9 +93,9 @@ public class ResourceController extends BaseController {
         Boolean flag = resourceService.modifyMenu(menu);
         if (flag) {
         	filterChainManager.reloadFilterChain();
-            return new Response().Success(6666,"update menu success");
+            return new Response().Success(Code.UPDATE_SUCCESS,Code.UPDATE_SUCCESS.getMsg());
         } else {
-            return new Response().Fail(1111, "update menu fail");
+            return new Response().Fail(Code.UPDATE_FAIL, Code.UPDATE_FAIL.getMsg());
         }
     }
 
@@ -106,9 +106,9 @@ public class ResourceController extends BaseController {
         Boolean flag = resourceService.deleteBatch(menuIds);
         if (flag) {
         	filterChainManager.reloadFilterChain();
-            return new Response().Success(6666, "delete menu success");
+            return new Response().Success(Code.DELETE_SUCCESS, Code.DELETE_SUCCESS.getMsg());
         } else {
-            return new Response().Fail(1111, "delete menu fail");
+            return new Response().Fail(Code.DELETE_FAIL, Code.DELETE_FAIL.getMsg());
         }
     }
 

@@ -11,7 +11,7 @@ public interface SysMenuService {
 	 * @param uid
 	 * @return
 	 */
-	List<SysMenu> getAuthMenuList(Integer uid);
+	List<SysMenu> getAuthMenuList(Integer roleId);
 	/**
 	 * 	修改菜单
 	 * @param sysMenu
@@ -19,7 +19,7 @@ public interface SysMenuService {
 	 */
 	boolean updateMenu(SysMenu sysMenu);
 	/**
-	 * 删除菜单
+	 * 批量修改菜单
 	 * @param ids
 	 * @return
 	 */
@@ -30,6 +30,12 @@ public interface SysMenuService {
 	 * @return
 	 */
 	boolean insert(SysMenu sysMenu);
+	/**
+	 * 	批量删除菜单
+	 * @param idsStrArr
+	 * @return
+	 */
+	boolean deleteBatchMenuByIds(String[] idsStrArr);
 	
 
 }

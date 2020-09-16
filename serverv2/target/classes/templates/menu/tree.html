@@ -11,13 +11,12 @@
 </body>
 <div th:include="include::footer"></div>
 <script type="text/javascript">
-var dataRow = window.parent.dataRow;
-console.log(dataRow);
+	var dataRow = window.parent.dataRow;
 	layui.use(['tree', 'util'], function(){
 		  var tree = layui.tree
 		  ,layer = layui.layer
 		  ,util = layui.util;
-		 var menuTree = JSON.parse(localStorage.getItem('menuTree'));
+		  var menuTree = JSON.parse(localStorage.getItem('menuTree'));
 		  //仅节点左侧图标控制收缩
 		  tree.render({
 		    elem: '#menuTree'

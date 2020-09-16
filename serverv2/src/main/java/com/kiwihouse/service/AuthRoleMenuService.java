@@ -40,5 +40,16 @@ public interface AuthRoleMenuService {
 	 * @return
 	 */
 	boolean deleteRoleMenuByRoleMenuId(String roleId, String menuIds);
+	/**
+	 *  批量删除
+	 * @param idsStrArr
+	 * @return
+	 */
+	int deleteBatch(String[] idsStrArr);
+	/**
+	 * 
+	 * @param ids
+	 */
+	void deleteBatchByMenuId(String[] ids);
 
 }

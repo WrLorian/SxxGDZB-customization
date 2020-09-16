@@ -3,6 +3,7 @@ package com.kiwihouse.service;
 import java.text.ParseException;
 import java.util.Map;
 
+import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.AlmQueryVo;
 import com.kiwihouse.vo.kiwihouse.QueryPwrVo;
@@ -26,18 +27,18 @@ public interface ReportedInfoService {
 	 * @param queryPwrVo
 	 * @return
 	 */
-	ResultList queryPwr(QueryPwrVo queryPwrVo) throws ParseException;
+	Response queryPwr(QueryPwrVo queryPwrVo) throws ParseException;
 	/**
 	 * 	设备运行信息
 	 * @param reportedQueryVo
 	 * @return
 	 */
-	ResultList devRunInfo(ReportedQueryVo reportedQueryVo);
+	Response devRunInfo(ReportedQueryVo reportedQueryVo);
 	/**
 	 * 	火警设备告警信息
 	 * @param reportedQueryVo
 	 * @return
 	 */
-	ResultList devAlarmInfo(ReportedQueryVo reportedQueryVo);
+	Response devAlarmInfo(ReportedQueryVo reportedQueryVo);
 
 }

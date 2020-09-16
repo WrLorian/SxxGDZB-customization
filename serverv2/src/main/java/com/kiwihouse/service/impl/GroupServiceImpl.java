@@ -79,7 +79,7 @@ public class GroupServiceImpl implements GroupService{
     public Response addInfo(GroupAddVo groupAddVo) {
         //groupAddVo.setCron("ncron");
         groupAddVo.setAddTime(TimeUtil.getCurrentTime());
-        return new Response().Success(6666,"return a add success").addData("add",ResultUtil.verifyAdd(groupMapper.addInfo(groupAddVo)));
+        return new Response().Success(Code.ADD_SUCCESS,Code.ADD_SUCCESS.getMsg()).addData("add",ResultUtil.verifyAdd(groupMapper.addInfo(groupAddVo)));
     }
 
     /**

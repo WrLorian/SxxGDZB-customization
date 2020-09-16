@@ -71,7 +71,6 @@ public class SysMenu  extends BaseTreeNode implements Serializable{
      */
 	private String remark;
 
-
 	private String href;
 	
 	private String title;

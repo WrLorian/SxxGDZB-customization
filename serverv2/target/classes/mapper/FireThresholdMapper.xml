@@ -39,12 +39,12 @@
         from fire_threshold as fh
         left join equipment as e on fh.eqpt_sn=e.eqpt_sn
         <where>
-            <if test="eqptSn != null and eqptSn != ''">
-                and e.eqpt_sn = #{eqptSn}
+            <if test="imei != null and imei != ''">
+                and e.imei = #{imei}
             </if>
-            <if test="adminId!=null and adminId!=''">
+            <!-- <if test="adminId!=null and adminId!=''">
                 and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
-            </if>
+            </if> -->
         </where>
     </select>
     <select id="queryRow" parameterType="java.util.HashMap" resultType="java.lang.Integer">
@@ -52,12 +52,12 @@
         from fire_threshold as fh
         left join equipment as e on fh.eqpt_sn=e.eqpt_sn
         <where>
-            <if test="eqptSn != null and eqptSn != ''">
-                and e.eqpt_sn = #{eqptSn}
+            <if test="imei != null and imei != ''">
+                and e.imei = #{imei}
             </if>
-            <if test="adminId!=null and adminId!=''">
+           <!--  <if test="adminId!=null and adminId!=''">
                 and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
-            </if>
+            </if> -->
         </where>
     </select>
 

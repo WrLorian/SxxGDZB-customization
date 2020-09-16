@@ -22,6 +22,7 @@ import com.kiwihouse.common.bean.UserInfo;
 import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.dao.mapper.AuthUserMapper;
+import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.Eqpt4UpdateDto;
 import com.kiwihouse.dto.EqptInfoDto;
 import com.kiwihouse.service.CheckAdminService;
@@ -74,12 +75,9 @@ public class EquipmentController extends BaseController{
             httpMethod = "PUT")
     @ApiResponses(@ApiResponse(code = 0, message = "回调参数：只有code和msg,无具体数据result"))
     @PutMapping("/info")
-    public ResultList updateInfo(@RequestBody @Validated Eqpt4UpdateDto updateDto, HttpServletRequest request) {
+    public Response updateInfo(@RequestBody @Validated Eqpt4UpdateDto updateDto, HttpServletRequest request) {
         logger.info("更新设备信息>> {}", new Log().setIp(request.getRemoteAddr()).setMsg("更新设备信息").setParam(updateDto.toString()));
         String adminId = request.getHeader("dz-usr");
-//        if (!checkAdminService.isEqptBelong2admin(updateDto.getEqptId(), adminId)) {
-//            return new ResultList(Code.PRIVILEGE_FAIL.getCode(), "对设备Id为`" + updateDto.getEqptId() + "`的设备没有修改权限", null);
-//        }
         updateDto.setDoAdminId(adminId);
         return equipmentService.updateInfo(updateDto);
     }
@@ -90,7 +88,7 @@ public class EquipmentController extends BaseController{
             httpMethod = "POST")
     @ApiResponses(@ApiResponse(code = 0, message = "回调参数：只有code和msg,无具体数据result"))
     @PostMapping("/info")
-    public ResultList addInfo(@RequestBody @Validated EqptAddVo eqptAddVo, HttpServletRequest request) {
+    public Response addInfo(@RequestBody @Validated EqptAddVo eqptAddVo, HttpServletRequest request) {
         logger.info("录入设备信息>> {}", new Log().setIp(request.getRemoteAddr()).setMsg("添加设备信息").setParam(eqptAddVo.toString()));
         return equipmentService.addInfo(eqptAddVo);
     }
@@ -102,10 +100,10 @@ public class EquipmentController extends BaseController{
     @ApiResponses(@ApiResponse(code = 0, message = "回调参数：只有code和msg,无具体数据result"))
     @ApiImplicitParam(paramType = "path", name = "eqptSn", dataType = "String", required = true, value = "设备序列号")
     @DeleteMapping("/info/{imeis}")
-    public ResultList deleteInfo(@PathVariable String imeis, HttpServletRequest request) {
+    public Response deleteInfo(@PathVariable String imeis, HttpServletRequest request) {
         logger.info("删除设备信息>> {}", new Log().setIp(request.getRemoteAddr()).setMsg("删除设备信息").setParam(imeis));
         if (!checkAdminService.isEqptSnBelong2admin(imeis, request.getHeader("dz-usr"))) {
-            return new ResultList(Code.PRIVILEGE_FAIL.getCode(), "对设备sn为`" + imeis + "`的设备没有删除权限", null);
+        	return  new Response().Success(Code.PRIVILEGE_FAIL.getCode(), Code.PRIVILEGE_FAIL.getMsg());
         }
         return equipmentService.deleteInfo(imeis, new UserInfo(request));
     }
@@ -117,7 +115,7 @@ public class EquipmentController extends BaseController{
             httpMethod = "GET")
     @ApiResponses({@ApiResponse(code = 0, message = "回调参数", response = EqptInfoDto.class)})
     @GetMapping("/info/one")
-    public ResultList selectOneInfo(EqptQueryVo eqptQueryVo, HttpServletRequest request) {
+    public Response selectOneInfo(EqptQueryVo eqptQueryVo, HttpServletRequest request) {
         return equipmentService.selectOneInfo(eqptQueryVo);
     }
     

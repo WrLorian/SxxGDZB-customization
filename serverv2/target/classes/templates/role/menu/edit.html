@@ -140,16 +140,16 @@
     	　　		contentType: "application/json;charset=utf-8",
     		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
     		    success:function(data){
-    		    	 	if(data.success){
-    		    	 		var html = "";
-    		    	 		data.data.listRole.forEach(function(item){
-    		    	 			html += "<option value="+item.ID+"> "+item.CODE+" </option>"
-    		    	 		});
-    		    	 		$("#roleId").append(html);
-    		    	 		form.render();
-    					}else{
-    						layer.msg(data.msg,{icon: 5, time: 2000});
-    					}
+   		    	 	if(data.success){
+   		    	 		var html = "";
+   		    	 		data.data.list.forEach(function(item){
+   		    	 			html += "<option value="+item.ID+"> "+item.CODE+" </option>"
+   		    	 		});
+   		    	 		$("#roleId").append(html);
+   		    	 		form.render();
+   					}else{
+   						layer.msg(data.msg,{icon: 5, time: 2000});
+   					}
     		    }
     		});
         }
@@ -157,7 +157,8 @@
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             data.field.ids = $("#demo").attr('data-ids');
-            $.ajax({
+            UPDATE("/rolemenu",data.field);
+            /* $.ajax({
     			url: "/rolemenu",
     			type : "PUT",
     	　　		dataType : "json",
@@ -179,8 +180,7 @@
     						layer.msg(data.msg,{icon: 5, time: 2000});
     					}
     		    }
-    		});
-            
+    		}); */
             return false;
         });
     });

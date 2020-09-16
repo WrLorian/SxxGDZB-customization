@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.dao.entity.AuthRole;
 import com.kiwihouse.dao.entity.SysMenu;
 import com.kiwihouse.dao.mapper.SysDictionaryMapper;
@@ -39,10 +40,10 @@ public class SysMenuController {
 	@ApiOperation(value = "根据UID获取用户所属菜单显示在左侧导航栏", httpMethod = "GET",notes = "根据UID")
 	@PostMapping("/authMenuList")
 	@ResponseBody
-	public Response getAuthMenuList(Integer uid) {
+	public Response getAuthMenuList(Integer roleId) {
         List<SysMenu> treeNodes = new ArrayList<>();
         //得到左菜单
-        treeNodes = sysMenuService.getAuthMenuList(uid);
+        treeNodes = sysMenuService.getAuthMenuList(roleId);
         JSONObject jo = new JSONObject();
         JSONObject jo_1 = new JSONObject();
         //删除首页
@@ -68,12 +69,12 @@ public class SysMenuController {
 	@ApiOperation(value = "根据UID获取用户所属菜单", httpMethod = "GET",notes = "根据UID")
 	@PostMapping("/authMenuLists")
 	@ResponseBody
-	public Response getAuthMenuLists(Integer uid) {
+	public Response getAuthMenuLists(Integer roleId) {
 		Map<String, Object> map = new HashMap<String, Object>();
         List<SysMenu> treeNodes = new ArrayList<>();
         
         //得到左菜单
-        treeNodes = sysMenuService.getAuthMenuList(uid);
+        treeNodes = sysMenuService.getAuthMenuList(roleId);
         //treeNodes = TreeUtil.buildTreeBy2Loop(treeNodes,0);
         map.put("count",treeNodes.size());
         map.put("code",0);
@@ -88,24 +89,20 @@ public class SysMenuController {
 		System.out.println("ParentId------------>" + sysMenu.getParentId());
 		boolean flag = sysMenuService.updateMenu(sysMenu);
         if (flag) {
-            return new Response().Success(6666, "update success");
+            return new Response().Success(Code.UPDATE_SUCCESS, Code.UPDATE_SUCCESS.getMsg());
         } else {
-            return new Response().Fail(1111, "update fail");
+            return new Response().Fail(Code.UPDATE_FAIL, Code.UPDATE_FAIL.getMsg());
         }
     }
 	@ApiOperation(value = "删除菜单", httpMethod = "DELETE")
 	@DeleteMapping("{ids}")
     public Response deleteMenu(@PathVariable String ids) {
 		String [] idsStrArr = ids.split("_");
-		for(String str : idsStrArr) {
-			System.out.println(str.toString());
-		}
-		
 		boolean flag = sysMenuService.updateBatchMenuByIds(idsStrArr);
         if (flag) {
-            return new Response().Success(6666, "delete success");
+            return new Response().Success(Code.DELETE_SUCCESS, Code.DELETE_SUCCESS.getMsg());
         } else {
-            return new Response().Fail(1111, "delete fail");
+            return new Response().Fail(Code.DELETE_FAIL, Code.DELETE_FAIL.getMsg());
         }
     }
 	
@@ -115,9 +112,9 @@ public class SysMenuController {
 
         boolean flag = sysMenuService.insert(sysMenu);
         if (flag) {
-            return new Response().Success(6666, "add menu success");
+            return new Response().Success(Code.ADD_SUCCESS,Code.ADD_SUCCESS.getMsg());
         } else {
-            return new Response().Fail(111, "add menu fail");
+            return new Response().Fail(Code.ADD_FAIL,Code.ADD_FAIL.getMsg());
         }
     }
 }

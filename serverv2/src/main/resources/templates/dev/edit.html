@@ -146,12 +146,12 @@ var dataRow = window.parent.dataRow;
     	　　		contentType: "application/json;charset=utf-8",
     		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
     		    success:function(data){
-    		    	 		var html = "";
-    		    	 		data.data.forEach(function(item){
-    		    	 			html += "<option value="+item.groupId+"> "+item.groupName+" </option>"
-    		    	 		});
-    		    	 		$("#groupId").append(html);
-    		    	 		form.render();
+	    	 		var html = "";
+	    	 		data.data.forEach(function(item){
+	    	 			html += "<option value="+item.groupId+"> "+item.groupName+" </option>"
+	    	 		});
+	    	 		$("#groupId").append(html);
+	    	 		form.render();
     					
     		    }
     		});
@@ -184,7 +184,7 @@ var dataRow = window.parent.dataRow;
 	    	　　		contentType: "application/json;charset=utf-8",
 				    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 				    success:function(data){
-			    	 	if(data.code == 2000 && data.result.data[0].imei != dataRow.imei){
+			    	 	if(data.code == 2000 && data.data.data.imei != dataRow.imei){
 			    	 		falg = true;
 						}
 				    }
@@ -208,7 +208,7 @@ var dataRow = window.parent.dataRow;
 	    	　　		contentType: "application/json;charset=utf-8",
 				    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 				    success:function(data){
-				    	if(data.code == 2000 && data.result.data[0].eqptSn != dataRow.eqptSn){
+				    	if(data.code == 2000 && data.data.data.eqptSn != dataRow.eqptSn){
 			    	 		falg = true;
 						}
 				    }
