@@ -52,3 +52,105 @@
 2020-09-16 08:56:07.066 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: SELECT * from(SELECT g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE`, GROUP_CONCAT(e.eqpt_id SEPARATOR ',') as eqptIds from `group` as g LEFT join auth_role as a on g.role_id=a.ID INNER JOIN equipment as e on e.group_id = g.group_id WHERE g.role_id >= ? GROUP BY group_id ) as tem ORDER BY add_time desc limit ?,? 
 2020-09-16 08:56:07.066 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 100(String), 0(Integer), 10(Integer)
 2020-09-16 08:56:07.079 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 10
+2020-09-16 09:31:57.284 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==>  Preparing: select CONCAT(re.URI, "==",UCASE(re.method)) as url,GROUP_CONCAT(rol.CODE ORDER BY re.URI) as needRoles from auth_resource re LEFT JOIN auth_role_resource ro on re.id = ro.RESOURCE_ID LEFT JOIN auth_role rol on ro.ROLE_ID = rol.ID where re.type = 2 GROUP BY re.URI,re.ID 
+2020-09-16 09:31:57.303 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - ==> Parameters: 
+2020-09-16 09:31:57.329 DEBUG c.k.dao.mapper.AuthResourceMapper.selectRoleRules - <==      Total: 26
+2020-09-16 09:32:04.165 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-16 09:32:04.166 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-16 09:32:04.182 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 29
+2020-09-16 09:32:04.188 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-16 09:32:04.188 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-16 09:32:04.197 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-16 09:32:04.199 DEBUG c.k.d.mapper.ReportedInfoMapper.queryAlmInfo_COUNT - ==>  Preparing: SELECT count(0) FROM (SELECT t.alarm_id, t.alarm_msg, t.alarm_status, t.eqpt_sn, t.add_time, e.eqpt_type, e.user_id, e.site_id, e.eqpt_name, e.role_id, e.province, e.city, e.district, e.eqpt_addr, u.USERNAME, c.cts_name, c.phone AS ctsPhone FROM (SELECT alarm_id, alarm_msg, alarm_status, eqpt_sn, add_time FROM alarm_info WHERE alarm_type = 2 AND alarm_status = ?) t LEFT JOIN equipment AS e ON t.eqpt_sn = e.eqpt_sn LEFT JOIN auth_user AS u ON e.user_id = u.UID LEFT JOIN contacts AS c ON e.user_id = c.user_id WHERE t.alarm_msg LIKE '%2%' OR t.alarm_msg LIKE '%1%') t1 WHERE add_time BETWEEN ? AND ? 
+2020-09-16 09:32:04.199 DEBUG c.k.d.mapper.ReportedInfoMapper.queryAlmInfo_COUNT - ==> Parameters: 0(String), 2020-09-16 09:31:34(String), 2020-09-16 09:32:04(String)
+2020-09-16 09:32:04.464 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-16 09:32:04.465 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-16 09:32:04.479 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-16 09:32:04.726 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: SELECT count(*) from(SELECT g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE`, GROUP_CONCAT(e.eqpt_id SEPARATOR ',') as eqptIds from `group` as g LEFT join auth_role as a on g.role_id=a.ID INNER JOIN equipment as e on e.group_id = g.group_id WHERE g.role_id >= ? GROUP BY group_id ) as tem 
+2020-09-16 09:32:04.727 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 100(String)
+2020-09-16 09:32:04.739 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-16 09:32:04.740 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: SELECT * from(SELECT g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE`, GROUP_CONCAT(e.eqpt_id SEPARATOR ',') as eqptIds from `group` as g LEFT join auth_role as a on g.role_id=a.ID INNER JOIN equipment as e on e.group_id = g.group_id WHERE g.role_id >= ? GROUP BY group_id ) as tem ORDER BY add_time desc limit ?,? 
+2020-09-16 09:32:04.740 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 100(String), 0(Integer), 10(Integer)
+2020-09-16 09:32:04.756 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 10
+2020-09-16 09:32:07.647 DEBUG c.k.d.mapper.ReportedInfoMapper.queryAlmInfo_COUNT - <==      Total: 1
+2020-09-16 09:32:07.979 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==>  Preparing: update `group` set cron=? where group_id=? 
+2020-09-16 09:32:07.980 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==> Parameters: ncron(String), 63(String)
+2020-09-16 09:32:07.997 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - <==    Updates: 1
+2020-09-16 09:32:10.384 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==>  Preparing: update `group` set cron=? where group_id=? 
+2020-09-16 09:32:10.384 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==> Parameters: ncron(String), 63(String)
+2020-09-16 09:32:10.401 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - <==    Updates: 1
+2020-09-16 09:32:12.111 DEBUG c.k.d.mapper.ReportedInfoMapper.queryAlmInfo_COUNT - ==>  Preparing: SELECT count(0) FROM (SELECT t.alarm_id, t.alarm_msg, t.alarm_status, t.eqpt_sn, t.add_time, e.eqpt_type, e.user_id, e.site_id, e.eqpt_name, e.role_id, e.province, e.city, e.district, e.eqpt_addr, u.USERNAME, c.cts_name, c.phone AS ctsPhone FROM (SELECT alarm_id, alarm_msg, alarm_status, eqpt_sn, add_time FROM alarm_info WHERE alarm_type = 2 AND alarm_status = ?) t LEFT JOIN equipment AS e ON t.eqpt_sn = e.eqpt_sn LEFT JOIN auth_user AS u ON e.user_id = u.UID LEFT JOIN contacts AS c ON e.user_id = c.user_id WHERE t.alarm_msg LIKE '%2%' OR t.alarm_msg LIKE '%1%') t1 WHERE add_time BETWEEN ? AND ? 
+2020-09-16 09:32:12.112 DEBUG c.k.d.mapper.ReportedInfoMapper.queryAlmInfo_COUNT - ==> Parameters: 0(String), 2020-09-16 09:31:42(String), 2020-09-16 09:32:12(String)
+2020-09-16 09:32:12.172 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-16 09:32:12.172 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-16 09:32:12.187 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 29
+2020-09-16 09:32:12.188 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-16 09:32:12.188 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-16 09:32:12.200 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-16 09:32:12.228 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-16 09:32:12.229 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-16 09:32:12.240 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-16 09:32:12.388 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: SELECT count(*) from(SELECT g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE`, GROUP_CONCAT(e.eqpt_id SEPARATOR ',') as eqptIds from `group` as g LEFT join auth_role as a on g.role_id=a.ID INNER JOIN equipment as e on e.group_id = g.group_id WHERE g.role_id >= ? GROUP BY group_id ) as tem 
+2020-09-16 09:32:12.389 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 100(String)
+2020-09-16 09:32:12.402 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-16 09:32:12.403 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: SELECT * from(SELECT g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE`, GROUP_CONCAT(e.eqpt_id SEPARATOR ',') as eqptIds from `group` as g LEFT join auth_role as a on g.role_id=a.ID INNER JOIN equipment as e on e.group_id = g.group_id WHERE g.role_id >= ? GROUP BY group_id ) as tem ORDER BY add_time desc limit ?,? 
+2020-09-16 09:32:12.403 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 100(String), 0(Integer), 10(Integer)
+2020-09-16 09:32:12.418 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 10
+2020-09-16 09:32:15.529 DEBUG c.k.d.mapper.ReportedInfoMapper.queryAlmInfo_COUNT - <==      Total: 1
+2020-09-16 09:32:27.660 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - ==>  Preparing: select g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE` from `group` as g left join auth_role as a on g.role_id=a.ID WHERE g.group_name = ? 
+2020-09-16 09:32:27.660 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - ==> Parameters: zzzzz(String)
+2020-09-16 09:32:27.671 DEBUG com.kiwihouse.dao.mapper.GroupMapper.selectOneInfo - <==      Total: 1
+2020-09-16 09:32:27.686 DEBUG com.kiwihouse.dao.mapper.GroupMapper.updateGroup - ==>  Preparing: update `group` SET group_name=?, cron=? WHERE group_id=? 
+2020-09-16 09:32:27.686 DEBUG com.kiwihouse.dao.mapper.GroupMapper.updateGroup - ==> Parameters: zzzzz(String), 09 32 26 2 2,4 ?(String), 63(String)
+2020-09-16 09:32:27.704 DEBUG com.kiwihouse.dao.mapper.GroupMapper.updateGroup - <==    Updates: 1
+2020-09-16 09:32:27.705 DEBUG com.kiwihouse.dao.mapper.GroupMapper.updateEqpt - ==>  Preparing: update equipment SET group_id=?, role_id=? where group_id=? 
+2020-09-16 09:32:27.705 DEBUG com.kiwihouse.dao.mapper.GroupMapper.updateEqpt - ==> Parameters: 63(String), 100(String), 63(String)
+2020-09-16 09:32:27.722 DEBUG com.kiwihouse.dao.mapper.GroupMapper.updateEqpt - <==    Updates: 3
+2020-09-16 09:32:29.944 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: SELECT count(*) from(SELECT g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE`, GROUP_CONCAT(e.eqpt_id SEPARATOR ',') as eqptIds from `group` as g LEFT join auth_role as a on g.role_id=a.ID INNER JOIN equipment as e on e.group_id = g.group_id WHERE g.role_id >= ? GROUP BY group_id ) as tem 
+2020-09-16 09:32:29.944 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 100(String)
+2020-09-16 09:32:29.955 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-16 09:32:29.955 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: SELECT * from(SELECT g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE`, GROUP_CONCAT(e.eqpt_id SEPARATOR ',') as eqptIds from `group` as g LEFT join auth_role as a on g.role_id=a.ID INNER JOIN equipment as e on e.group_id = g.group_id WHERE g.role_id >= ? GROUP BY group_id ) as tem ORDER BY add_time desc limit ?,? 
+2020-09-16 09:32:29.955 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 100(String), 0(Integer), 10(Integer)
+2020-09-16 09:32:29.965 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 10
+2020-09-16 09:32:32.313 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==>  Preparing: update `group` set cron=? where group_id=? 
+2020-09-16 09:32:32.313 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==> Parameters: ncron(String), 63(String)
+2020-09-16 09:32:32.330 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - <==    Updates: 1
+2020-09-16 09:32:47.464 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==>  Preparing: update `group` set cron=? where group_id=? 
+2020-09-16 09:32:47.465 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==> Parameters: ncron(String), 63(String)
+2020-09-16 09:32:47.481 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - <==    Updates: 1
+2020-09-16 09:32:48.063 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==>  Preparing: update `group` set cron=? where group_id=? 
+2020-09-16 09:32:48.063 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==> Parameters: ncron(String), 63(String)
+2020-09-16 09:32:48.081 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - <==    Updates: 1
+2020-09-16 09:32:48.272 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==>  Preparing: update `group` set cron=? where group_id=? 
+2020-09-16 09:32:48.272 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==> Parameters: ncron(String), 63(String)
+2020-09-16 09:32:48.288 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - <==    Updates: 1
+2020-09-16 09:32:48.473 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==>  Preparing: update `group` set cron=? where group_id=? 
+2020-09-16 09:32:48.473 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==> Parameters: ncron(String), 63(String)
+2020-09-16 09:32:48.489 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - <==    Updates: 1
+2020-09-16 09:32:48.672 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==>  Preparing: update `group` set cron=? where group_id=? 
+2020-09-16 09:32:48.672 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==> Parameters: ncron(String), 63(String)
+2020-09-16 09:32:48.694 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - <==    Updates: 1
+2020-09-16 09:32:48.840 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==>  Preparing: update `group` set cron=? where group_id=? 
+2020-09-16 09:32:48.840 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==> Parameters: ncron(String), 63(String)
+2020-09-16 09:32:48.856 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - <==    Updates: 1
+2020-09-16 09:32:49.032 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==>  Preparing: update `group` set cron=? where group_id=? 
+2020-09-16 09:32:49.032 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - ==> Parameters: ncron(String), 63(String)
+2020-09-16 09:32:49.048 DEBUG com.kiwihouse.dao.mapper.KwhMgMapper.updateGroup - <==    Updates: 1
+2020-09-16 09:32:49.946 DEBUG c.k.d.mapper.ReportedInfoMapper.queryAlmInfo_COUNT - ==>  Preparing: SELECT count(0) FROM (SELECT t.alarm_id, t.alarm_msg, t.alarm_status, t.eqpt_sn, t.add_time, e.eqpt_type, e.user_id, e.site_id, e.eqpt_name, e.role_id, e.province, e.city, e.district, e.eqpt_addr, u.USERNAME, c.cts_name, c.phone AS ctsPhone FROM (SELECT alarm_id, alarm_msg, alarm_status, eqpt_sn, add_time FROM alarm_info WHERE alarm_type = 2 AND alarm_status = ?) t LEFT JOIN equipment AS e ON t.eqpt_sn = e.eqpt_sn LEFT JOIN auth_user AS u ON e.user_id = u.UID LEFT JOIN contacts AS c ON e.user_id = c.user_id WHERE t.alarm_msg LIKE '%2%' OR t.alarm_msg LIKE '%1%') t1 WHERE add_time BETWEEN ? AND ? 
+2020-09-16 09:32:49.946 DEBUG c.k.d.mapper.ReportedInfoMapper.queryAlmInfo_COUNT - ==> Parameters: 0(String), 2020-09-16 09:32:19(String), 2020-09-16 09:32:49(String)
+2020-09-16 09:32:50.019 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==>  Preparing: SELECT * FROM `sys_menu` WHERE id in(SELECT menu_id FROM auth_role_menu WHERE visible > 0 AND role_id in (SELECT ROLE_ID FROM auth_user_role WHERE USER_ID = ?)) || is_basic > 0 
+2020-09-16 09:32:50.020 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - ==> Parameters: 1(Integer)
+2020-09-16 09:32:50.034 DEBUG c.k.dao.mapper.SysMenuMapper.getAuthMenuList - <==      Total: 29
+2020-09-16 09:32:50.034 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==>  Preparing: select a.`VALUE` from sys_dictionary a where a.`KEY` = 'LOGO' 
+2020-09-16 09:32:50.034 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - ==> Parameters: 
+2020-09-16 09:32:50.046 DEBUG c.k.dao.mapper.SysDictionaryMapper.selectByKey - <==      Total: 1
+2020-09-16 09:32:50.094 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==>  Preparing: select UID, USERNAME, PASSWORD, SALT, REAL_NAME, AVATAR, PHONE, EMAIL, SEX, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_WHERE, IS_ADMIN, GROUP_IDS from auth_user where USERNAME = ? 
+2020-09-16 09:32:50.094 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - ==> Parameters: admin(String)
+2020-09-16 09:32:50.107 DEBUG c.k.dao.mapper.AuthUserMapper.selectByUsername - <==      Total: 1
+2020-09-16 09:32:50.458 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==>  Preparing: SELECT count(*) from(SELECT g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE`, GROUP_CONCAT(e.eqpt_id SEPARATOR ',') as eqptIds from `group` as g LEFT join auth_role as a on g.role_id=a.ID INNER JOIN equipment as e on e.group_id = g.group_id WHERE g.role_id >= ? GROUP BY group_id ) as tem 
+2020-09-16 09:32:50.458 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - ==> Parameters: 100(String)
+2020-09-16 09:32:50.471 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfoRow - <==      Total: 1
+2020-09-16 09:32:50.472 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==>  Preparing: SELECT * from(SELECT g.group_id, g.group_name, g.cron, g.role_id, g.add_time,a.`CODE`, GROUP_CONCAT(e.eqpt_id SEPARATOR ',') as eqptIds from `group` as g LEFT join auth_role as a on g.role_id=a.ID INNER JOIN equipment as e on e.group_id = g.group_id WHERE g.role_id >= ? GROUP BY group_id ) as tem ORDER BY add_time desc limit ?,? 
+2020-09-16 09:32:50.472 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - ==> Parameters: 100(String), 0(Integer), 10(Integer)
+2020-09-16 09:32:50.486 DEBUG com.kiwihouse.dao.mapper.GroupMapper.queryInfo - <==      Total: 10
+2020-09-16 09:32:53.377 DEBUG c.k.d.mapper.ReportedInfoMapper.queryAlmInfo_COUNT - <==      Total: 1

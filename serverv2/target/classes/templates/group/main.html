@@ -86,6 +86,7 @@ layui.use(['form', 'table'], function () {
         }
     });
     table.on('tool(currentTableFilter)', function (obj) {
+    	console.log(obj.tr.find('td').eq(8));
         dataRow = obj.data;
         if (obj.event === 'edit') {
             openPopUp('资源修改','/admin/group/edit');
@@ -125,6 +126,7 @@ layui.use(['form', 'table'], function () {
 				    	 		item.date = null;
 				    	 		item.time = '';
 				    	 		obj.update(item);
+				    	 		obj.tr.find('td').eq(8).find('a').eq(3).hide();
 							}else{
 								layer.msg(data.msg);
 							}
