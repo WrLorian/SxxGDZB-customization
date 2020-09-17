@@ -37,12 +37,12 @@
        url, 
        perms, icon, 
       create_by, create_time, update_by, 
-      update_time, remark)
+      update_time, remark,role_id)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
        #{url,jdbcType=VARCHAR}, 
        #{perms,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR},#{roleId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kiwihouse.dao.entity.SysMenu">
     insert into sys_menu
@@ -89,6 +89,9 @@
        <if test="isBasic != null">
         is_basic,
       </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -132,6 +135,9 @@
       </if>
       <if test="isBasic != null">
         #{isBasic,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -199,9 +205,16 @@
   </update>
   
   <select id="getAuthMenuList" resultMap="BaseResultMap">
-  		SELECT * FROM `sys_menu` 
-  		WHERE id in(SELECT menu_id FROM auth_role_menu 
-  		WHERE visible > 0 AND role_id = #{roleId}) || is_basic > 0 
+  		<if test="visible == 0">
+  			SELECT * FROM `sys_menu` 
+	  		WHERE id in(SELECT menu_id FROM auth_role_menu 
+	  		WHERE <!-- visible > 0 AND  -->role_id = #{roleId}) || is_basic > 0
+  		</if>
+  		<if test="visible == 1">
+  			SELECT * FROM `sys_menu` 
+	  		WHERE id in(SELECT menu_id FROM auth_role_menu 
+	  		WHERE role_id = #{roleId}) || is_basic > 0
+  		</if>
   </select>
   
   <update id="updateMenu" parameterType="com.kiwihouse.dao.entity.SysMenu">
@@ -229,22 +242,17 @@
 			#{id}
 		</foreach>
   </delete> -->
-   <!-- 批量更新 -->
-   <update id="updateBatchMenuByIds" >  
-	    <foreach collection="array" item="item" index="index" open="" close="" separator=";">
-	       UPDATE sys_menu
-	           <set>
-				visible = 0
-				</set>
-				<where>
-				ID = #{item}
-				</where>
-	    </foreach>      
+   <!-- 批量更新(删除) -->
+   <update id="updateBatchMenuByIds" parameterType="Integer">  
+   		UPDATE sys_menu set visible = #{visible} where ID in
+	    <foreach  collection="ids" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+	    </foreach>
 	</update>
 	
 	<delete id="deleteBatch">
 		delete from sys_menu where id in
-		<foreach item="id" collection="ids" open="(" separator=","
+		<foreach item="id" collection="array" open="(" separator=","
 			close=")">
 			#{id}
 		</foreach>

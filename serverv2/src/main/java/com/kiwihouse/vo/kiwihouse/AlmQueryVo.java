@@ -50,12 +50,10 @@ public class AlmQueryVo extends Basic {
     private String endTime;
 
     @ApiModelProperty(value = "页码",name = "page",example = "1")
-    @Min(value = 1,message = "page is more than 1")
-    private int page;
+    private Integer page;
 
     @ApiModelProperty(value = "每页条数",name = "limit",example = "10")
-    @Min(value = 1,message = "limit is more than 1")
-    private int limit;
+    private Integer limit;
 
     @ApiModelProperty(hidden = true)
     private String province;
@@ -63,4 +61,14 @@ public class AlmQueryVo extends Basic {
     private String city;
     @ApiModelProperty(hidden = true)
     private String district;
+    @ApiModelProperty(value = "imei",name = "imei")
+    private String imei;
+    /**
+     * 0  ---->默认倒叙
+     * 1  ---->正序
+     */
+    private Integer orderBy;
+    
+    
+    
 }

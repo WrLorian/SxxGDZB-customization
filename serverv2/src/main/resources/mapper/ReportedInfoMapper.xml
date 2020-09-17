@@ -51,7 +51,7 @@
     </select>
     <select id="queryAlmInfo" resultType="com.kiwihouse.dto.AlarmEqptDto"
             parameterType="com.kiwihouse.vo.kiwihouse.AlmQueryVo">
-        select * from (
+        <!-- select * from (
         select t.alarm_id,t.alarm_msg,t.alarm_status,t.eqpt_sn,t.add_time,
         e.eqpt_type,e.user_id,e.site_id,e.eqpt_name,e.role_id,e.province,e.city,e.district,e.eqpt_addr,
         u.USERNAME,
@@ -70,35 +70,45 @@
         left join auth_user as u on e.user_id=u.UID
         left join contacts as c on e.user_id=c.user_id
         where t.alarm_msg like '%2%' or t.alarm_msg like '%1%'
-        )t1
+        )t1 -->
+        SELECT ai.imei,ai.eqpt_sn,ai.alarm_msg,ai.alarm_id,e.province,e.district,e.city,e.eqpt_name,ai.add_time FROM alarm_info ai LEFT JOIN equipment e on e.imei = ai.imei
         <where>
-            <if test="roleId != null and roleId != ''">
-                and t1.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id
-                = #{roleId})
-            </if>
+        	(ai.alarm_msg like '%2%' or ai.alarm_msg like '%1%')
             <if test="eqptSn != null and eqptSn != ''">
-                and eqpt_sn=#{eqptSn}
+                and ai.eqpt_sn=#{eqptSn}
+            </if>
+            <if test="imei != null and imei != ''">
+                and ai.imei=#{imei}
             </if>
             <if test="province != null and province != ''">
-                and province=#{province}
+                and e.province=#{province}
             </if>
             <if test="city != null and city != ''">
-                and city=#{city}
+                and e.city=#{city}
             </if>
             <if test="district != null and district != ''">
-                and district=#{district}
+                and e.district=#{district}
             </if>
             <if test="address != null and address != ''">
-                and address like CONCAT('%',#{address},'%')
+                and e.address like CONCAT('%',#{address},'%')
             </if>
             <if test="userId != null and userId != ''">
-                and user_id=#{userId}
+                and ai.user_id=#{userId}
             </if>
             <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
-                and add_time between #{startTime} and #{endTime}
+                and ai.add_time between #{startTime} and #{endTime}
             </if>
         </where>
-        order by add_time desc
+        <if test="orderBy == 0">
+        	order by ai.add_time desc
+        </if>
+        <if test="orderBy == 1">
+        	order by ai.add_time
+        </if>
+        <if test="limit != null">
+        	limit #{page},#{limit}
+        </if>
+        
     </select>
 	<resultMap id="FirePwrDtoMap" type="com.kiwihouse.dto.FirePwrDto">
 	 	<result column="pwr_msg" jdbcType="VARCHAR" property="pwrMsg"/>
@@ -125,33 +135,14 @@
         order by add_time
     </select>
 	<select id="queryAlmInfoCount" resultType="Integer" parameterType="com.kiwihouse.vo.kiwihouse.AlmQueryVo">
-		select count(*) from (
-        select t.alarm_id,t.alarm_msg,t.alarm_status,t.eqpt_sn,t.add_time,
-        e.eqpt_type,e.user_id,e.site_id,e.eqpt_name,e.role_id,e.province,e.city,e.district,e.eqpt_addr,
-        u.USERNAME,
-        c.cts_name,c.phone as ctsPhone
-        from (
-        select alarm_id,alarm_msg,alarm_status,eqpt_sn,add_time
-        from alarm_info
-        <where>
-            alarm_type=2
-            <if test="alarmStatus != null and alarmStatus != ''">
-                and alarm_status =#{alarmStatus}
+		select count(*) from alarm_info
+		<where>
+			(alarm_msg like '%2%' or alarm_msg like '%1%')
+			<if test="eqptSn != null and eqptSn != ''">
+                 and eqpt_sn like CONCAT('%',#{eqptSn},'%')
             </if>
-        </where>
-        )t
-        left join equipment as e on t.eqpt_sn=e.eqpt_sn
-        left join auth_user as u on e.user_id=u.UID
-        left join contacts as c on e.user_id=c.user_id
-        where t.alarm_msg like '%2%' or t.alarm_msg like '%1%'
-        )t1
-        <where>
-            <if test="roleId != null and roleId != ''">
-                and t1.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id
-                = #{roleId})
-            </if>
-            <if test="eqptSn != null and eqptSn != ''">
-                and eqpt_sn=#{eqptSn}
+            <if test="imei != null and imei != ''">
+                and ai.imei=#{imei}
             </if>
             <if test="province != null and province != ''">
                 and province=#{province}
@@ -165,14 +156,11 @@
             <if test="address != null and address != ''">
                 and address like CONCAT('%',#{address},'%')
             </if>
-            <if test="userId != null and userId != ''">
-                and user_id=#{userId}
+            <if test="imei != null and imei != ''">
+                and imei like CONCAT('%',#{imei},'%')
             </if>
-            <if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
-                and add_time between #{startTime} and #{endTime}
-            </if>
-        </where>
-        order by add_time desc
+		</where>
+		ORDER BY alarm_id
 	</select>
 	
 	<select id="devRunInfo" resultType="com.kiwihouse.dto.ReportedDto"

@@ -21,7 +21,7 @@ public interface ReportedInfoService {
 	 * @param almQueryVo
 	 * @return
 	 */
-	ResultList  queryAlmInfo(AlmQueryVo almQueryVo);
+	Map<String, Object>  queryAlmInfo(AlmQueryVo almQueryVo);
 	/**
 	 * 	查询设备上报功率数据
 	 * @param queryPwrVo

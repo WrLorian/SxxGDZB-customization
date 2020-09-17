@@ -1,5 +1,6 @@
 package com.kiwihouse.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,41 +17,42 @@ public class SysMenuServiceImpl implements SysMenuService{
 	@Autowired
 	AuthRoleMenuService authRoleMenuService;
 	@Override
-	public List<SysMenu> getAuthMenuList(Integer roleId) {
+	public List<SysMenu> getAuthMenuList(Integer roleId,Integer visible) {
 		
-		return sysMenuMapper.getAuthMenuList(roleId);
+		return sysMenuMapper.getAuthMenuList(roleId, visible);
 	}
 
 	@Override
 	public boolean updateMenu(SysMenu sysMenu) {
 		// TODO Auto-generated method stub
 		 int num = sysMenuMapper.updateMenu(sysMenu);
-	     return num == 1? Boolean.TRUE : Boolean.FALSE;
+	     return num == 1 ? Boolean.TRUE : Boolean.FALSE;
 	}
 
 	@Override
-	public boolean updateBatchMenuByIds(String[] ids) {
-		// TODO Auto-generated method stub
-		int num = sysMenuMapper.updateBatchMenuByIds(ids);
-		//解除绑定
-		authRoleMenuService.deleteBatchByMenuId(ids);
-        return num == 1? Boolean.TRUE : Boolean.FALSE;
+	public boolean updateBatchMenuByIds(String[] ids,Integer visible) {
+		int num = sysMenuMapper.updateBatchMenuByIds(ids,visible);
+		//删除绑定数据
+		if(visible == 0) {
+			//authRoleMenuService.deleteBatchByMenuId(ids);
+		}
+        return num > 0 ? Boolean.TRUE : Boolean.FALSE;
 	}
 
 	@Override
 	public boolean insert(SysMenu sysMenu) {
 		int num = sysMenuMapper.insert(sysMenu);
-		System.out.println("新添加的ID" + sysMenu.getId());
 		//将新增的菜单加至当前角色
 		authRoleMenuService.insertBatch(sysMenu.getRoleId(), sysMenu.getId().toString());
-        return num == 1? Boolean.TRUE : Boolean.FALSE;
+        return num > 0 ? Boolean.TRUE : Boolean.FALSE;
 	}
 
 	@Override
 	public boolean deleteBatchMenuByIds(String[] idsStrArr) {
 		// TODO Auto-generated method stub
-		int num = authRoleMenuService.deleteBatch(idsStrArr);
-        return num == 1? Boolean.TRUE : Boolean.FALSE;
+//		int num = authRoleMenuService.deleteBatch(idsStrArr);
+		int num = sysMenuMapper.deleteBatch(idsStrArr);
+        return num > 0 ? Boolean.TRUE : Boolean.FALSE;
 	}
 	 
 	

@@ -89,22 +89,15 @@ public class FireDevReportedInfoController extends BaseController{
             httpMethod = "GET")
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = AlarmEqptDto.class)})
     @GetMapping(value = "/alarm/info")
-    public  Map<String, Object>  queryAlmInfo(@Validated AlmQueryVo almQueryVo, HttpServletRequest request) {
+    public  Map<String, Object>  queryAlmInfo(@Validated AlmQueryVo almQueryVo ,HttpServletRequest request) {
         //checkAdminService.verifyAdminId(request.getHeader("dz-usr"), almQueryVo);
-    	ResultList resultList =  reportedInfoService.queryAlmInfo(almQueryVo);
-    	if(resultList.getResult() != null) {
-    		map.put("data", resultList.getResult().getData());
-    		map.put("code", 0);
-    		map.put("count", resultList.getResult().getRow());
-    		map.put("msg",Code.QUERY_SUCCESS);
-    	}else {
-    		return putMsgToJsonString(0, Code.QUERY_NULL.getMsg(), 0, null);
-    	}
     	try {
-    		
+    		map =  reportedInfoService.queryAlmInfo(almQueryVo);
+    		map.put("code", 0);
+    		map.put("msg",Code.QUERY_SUCCESS);
 		} catch (Exception e) {
 			// TODO: handle exception
-			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
+			return putMsgToJsonString(0, Code.QUERY_NULL.getMsg(), 0, null);
 		}
         return map;
     }

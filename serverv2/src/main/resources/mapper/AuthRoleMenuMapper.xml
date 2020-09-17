@@ -153,7 +153,7 @@
 	
 	<delete id="deleteBatchByMenuId"> 
         delete from auth_role_menu where menu_id in
-		<foreach item="menuId" collection="ids" open="(" separator=","
+		<foreach item="menuId" collection="array" open="(" separator=","
 			close=")">
 			#{menuId}
 		</foreach>

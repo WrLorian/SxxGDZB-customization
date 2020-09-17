@@ -43,7 +43,7 @@ public class SysMenuController {
 	public Response getAuthMenuList(Integer roleId) {
         List<SysMenu> treeNodes = new ArrayList<>();
         //得到左菜单
-        treeNodes = sysMenuService.getAuthMenuList(roleId);
+        treeNodes = sysMenuService.getAuthMenuList(roleId,0);
         JSONObject jo = new JSONObject();
         JSONObject jo_1 = new JSONObject();
         //删除首页
@@ -66,7 +66,7 @@ public class SysMenuController {
 		return new Response().Success(6666,"return menu list success").addData("menuTree",jo);
 	}
 	
-	@ApiOperation(value = "根据UID获取用户所属菜单", httpMethod = "GET",notes = "根据UID")
+	@ApiOperation(value = "根据UID获取用户所属菜单 --->包括已删除的菜单", httpMethod = "GET",notes = "根据UID")
 	@PostMapping("/authMenuLists")
 	@ResponseBody
 	public Response getAuthMenuLists(Integer roleId) {
@@ -74,7 +74,7 @@ public class SysMenuController {
         List<SysMenu> treeNodes = new ArrayList<>();
         
         //得到左菜单
-        treeNodes = sysMenuService.getAuthMenuList(roleId);
+        treeNodes = sysMenuService.getAuthMenuList(roleId,1);
         //treeNodes = TreeUtil.buildTreeBy2Loop(treeNodes,0);
         map.put("count",treeNodes.size());
         map.put("code",0);
@@ -86,7 +86,6 @@ public class SysMenuController {
 	@ApiOperation(value = "更新菜单", httpMethod = "PUT")
     @PutMapping("")
     public Response updateMenu(@RequestBody SysMenu sysMenu) {
-		System.out.println("ParentId------------>" + sysMenu.getParentId());
 		boolean flag = sysMenuService.updateMenu(sysMenu);
         if (flag) {
             return new Response().Success(Code.UPDATE_SUCCESS, Code.UPDATE_SUCCESS.getMsg());
@@ -98,7 +97,8 @@ public class SysMenuController {
 	@DeleteMapping("{ids}")
     public Response deleteMenu(@PathVariable String ids) {
 		String [] idsStrArr = ids.split("_");
-		boolean flag = sysMenuService.updateBatchMenuByIds(idsStrArr);
+		boolean flag = sysMenuService.deleteBatchMenuByIds(idsStrArr);
+//		boolean flag = sysMenuService.updateBatchMenuByIds(idsStrArr,0);
         if (flag) {
             return new Response().Success(Code.DELETE_SUCCESS, Code.DELETE_SUCCESS.getMsg());
         } else {
@@ -117,4 +117,16 @@ public class SysMenuController {
             return new Response().Fail(Code.ADD_FAIL,Code.ADD_FAIL.getMsg());
         }
     }
+	
+//	@ApiOperation(value = "恢复菜单", httpMethod = "POST")
+//    @PutMapping("/recover/{ids}")
+//    public Response recover(@PathVariable String ids) {
+//		String [] idsStrArr = ids.split("_");
+//        boolean flag = sysMenuService.updateBatchMenuByIds(idsStrArr,1);
+//        if (flag) {
+//            return new Response().Success(Code.RECOVER_SUCCESS,Code.RECOVER_SUCCESS.getMsg());
+//        } else {
+//            return new Response().Fail(Code.RECOVER_FAIL,Code.RECOVER_FAIL.getMsg());
+//        }
+//    }
 }

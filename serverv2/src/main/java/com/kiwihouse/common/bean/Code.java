@@ -93,8 +93,10 @@ public enum Code {
 
     ONLINE(9000,"设备在线"),
     NOTONLINE(9001,"设备不在线"),
-    DEVICEID_INEXISTENCE(9002,"deviceId不存在");
+    DEVICEID_INEXISTENCE(9002,"deviceId不存在"),
 
+    RECOVER_SUCCESS(8090,"恢复成功"),
+    RECOVER_FAIL(8091,"恢复失败");
     //枚举的属性字段必须是私有且不可变
     private final int code;
     private final String msg;

@@ -135,4 +135,10 @@ public interface AuthUserMapper {
 	 * @return
 	 */
 	List<Map<String, Integer>> queryAuthUserByRoleUserId(Integer userId, Integer roleId);
+	/**
+	 * 用户联系人
+	 * @param userPhone
+	 * @return
+	 */
+	List<String> queryCtsPhone(String userPhone);
 }

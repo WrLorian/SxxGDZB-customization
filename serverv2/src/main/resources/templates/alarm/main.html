@@ -34,7 +34,6 @@
 						      </select>
 						    </div>
 						  </div>
-						
                     	<div class="layui-inline">
                             <div class="layui-input-inline">
                                 <input type="text" name="eqptAddr" autocomplete="off" class="layui-input" placeholder="设备地址">
@@ -51,42 +50,17 @@
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <div class="layui-input-inline">
-                                <input type="text" name="eqptName" autocomplete="off" class="layui-input" placeholder="设备名称">
-                            </div>
-                        </div>
-<!--                         <div class="layui-inline">
-                            <div class="layui-input-inline">
-                                <input type="text" name="classify" autocomplete="off" class="layui-input" placeholder="用户手机号">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <div class="layui-input-inline">
-                                <input type="text" name="classify" autocomplete="off" class="layui-input" placeholder="设备分组">
-                            </div>
-                        </div>
- -->                        <div class="layui-inline">
                             <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
                         </div>
                     </div>
                 </form>
             </div>
         </fieldset>
-
-        <script type="text/html" id="toolbarDemo">
-            <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
-                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
-            </div>
-        </script>
-
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-			<a class="layui-icon layui-icon-slider" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="parameter"  title="设备参数"></a>
-			<a class="fa fa-ellipsis-h" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="more"  title="更多"></a>
-			<a class="fa fa-paper-plane-o" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="tailAfter"  title="功率跟踪"></a>
+            <a class="layui-icon layui-icon-edit" style="font-size: 20px; color: #1E9FFF;cursor: pointer;" lay-event="maintain" title="转为维修工单"></a>
+			<a class="layui-icon layui-icon-slider" style="font-size: 20px; color: #1E9FFF;cursor: pointer;" lay-event="sendAlarm"  title="发送手机警告"></a>
         </script>
 
     </div>
@@ -119,77 +93,57 @@ layui.use(['form', 'table','miniTab'], function () {
          loadTable(jsonEntity);
          return false;
      });
-     
-    /**
-     * toolbar监听事件
-     */
-    table.on('toolbar(currentTableFilter)', function (obj) {
-        if (obj.event === 'add') {  // 监听添加操作
-        	openPopUp('添加','/admin/dev/add',60,80);
-        } else if (obj.event === 'delete') {  // 监听删除操作
-        	console.log(obj);
-        	var checkStatus = table.checkStatus('currentTableId')
-            , data = checkStatus.data;
-	    	var imeis = [];
-	    	for (var i = 0; i < check_True.length; i++) {
-	    		imeis.push(check_True[i].imei);
-			}
-	    	if(imeis.length > 0){
-	    		$.ajax({
-	      			url: "/equipment/info/" + imeis.join('_'),
-	      			type : "DELETE",
-	     	　　		dataType : "json",
-	     	　　		contentType: "application/json;charset=utf-8",
-	 			    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
-	 			    success:function(data){
- 			    	 	if(data.code == 4000){
- 			    	 		layer.msg(data.msg);
- 			    	 		location.reload();
- 			    	 		/*刷新check_True*/
- 			    	 		check_True = new Array();
- 						}else{
- 							layer.msg(data.msg);
- 						}
-	 			    }
-	 			  });
-	 			  
-	 			
-	    	}else{
-	    		layer.msg("请选择要删除的设备");
-	    	}
-        }
-    });
     /*监听复选框*/
     table.on('checkbox(currentTableFilter)', function(obj) {
     	checkboxMonitor(obj);
 	});
     table.on('tool(currentTableFilter)', function (obj) {
     	dataRow = obj.data;
-        if (obj.event === 'edit') {
-            var index = layer.open({
-                title: '修改设备',
-                type: 2,
-                shade: 0.2,
-                maxmin:true,
-                shadeClose: true,
-                area: ['60%', '80%'],
-                content: '/admin/dev/edit',
-            }); 
+    	console.log(dataRow)
+    	var alarmJson = JSON.parse(dataRow.almValue.vol);
+    	console.log(alarmJson.msg)
+        if (obj.event === 'maintain') {
+        	$.ajax({
+     			url: "/maintain/info/" + dataRow.alarmId +"/"+ dataRow.eqptSn + "/" + (parseInt(dataRow.eqptType) + 1),
+    		    type: "POST",
+    		    dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+    		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+    		    success:function(data){
+    		    	 	if(data.success){
+    		    	 		indexHome(window).init();
+    		    	 		initTreeTable();
+    		    	 		layer.msg(data.msg,{icon: 6, time: 2000});
+    					}else{
+    						layer.msg(data.msg,{icon: 5, time: 2000});
+    					}
+    		    }
+    		})
             return false;
-        } else if(obj.event === 'parameter'){//parameter;
-        	openPopUp('添加','/admin/dev/parameter',60,80);
-        } else if(obj.event === 'more'){
-        	var options = {
-        			href:'/admin/dev/mwh?imei=' + obj.data.imei,
-        			title:'设备读数'
-        	};
-        	miniTab.openNewTabByIframe(options);
-        } else if(obj.event === 'tailAfter'){
-        	var options = {
-        			href:'/admin/dev/tail_after?imei=' + obj.data.imei,
-        			title:'功率追踪'
-        	};
-        	miniTab.openNewTabByIframe(options);
+        }else if(obj.event === 'sendAlarm'){
+        	var arr = new Array();
+        	var alarmEntity = {};
+        	alarmEntity.almMsg = alarmJson.msg;
+        	alarmEntity.eqptSn = dataRow.eqptSn;
+        	alarmEntity.phone = dataRow.ctsPhone;
+        	arr.push(alarmEntity); 
+        	$.ajax({
+     			url: "/sms/sender/",
+    		    type: "POST",
+    		    dataType : "json",
+    		    data : JSON.stringify(arr),
+    	　　		contentType: "application/json;charset=utf-8",
+    		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+    		    success:function(data){
+    		    	 	if(data.success){
+    		    	 		indexHome(window).init();
+    		    	 		initTreeTable();
+    		    	 		layer.msg(data.msg,{icon: 6, time: 2000});
+    					}else{
+    						layer.msg(data.msg,{icon: 5, time: 2000});
+    					}
+    		    }
+    		})
         }
     });
 	//便利省
@@ -231,7 +185,6 @@ function loadTable(jsonEntity){
         elem: '#currentTableId',
         url: getRootPath() + '/receive/alarm/info',
         headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
-        toolbar: '#toolbarDemo',
         where : jsonEntity,
         async : false,
         defaultToolbar: ['filter', 'exports', 'print', {
@@ -254,29 +207,26 @@ function loadTable(jsonEntity){
             {field: 'eqptName',  
              title: '名称'
 			 },
-			 {field: 'eqptType',  
+			 {field: 'almValue',  
 	          title: '告警内容',
+	          align: 'center',
 	          templet : function(row) {
-   				if (row.eqptType == 0)
-   				{
-   					return '用电设备';
-   				}else if(row.eqptType == 1){
-   					return '烟感设备';
-   				}else if(row.eqptType == 2){
-   					return '三相设备';
-   				}else{
-   					return '';
-   				}
-				
+	        	 if(typeof(row.almValue.vol) == 'undefined'){
+	        		 return '';
+	        	 }else{
+	        		 var alarmInfo = JSON.parse(row.almValue.vol);
+	    			 return '<i class="fa fa-warning" title=" '+alarmInfo.msg+' : '+alarmInfo.value+'" > </i>';
+	        	 }
+	        	 
 			   }
 			 },
-            {field: 'eqptStatus',  title: '告警状态', sort: true,align: 'center',
+            {field: 'alarmStatus',  title: '告警状态', sort: true,align: 'center',
 				 templet : function(row) {//layui-icon-rss
-	   				if (row.eqptStatus == 9000)
+	   				if (row.alarmStatus == 0)
 	   				{
-	   					return '<i class="fa fa-rss " style="color:green;font-size:24px;" title="在线"></i> ';
+	   					return '未处理';
 	   				}else{
-	   					return '<i class="fa fa-rss " style="font-size:24px;" title="离线"></i> ';
+	   					return '已处理';
 	   				}
 				}	 
             },

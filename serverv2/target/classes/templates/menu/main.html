@@ -103,8 +103,25 @@
             }
         });
     });
-    
-    /* function deleteBatch(ids){
+    /* function recover(){
+    	$.ajax({
+             			url: "/menu/recover/"+ids,
+            		    type: "PUT",
+            		    dataType : "json",
+            	　　		contentType: "application/json;charset=utf-8",
+            		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+            		    success:function(data){
+            		    	 	if(data.success){
+            		    	 		indexHome(window).init();
+            		    	 		initTreeTable();
+            		    	 		layer.msg(data.msg,{icon: 6, time: 2000});
+            					}else{
+            						layer.msg(data.msg,{icon: 5, time: 2000});
+            					}
+            		    }
+            		});
+    } */
+     /* function deleteBatch(ids){
     	$.ajax({
  			url: "/menu/"+ids,
 		    type: "DELETE",
@@ -183,12 +200,12 @@
             page: false,
             cols: [[
                 {type: 'numbers'},
-                {field: 'name', minWidth: 200, title: '菜单名称'},
+                {field: 'name',  title: '菜单名称'},
                 {field: 'url', title: '菜单url'},
-                {field: 'orderNum', width: 80, align: 'center', title: '排序号'},
-                {field: 'icon', width: 200, align: 'center', title: '图标'},
-                {field: 'createBy', width: 200, align: 'center', title: '创建者'},
-                {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
+                {field: 'orderNum', align: 'center', title: '排序号'},
+                {field: 'icon',  align: 'center', title: '图标'},
+                {field: 'createBy',  align: 'center', title: '创建者'},
+                {templet: '#auth-state', width: 180, align: 'center', title: '操作'}
             ]],
             done: function (res, curr, count) {
             	objArr = res.data;
