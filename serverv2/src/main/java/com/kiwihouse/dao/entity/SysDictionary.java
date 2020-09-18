@@ -6,6 +6,8 @@ public class SysDictionary {
     private String key;
 
     private String value;
+    
+    private String type;
 
     public Integer getId() {
         return id;
@@ -30,4 +32,13 @@ public class SysDictionary {
     public void setValue(String value) {
         this.value = value == null ? null : value.trim();
     }
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+    
 }

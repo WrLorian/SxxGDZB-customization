@@ -32,7 +32,6 @@ public interface MaintainMapper {
                          @Param("addTime") String addTime);
 
     //update
-    Integer updateAlmSta(@Param("alarmId") String alarmId,@Param("almSta") int almSta);
     Integer updateSmokeAlmSta(@Param("alarmId") String alarmId, @Param("almSta") int almSta);
 
     Integer updateMtInfo(MtUpdateVo mtUpdateVo);

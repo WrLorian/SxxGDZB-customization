@@ -13,9 +13,17 @@ import lombok.ToString;
 @Setter
 public class EqptTypeSta {
 
-
+	/**
+	 * 电感
+	 */
     public final static String DX = "0";
+    /**
+     * 烟感
+     */
     public final static String YG = "1";
+    /**
+     * 三相设备
+     */
     public final static String SX = "2";
 
 }

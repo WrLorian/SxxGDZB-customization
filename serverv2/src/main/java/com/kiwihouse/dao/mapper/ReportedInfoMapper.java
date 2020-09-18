@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.kiwihouse.dao.entity.Alarm;
 import com.kiwihouse.dto.AlarmEqptDto;
 import com.kiwihouse.dto.FirePwrDto;
 import com.kiwihouse.dto.ReportedDto;

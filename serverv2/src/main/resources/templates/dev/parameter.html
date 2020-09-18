@@ -206,6 +206,7 @@
 			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
 			    	formDATe = data.data.data;
+			    	console.log(formDATe);
 			    	var custom_form = $("._dev_param")
 			        $.each(formDATe, function(key, val) {
 			        	custom_form.find("[name='"+key+"']").val(val);
@@ -238,17 +239,22 @@
            console.log(JSON.stringify(data.field));
            var entity = {};
            $.each(data.field, function(key, val) {
-	        	if( (val.length != 0 && formDATe[key] != null) && parseFloat(val) != parseFloat(formDATe[key]) ){
+        	   if (typeof(formDATe[key]) == 'undefined' || formDATe[key] == null ){
+        		   formDATe[key] == '';
+ 	           }
+        	   if(parseFloat(val) != parseFloat(formDATe[key]) ){
+        		   
 	        		entity[key] = val;
 	        	}
 	        });
+           console.log(entity);
            if(!$.isEmptyObject(entity)){
-               var e = {},r= {},array = new Array();
+	       		var e = {},r= {},array = new Array();
 	       		e.imei = dataRow.imei;
-	       		r.register = entity;
-	       		e.register = r;
+	       		e.register = entity;
 	       		e.eqptType = dataRow.eqptType;
 	       		array.push(e);
+	       		
                 oneNet(array);
                 var iframeIndex = parent.layer.getFrameIndex(window.name);
     	 		parent.layer.close(iframeIndex);

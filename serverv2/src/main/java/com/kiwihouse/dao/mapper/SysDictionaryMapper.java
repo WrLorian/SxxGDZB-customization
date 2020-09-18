@@ -1,5 +1,8 @@
 package com.kiwihouse.dao.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import com.kiwihouse.dao.entity.SysDictionary;
 
 public interface SysDictionaryMapper {
@@ -20,4 +23,10 @@ public interface SysDictionaryMapper {
      * @return
      */
 	String selectByKey(String string);
+	/**
+	 * 根据类型查找字典
+	 * @param type
+	 * @return
+	 */
+	List<Map> selectByType(String type);
 }

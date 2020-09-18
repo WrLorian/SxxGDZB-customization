@@ -43,7 +43,7 @@ public class ReflectUtil {
      * @param object 属性为字符创的对象
      */
     public static HashMap<String,Integer> GetNoneEmptyFieldMap(Object object){
-
+    	
         HashMap<String,Integer> map = new HashMap<>();
         String[] fieldNames = getFiledName(object);
 

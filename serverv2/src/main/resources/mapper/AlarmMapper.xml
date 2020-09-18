@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.dao.mapper.AlarmMapper">
+  <resultMap id="BaseResultMap" type="com.kiwihouse.dao.entity.Alarm">
+    <id column="alarm_id" jdbcType="INTEGER" property="alarmId" />
+    <result column="alarm_msg" jdbcType="VARCHAR" property="alarmMsg" />
+    <result column="imei" jdbcType="VARCHAR" property="imei" />
+    <result column="eqpt_sn" jdbcType="VARCHAR" property="eqptSn" />
+    <result column="alarm_status" jdbcType="BIT" property="alarmStatus" />
+    <result column="alarm_type" jdbcType="BIT" property="alarmType" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    alarm_id, alarm_msg, imei, eqpt_sn, alarm_status, alarm_type, add_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from alarm
+    where alarm_id = #{alarmId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from alarm
+    where alarm_id = #{alarmId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kiwihouse.dao.entity.Alarm">
+    insert into alarm (alarm_id, alarm_msg, imei, 
+      eqpt_sn, alarm_status, alarm_type, 
+      add_time)
+    values (#{alarmId,jdbcType=INTEGER}, #{alarmMsg,jdbcType=VARCHAR}, #{imei,jdbcType=VARCHAR}, 
+      #{eqptSn,jdbcType=VARCHAR}, #{alarmStatus,jdbcType=BIT}, #{alarmType,jdbcType=BIT}, 
+      #{NEW(),jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kiwihouse.dao.entity.Alarm">
+    insert into alarm
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="alarmId != null">
+        alarm_id,
+      </if>
+      <if test="alarmMsg != null">
+        alarm_msg,
+      </if>
+      <if test="imei != null">
+        imei,
+      </if>
+      <if test="eqptSn != null">
+        eqpt_sn,
+      </if>
+      <if test="alarmStatus != null">
+        alarm_status,
+      </if>
+      <if test="alarmType != null">
+        alarm_type,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="alarmId != null">
+        #{alarmId,jdbcType=INTEGER},
+      </if>
+      <if test="alarmMsg != null">
+        #{alarmMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null">
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="eqptSn != null">
+        #{eqptSn,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmStatus != null">
+        #{alarmStatus,jdbcType=BIT},
+      </if>
+      <if test="alarmType != null">
+        #{alarmType,jdbcType=BIT},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kiwihouse.dao.entity.Alarm">
+    update alarm
+    <set>
+      <if test="alarmMsg != null">
+        alarm_msg = #{alarmMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null">
+        imei = #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="eqptSn != null">
+        eqpt_sn = #{eqptSn,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmStatus != null">
+        alarm_status = #{alarmStatus,jdbcType=BIT},
+      </if>
+      <if test="alarmType != null">
+        alarm_type = #{alarmType,jdbcType=BIT},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where alarm_id = #{alarmId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kiwihouse.dao.entity.Alarm">
+    update alarm
+    set alarm_msg = #{alarmMsg,jdbcType=VARCHAR},
+      imei = #{imei,jdbcType=VARCHAR},
+      eqpt_sn = #{eqptSn,jdbcType=VARCHAR},
+      alarm_status = #{alarmStatus,jdbcType=BIT},
+      alarm_type = #{alarmType,jdbcType=BIT},
+      add_time = #{addTime,jdbcType=TIMESTAMP}
+    where alarm_id = #{alarmId,jdbcType=INTEGER}
+  </update>
+  
+  <insert id="insertBatch" parameterType="java.util.List">
+        insert into alarm(alarm_msg,imei,eqpt_sn,alarm_status,alarm_type,add_time)
+		values
+		<foreach item="alarm" collection="list" index="index"  separator="," >
+			(#{alarm.alarmMsg},
+			#{alarm.imei},
+			#{alarm.eqptSn},
+			#{alarm.alarmStatus},
+			#{alarm.alarmType},
+			NOW())
+		</foreach>
+  </insert>
+  
+  <select id="queryAlarm" resultType="com.kiwihouse.dto.AlarmEqptDto"
+            parameterType="com.kiwihouse.vo.kiwihouse.AlmQueryVo">
+          SELECT t.*  FROM (
+				SELECT a.*,e.eqpt_name,e.province,e.city,e.district,e.eqpt_addr,c.phone as ctsPhone FROM `alarm` a 
+				LEFT JOIN equipment e on a.imei = e.imei 
+				Left JOIN contacts c on e.user_id = c.user_id 
+				GROUP BY a.alarm_id) t
+          <where>
+            <if test="imei != null and imei != ''">
+                and t.imei like CONCAT('%',#{imei},'%')
+            </if>
+            <if test="province != null and province != ''">
+                and t.province=#{province}
+            </if>
+            <if test="city != null and city != ''">
+                and t.city=#{city}
+            </if>
+            <if test="district != null and district != ''">
+                and t.district=#{district}
+            </if>
+            <if test="eqptAddr != null and eqptAddr != ''">
+                and t.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
+            </if>
+		</where>
+          <if test="orderBy == 0">
+        	order by t.add_time desc
+        </if>
+        <if test="orderBy == 1">
+        	order by t.add_time
+        </if>
+        <if test="limit != null">
+        	limit #{page},#{limit}
+        </if>
+    </select>
+    
+    <select id="queryAlarmCount" resultType="Integer" parameterType="com.kiwihouse.vo.kiwihouse.AlmQueryVo">
+    	 SELECT count(*)  FROM (
+				SELECT a.*,e.eqpt_name,e.province,e.city,e.district,e.eqpt_addr,c.phone FROM `alarm` a 
+				LEFT JOIN equipment e on a.imei = e.imei 
+				Left JOIN contacts c on e.user_id = c.user_id 
+				GROUP BY a.alarm_id) t
+          <where>
+            <if test="imei != null and imei != ''">
+                and t.imei like CONCAT('%',#{imei},'%')
+            </if>
+            <if test="province != null and province != ''">
+                and t.province=#{province}
+            </if>
+            <if test="city != null and city != ''">
+                and t.city=#{city}
+            </if>
+            <if test="district != null and district != ''">
+                and t.district=#{district}
+            </if>
+            <if test="eqptAddr != null and eqptAddr != ''">
+                and t.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
+            </if>
+		</where>
+         
+    </select>
+    <update id="updateAlmSta">
+        update alarm set alarm_status=#{almSta} where alarm_id=#{alarmId}
+    </update>
+</mapper>

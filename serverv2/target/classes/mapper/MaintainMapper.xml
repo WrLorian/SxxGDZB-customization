@@ -116,9 +116,6 @@
     </select>
 
     <!--update-->
-    <update id="updateAlmSta">
-        update alarm_info set alarm_status=#{almSta} where alarm_id=#{alarmId}
-    </update>
     <update id="updateSmokeAlmSta">
         update smoke_info set status=#{almSta} where smoke_id=#{alarmId}
     </update>

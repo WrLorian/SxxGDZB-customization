@@ -69,6 +69,8 @@ public class AlmQueryVo extends Basic {
      */
     private Integer orderBy;
     
+    private String eqptAddr;
+    
     
     
 }

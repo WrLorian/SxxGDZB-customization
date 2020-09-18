@@ -67,4 +67,8 @@
       VALUE = #{value,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByType"  resultType="java.util.HashMap" parameterType="String">
+  	select `KEY`, `VALUE` from sys_dictionary where type = #{type}
+  </select>
 </mapper>

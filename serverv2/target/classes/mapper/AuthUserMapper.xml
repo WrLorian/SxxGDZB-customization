@@ -238,7 +238,7 @@
         select user_id from user where admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
    </select>
    
-   <select id="queryCtsPhone" resultType="List">
+   <select id="queryCtsPhone" resultType="java.lang.String">
    		SELECT ct.phone FROM auth_user au LEFT JOIN contacts ct on au.uid = ct.user_id  where au.phone = #{userPhone}
    </select>
 </mapper>

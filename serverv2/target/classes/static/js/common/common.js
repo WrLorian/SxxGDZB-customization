@@ -253,11 +253,11 @@ function oneNet(e){
 /*3:上报告警信息，4:上报系统参数*/
 var onenetVariable = function(imei,eqptType){
 	var e = {},r= {},array = new Array();
-	e.imei = imei;
-	r.reg_00 = 3;
-	e.register = r;
-	e.eqptType = eqptType;
-	array.push(e);
+//	e.imei = imei;
+//	r.reg_00 = 3;
+//	e.register = r;
+//	e.eqptType = eqptType;
+//	array.push(e);
 	var e = {},r= {};
 	e.imei = imei;
 	r.reg_00 = 4;
@@ -353,4 +353,38 @@ function ADD(url,parameterDate,isLeft){
 				}
 		    }
 	});
+}
+/**
+ * 字典表查询
+ * @param type
+ * @returns
+ */
+var _sysDict =  function(type){
+	 var _data = null; 
+	 $.ajax({
+			url: "/dictionary/selectByType/" + type,
+		    type: "GET",
+		    dataType : "json",
+		    cache:true, 
+	        async:false, 
+	　　		contentType: "application/json;charset=utf-8",
+		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+		    success:function(data){
+		    	 	if(data.success){
+		    	 		_data = data.data.data;
+					}else{
+						
+					}
+		    }
+	})
+	return _data;
+}
+/**
+ * 获取数组中需要的 对象 --> 属性值
+ */
+var array_kv = function (array,k) {
+	var v = null;
+	array.forEach(function(item){
+		//console.log(item);
+    });
 }

@@ -151,7 +151,7 @@
 	    	$("._address").text(data.data[0].province + data.data[0].city +  data.data[0].district + data.data[0].address);
 	    	if(data.data[0].eqptType == 0){
 	    		$("._eqptType").attr('data-type',data.data[0].eqptType);
-	    		$("._eqptType").text('用电设备');
+	    		$("._eqptType").text('单相设备');
 	    	}
 	    	else if(data.data[0].eqptType == 1){
 	    		$("._eqptType").attr('data-type',data.data[0].eqptType);
@@ -529,7 +529,7 @@
 		    success:function(data){
 		    	var vData = data.data.data;
 		    	if(data.code == 2000){
-		    		if(typeof(vData) != "undefined" && vData != null){
+		    		if(typeof(vData.dataJson) != "undefined" && vData != null){
 		    			dataJson = JSON.parse(vData.dataJson);
 		    			if(eqptType != 2){
 		    				/*根据返回参数---> ID 设置value值*/

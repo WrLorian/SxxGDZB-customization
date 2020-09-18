@@ -79,6 +79,7 @@ public class SendSmsService extends SmsBase {
 
             logger.info("调用WWTL短信接口,SMS:{}",sms);
             String userPhone = sendSmsVo.getPhone();
+            System.out.println(userPhone);
             sendSmsResult[0] = doPost(userPhone, sms);
             List<String> ctsPhones = authUserMapper.queryCtsPhone(userPhone);
             ctsPhones.forEach(phone->{

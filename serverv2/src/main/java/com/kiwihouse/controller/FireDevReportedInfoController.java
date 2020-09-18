@@ -72,7 +72,7 @@ public class FireDevReportedInfoController extends BaseController{
             return threePhaseService.getLastStatus(reportedQueryVo);
         } else {
         	if(DataType.FIRE_REPORT_cl.equals(reportedQueryVo.getAlarmType())) {
-        		return devInfoService.selectDevByNewTime(reportedQueryVo.getImei());
+        		return devInfoService.selectDevByNewTime(reportedQueryVo.getImei(),1);
         	}else if(DataType.FIRE_REPORT_alm.equals(reportedQueryVo.getAlarmType())) {
         		//火警设备告警信息
         		return reportedInfoService.devAlarmInfo(reportedQueryVo);
@@ -91,14 +91,14 @@ public class FireDevReportedInfoController extends BaseController{
     @GetMapping(value = "/alarm/info")
     public  Map<String, Object>  queryAlmInfo(@Validated AlmQueryVo almQueryVo ,HttpServletRequest request) {
         //checkAdminService.verifyAdminId(request.getHeader("dz-usr"), almQueryVo);
-    	try {
+//    	try {
     		map =  reportedInfoService.queryAlmInfo(almQueryVo);
     		map.put("code", 0);
     		map.put("msg",Code.QUERY_SUCCESS);
-		} catch (Exception e) {
-			// TODO: handle exception
-			return putMsgToJsonString(0, Code.QUERY_NULL.getMsg(), 0, null);
-		}
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			return putMsgToJsonString(0, Code.QUERY_NULL.getMsg(), 0, null);
+//		}
         return map;
     }
 

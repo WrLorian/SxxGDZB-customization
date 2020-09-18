@@ -16,9 +16,9 @@ public class DevInfoServiceImpl implements DevInfoService{
 	@Autowired
 	DevInfoMapper devInfoMapper;
 	@Override
-	public Response selectDevByNewTime(String imei) {
+	public Response selectDevByNewTime(String imei,Integer type) {
 		// TODO Auto-generated method stub
-		DevInfo devInfo = devInfoMapper.selectDevByNewTime(imei);
+		DevInfo devInfo = devInfoMapper.selectDevByNewTime(imei,type);
 		if(devInfo == null) {
 			return new Response().Success(Code.QUERY_NULL, Code.QUERY_NULL.getMsg());
 		}

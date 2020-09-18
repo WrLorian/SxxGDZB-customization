@@ -8,6 +8,6 @@ public interface DevInfoService {
 	 * @param imei
 	 * @return
 	 */
-	Response selectDevByNewTime(String imei);
+	Response selectDevByNewTime(String imei,Integer type);
 
 }

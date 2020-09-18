@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.MtInfoDto;
 import com.kiwihouse.service.CheckAdminService;
@@ -80,9 +79,9 @@ public class MaintainController {
     @PutMapping("/info")
     public Response updateInfo(@RequestBody @Validated MtUpdateVo mtUpdateVo,HttpServletRequest request){
         logger.info("修改维修信息>> {}",new Log().setIp(request.getRemoteAddr()).setParam(mtUpdateVo));
-        if(!checkAdminService.isMtIdBelong2Admin(mtUpdateVo.getMtId(),request.getHeader("dz-usr"))){
-            return new Response().Success(Code.PRIVILEGE_FAIL, Code.PRIVILEGE_FAIL.getMsg());
-        }
+//        if(!checkAdminService.isMtIdBelong2Admin(mtUpdateVo.getMtId(),request.getHeader("dz-usr"))){
+//            return new Response().Success(Code.PRIVILEGE_FAIL, Code.PRIVILEGE_FAIL.getMsg());
+//        }
         Response resultList = maintainService.updateInfo(mtUpdateVo);
         logger.info("返回参数<< {}",resultList);
         return resultList;

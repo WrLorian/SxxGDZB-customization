@@ -2,6 +2,8 @@ package com.kiwihouse.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.kiwihouse.dao.entity.DevInfo;
 
 public interface DevInfoMapper {
@@ -28,7 +30,7 @@ public interface DevInfoMapper {
 	 * @param reportedQueryVo
 	 * @return
 	 */
-	DevInfo selectDevByNewTime(String imei);
+	DevInfo selectDevByNewTime(@Param("imei") String imei,@Param("type") Integer type);
 	
 	
 }

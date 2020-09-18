@@ -56,7 +56,7 @@ public class CommandIssueService {
         HashMap<String, Object> map = new HashMap<>();
 //        String adminId = request.getHeader("dz-usr");
         list.forEach(commandVo -> {
-
+        	System.out.println(commandVo.toString());
             String imei = commandVo.getImei();
 //            if(checkAdminService.isEqptBelong2admin(imei, adminId)) {
 //                HashMap<String, Integer> hashMap = ReflectUtil.GetNoneEmptyFieldMap(commandVo.getRegister());

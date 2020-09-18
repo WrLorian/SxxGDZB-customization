@@ -108,11 +108,14 @@
     </insert>
     
     <select id="selectDevByNewTime" resultType="com.kiwihouse.dao.entity.DevInfo"
-            parameterType="java.lang.String">
+            parameterType="java.lang.String"> where 1= 1
 			SELECT DATA_JSON,ADD_TIME,TYPE FROM dev_info 
 			<where>
 				<if test="imei != null and imei != '' ">
-					imei = #{imei}
+					AND imei = #{imei}
+				</if>
+				<if test="type != null and type != '' ">
+					AND type = #{type}
 				</if>
 			</where>
 	</select>

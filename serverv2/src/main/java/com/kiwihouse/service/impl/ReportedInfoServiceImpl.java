@@ -1,13 +1,9 @@
 package com.kiwihouse.service.impl;
 
-import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +22,8 @@ import com.kiwihouse.common.bean.DataType;
 import com.kiwihouse.common.utils.CodeTransferUtil;
 import com.kiwihouse.common.utils.GroupList;
 import com.kiwihouse.common.utils.TimeUtil;
+import com.kiwihouse.dao.entity.Alarm;
+import com.kiwihouse.dao.mapper.AlarmMapper;
 import com.kiwihouse.dao.mapper.ReportedInfoMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.AlarmEqptDto;
@@ -39,7 +37,6 @@ import com.kiwihouse.dto.WarmMsgValue;
 import com.kiwihouse.dto.WarnMsgDto;
 import com.kiwihouse.dto.SinglePhase.SinglePhasePowerDto;
 import com.kiwihouse.service.ReportedInfoService;
-import com.kiwihouse.util.ResultUtil;
 import com.kiwihouse.vo.entire.Result;
 import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.AlmQueryVo;
@@ -51,6 +48,9 @@ import com.kiwihouse.vo.kiwihouse.ReportedQueryVo;
 public class ReportedInfoServiceImpl implements ReportedInfoService{
 	@Autowired
     ReportedInfoMapper reportedInfoMapper;
+	@Autowired
+	AlarmMapper alarmMapper;
+	
 	static final Object room = new Object();
 	static List<FirePwrDto>  lists = new ArrayList<FirePwrDto>();
     /**
@@ -315,13 +315,18 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
      * @return 告警信息
      */
 //    @Override
-//    public ResultList  queryAlmInfo(AlmQueryVo almQueryVo) {
+//    public Map<String, Object>  queryAlmInfo(AlmQueryVo almQueryVo) {
+//    	Map<String, Object> map = new HashMap<String, Object>();
 //        CodeTransferUtil.transferOne(almQueryVo.getCode(), almQueryVo);
 //        PageHelper.startPage(almQueryVo.getPage(), almQueryVo.getLimit());
 //        //Integer count = reportedInfoMapper.queryAlmInfoCount(almQueryVo);
 //        List<AlarmEqptDto> list = reportedInfoMapper.queryAlmInfo(almQueryVo);
+//        List<Alarm> listAlarm = new ArrayList<Alarm>();
 //        if (list.isEmpty()) {
-//            return new ResultList(Code.QUERY_NULL.getCode(), Code.QUERY_NULL.getMsg(), null);
+//        	map.put("count",0);
+//        	map.put("data", null);
+//        	return map;
+//           // return new ResultList(Code.QUERY_NULL.getCode(), Code.QUERY_NULL.getMsg(), null);
 //        } else {
 //
 //            List<HashMap<String, Object>> returnList = new ArrayList<>();
@@ -349,7 +354,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 //                WarnMsgDto warnMsgDto = JSONObject.parseObject(alarmMsg, WarnMsgDto.class);
 //                System.out.println(warnMsgDto.toString());
 //                HashMap<String, Object> almMap = new HashMap<>();
-//
+//               
 //                String cur = warnMsgDto.getCur();
 //                if (!"0".equals(cur) && cur != null) {
 //                    String[] split = cur.split("-");
@@ -358,6 +363,13 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 //                        warmMsgValue.setMsg("过流告警");
 //                        warmMsgValue.setValue(split[1] + "A");
 //                        almMap.put("cur", JSONObject.toJSONString(warmMsgValue));
+//                        Alarm a = new Alarm();
+//                        a.setAlarmMsg(JSONObject.toJSONString(warmMsgValue));
+//                        a.setAlarmStatus(0);
+//                        a.setAlarmType(1);
+//                        a.setImei(alarmEqptDto.getImei());
+//                        a.setEqptSn(alarmEqptDto.getEqptSn());
+//                        listAlarm.add(a);
 //                    }
 //                }
 //                String temp = warnMsgDto.getTemp();
@@ -368,6 +380,13 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 //                        warmMsgValue.setMsg("线温告警");
 //                        warmMsgValue.setValue(split[1] + "℃");
 //                        almMap.put("temp", JSONObject.toJSONString(warmMsgValue));
+//                        Alarm a = new Alarm();
+//                        a.setAlarmMsg(JSONObject.toJSONString(warmMsgValue));
+//                        a.setAlarmStatus(0);
+//                        a.setAlarmType(2);
+//                        a.setImei(alarmEqptDto.getImei());
+//                        a.setEqptSn(alarmEqptDto.getEqptSn());
+//                        listAlarm.add(a);
 //                    }
 //                }
 //                String leak = warnMsgDto.getLeak();
@@ -378,6 +397,13 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 //                        warmMsgValue.setMsg("漏电流告警");
 //                        warmMsgValue.setValue(split[1] + "mA");
 //                        almMap.put("leak", JSONObject.toJSONString(warmMsgValue));
+//                        Alarm a = new Alarm();
+//                        a.setAlarmMsg(JSONObject.toJSONString(warmMsgValue));
+//                        a.setAlarmStatus(0);
+//                        a.setAlarmType(7);
+//                        a.setImei(alarmEqptDto.getImei());
+//                        a.setEqptSn(alarmEqptDto.getEqptSn());
+//                        listAlarm.add(a);
 //                    }
 //                }
 //                String overload = warnMsgDto.getOverload();
@@ -388,6 +414,13 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 //                        warmMsgValue.setMsg("过载告警");
 //                        warmMsgValue.setValue(split[1] + "W");
 //                        almMap.put("overload", JSONObject.toJSONString(warmMsgValue));
+//                        Alarm a = new Alarm();
+//                        a.setAlarmMsg(JSONObject.toJSONString(warmMsgValue));
+//                        a.setAlarmStatus(0);
+//                        a.setAlarmType(3);
+//                        a.setImei(alarmEqptDto.getImei());
+//                        a.setEqptSn(alarmEqptDto.getEqptSn());
+//                        listAlarm.add(a);
 //                    }
 //                }
 //                String vol = warnMsgDto.getVol();
@@ -399,6 +432,13 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 //                            warmMsgValue.setMsg("过压告警");
 //                            warmMsgValue.setValue(split[1] + "V");
 //                            almMap.put("vol", JSONObject.toJSONString(warmMsgValue));
+//                            Alarm a = new Alarm();
+//                            a.setAlarmMsg(JSONObject.toJSONString(warmMsgValue));
+//                            a.setAlarmStatus(0);
+//                            a.setAlarmType(4);
+//                            a.setImei(alarmEqptDto.getImei());
+//                            a.setEqptSn(alarmEqptDto.getEqptSn());
+//                            listAlarm.add(a);
 //                        }
 //                    } else if (vol.startsWith("2")) {
 //                        String[] split = vol.split("-");
@@ -407,7 +447,13 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 //                            warmMsgValue.setMsg("欠压告警");
 //                            warmMsgValue.setValue(split[1] + "V");
 //                            almMap.put("vol", JSONObject.toJSONString(warmMsgValue));
-//
+//                            Alarm a = new Alarm();
+//                            a.setAlarmMsg(JSONObject.toJSONString(warmMsgValue));
+//                            a.setAlarmStatus(0);
+//                            a.setAlarmType(5);
+//                            a.setImei(alarmEqptDto.getImei());
+//                            a.setEqptSn(alarmEqptDto.getEqptSn());
+//                            listAlarm.add(a);
 //                        }
 //                    } else if (vol.startsWith("3")) {
 //                        String[] split = vol.split("-");
@@ -416,139 +462,176 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 //                            warmMsgValue.setMsg("掉电告警");
 //                            warmMsgValue.setValue(split[1] + "V");
 //                            almMap.put("vol", JSONObject.toJSONString(warmMsgValue));
-//
+//                            Alarm a = new Alarm();
+//                            a.setAlarmMsg(JSONObject.toJSONString(warmMsgValue));
+//                            a.setAlarmStatus(0);
+//                            a.setAlarmType(6);
+//                            a.setImei(alarmEqptDto.getImei());
+//                            a.setEqptSn(alarmEqptDto.getEqptSn());
+//                            listAlarm.add(a);
 //                        }
 //                    }
 //                }
 //                returnMap.put("almValue", almMap);
 //                returnList.add(returnMap);
 //            });
-//            return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg(), new Result<>(Math.toIntExact(((Page) list).getTotal()), returnList));
+//            //alarmMapper.insertBatch(listAlarm);
+//            map.put("count",Math.toIntExact(((Page) list).getTotal()));
+//        	map.put("data", returnList);
+//        	return map;
+//            //return new ResultList(Code.QUERY_SUCCESS.getCode(), Code.QUERY_SUCCESS.getMsg(), new Result<>(Math.toIntExact(((Page) list).getTotal()), returnList));
 //        }
 //    }
+//    @Override
+//	public Map<String, Object> queryAlmInfo(AlmQueryVo almQueryVo) {
+//    	 Map<String, Object> map = new HashMap<String, Object>();
+//    	int count  = reportedInfoMapper.queryAlmInfoCount(almQueryVo);
+//    	Integer limit = almQueryVo.getLimit();
+//    	float bfb = almQueryVo.getPage().floatValue()*10 / count;
+//    	
+//    	if( bfb * 100 > 80 && bfb * 100 < 100) {
+//    		almQueryVo.setOrderBy(0);
+//    		almQueryVo.setPage(count  - (almQueryVo.getPage() - 1) * almQueryVo.getLimit());
+//    	}else if(bfb * 100 < 80 || bfb * 100 == 80){
+//    		almQueryVo.setOrderBy(1);
+//    		almQueryVo.setPage((almQueryVo.getPage() - 1) * almQueryVo.getLimit());
+//    	}else {
+//    		almQueryVo.setOrderBy(0);
+//    		almQueryVo.setLimit(almQueryVo.getPage() * almQueryVo.getLimit() - count);
+//    		almQueryVo.setPage(0);
+//    		
+//    	}
+//    	List<AlarmEqptDto> list  = reportedInfoMapper.queryAlmInfo(almQueryVo);
+//    	
+//        List<HashMap<String, Object>> returnList = new ArrayList<>();
+//        list.forEach(alarmEqptDto -> {
+//           HashMap<String, Object> returnMap = new HashMap<>();
+//           returnMap.put("eqptSn", alarmEqptDto.getEqptSn());
+//           returnMap.put("eqptType", alarmEqptDto.getEqptType());
+//           returnMap.put("eqptName", alarmEqptDto.getEqptName());
+//           returnMap.put("userId", alarmEqptDto.getUserId());
+//           returnMap.put("siteId", alarmEqptDto.getSiteId());
+//           returnMap.put("userName", alarmEqptDto.getUserName());
+//           returnMap.put("userPhone", alarmEqptDto.getUserPhone());
+//           returnMap.put("ctsName", alarmEqptDto.getCtsName());
+//           returnMap.put("ctsPhone", alarmEqptDto.getCtsPhone());
+//           returnMap.put("province", alarmEqptDto.getProvince());
+//           returnMap.put("city", alarmEqptDto.getCity());
+//           returnMap.put("district", alarmEqptDto.getDistrict());
+//           returnMap.put("address", alarmEqptDto.getAddress());
+//           returnMap.put("eqptAddr", alarmEqptDto.getEqptAddr());
+//           returnMap.put("alarmId", alarmEqptDto.getAlarmId());
+//           returnMap.put("alarmStatus", alarmEqptDto.getAlarmStatus());
+//           returnMap.put("addTime", alarmEqptDto.getAddTime());
+//
+//           String alarmMsg = alarmEqptDto.getAlarmMsg();
+//           WarnMsgDto warnMsgDto = JSONObject.parseObject(alarmMsg, WarnMsgDto.class);
+//           System.out.println(warnMsgDto.toString());
+//           HashMap<String, Object> almMap = new HashMap<>();
+//
+//           String cur = warnMsgDto.getCur();
+//           if (!"0".equals(cur) && cur != null) {
+//               String[] split = cur.split("-");
+//               if (2 == split.length) {
+//                   WarmMsgValue warmMsgValue = new WarmMsgValue();
+//                   warmMsgValue.setMsg("过流告警");
+//                   warmMsgValue.setValue(split[1] + "A");
+//                   almMap.put("cur", JSONObject.toJSONString(warmMsgValue));
+//               }
+//           }
+//           String temp = warnMsgDto.getTemp();
+//           if (!"0".equals(temp) && StringUtils.isNotBlank(temp)) {
+//               String[] split = temp.split("-");
+//               if (2 == split.length) {
+//                   WarmMsgValue warmMsgValue = new WarmMsgValue();
+//                   warmMsgValue.setMsg("线温告警");
+//                   warmMsgValue.setValue(split[1] + "℃");
+//                   almMap.put("temp", JSONObject.toJSONString(warmMsgValue));
+//               }
+//           }
+//           String leak = warnMsgDto.getLeak();
+//           if (!"0".equals(leak) && StringUtils.isNotBlank(leak)) {
+//               String[] split = leak.split("-");
+//               if (2 == split.length) {
+//                   WarmMsgValue warmMsgValue = new WarmMsgValue();
+//                   warmMsgValue.setMsg("漏电流告警");
+//                   warmMsgValue.setValue(split[1] + "mA");
+//                   almMap.put("leak", JSONObject.toJSONString(warmMsgValue));
+//               }
+//           }
+//           String overload = warnMsgDto.getOverload();
+//           if (!"0".equals(overload) && StringUtils.isNotBlank(overload)) {
+//               String[] split = overload.split("-");
+//               if (2 == split.length) {
+//                   WarmMsgValue warmMsgValue = new WarmMsgValue();
+//                   warmMsgValue.setMsg("过载告警");
+//                   warmMsgValue.setValue(split[1] + "W");
+//                   almMap.put("overload", JSONObject.toJSONString(warmMsgValue));
+//               }
+//           }
+//           String vol = warnMsgDto.getVol();
+//           if (StringUtils.isNotBlank(vol)) {
+//               if (vol.startsWith("1")) {
+//                   String[] split = vol.split("-");
+//                   if (2 == split.length) {
+//                       WarmMsgValue warmMsgValue = new WarmMsgValue();
+//                       warmMsgValue.setMsg("过压告警");
+//                       warmMsgValue.setValue(split[1] + "V");
+//                       almMap.put("vol", JSONObject.toJSONString(warmMsgValue));
+//                   }
+//               } else if (vol.startsWith("2")) {
+//                   String[] split = vol.split("-");
+//                   if (2 == split.length) {
+//                       WarmMsgValue warmMsgValue = new WarmMsgValue();
+//                       warmMsgValue.setMsg("欠压告警");
+//                       warmMsgValue.setValue(split[1] + "V");
+//                       almMap.put("vol", JSONObject.toJSONString(warmMsgValue));
+//
+//                   }
+//               } else if (vol.startsWith("3")) {
+//                   String[] split = vol.split("-");
+//                   if (2 == split.length) {
+//                       WarmMsgValue warmMsgValue = new WarmMsgValue();
+//                       warmMsgValue.setMsg("掉电告警");
+//                       warmMsgValue.setValue(split[1] + "V");
+//                       almMap.put("vol", JSONObject.toJSONString(warmMsgValue));
+//
+//                   }
+//               }
+//           }
+//           returnMap.put("almValue", almMap);
+//           returnList.add(returnMap);
+//       });
+//    	
+//    	map.put("count", count);
+//    	map.put("data", returnList);
+//		// TODO Auto-generated method stub
+//		return map;
+//	}
     @Override
 	public Map<String, Object> queryAlmInfo(AlmQueryVo almQueryVo) {
     	 Map<String, Object> map = new HashMap<String, Object>();
-    	int count  = reportedInfoMapper.queryAlmInfoCount(almQueryVo);
-    	Integer limit = almQueryVo.getLimit();
+    	int count  = alarmMapper.queryAlarmCount(almQueryVo);
     	float bfb = almQueryVo.getPage().floatValue()*10 / count;
-    	
-    	if( bfb * 100 > 80 && bfb * 100 < 100) {
-    		almQueryVo.setOrderBy(0);
-    		almQueryVo.setPage(count  - (almQueryVo.getPage() - 1) * almQueryVo.getLimit());
-    	}else if(bfb * 100 < 80 || bfb * 100 == 80){
+    	if(count > 10 * 10000) {
+    		if( bfb * 100 > 80 && bfb * 100 < 100) {
+        		almQueryVo.setOrderBy(0);
+        		almQueryVo.setPage(count  - (almQueryVo.getPage() - 1) * almQueryVo.getLimit());
+        	}else if(bfb * 100 < 80 || bfb * 100 == 80){
+        		almQueryVo.setOrderBy(1);
+        		almQueryVo.setPage((almQueryVo.getPage() - 1) * almQueryVo.getLimit());
+        	}else {
+        		almQueryVo.setOrderBy(0);
+        		almQueryVo.setLimit(count - (almQueryVo.getPage() - 1) * almQueryVo.getLimit());
+        		almQueryVo.setPage(0);
+        	}
+    	}else {
     		almQueryVo.setOrderBy(1);
     		almQueryVo.setPage((almQueryVo.getPage() - 1) * almQueryVo.getLimit());
-    	}else {
-    		almQueryVo.setOrderBy(0);
-    		almQueryVo.setLimit(almQueryVo.getPage() * almQueryVo.getLimit() - count);
-    		almQueryVo.setPage(0);
-    		
     	}
-    	List<AlarmEqptDto> list  = reportedInfoMapper.queryAlmInfo(almQueryVo);
-    	
-        List<HashMap<String, Object>> returnList = new ArrayList<>();
-        list.forEach(alarmEqptDto -> {
-           HashMap<String, Object> returnMap = new HashMap<>();
-           returnMap.put("eqptSn", alarmEqptDto.getEqptSn());
-           returnMap.put("eqptType", alarmEqptDto.getEqptType());
-           returnMap.put("eqptName", alarmEqptDto.getEqptName());
-           returnMap.put("userId", alarmEqptDto.getUserId());
-           returnMap.put("siteId", alarmEqptDto.getSiteId());
-           returnMap.put("userName", alarmEqptDto.getUserName());
-           returnMap.put("userPhone", alarmEqptDto.getUserPhone());
-           returnMap.put("ctsName", alarmEqptDto.getCtsName());
-           returnMap.put("ctsPhone", alarmEqptDto.getCtsPhone());
-           returnMap.put("province", alarmEqptDto.getProvince());
-           returnMap.put("city", alarmEqptDto.getCity());
-           returnMap.put("district", alarmEqptDto.getDistrict());
-           returnMap.put("address", alarmEqptDto.getAddress());
-           returnMap.put("eqptAddr", alarmEqptDto.getEqptAddr());
-           returnMap.put("alarmId", alarmEqptDto.getAlarmId());
-           returnMap.put("alarmStatus", alarmEqptDto.getAlarmStatus());
-           returnMap.put("addTime", alarmEqptDto.getAddTime());
-
-           String alarmMsg = alarmEqptDto.getAlarmMsg();
-           WarnMsgDto warnMsgDto = JSONObject.parseObject(alarmMsg, WarnMsgDto.class);
-           System.out.println(warnMsgDto.toString());
-           HashMap<String, Object> almMap = new HashMap<>();
-
-           String cur = warnMsgDto.getCur();
-           if (!"0".equals(cur) && cur != null) {
-               String[] split = cur.split("-");
-               if (2 == split.length) {
-                   WarmMsgValue warmMsgValue = new WarmMsgValue();
-                   warmMsgValue.setMsg("过流告警");
-                   warmMsgValue.setValue(split[1] + "A");
-                   almMap.put("cur", JSONObject.toJSONString(warmMsgValue));
-               }
-           }
-           String temp = warnMsgDto.getTemp();
-           if (!"0".equals(temp) && StringUtils.isNotBlank(temp)) {
-               String[] split = temp.split("-");
-               if (2 == split.length) {
-                   WarmMsgValue warmMsgValue = new WarmMsgValue();
-                   warmMsgValue.setMsg("线温告警");
-                   warmMsgValue.setValue(split[1] + "℃");
-                   almMap.put("temp", JSONObject.toJSONString(warmMsgValue));
-               }
-           }
-           String leak = warnMsgDto.getLeak();
-           if (!"0".equals(leak) && StringUtils.isNotBlank(leak)) {
-               String[] split = leak.split("-");
-               if (2 == split.length) {
-                   WarmMsgValue warmMsgValue = new WarmMsgValue();
-                   warmMsgValue.setMsg("漏电流告警");
-                   warmMsgValue.setValue(split[1] + "mA");
-                   almMap.put("leak", JSONObject.toJSONString(warmMsgValue));
-               }
-           }
-           String overload = warnMsgDto.getOverload();
-           if (!"0".equals(overload) && StringUtils.isNotBlank(overload)) {
-               String[] split = overload.split("-");
-               if (2 == split.length) {
-                   WarmMsgValue warmMsgValue = new WarmMsgValue();
-                   warmMsgValue.setMsg("过载告警");
-                   warmMsgValue.setValue(split[1] + "W");
-                   almMap.put("overload", JSONObject.toJSONString(warmMsgValue));
-               }
-           }
-           String vol = warnMsgDto.getVol();
-           if (StringUtils.isNotBlank(vol)) {
-               if (vol.startsWith("1")) {
-                   String[] split = vol.split("-");
-                   if (2 == split.length) {
-                       WarmMsgValue warmMsgValue = new WarmMsgValue();
-                       warmMsgValue.setMsg("过压告警");
-                       warmMsgValue.setValue(split[1] + "V");
-                       almMap.put("vol", JSONObject.toJSONString(warmMsgValue));
-                   }
-               } else if (vol.startsWith("2")) {
-                   String[] split = vol.split("-");
-                   if (2 == split.length) {
-                       WarmMsgValue warmMsgValue = new WarmMsgValue();
-                       warmMsgValue.setMsg("欠压告警");
-                       warmMsgValue.setValue(split[1] + "V");
-                       almMap.put("vol", JSONObject.toJSONString(warmMsgValue));
-
-                   }
-               } else if (vol.startsWith("3")) {
-                   String[] split = vol.split("-");
-                   if (2 == split.length) {
-                       WarmMsgValue warmMsgValue = new WarmMsgValue();
-                       warmMsgValue.setMsg("掉电告警");
-                       warmMsgValue.setValue(split[1] + "V");
-                       almMap.put("vol", JSONObject.toJSONString(warmMsgValue));
-
-                   }
-               }
-           }
-           returnMap.put("almValue", almMap);
-           returnList.add(returnMap);
-       });
-    	
+    	List<AlarmEqptDto> list  = alarmMapper.queryAlarm(almQueryVo);
     	map.put("count", count);
-    	map.put("data", returnList);
+    	map.put("data", list);
 		// TODO Auto-generated method stub
 		return map;
 	}

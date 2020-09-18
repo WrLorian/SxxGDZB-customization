@@ -13,6 +13,7 @@ import com.kiwihouse.common.bean.AlmSta;
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.MtSta;
 import com.kiwihouse.common.utils.TimeUtil;
+import com.kiwihouse.dao.mapper.AlarmMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.MtInfoDto;
 import com.kiwihouse.dto.MtSmokeInfoDto;
@@ -28,9 +29,11 @@ import com.kiwihouse.vo.kiwihouse.MtUpdateVo;
 @Service
 public class MaintainServiceImpl implements MaintainService{
 
-	 @Autowired
+	 	@Autowired
 	    MaintainMapper maintainMapper;
 
+	 	@Autowired
+	 	AlarmMapper AlarmMapper;
 	    /**
 	     * 查询:告警信息+维修记录
 	     * @param mtInfoVo 查询参数
@@ -157,7 +160,7 @@ public class MaintainServiceImpl implements MaintainService{
 	        Integer row;
 	        if("1".equals(mtType)){
 	            //用电设备
-	            almRow = maintainMapper.updateAlmSta(alarmId, AlmSta.TO_ORDER.getCode());
+	            almRow = AlarmMapper.updateAlmSta(alarmId, AlmSta.TO_ORDER.getCode());
 	            row = maintainMapper.addInfo(alarmId, eqptSn, TimeUtil.getCurrentTime());
 	        }else if("2".equals(mtType)){
 	            //烟感设备
@@ -183,7 +186,7 @@ public class MaintainServiceImpl implements MaintainService{
 	    @Transactional(rollbackFor = Exception.class)
 	    @Override
 	    public Response updateInfo(MtUpdateVo mtUpdateVo) {
-
+	    	System.out.println("------------------->");
 	        String mtType = mtUpdateVo.getMtType();
 	        if("1".equals(mtType)) {
 	            Integer mtRow = maintainMapper.updateMtInfo(mtUpdateVo);
@@ -193,13 +196,13 @@ public class MaintainServiceImpl implements MaintainService{
 	            String mtStatus = mtUpdateVo.getMtStatus();
 	            if (MtSta.UNPROCESSED.getCode().equals(mtStatus)) {
 	                //未维修 对应 已转为工单
-	                almRow = maintainMapper.updateAlmSta(mtUpdateVo.getAlarmId(), AlmSta.TO_ORDER.getCode());
+	                almRow = AlarmMapper.updateAlmSta(mtUpdateVo.getAlarmId(), AlmSta.TO_ORDER.getCode());
 	            } else if (MtSta.PROCESSED.getCode().equals(mtStatus)) {
 	                //已维修 对应 已处理
-	                almRow = maintainMapper.updateAlmSta(mtUpdateVo.getAlarmId(), AlmSta.PROCESSED.getCode());
+	                almRow = AlarmMapper.updateAlmSta(mtUpdateVo.getAlarmId(), AlmSta.PROCESSED.getCode());
 	            } else if (MtSta.CANCEL.getCode().equals(mtStatus)) {
 	                //撤销订单 对应 错误告警
-	                almRow = maintainMapper.updateAlmSta(mtUpdateVo.getAlarmId(), AlmSta.ERROR.getCode());
+	                almRow = AlarmMapper.updateAlmSta(mtUpdateVo.getAlarmId(), AlmSta.ERROR.getCode());
 	            }
 
 	            if (almRow == 1 && mtRow == 1) {
