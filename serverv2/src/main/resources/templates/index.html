@@ -22,7 +22,11 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="/lib/bootstrap-3.3.7-dist/js/bootoast.js" th:src="@{/lib/bootstrap-3.3.7-dist/js/bootoast.js}"></script>
+    <!-- <link rel="stylesheet" href="../lib/bootstrap-3.3.7-dist/css/bootoast.css" th:href="@{/lib/bootstrap-3.3.7-dist/css/bootoast.css}" media="all">
+    <link rel="stylesheet" href="../lib/bootstrap-3.3.7-dist/css/bootstrap.css" th:href="@{/lib/bootstrap-3.3.7-dist/css/bootstrap.css}" media="all">
+    <script src="/lib/bootstrap-3.3.7-dist/js/bootoast.js" th:src="@{/lib/bootstrap-3.3.7-dist/js/bootoast.js}"></script> -->
+   <link rel="stylesheet" href="../lib/notiflix//notiflix-2.4.0.min.css" th:href="@{/lib/notiflix//notiflix-2.4.0.min.css}">
+   <script src="../lib/notiflix/notiflix-2.4.0.min.js" th:href="@{/lib/notiflix/notiflix-2.4.0.min.js}"></script>
 </head>
 <body class="layui-layout-body layuimini-all">
 <div class="layui-layout layui-layout-admin">
@@ -127,6 +131,7 @@
 	var index = 0;
 	var options;
 	var miniAdmin;
+	var layer;
 	layui.use(['jquery', 'layer', 'miniAdmin','miniTongji'], function () {
     	var authorization = localStorage.getItem('Authorization');
     	var authUser = JSON.parse(localStorage.getItem('authUser'));
@@ -134,6 +139,7 @@
             layer = layui.layer,
             miniTongji = layui.miniTongji;
         miniAdmin = layui.miniAdmin;
+        
         options = {
             iniUrl: getRootPath() + "/menu/authMenuList?roleId="+authUser.roleId,    // 初始化接口
             clearUrl: "api/clear.json", // 缓存清理接口
@@ -203,14 +209,14 @@
 	//报警监听receive/latestalarm/info/30/1/1000
 	var time = _sysDictV(0,"Interval");
 	var	t;
-	bootoast({
+	/* bootoast({
 		message : '告警设备：',
 		type : 'danger',
 		position : 'top-right',
 		timeout : 200
-	});
+	}); */
 	clearInterval(t);
-	t = setInterval(function(){
+	 t = setInterval(function(){
 		 $.ajax({
 	  			url: "/receive/latestalarm/info/" +time.value+ "/1/1000",
 			    method: "GET",
@@ -224,24 +230,27 @@
 		    			alarmInfo.forEach(function(v, index){
 		    				alarmMsg += v.msg + "、";
 		    			})
-		    			/* window.parent.layer.msg('告警设备：' + item.imei + '<br>' + '告警信息：' + alarmMsg, {
-			    			  icon: 2,
-			    			  offset: 'rt',
-			    			  anim: 2,
-			    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
-			    		}); */
-		    			/* bootoast({
-    						message : '告警设备：' + item.imei + '<br>' + '告警信息：' + alarmMsg,
-    						type : 'danger',
-    						position : 'top-right',
-    						timeout : 4.5
-    					}); */
+		    			
+		    			Notiflix.Notify.Warning('告警设备：' + item.imei + '<br>' + '告警信息：' + alarmMsg);
 		    		})
 		    	}
 			 }
 		  });
 		} , 1000 * 5);
+		/* window.parent.layer.msg('告警设备：' + item.imei + '<br>' + '告警信息：' + alarmMsg, {
+		  icon: 2,
+		  offset: 'rt',
+		  anim: 2,
+		  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+	}); */
 	
+	$.each($(".the-message"),function(){
+		$(this).on('click',function(){
+			console.log($(this).html())
+			var price = parseInt($(this).html().replace(/[^0-9]/ig,""));
+	        console.log(price)
+		})
+	})
 </script>
 </body>
 </html>

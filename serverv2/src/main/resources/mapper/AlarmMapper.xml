@@ -168,7 +168,7 @@
 				SELECT count(*) FROM(
 					SELECT a.alarm_id FROM `alarm` a 
 					LEFT JOIN equipment e on a.imei = e.imei 
-					Left JOIN contacts c on e.user_id = c.user_id GROUP BY a.alarm_id order by a.add_time
+					Left JOIN contacts c on e.user_id = c.user_id where 1=1
 					<if test="imei != null and imei != ''">
                 		and a.imei like CONCAT('%',#{imei},'%')
 		            </if>
@@ -190,6 +190,9 @@
 		            <if test="startTime != null and startTime != ''">
 		            	and DATE_FORMAT(a.add_time,'%Y-%m-%d %H:%i:%S') between #{startTime} and #{endTime}
 		            </if>
+		             GROUP BY a.alarm_id
+		             order by a.add_time
+		            
 					) t
 				<where>
 		</where>
@@ -198,16 +201,18 @@
         update alarm set alarm_status=#{almSta} where alarm_id=#{alarmId}
     </update>
     <!-- 时间范围内 设备告警数量 -->
-    <select id="timeAlarmCount" resultType="Integer" parameterType="com.kiwihouse.vo.kiwihouse.AlmQueryVo">
+    <select id="timeAlarmCount" resultType="Integer" parameterType="com.kiwihouse.vo.kiwihouse.DataStatisticsVo">
     	SELECT count(*) FROM(
 				SELECT * FROM alarm where 1 = 1
 					<if test="eqptType != null and eqptType != '' ">
 	            	 and eqpt_type in(#{eqptType}) 
 			        </if>
-			    	<if test="startTime != null and startTime != ''">
-			         and DATE_FORMAT(add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+			    	<if test="dataStatisticsVo.startTime != null and dataStatisticsVo.startTime != ''">
+			         and DATE_FORMAT(add_time,'%Y-%m-%d') between #{dataStatisticsVo.startTime} and #{dataStatisticsVo.endTime}
 			        </if>
-				
+					 <if test="dataStatisticsVo.imei != null and dataStatisticsVo.imei !=''">
+        			 and imei = #{dataStatisticsVo.imei}
+        			</if>
 				GROUP BY imei) t
     </select>
     <!-- 根据时间范围 和告警类型查询告警 -->
@@ -221,6 +226,27 @@
          </if>
 		<if test="alarmType != null and alarmType != ''">
             	and FIND_IN_SET( #{alarmType}, alarm_type) 
+        </if>
+        <if test="dataStatisticsVo.imei != null and dataStatisticsVo.imei !=''">
+        		and imei = #{dataStatisticsVo.imei}
+        </if>
+		ORDER BY add_time
+		)t GROUP BY add_time) as t1
+    </select>
+    <!-- 根据时间范围  imei 查询 记录总数 -->
+    <select id="selectByTimeAndTypeCount" resultType="Integer">
+    	SELECT  SUM(num) FROM(
+		SELECT imei,add_time,alarm_id ,count(*) num FROM(
+		SELECT imei,alarm_id,SUBSTRING(add_time FROM 1 FOR 10) add_time FROM alarm  
+		WHERE 1=1 
+		<if test="dataStatisticsVo.startTime !=null and dataStatisticsVo.startTime!=''">
+                and DATE_FORMAT(add_time,'%Y-%m-%d') between #{dataStatisticsVo.startTime} and #{dataStatisticsVo.endTime}
+         </if>
+		<if test="alarmType != null and alarmType != ''">
+            	and FIND_IN_SET( #{alarmType}, alarm_type) 
+        </if>
+         <if test="dataStatisticsVo.imei != null and dataStatisticsVo.imei !=''">
+        		and imei = #{dataStatisticsVo.imei}
         </if>
 		ORDER BY add_time
 		)t GROUP BY add_time) as t1

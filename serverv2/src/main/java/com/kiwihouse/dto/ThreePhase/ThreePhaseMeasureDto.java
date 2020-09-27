@@ -56,4 +56,5 @@ public class ThreePhaseMeasureDto {
     private String AddTime;
     private float Hz;
     private String lac;
+    private String cid;
 }

@@ -14,27 +14,27 @@ import lombok.ToString;
 @Getter
 public class DateStatis {
 	/*用电告警器告警数量*/
-	private String electricAlarms;
+	private int electricAlarms;
 	/*用电告警器正常数量*/
-	private String electricAlarm;
+	private int electricAlarm;
 	/*过压告警  ---> type == 4*/
-	private String overVoltageAlarm;
+	private int overVoltageAlarm;
 	/*过流告警  ---> type == 1*/
-	private String overCurrentAlarm;
+	private int overCurrentAlarm;
 	/*过载告警  ---> type == 3*/
-	private String overloadAlarms;
+	private int overloadAlarms;
 	/*欠压告警  ---> type == 5*/
-	private String underVoltageAlarm;
+	private int underVoltageAlarm;
 	/*漏电告警  ---> type == 7*/
-	private String leakageAlarm;
+	private int leakageAlarm;
 	/*温升告警 ---> type == 2*/
-	private String temperatureAlarm;
+	private int temperatureAlarm;
 	/*烟雾告警*/
-	private String smokeAlarm;
+	private int smokeAlarm;
 	/*用电告警总故障数*/
-	private String electricAlarmTotalFailure;
+	private int electricAlarmTotalFailure;
 	/*掉电告警 ---> type == 6*/
-	private String useingTheAlarm;
+	private int useingTheAlarm;
 	/* 时间轴 */
 	private String addTime;
 }

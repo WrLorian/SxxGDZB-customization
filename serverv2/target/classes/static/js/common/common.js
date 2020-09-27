@@ -189,20 +189,6 @@ var authUser = JSON.parse(localStorage.getItem('authUser'));
     }
 })(jQuery);
 /**
- * 时间格式化
- * @param time
- * @returns
- */
-/*function timeStamp2String(datetime){
-    var year = datetime.getFullYear();
-    var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
-    var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
-    var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
-    var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
-    var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
-    return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
-}*/
-/**
  * 得到多少天前后的日期
  * @param a
  * @returns
@@ -226,6 +212,12 @@ function fun_hours(a){
     time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
     var date2 = new Date(date1);
     date2.setHours(date2.getHours() + a);
+    return date2.format();
+}
+function fun_days(a,date1){
+	var time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
+    var date2 = new Date(date1);
+    date2.setDate(date1.getDate() + a);
     return date2.format();
 }
 /**

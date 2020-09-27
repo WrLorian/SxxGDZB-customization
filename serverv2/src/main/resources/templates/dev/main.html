@@ -202,7 +202,7 @@ layui.use(['form', 'table','miniTab'], function () {
         	};
         	miniTab.openNewTabByIframe(options);
         } else if(obj.event === 'location'){
-        	openPopUp('设备详情','/admin/dev/detail',60,80);
+        	openPopUp('设备详情','/admin/dev/details',70,95);
         }
     });
 	//便利省
@@ -247,11 +247,7 @@ function loadTable(jsonEntity){
         toolbar: '#toolbarDemo',
         where : jsonEntity,
         async : false,
-        defaultToolbar: ['filter', 'exports', 'print', {
-            title: '提示',
-            layEvent: 'LAYTABLE_TIPS',
-            icon: 'layui-icon-tips'
-        }],
+        even : true,
         cols: [[
             {type: "checkbox"},
             {field: 'imei',title: 'IMEI号', sort: true},

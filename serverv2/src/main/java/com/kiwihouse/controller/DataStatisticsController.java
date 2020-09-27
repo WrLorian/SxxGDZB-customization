@@ -55,4 +55,14 @@ public class DataStatisticsController {
 //        }
         return dataStatisticsService.queryInfo(dataStatisticsVo);
     }
+    @ApiOperation(value = "queryInfoByImei",
+            notes = "<br>@description: <b>查询一个设备、一段时间的告警信息</b></br>" +
+                    "<br>@Date: <b>2020-2-24 15:41:26</b></br>",
+            httpMethod = "GET")
+    @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = Statistics.class)})
+    @GetMapping("/one/dev")
+    public ResultList queryInfoByImei(@Validated DataStatisticsVo dataStatisticsVo, HttpServletRequest request){
+        logger.info("查询数据总览信息>> {}",new Log().setIp(request.getRemoteAddr()).setParam(dataStatisticsVo.toString()));
+        return dataStatisticsService.queryInfoByImei(dataStatisticsVo);
+    }
 }

@@ -10,5 +10,11 @@ public interface DataStatisticsService {
 	 * @return
 	 */
 	ResultList queryInfo(DataStatisticsVo dataStatisticsVo);
+	/**
+	 * 查询一个设备、一段时间的告警信息
+	 * @param dataStatisticsVo
+	 * @return
+	 */
+	ResultList queryInfoByImei(DataStatisticsVo dataStatisticsVo);
 
 }

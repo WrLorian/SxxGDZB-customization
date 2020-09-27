@@ -26,5 +26,6 @@ public class DataStatisticsVo {
     private String endTime;
     @ApiModelProperty(hidden = true)
     private String adminId;
+    private String imei;
 
 }

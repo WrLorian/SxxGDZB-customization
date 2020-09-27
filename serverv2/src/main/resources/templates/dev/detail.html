@@ -9,7 +9,7 @@
 	<style type="text/css">
 	body, html {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";background-color: #cccccc;}
 	#allmap{
-		width: 49%;height: 100%;overflow: hidden;float: right;background-color: white;
+		width: 50%;height: 100%;float: right;
 	}
 	._cont{
 		width: 100%;height: 100%;overflow: hidden;margin:0;padding-top: 5px;
@@ -252,14 +252,13 @@ function loadTable(jsonEntity){
         url: getRootPath() + '/receive/alarm/info',
         headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
         where : jsonEntity,
-        async : false,
         defaultToolbar: ['filter', 'exports', 'print', {
             title: '提示',
             layEvent: 'LAYTABLE_TIPS',
             icon: 'layui-icon-tips'
         }],
+        even : true,
         cols: [[
-            //{type: "checkbox"},
             {field: 'addTime',title: '告警时间', sort: true},
             {field: 'imei',title: 'imei', sort: true},
             {field: 'eqptAddr', title: '地址',
@@ -302,11 +301,9 @@ function loadTable(jsonEntity){
         limits: [5, 10, 20, 25, 50, 100],
         limit: 10,
         page: true,
-        skin: 'line',
+        
         done : function(res, curr, count) {
 			currentPage = curr;
-			table_Data = res.data;
-			checkRender();
 		}
     });
 }

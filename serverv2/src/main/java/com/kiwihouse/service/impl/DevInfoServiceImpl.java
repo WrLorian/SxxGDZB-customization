@@ -1,7 +1,6 @@
 package com.kiwihouse.service.impl;
 
-import java.math.BigDecimal;
-import java.util.List;
+import java.math.BigInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +41,7 @@ public class DevInfoServiceImpl implements DevInfoService{
 			float leakCur = Float.valueOf(jsonObject.get("leak_cur").toString()); 
 			double lineTemp = Double.valueOf(jsonObject.get("line_temp").toString()); 
 			String lac = jsonObject.get("lac").toString();
+			String cid = jsonObject.get("cid").toString();
 			for(int i = 0;i<cur.size();i++) {
 				if(i == 0) {
 					threePhaseMeasureDto.setCurA(Float.valueOf(cur.get(i).toString()));
@@ -66,6 +66,7 @@ public class DevInfoServiceImpl implements DevInfoService{
 			threePhaseMeasureDto.setKwh(kwh);
 			threePhaseMeasureDto.setLeakCur(leakCur);
 			threePhaseMeasureDto.setLac(lac);
+			threePhaseMeasureDto.setCid(cid);
 			threePhaseMeasureDto.setLineTemp(lineTemp);
 			return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", threePhaseMeasureDto);
 		}

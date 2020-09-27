@@ -1,10 +1,6 @@
 package com.kiwihouse.service.impl;
-
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +14,7 @@ import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.utils.MapKeyComparator;
 import com.kiwihouse.common.utils.TimeUtil;
 import com.kiwihouse.dao.entity.DataTimeNum;
+import com.kiwihouse.dao.entity.DateStatis;
 import com.kiwihouse.dao.entity.DateStatisList;
 import com.kiwihouse.dao.mapper.AlarmMapper;
 import com.kiwihouse.dao.mapper.DataStatisticsMapper;
@@ -42,50 +39,10 @@ public class DataStatisticsServiceImpl implements DataStatisticsService{
      * @param dataStatisticsVo 查询参数
      * @return
      */
-//	@Override
-//    public ResultList queryInfo(DataStatisticsVo dataStatisticsVo) {
-//    	System.out.println(dataStatisticsVo.getStartTime() + "-" + dataStatisticsVo.getEndTime());
-//    	DateStatis dateStatis = dataStatisticsMapper.queryDataStatois(dataStatisticsVo);
-//    	DateStatisList dateStatisList = new DateStatisList();
-//    	if(dateStatis != null) {
-//    		dateStatisList.setOverCurrentAlarm(Arrays.asList(dateStatis.getOverCurrentAlarm().split(",")).stream().mapToInt(Integer::parseInt).toArray());
-//        	dateStatisList.setOverloadAlarms(Arrays.asList(dateStatis.getOverloadAlarms().split(",")).stream().mapToInt(Integer::parseInt).toArray());
-//        	dateStatisList.setUnderVoltageAlarm(Arrays.asList(dateStatis.getUnderVoltageAlarm().split(",")).stream().mapToInt(Integer::parseInt).toArray());
-//        	dateStatisList.setLeakageAlarm(Arrays.asList(dateStatis.getLeakageAlarm().split(",")).stream().mapToInt(Integer::parseInt).toArray());
-//        	dateStatisList.setTemperatureAlarm(Arrays.asList(dateStatis.getTemperatureAlarm().split(",")).stream().mapToInt(Integer::parseInt).toArray());
-//        	dateStatisList.setUseingTheAlarm(Arrays.asList(dateStatis.getUseingTheAlarm().split(",")).stream().mapToInt(Integer::parseInt).toArray());
-//        	dateStatisList.setSmokeAlarm(Arrays.asList(dateStatis.getSmokeAlarm().split(",")).stream().mapToInt(Integer::parseInt).toArray());
-//        	dateStatisList.setElectricAlarmTotalFailure(Arrays.asList(dateStatis.getElectricAlarmTotalFailure().split(",")).stream().mapToInt(Integer::parseInt).toArray());
-//        	dateStatisList.setAddTime(dateStatis.getAddTime().split(","));
-//    	}
-//    	
-//    	//用电设备总数
-//    	EqptQueryVo eqptQueryVo = new EqptQueryVo();
-//    	eqptQueryVo.setEqptType("0");
-//    	int dxCount = equipmentMapper.queryInfoCount(eqptQueryVo);
-//    	eqptQueryVo.setEqptType("1");
-//    	int sxCount = equipmentMapper.queryInfoCount(eqptQueryVo);
-//    	int electricAlarms = alarmMapper.timeAlarmCount(dataStatisticsVo.getStartTime(),dataStatisticsVo.getEndTime(),"0,1");
-//    	dateStatisList.setElectricAlarmNum(electricAlarms);
-//    	dateStatisList.setElectricAlarmNums(dxCount + sxCount);
-//    	//烟感设备总数.
-//    	eqptQueryVo.setEqptType("2");
-//    	int ygCount = equipmentMapper.queryInfoCount(eqptQueryVo);
-//    	//烟感告警设备数量
-//    	int ygAlarmCount = alarmMapper.timeAlarmCount(dataStatisticsVo.getStartTime(),dataStatisticsVo.getStartTime(),"2");
-//    	dateStatisList.setSmokeNum(ygCount);
-//    	dateStatisList.setSmokeAlarmNum(ygAlarmCount);
-//    	
-//    	
-//        return new ResultList(Code.QUERY_SUCCESS.getCode(),Code.QUERY_SUCCESS.getMsg(),new Result<>(1,dateStatisList));
-//
-//    }
 	@Override
 	public ResultList queryInfo(DataStatisticsVo dataStatisticsVo) {
 		List<Date> list = TimeUtil.getBetweenDates(TimeUtil.strToDate(dataStatisticsVo.getStartTime()),TimeUtil.strToDate(dataStatisticsVo.getEndTime()));
 		DateStatisList dateStatisList = new DateStatisList();
-//		System.out.println(list.size());
-//		dateStatisList.setAddTime(list.toArray(addTime));
 		for(int i = 1;i<9;i++) {
 			 List<DataTimeNum> listData = alarmMapper.selectByTimesAndType(dataStatisticsVo,i);
 			 Map<String,Integer> mapl = new HashMap<String, Integer>();
@@ -103,36 +60,36 @@ public class DataStatisticsServiceImpl implements DataStatisticsService{
 			 if(i == 1) {
 				dateStatisList.setOverCurrentAlarm(dataTo(mapl));
 			 }else if(i == 2) {
-				 dateStatisList.setOverloadAlarms(dataTo(mapl));
-			 }else if(i == 3) {
-				 dateStatisList.setUnderVoltageAlarm(dataTo(mapl));
-			 }else if(i == 4) {
-				 dateStatisList.setLeakageAlarm(dataTo(mapl));
-			 }else if(i == 5) {
 				 dateStatisList.setTemperatureAlarm(dataTo(mapl));
+			 }else if(i == 3) {
+				 dateStatisList.setOverloadAlarms(dataTo(mapl));
+			 }else if(i == 4) {
+				 dateStatisList.setOverVoltageAlarm(dataTo(mapl));
+			 }else if(i == 5) {
+				 dateStatisList.setUnderVoltageAlarm(dataTo(mapl));
 			 }else if(i == 6) {
 				 dateStatisList.setUseingTheAlarm(dataTo(mapl));
 			 }else if(i == 7) {
-				 dateStatisList.setSmokeAlarm(dataTo(mapl));
+				 dateStatisList.setUseingTheAlarm(dataTo(mapl));
 			 }else if(i == 8) {
-				 dateStatisList.setElectricAlarmTotalFailure(dataTo(mapl));
+				 dateStatisList.setSmokeAlarm(dataTo(mapl));
 			 }
 		}
-		
+	
 		
 		EqptQueryVo eqptQueryVo = new EqptQueryVo();
     	eqptQueryVo.setEqptType("0");
     	int dxCount = equipmentMapper.queryInfoCount(eqptQueryVo);
     	eqptQueryVo.setEqptType("1");
     	int sxCount = equipmentMapper.queryInfoCount(eqptQueryVo);
-    	int electricAlarms = alarmMapper.timeAlarmCount(dataStatisticsVo.getStartTime(),dataStatisticsVo.getEndTime(),"0,1");
+    	int electricAlarms = alarmMapper.timeAlarmCount(dataStatisticsVo,"0,1");
     	dateStatisList.setElectricAlarmNum(electricAlarms);
     	dateStatisList.setElectricAlarmNums(dxCount + sxCount);
     	//烟感设备总数.
     	eqptQueryVo.setEqptType("2");
     	int ygCount = equipmentMapper.queryInfoCount(eqptQueryVo);
     	//烟感告警设备数量
-    	int ygAlarmCount = alarmMapper.timeAlarmCount(dataStatisticsVo.getStartTime(),dataStatisticsVo.getStartTime(),"2");
+    	int ygAlarmCount = alarmMapper.timeAlarmCount(dataStatisticsVo,"2");
     	dateStatisList.setSmokeNum(ygCount);
     	dateStatisList.setSmokeAlarmNum(ygAlarmCount);
 		return new ResultList(Code.QUERY_SUCCESS.getCode(),Code.QUERY_SUCCESS.getMsg(),new Result<>(1,dateStatisList));
@@ -168,4 +125,34 @@ public class DataStatisticsServiceImpl implements DataStatisticsService{
         sortMap.putAll(map);
         return sortMap;
     }
+	@Override
+	public ResultList queryInfoByImei(DataStatisticsVo dataStatisticsVo) {
+		DateStatis dateStatis = new DateStatis();
+		for(int i = 1;i<9;i++) {
+			 Map<String,Integer> mapl = new HashMap<String, Integer>();
+			 Integer count = alarmMapper.selectByTimeAndTypeCount(dataStatisticsVo,i);
+			 if(count == null) {
+				 count = 0;
+			 }
+			 if(i == 1) {
+				 dateStatis.setOverCurrentAlarm(count);
+			 }else if(i == 2) {
+				 dateStatis.setTemperatureAlarm(count);
+			 }else if(i == 3) {
+				 dateStatis.setOverloadAlarms(count);
+			 }else if(i == 4) {
+				 dateStatis.setOverVoltageAlarm(count);
+			 }else if(i == 5) {
+				 dateStatis.setUnderVoltageAlarm(count);
+			 }else if(i == 6) {
+				 dateStatis.setUseingTheAlarm(count);
+			 }else if(i == 7) {
+				 dateStatis.setLeakageAlarm(count);
+			 }else if(i == 8) {
+				 dateStatis.setElectricAlarmTotalFailure(count);
+			 }
+		}
+		// TODO Auto-generated method stub
+		return new ResultList(Code.QUERY_SUCCESS.getCode(),Code.QUERY_SUCCESS.getMsg(),new Result<>(1,dateStatis));
+	}
 }

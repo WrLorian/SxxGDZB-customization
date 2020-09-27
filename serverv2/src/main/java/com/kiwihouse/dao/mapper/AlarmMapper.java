@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.kiwihouse.dao.entity.Alarm;
 import com.kiwihouse.dao.entity.DataTimeNum;
+import com.kiwihouse.dao.entity.DateStatis;
 import com.kiwihouse.dto.AlarmEqptDto;
 import com.kiwihouse.vo.kiwihouse.AlmQueryVo;
 import com.kiwihouse.vo.kiwihouse.DataStatisticsVo;
@@ -42,6 +43,15 @@ public interface AlarmMapper {
 	int queryAlarmCount(AlmQueryVo almQueryVo);
 	
 	Integer updateAlmSta(@Param("alarmId") String alarmId,@Param("almSta") int almSta);
+	
+	List<DataTimeNum> selectByTimesAndType(@Param("dataStatisticsVo") DataStatisticsVo dataStatisticsVo,@Param("alarmType") int alarmType);
+	/**
+	 * 查询一个设备、一段时间的告警信息
+	 * @param dataStatisticsVo
+	 * @param i
+	 * @return
+	 */
+	Integer selectByTimeAndTypeCount(@Param("dataStatisticsVo") DataStatisticsVo dataStatisticsVo,@Param("alarmType") int alarmType);
 	/**
 	 * 时间范围内 设备告警数量 
 	 * @param startTime
@@ -49,7 +59,5 @@ public interface AlarmMapper {
 	 * @param string
 	 * @return
 	 */
-	int timeAlarmCount(@Param("startTime") String startTime, @Param("endTime") String endTime, @Param("eqptType") String eqptType);
-	
-	List<DataTimeNum> selectByTimesAndType(@Param("dataStatisticsVo") DataStatisticsVo dataStatisticsVo,@Param("alarmType") int alarmType);
+	int timeAlarmCount(@Param("dataStatisticsVo") DataStatisticsVo dataStatisticsVo, @Param("eqptType") String eqptType);
 }

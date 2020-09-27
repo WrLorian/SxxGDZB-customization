@@ -92,7 +92,6 @@ $(document).ready(function(){
         	laydate = layui.laydate;
         var d = laydate.render({
             elem: '#times'
-            //,type: 'datetime'
             ,range: true
             ,max : 'today'
             ,value: value//"2020-09-02 17:47:48 - 2020-09-09 17:47:48"
@@ -136,7 +135,8 @@ $(document).ready(function(){
             		var arr = value.split(" - ");
                     var e = {};
                     e.startTime = $.trim(arr[0]);
-                    e.endTime = $.trim(arr[1]);
+                    var d = new Date($.trim(arr[1]));
+                    e.endTime = fun_days(1,d).substring(0,10);
                     initEchartsDate(e);
             	}
               }
@@ -377,7 +377,9 @@ $(document).ready(function(){
 	    	var arr = value.split(" - ");
 	        var e = {};
 	        e.startTime = $.trim(arr[0]);
-	        e.endTime = $.trim(arr[1]);
+	        //e.endTime = $.trim(arr[1]);
+	        var d = new Date($.trim(arr[1]));
+        	e.endTime = fun_days(1,d).substring(0,10);
 	        initEchartsDate(e);
 	    }
         // echarts 窗口缩放自适应
