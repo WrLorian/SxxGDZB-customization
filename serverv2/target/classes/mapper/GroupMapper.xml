@@ -8,7 +8,7 @@
  				GROUP_CONCAT(e.eqpt_id SEPARATOR ',') as eqptIds 
 				from `group` as g 
 				LEFT join auth_role as a on g.role_id=a.ID 
-				INNER JOIN equipment as e on e.group_id = g.group_id 
+				LEFT JOIN equipment as e on e.group_id = g.group_id 
 				 <where>
 				 	<if test="roleId != null and roleId != ''">
 		                and g.role_id >= #{roleId} 
@@ -35,7 +35,7 @@
  				GROUP_CONCAT(e.eqpt_id SEPARATOR ',') as eqptIds 
 				from `group` as g 
 				LEFT join auth_role as a on g.role_id=a.ID 
-				INNER JOIN equipment as e on e.group_id = g.group_id 
+				LEFT JOIN equipment as e on e.group_id = g.group_id 
 				 <where>
 				 	<if test="roleId != null and roleId != ''">
 		                and g.role_id >= #{roleId} 

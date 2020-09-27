@@ -20,10 +20,10 @@ public class EqptTypeSta {
     /**
      * 烟感
      */
-    public final static String YG = "1";
+    public final static String YG = "2";
     /**
      * 三相设备
      */
-    public final static String SX = "2";
+    public final static String SX = "1";
 
 }

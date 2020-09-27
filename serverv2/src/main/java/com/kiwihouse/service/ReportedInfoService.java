@@ -29,16 +29,17 @@ public interface ReportedInfoService {
 	 */
 	Response queryPwr(QueryPwrVo queryPwrVo) throws ParseException;
 	/**
-	 * 	设备运行信息
+	 * 设备参数信息
 	 * @param reportedQueryVo
+	 * @param eqptType 数据类型
 	 * @return
 	 */
-	Response devRunInfo(ReportedQueryVo reportedQueryVo);
+	Response devRunInfo(ReportedQueryVo reportedQueryVo,Integer type);
 	/**
-	 * 	火警设备告警信息
+	 * 	实时数据
 	 * @param reportedQueryVo
 	 * @return
 	 */
-	Response devAlarmInfo(ReportedQueryVo reportedQueryVo);
+	Response devRealDate(ReportedQueryVo reportedQueryVo,Integer type);
 
 }

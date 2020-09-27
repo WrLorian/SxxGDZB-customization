@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
@@ -42,7 +43,7 @@ public class ThreePhaseMeasureDto {
     @ApiModelProperty(value = "线温", name = "lineTemp")
     private double LineTemp;
     @ApiModelProperty(value = "漏电流", name = "leakCur")
-    private int LeakCur;
+    private float LeakCur;
     @ApiModelProperty(value = "A相功率因数", name = "pwrFctA")
     private double PwrFctA;
     @ApiModelProperty(value = "B相功率因数", name = "pwrFctB")
@@ -53,4 +54,6 @@ public class ThreePhaseMeasureDto {
     private int Csp;
     @ApiModelProperty(value = "增加时间", name = "addTime")
     private String AddTime;
+    private float Hz;
+    private String lac;
 }

@@ -19,32 +19,25 @@
                     <div class="layui-form-item">
                     	<div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" name="code" autocomplete="off" class="layui-input" placeholder="资源名称">
+                                <input type="text" name="imei" autocomplete="off" class="layui-input" placeholder="imei">
                             </div>
                         </div>
                         <div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" name="uri" autocomplete="off" class="layui-input" placeholder="URL地址">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <div class="layui-input-inline">
-                                <select name="type" lay-verify="" placeholder="资源类别">
+                                <select name="mtStatus" lay-verify="" placeholder="资源类别">
 								  <option value="">请选择类别</option>
-								  <option value="1">菜单menu</option>
-								  <option value="2">资源element(rest-api)</option>
-								  <option value="3">资源分类</option>
+								  <option value="0">待维修</option>
+								  <option value="1">已维修</option>
+								  <option value="2">已撤销</option>
 								</select>
                             </div>
                         </div>
                         <div class="layui-inline">
                             <div class="layui-input-inline">
-                                <select name="method" lay-verify="" placeholder="请求类型">
+                                <select name="mtType" lay-verify="" placeholder="设备类型">
 								  <option value="">请选择请求类型</option>
-								  <option value="GET">GET</option>
-								  <option value="POST">POST</option>
-								  <option value="PUT">PUT</option>
-								  <option value="DELETE">DELETE</option>
+								  <option value="0,1">单三用电设备</option>
+								  <option value="2">烟雾告警器</option>
 								</select>
                             </div>
                         </div>
@@ -58,16 +51,23 @@
     	
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
-                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="excel" title="Excel导出"> 导出 </button>
             </div>
         </script>
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-            <a class="layui-icon layui-icon-delete" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="delete"></a>
+			
+			{{# if(d.mtStatus == 0 ){ }}
+					<a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
+            		<a class="fa fa-share" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout"></a>
+			{{# } else if(d.mtStatus == 1 ){}}
+            		<a class="fa fa-share" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout"></a>
+			{{# } else if(d.mtStatus == 2 ){}}
+			{{# } }}
+				
+            
         </script>
 
     </div>
@@ -82,7 +82,8 @@ layui.use(['form', 'table'], function () {
         form = layui.form;
         table = layui.table;
     jsonEntity.roleId = authUser.roleId;
-    loadTickets(jsonEntity);
+    jsonEntity.mtStatus = 0;
+    loadTickets(jsonEntity); 
     // 监听搜索操作
     form.on('submit(data-search-btn)', function (data) {
         var result = JSON.stringify(data.field);
@@ -101,45 +102,29 @@ layui.use(['form', 'table'], function () {
     table.on('toolbar(currentTableFilter)', function (obj) {
         if (obj.event === 'add') {  // 监听添加操作
         	openPopUp('添加','/admin/resource/add');
-        } else if (obj.event === 'delete') {  // 监听删除操作
-            var checkStatus = table.checkStatus('currentTableId')
-                , data = checkStatus.data;
-        	var idArr = [];
-        	$.each(data,function(index,xx){
-        		idArr.push(xx.id);
-        		$.ajax({
-         			url: "/resource/menu/"+idArr.join(','),
-         			type : "DELETE",
-        	　　		dataType : "json",
-        	　　		contentType: "application/json;charset=utf-8",
-    			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-    			    success:function(data){
-    			    	 	if(data.success){
-    			    	 		layer.msg("删除成功")
-    			    	 		flush(currentPage, jsonEntity);
-    						}else{
-    							layer.msg(data.msg);
-    						}
-    			    }
-    			 });
-        	})
         }
     });
     table.on('tool(currentTableFilter)', function (obj) {
         dataRow = obj.data;
         if (obj.event === 'edit') {
-            openPopUp('资源修改','/admin/resource/edit');
+            openPopUp('维修单修改','/admin/maintain/edit');
             return false;
-        } else if (obj.event === 'delete') {
+        } else if (obj.event === 'backout') {
+        	var v = {};
+        	v.alarmId = dataRow.alarmId;
+        	v.mtId = dataRow.mtId;
+        	v.mtStatus = 2;
+        	v.mtType = dataRow.mtType;
             	$.ajax({
-         			url: "/resource/menu/"+dataRow.id,
-         			type : "DELETE",
+         			url: "/maintain/info",
+         			type : "PUT",
         	　　		dataType : "json",
+        	　　		data:JSON.stringify(v),
         	　　		contentType: "application/json;charset=utf-8",
     			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
     			    success:function(data){
     			    	 	if(data.success){
-    			    	 		layer.msg("删除成功")
+    			    	 		layer.msg("撤销成功");
     			    	 		obj.del();
     						}else{
     							layer.msg(data.msg);
@@ -155,7 +140,7 @@ layui.use(['form', 'table'], function () {
 function loadTickets(jsonEntity){
 	table.render({
         elem: '#currentTableId',
-        url: getRootPath() + '/resource/auth/select',
+        url: getRootPath() + '/maintain/info',
         headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
         where : jsonEntity,
         async : false,
@@ -166,20 +151,37 @@ function loadTickets(jsonEntity){
             icon: 'layui-icon-tips'
         }],
         cols: [[
-            {type: "checkbox"},
-            {field: 'code',title: '资源名称', sort: true},
-            {field: 'name',title: '资源描述', sort: true},
-            {field: 'id',title: 'id', hide:true},
-            {field: 'uri', title: '访问地址URL'},
-            {field: 'type',title: '资源类别'},
-            {field: 'method',  title: '请求类型', sort: true},
-            {field: 'status',  title: '状态', sort: true,
-				templet : function(row) {
-					if(row.status == 1){
-						return "正常";
-					}
-					return "禁用";
+            {field: 'eqptName',title: '设备名称'},
+            {field: 'imei',title: 'IMEI'},
+            {field: 'address',title: '设备地址' ,width:'25%',
+            	templet : function(row) {
+				
+				return row.province + row.city + row.district + row.address;
 			}},
+            {field: 'alarmMsg',  title: '告警类型', 
+            	templet : function(row) {
+   	        	 if(typeof(row.alarmMsg) == 'undefined'){
+   	        		 return '';
+   	        	 }else{
+   	        		 var alarmInfo = JSON.parse(row.alarmMsg);
+   	        		 //'<i class="fa fa-warning" title=" '+alarmInfo.msg+' : '+alarmInfo.value+'" > </i>';
+   	    			 return _alarmIcon(alarmInfo);
+   	        	 }
+   			   }	
+            },
+            {field: 'mtStatus',  title: '维修状态', sort: true,
+				templet : function(row) {
+					if(row.mtStatus == 0){
+						return "未维修";
+					}else if(row.mtStatus == 1){
+						return "已维修";
+					}else if(row.mtStatus == 2){
+						return "已撤销";
+					}
+					
+			}},
+			{field: 'mtName',title: '维修人员名称', sort: true},
+			{field: 'updateTime',title: '告警时间'},
             {title: '操作', toolbar: '#currentTableBar', align: "center",width:'20%'}
         ]],
         limits: [5, 10, 20, 25, 50, 100],

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kiwihouse.mapper.DataStatisticsMapper">
+<mapper namespace="com.kiwihouse.dao.mapper.DataStatisticsMapper">
 
     <select id="queryPreDayFireEqpt" resultType="com.kiwihouse.dto.EqptWarn" parameterType="com.kiwihouse.vo.kiwihouse.DataStatisticsVo">
         select count(distinct eqpt_sn) as eqptNum,DATE_FORMAT(add_time,'%Y-%m-%d') as add_time
@@ -220,4 +220,53 @@
         group by DATE_FORMAT(u.add_time,'%Y-%m-%d');
     </select>
 
+	<select id="queryDataStatois" resultType="com.kiwihouse.dao.entity.DateStatis" parameterType="com.kiwihouse.vo.kiwihouse.DataStatisticsVo">
+				<!-- SELECT alarm_id ,imei,add_time,alarm_msg,substring_index(
+		        substring_index(
+		            a.alarm_type,
+		            ',',
+		            b.help_topic_id + 1
+		        ) ,
+		        ',' ,- 1
+		    )as alarm_type  FROM `alarm` a JOIN mysql.help_topic b ON b.help_topic_id &lt; (length(a.alarm_type) - length(REPLACE (a.alarm_type, ',', '')) + 1) -->
+			SELECT 
+			GROUP_CONCAT(overCurrentAlarm) overCurrentAlarm,
+			GROUP_CONCAT(temperatureAlarm) temperatureAlarm,
+			GROUP_CONCAT(overloadAlarms) overloadAlarms,
+			GROUP_CONCAT(overVoltageAlarm) overVoltageAlarm,
+			GROUP_CONCAT(underVoltageAlarm) underVoltageAlarm,
+			GROUP_CONCAT(useingTheAlarm) useingTheAlarm,
+			GROUP_CONCAT(leakageAlarm) leakageAlarm,
+			GROUP_CONCAT(smokeAlarm) smokeAlarm,
+			GROUP_CONCAT(add_time) add_time ,
+			GROUP_CONCAT(electricAlarmTotalFailure) electricAlarmTotalFailure 
+			FROM(
+			SELECT t2.*,SUM(overCurrentAlarm + temperatureAlarm + overloadAlarms +  overVoltageAlarm + underVoltageAlarm + useingTheAlarm + leakageAlarm + smokeAlarm) as electricAlarmTotalFailure  FROM(
+			SELECT t1.imei,alarm_id,add_time,
+			sum(CASE alarm_type WHEN '1' THEN num ELSE 0 END) as 'overCurrentAlarm',
+			sum(CASE alarm_type WHEN '2' THEN num ELSE 0 END) as 'temperatureAlarm',
+			sum(CASE alarm_type WHEN '3' THEN num ELSE 0 END) as 'overloadAlarms',
+			sum(CASE alarm_type WHEN '4' THEN num ELSE 0 END) as 'overVoltageAlarm',
+			sum(CASE alarm_type WHEN '5' THEN num ELSE 0 END) as 'underVoltageAlarm',
+			sum(CASE alarm_type WHEN '6' THEN num ELSE 0 END) as 'useingTheAlarm',
+			sum(CASE alarm_type WHEN '7' THEN num ELSE 0 END) as 'leakageAlarm',
+			sum(CASE alarm_type WHEN '8' THEN num ELSE 0 END) as 'smokeAlarm'
+			 FROM (
+			SELECT *,COUNT(*) as num FROM (
+			SELECT alarm_id ,imei,date_format( add_time, '%Y-%m-%d' ) add_time,substring_index(
+					        substring_index(
+					            a.alarm_type,
+					            ',',
+					            b.help_topic_id + 1
+					        ) ,
+					        ',' ,- 1
+					    )as alarm_type  FROM `alarm` a JOIN mysql.help_topic b ON b.help_topic_id &lt; (length(a.alarm_type) - length(REPLACE (a.alarm_type, ',', '')) + 1)
+					    <where>
+					    	<if test="endTime!=null and endTime!='' and startTime !=null and startTime!=''">
+				                 DATE_FORMAT(add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+				            </if>
+					    </where>
+					    ) t
+							GROUP BY add_time ,alarm_type) t1 GROUP BY add_time) t2 GROUP BY alarm_id ORDER BY add_time) t3
+	</select>
 </mapper>

@@ -16,14 +16,14 @@ import lombok.experimental.Accessors;
 @Setter
 public class ImprovedSetParamDto {
 
-    private Double CT;
+    private Integer CT;
     private Integer Beep;
     private Double volH;
     private Double leakH;
     private Double curH;
     private Double pwrH;
     private Double TempH;
-    private Double lCT;
+    private Integer lCT;
     private Double volL;
     private Double Interval;
 

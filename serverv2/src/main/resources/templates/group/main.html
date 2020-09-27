@@ -143,6 +143,7 @@ layui.use(['form', 'table'], function () {
 			    headers: { "Authorization": authorization ,"dz-roleId":authUser.roleId,"dz-eqptIds":eqptIds},//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
 			    	if(data.code == 4004){
+			    		flush(currentPage, jsonEntity);
 			    		layer.msg(data.msg);
 			    	}else{
 			    		layer.msg(data.msg);

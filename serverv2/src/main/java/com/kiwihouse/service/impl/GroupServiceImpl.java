@@ -96,7 +96,8 @@ public class GroupServiceImpl implements GroupService{
 //            return new ResultList(Code.DELETE_FAIL.getCode(),"不能删除非空分组",null);
 //        }
         if(roleId == 100){
-        	if(!"".equals(eqptIds)) {
+        	System.out.println("------------->" + eqptIds);
+        	if(eqptIds != null && !"".equals(eqptIds)) {
         		//修改设备分组
         		//批量修改设备
         		String[] eqptIdArr = eqptIds.split(",");
@@ -176,7 +177,7 @@ public class GroupServiceImpl implements GroupService{
             if(0==groupRow){
                 return new ResultList(Code.UPDATE_NULL.getCode(),Code.UPDATE_NULL.getMsg(),null);
             }else{
-                return ResultUtil.verifyUpdate(updateEqpt(groupUpdateVo));
+            	return new ResultList(Code.UPDATE_SUCCESS.getCode(), Code.UPDATE_SUCCESS.getMsg(), null);
             }
 //        }
     }

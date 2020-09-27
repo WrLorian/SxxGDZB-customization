@@ -92,6 +92,7 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
+			<a class="layui-icon icon-weizhi1" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="location" title="定位"></a>
             <a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
 			<a class="layui-icon layui-icon-slider" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="parameter"  title="设备参数"></a>
 			<a class="fa fa-ellipsis-h" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="more"  title="更多"></a>
@@ -107,7 +108,7 @@ var currentPage = 1;
 var jsonEntity = {};
 var dataRow;
 var miniTab;
-jsonEntity.eqptType = $.getUrlParam('eqptType');
+//jsonEntity.eqptType = $.getUrlParam('eqptType');
 layui.use(['form', 'table','miniTab'], function () {
     var $ = layui.jquery;
         form = layui.form;
@@ -186,8 +187,8 @@ layui.use(['form', 'table','miniTab'], function () {
             }); 
             return false;
         } else if(obj.event === 'parameter'){//parameter;
-    		oneNet(onenetVariable(dataRow.imei,dataRow.eqptType));
         	openPopUp('添加','/admin/dev/parameter',60,80);
+        	
         } else if(obj.event === 'more'){
         	var options = {
         			href:'/admin/dev/mwh?imei=' + obj.data.imei,
@@ -200,6 +201,8 @@ layui.use(['form', 'table','miniTab'], function () {
         			title:'功率追踪'
         	};
         	miniTab.openNewTabByIframe(options);
+        } else if(obj.event === 'location'){
+        	openPopUp('设备详情','/admin/dev/detail',60,80);
         }
     });
 	//便利省
@@ -269,11 +272,11 @@ function loadTable(jsonEntity){
 	          templet : function(row) {
    				if (row.eqptType == 0)
    				{
-   					return '用电设备';
+   					return '单相';
    				}else if(row.eqptType == 1){
-   					return '烟感设备';
+   					return '三相';
    				}else if(row.eqptType == 2){
-   					return '三相设备';
+   					return '烟感告警器';
    				}else{
    					return '';
    				}

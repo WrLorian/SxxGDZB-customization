@@ -130,65 +130,99 @@
   
   <select id="queryAlarm" resultType="com.kiwihouse.dto.AlarmEqptDto"
             parameterType="com.kiwihouse.vo.kiwihouse.AlmQueryVo">
-          SELECT t.*  FROM (
 				SELECT a.*,e.eqpt_name,e.province,e.city,e.district,e.eqpt_addr,c.phone as ctsPhone FROM `alarm` a 
 				LEFT JOIN equipment e on a.imei = e.imei 
 				Left JOIN contacts c on e.user_id = c.user_id 
-				GROUP BY a.alarm_id) t
-          <where>
+				
+				<where>
             <if test="imei != null and imei != ''">
-                and t.imei like CONCAT('%',#{imei},'%')
+                and a.imei like CONCAT('%',#{imei},'%')
             </if>
             <if test="province != null and province != ''">
-                and t.province=#{province}
+                and e.province=#{province}
             </if>
             <if test="city != null and city != ''">
-                and t.city=#{city}
+                and e.city=#{city}
             </if>
             <if test="district != null and district != ''">
-                and t.district=#{district}
+                and e.district=#{district}
             </if>
             <if test="eqptAddr != null and eqptAddr != ''">
-                and t.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
+                and e.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
+            </if>
+            <if test="alarmType != null and alarmType != '' ">
+            	and FIND_IN_SET( #{alarmType}, a.alarm_type)
+            </if>
+            <if test="startTime != null and startTime != ''">
+            	and DATE_FORMAT(a.add_time,'%Y-%m-%d %H:%i:%S') between #{startTime} and #{endTime}
             </if>
 		</where>
-          <if test="orderBy == 0">
-        	order by t.add_time desc
-        </if>
-        <if test="orderBy == 1">
-        	order by t.add_time
-        </if>
+		GROUP BY a.alarm_id
+        order by a.add_time desc
         <if test="limit != null">
         	limit #{page},#{limit}
         </if>
     </select>
     
     <select id="queryAlarmCount" resultType="Integer" parameterType="com.kiwihouse.vo.kiwihouse.AlmQueryVo">
-    	 SELECT count(*)  FROM (
-				SELECT a.*,e.eqpt_name,e.province,e.city,e.district,e.eqpt_addr,c.phone FROM `alarm` a 
-				LEFT JOIN equipment e on a.imei = e.imei 
-				Left JOIN contacts c on e.user_id = c.user_id 
-				GROUP BY a.alarm_id) t
-          <where>
-            <if test="imei != null and imei != ''">
-                and t.imei like CONCAT('%',#{imei},'%')
-            </if>
-            <if test="province != null and province != ''">
-                and t.province=#{province}
-            </if>
-            <if test="city != null and city != ''">
-                and t.city=#{city}
-            </if>
-            <if test="district != null and district != ''">
-                and t.district=#{district}
-            </if>
-            <if test="eqptAddr != null and eqptAddr != ''">
-                and t.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
-            </if>
+				SELECT count(*) FROM(
+					SELECT a.alarm_id FROM `alarm` a 
+					LEFT JOIN equipment e on a.imei = e.imei 
+					Left JOIN contacts c on e.user_id = c.user_id GROUP BY a.alarm_id order by a.add_time
+					<if test="imei != null and imei != ''">
+                		and a.imei like CONCAT('%',#{imei},'%')
+		            </if>
+		            <if test="province != null and province != ''">
+		                and e.province=#{province}
+		            </if>
+		            <if test="city != null and city != ''">
+		                and e.city=#{city}
+		            </if>
+		            <if test="district != null and district != ''">
+		                and e.district=#{district}
+		            </if>
+		            <if test="eqptAddr != null and eqptAddr != ''">
+		                and e.eqpt_addr like CONCAT('%',#{eqptAddr},'%')
+		            </if>
+		            <if test="alarmType != null and alarmType != '' ">
+		            	and FIND_IN_SET( #{alarmType}, a.alarm_type)
+		            </if>
+		            <if test="startTime != null and startTime != ''">
+		            	and DATE_FORMAT(a.add_time,'%Y-%m-%d %H:%i:%S') between #{startTime} and #{endTime}
+		            </if>
+					) t
+				<where>
 		</where>
-         
     </select>
     <update id="updateAlmSta">
         update alarm set alarm_status=#{almSta} where alarm_id=#{alarmId}
     </update>
+    <!-- 时间范围内 设备告警数量 -->
+    <select id="timeAlarmCount" resultType="Integer" parameterType="com.kiwihouse.vo.kiwihouse.AlmQueryVo">
+    	SELECT count(*) FROM(
+				SELECT * FROM alarm where 1 = 1
+					<if test="eqptType != null and eqptType != '' ">
+	            	 and eqpt_type in(#{eqptType}) 
+			        </if>
+			    	<if test="startTime != null and startTime != ''">
+			         and DATE_FORMAT(add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+			        </if>
+				
+				GROUP BY imei) t
+    </select>
+    <!-- 根据时间范围 和告警类型查询告警 -->
+    <select id="selectByTimesAndType" resultType="com.kiwihouse.dao.entity.DataTimeNum" parameterType="com.kiwihouse.vo.kiwihouse.DataStatisticsVo">
+    	SELECT  add_time, num FROM(
+		SELECT imei,add_time,alarm_id ,count(*) num FROM(
+		SELECT imei,alarm_id,SUBSTRING(add_time FROM 1 FOR 10) add_time FROM alarm 
+		WHERE 1=1
+		<if test="dataStatisticsVo.startTime !=null and dataStatisticsVo.startTime!=''">
+                and DATE_FORMAT(add_time,'%Y-%m-%d') between #{dataStatisticsVo.startTime} and #{dataStatisticsVo.endTime}
+         </if>
+		<if test="alarmType != null and alarmType != ''">
+            	and FIND_IN_SET( #{alarmType}, alarm_type) 
+        </if>
+		ORDER BY add_time
+		)t GROUP BY add_time) as t1
+    </select>
 </mapper>

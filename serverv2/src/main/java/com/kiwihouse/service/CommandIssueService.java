@@ -54,24 +54,18 @@ public class CommandIssueService {
      */
     public ResultList commandsIssued(List<CommandVo> list, HttpServletRequest request) {
         HashMap<String, Object> map = new HashMap<>();
-//        String adminId = request.getHeader("dz-usr");
-        list.forEach(commandVo -> {
-        	System.out.println(commandVo.toString());
-            String imei = commandVo.getImei();
-//            if(checkAdminService.isEqptBelong2admin(imei, adminId)) {
-//                HashMap<String, Integer> hashMap = ReflectUtil.GetNoneEmptyFieldMap(commandVo.getRegister());
-//                String response = commandsIssued(hashMap, imei, commandVo.getEqptType());
-//                map.put(imei, response);
-//            }else{
-//                map.put(imei, "对该设备没有命令下发权限");
-//            }
-            HashMap<String, Integer> hashMap = ReflectUtil.GetNoneEmptyFieldMap(commandVo.getRegister());
-            String response = commandsIssued(hashMap, imei, commandVo.getEqptType());
-            System.out.println("response--------->" + response);
-            map.put(imei, response);
-        });
-
-        return new ResultList(Code.COMMAND_ISSUED.getCode(), Code.COMMAND_ISSUED.getMsg(), new Result<>(0, map));
+        try {
+        	list.forEach(commandVo -> {
+                String imei = commandVo.getImei();
+                HashMap<String, Object> hashMap = ReflectUtil.GetNoneEmptyFieldMap(commandVo.getRegister());
+                String response = commandsIssued(hashMap, imei, commandVo.getEqptType());
+                map.put(imei, response);
+            });
+        	 return new ResultList(Code.COMMAND_ISSUED.getCode(), Code.COMMAND_ISSUED.getMsg(), new Result<>(0, map));
+        }catch (Exception e) {
+			// TODO: handle exception
+        	 return new ResultList(Code.COMMAND_FAIL.getCode(), Code.COMMAND_FAIL.getMsg(), new Result<>(0, map));
+		}
     }
 
     /**
@@ -82,7 +76,7 @@ public class CommandIssueService {
      * @param eqptType
      * @return
      */
-    public String commandsIssued(HashMap<String, Integer> map, String imei, String eqptType) {
+    public String commandsIssued(HashMap<String, Object> map, String imei, String eqptType) {
 
         String url = OneNtUrl.writeResource + imei;
 
@@ -107,7 +101,6 @@ public class CommandIssueService {
         JSONObject jsonObject1 = (JSONObject) JSONObject.toJSON(oneNetDataDto);
 
         String response = "";
-
         if (EqptTypeSta.YG.equals(eqptType)) {
             response = HttpClientUtil.doPost(url, jsonObject1.toJSONString(), ApiKeys.YGKey);
         } else if (EqptTypeSta.DX.equals(eqptType)) {

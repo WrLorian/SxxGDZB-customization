@@ -29,6 +29,9 @@ public class MtInfoVo extends Basic{
 
     @ApiModelProperty(value = "设备序列号",name = "eqptSn")
     private String eqptSn;
+    
+    @ApiModelProperty(value = "imei",name = "imei")
+    private String imei;
 
     @ApiModelProperty(value = "工单类型(1:用电设备工单,2:烟雾设备工单)",name = "mtType")
     private String mtType;

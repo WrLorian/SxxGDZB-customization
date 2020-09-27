@@ -29,4 +29,11 @@ public interface SysDictionaryMapper {
 	 * @return
 	 */
 	List<Map> selectByType(String type);
+	/**
+	 * 根据类型和Key查找字典
+	 * @param type
+	 * @param key
+	 * @return
+	 */
+	SysDictionary selectByTypeAndKey(String type, String key);
 }

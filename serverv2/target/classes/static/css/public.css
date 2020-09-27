@@ -85,3 +85,12 @@
 	position:relative;
 	top: -50px;
 }
+._alarm_icon{
+	color: red;
+}
+.alert-danger {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+/* bootstrap*/

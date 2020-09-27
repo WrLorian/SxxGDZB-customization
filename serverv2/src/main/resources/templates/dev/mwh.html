@@ -155,10 +155,10 @@
 	    	}
 	    	else if(data.data[0].eqptType == 1){
 	    		$("._eqptType").attr('data-type',data.data[0].eqptType);
-	    		$("._eqptType").text('烟感设备');
+	    		$("._eqptType").text('三相设备');
 	    	}else if(data.data[0].eqptType == 2){
 	    		$("._eqptType").attr('data-type',data.data[0].eqptType);
-	    		$("._eqptType").text('三相设备');
+	    		$("._eqptType").text('烟感设备');
 	    	}
 	    }
 	});
@@ -531,7 +531,7 @@
 		    	if(data.code == 2000){
 		    		if(typeof(vData.dataJson) != "undefined" && vData != null){
 		    			dataJson = JSON.parse(vData.dataJson);
-		    			if(eqptType != 2){
+		    			if(eqptType != 1){
 		    				/*根据返回参数---> ID 设置value值*/
 		    				$.each(dataJson, function(key, val) {
 		    		        	$("#" + key).attr('data-value',val);
@@ -563,7 +563,7 @@
 		    			  //do something
 		    			}); 
 		    	}
-		    	if(eqptType != 2){
+		    	if(eqptType != 1){
 		    		$("._single").show();
 		    		$("._triple").hide();
 		    		$.each($("._single").children().children(".grid-demo"),function(){
@@ -587,7 +587,7 @@
 	}
 	/*点击刷新按钮--->上报*/
 	$(".layui-icon-refresh").on('click',function(){
-		oneNet(onenetVariable($("._imei").text(),$("._eqptType").attr('data-type')));
+		oneNet(onenetVariable($("._imei").text(),$("._eqptType").attr('data-type')),true,window);
 	})
 	//监听浏览器大小变化重新渲染
 	window.onresize = function () {

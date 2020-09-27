@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include :: header"></head>
+<head>
+    <meta charset="utf-8">
+    <title>修改设备</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<div class="layui-form layuimini-form _custom_form">
+			<input type="hidden" name="mtId" value="">
+			<input type="hidden" name="alarmId" value="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">设备IMEI号</label>
+        <div class="layui-input-block">
+            <input type="text" name="imei"  value="" class="layui-input layui-disabled">
+            <tip>格式：</tip>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">设备类型</label>
+        <div class="layui-input-block">
+            <input type="text" name="eqptType"  class="layui-input layui-disabled">
+        </div>
+    </div>
+    
+	
+	<div class="layui-form-item">
+        <label class="layui-form-label">设备名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="eqptName"  class="layui-input layui-disabled">
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">设备地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="address"  class="layui-input layui-disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">维修人员名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="mtName" lay-verify="required" class="layui-input" placeholder="维修人员名称">
+        </div>
+    </div>
+	<div class="layui-form-item">
+        <label class="layui-form-label required">维修人员联系方式</label>
+        <div class="layui-input-block">
+            <input type="text" name="mtPhone"  lay-verify="required|phone" class="layui-input" placeholder="维修人员联系方式">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea name="mtMsg" placeholder="..." class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item" >
+        <div class="layui-input-block _submitBtn">
+            <button class="layui-btn layui-btn-normal " lay-submit lay-filter="saveBtn" >确认添加</button>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script>
+var dataRow = window.parent.dataRow;
+    layui.use(['form','iconPickerFa','layarea'], function () {
+        var form = layui.form,
+        	iconPickerFa = layui.iconPickerFa,
+            layer = layui.layer,
+            layarea = layui.layarea,
+            $ = layui.$;
+        initGroup();
+        //区域联动选择
+        layarea.render({
+            elem: '#area-picker',
+             data: {
+                 province:dataRow.province,
+                 city: dataRow.city,
+                 county: dataRow.district,
+             },
+            change: function (res) {
+                //选择结果
+            }
+        });
+        //加载分组信息
+        function initGroup(){
+        	$.ajax({
+    			url: "/group/info",
+    			type : "GET",
+    	　　		dataType : "json",
+    	  		async : false,
+    	　　		contentType: "application/json;charset=utf-8",
+    		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
+    		    success:function(data){
+	    	 		var html = "";
+	    	 		data.data.forEach(function(item){
+	    	 			html += "<option value="+item.groupId+"> "+item.groupName+" </option>"
+	    	 		});
+	    	 		$("#groupId").append(html);
+	    	 		form.render();
+    					
+    		    }
+    		});
+        }
+        //form表单赋值
+        var custom_form = $("._custom_form")
+        $.each(dataRow, function(key, val) {
+        	if(key == 'eqptType'){
+        		if(val == 0 || val == 1){
+        			custom_form.find("[name='"+key+"']").val('单三用电告警器');
+        		}else if(val == 2){
+        			custom_form.find("[name='"+key+"']").val('烟雾告警器');
+        		}
+        	}else{
+        		custom_form.find("[name='"+key+"']").val(val);
+        	}
+        	
+        });
+        form.render();
+        //验证规则
+        form.verify({
+			//数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]/^([1-9]||[1-9][0-9])\.[0-9]\.[0-9]$/
+			imeiReq : function(value) {
+				var reg = new RegExp(/^\d{15}$/);
+				if(!reg.test(value)) {
+					return 'IMEI必须是15位正整数';
+	            }
+				
+				var entity = {};
+				var falg = false;
+				entity.imei = value;
+				$.ajax({
+	     			url: "/equipment/info/one",
+				    type: "GET",
+				    data:entity,
+				    dataType : "json",
+				    cache:true, 
+        	        async:false, 
+	    	　　		contentType: "application/json;charset=utf-8",
+				    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+				    success:function(data){
+			    	 	if(data.code == 2000 && data.data.data.imei != dataRow.imei){
+			    	 		falg = true;
+						}
+				    }
+				});
+				
+				if(falg){
+						return 'IMEI'+value+'已存在';
+				}
+			},eqptSnReq : function(value) {
+				var entity = {};
+				var falg = false;
+				entity.eqptSn = value;
+				
+				$.ajax({
+	     			url: "/equipment/info/one",
+				    type: "GET",
+				    data:entity,
+				    dataType : "json",
+				    cache:true, 
+        	        async:false, 
+	    	　　		contentType: "application/json;charset=utf-8",
+				    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+				    success:function(data){
+				    	if(data.code == 2000 && data.data.data.eqptSn != dataRow.eqptSn){
+			    	 		falg = true;
+						}
+				    }
+				});
+				if(falg){
+					return '设备序列号'+value+'已存在';
+				}
+			}
+		});
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            console.log(data);
+            data.field.mtStatus = 1;
+            data.field.mtType = dataRow.mtType;
+            $.ajax({
+     			url: "/maintain/info",
+			    type: "PUT",
+			    data:JSON.stringify(data.field),
+			    dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+			    success:function(data){
+			    	 	if(data.code == 3000){
+			    	 		layer.msg(data.msg, {
+   		    	 			  icon: 6,
+   		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+   		    	 			}, function(){
+   		    	 			var iframeIndex = parent.layer.getFrameIndex(window.name);
+			    	 		parent.layer.close(iframeIndex);
+			    	 		window.parent.flush(window.parent.currentPage,window.parent.jsonEntity);
+   		    	 			}); 
+						}else{
+							layer.msg(data.msg,{icon: 5, time: 2000});
+						}
+			    }
+			});
+            
+            return false;
+        });
+        
+        $("#parentId").on('click',function(){
+        	openPopUp('选择父节点','/admin/menu/tree',30,60);
+        	form.render();
+        })
+    });
+    
+    
+    
+</script>
+</body>
+</html>

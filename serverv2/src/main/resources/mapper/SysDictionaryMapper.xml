@@ -71,4 +71,8 @@
   <select id="selectByType"  resultType="java.util.HashMap" parameterType="String">
   	select `KEY`, `VALUE` from sys_dictionary where type = #{type}
   </select>
+  
+  <select id="selectByTypeAndKey" resultType="com.kiwihouse.dao.entity.SysDictionary" parameterType="String">
+  	select `KEY`, `VALUE` from sys_dictionary where type = #{type} AND `KEY` = #{key}
+  </select>
 </mapper>

@@ -80,7 +80,7 @@ public enum Code {
     PRIVILEGE_FAIL(7001,"没有访问权限"),
     PRIVILEGE_NULL(7004,"dz-usr请求头为空"),
     PRIVILEGE_ALL(7005,"拥有所有权限"),
-
+    COMMAND_FAIL(7999,"命令下发失败"),
     COMMAND_ISSUED(8000,"命令下发完成"),
     REGISTER_SUCC(8001,"设备注册成功"),
     LOGIN_SUCC(8002,"用户登录成功"),

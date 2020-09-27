@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kiwihouse.mapper.MaintainMapper">
+<mapper namespace="com.kiwihouse.dao.mapper.MaintainMapper">
 
     <!--query-->
     <select id="queryInfo" resultType="com.kiwihouse.dto.MtInfoDto" parameterType="com.kiwihouse.vo.kiwihouse.MtInfoVo">
-        select mt_id,mt_msg,mt_name,mt_phone,mt_status,mt.update_time,mt.eqpt_sn,
-            e.eqpt_name,e.eqpt_type,e.site_id,e.admin_id,
+       select mt_id,mt_msg,mt_name,mt_phone,mt_status,mt.update_time,mt.imei,
+            e.eqpt_name,e.eqpt_type,e.site_id,e.role_id,
             ai.alarm_id,ai.alarm_msg,ai.alarm_type,ai.add_time,
             s.province,s.city,s.district,s.address
             from maintain_info as mt
             left join alarm_info as ai on ai.alarm_id=mt.alarm_id
-            left join equipment as e on e.eqpt_sn=mt.eqpt_sn
+            left join equipment as e on e.imei=mt.imei
             left join site as s on e.site_id=s.site_id
         <where>
-            <if test="adminId != null and adminId != ''">
-                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
-            </if>
-            <if test="eqptSn != null and eqptSn != ''">
-                and mt.eqpt_sn=#{eqptSn}
+        	<!-- eqpt_type in(0,1) -->
+            <!-- <if test="roleId != null and roleId != ''">
+                and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id = #{roleId})
+            </if> -->
+            <if test="imei != null and imei != ''">
+                and mt.imei=#{imei}
             </if>
             <if test="mtName != null and mtName != ''">
                 and mt_name=#{mtName}
@@ -35,14 +36,14 @@
         select count(*)
         from maintain_info as mt
         left join alarm_info as ai on ai.alarm_id=mt.alarm_id
-        left join equipment as e on e.eqpt_sn=ai.eqpt_sn
+        left join equipment as e on e.imei=ai.imei
         left join site as s on e.site_id=s.site_id
         <where>
-            <if test="adminId != null and adminId != ''">
-                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
-            </if>
-            <if test="eqptSn != null and eqptSn != ''">
-                and mt.eqpt_sn=#{eqptSn}
+            <!-- <if test="roleId != null and roleId != ''">
+                and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id = #{roleId})
+            </if> -->
+            <if test="imei != null and imei != ''">
+                and mt.imei=#{imei}
             </if>
             <if test="mtName != null and mtName != ''">
                 and mt_name=#{mtName}
@@ -58,7 +59,7 @@
 
     <select id="querySmokeInfo" resultType="com.kiwihouse.dto.MtSmokeInfoDto" parameterType="com.kiwihouse.vo.kiwihouse.MtInfoVo">
         select mt_id,mt_msg,mt_name,mt_phone,mt_status,mt.update_time,mt.eqpt_sn,
-            e.eqpt_name,e.eqpt_type,e.site_id,e.admin_id,
+            e.eqpt_name,e.eqpt_type,e.site_id,e.role_id,
             si.smoke_id,
             s.province,s.city,s.district,s.address
             from maintain_smoke as mt
@@ -66,11 +67,11 @@
             left join equipment as e on e.eqpt_sn=mt.eqpt_sn
             left join site as s on e.site_id=s.site_id
         <where>
-            <if test="adminId != null and adminId != ''">
-                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
-            </if>
-            <if test="eqptSn != null and eqptSn != ''">
-                and mt.eqpt_sn=#{eqptSn}
+            <!-- <if test="roleId != null and roleId != ''">
+                and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id = #{roleId})
+            </if> -->
+            <if test="imei != null and imei != ''">
+                and mt.imei=#{imei}
             </if>
             <if test="mtName != null and mtName != ''">
                 and mt_name=#{mtName}
@@ -91,11 +92,11 @@
         left join equipment as e on e.eqpt_sn=ai.eqpt_sn
         left join site as s on e.site_id=s.site_id
         <where>
-            <if test="adminId != null and adminId != ''">
-                and e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
-            </if>
-            <if test="eqptSn != null and eqptSn != ''">
-                and mt.eqpt_sn=#{eqptSn}
+            <!-- <if test="roleId != null and roleId != ''">
+                and e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id = #{roleId})
+            </if> -->
+            <if test="imei != null and imei != ''">
+                and mt.imei=#{imei}
             </if>
             <if test="mtName != null and mtName != ''">
                 and mt_name=#{mtName}
@@ -109,11 +110,11 @@
         </where>
     </select>
 
-    <select id="queryMtId" resultType="java.lang.String" parameterType="java.lang.String">
+    <!-- <select id="queryMtId" resultType="java.lang.String" parameterType="java.lang.String">
         select mt_id from maintain_info as mi
             left join equipment as e on mi.eqpt_sn=e.eqpt_sn
-            where e.admin_id in (select distinct admin_id from parent_admin where parent_id = #{adminId} or admin_id = #{adminId})
-    </select>
+            where e.role_id in (select distinct role_id from parent_admin where parent_id = #{roleId} or role_id = #{roleId})
+    </select> -->
 
     <!--update-->
     <update id="updateSmokeAlmSta">
@@ -159,10 +160,10 @@
 
     <!--add-->
     <insert id="addInfo" parameterType="java.lang.String">
-        insert into maintain_info(alarm_id,mt_status,update_time,eqpt_sn) values (#{alarmId},0,#{addTime},#{eqptSn});
+        insert into maintain_info(alarm_id,mt_status,update_time,imei) values (#{alarmId},0,#{addTime},#{imei});
     </insert>
     <insert id="addSmokeInfo" parameterType="java.lang.String">
-        insert into maintain_smoke(smoke_id,mt_status,update_time,eqpt_sn) values (#{alarmId},0,#{addTime},#{eqptSn});
+        insert into maintain_smoke(smoke_id,mt_status,update_time,imei) values (#{alarmId},0,#{addTime},#{imei});
     </insert>
 
 

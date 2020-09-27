@@ -123,16 +123,9 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
                 e.type = $("select[name='type']").val();
                 zxt(e);
         	}
-            
           }
       });
-    
-    /* $(".laydate-btns-clear").on('click',function(){
-    	$("#times").val('');
-    }) */
-    
     init();
-    
     form.on('select(type)', function(data) {
 		var arr = $("#times").val().split(" - ");
         var e = {};
@@ -243,18 +236,34 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	    color: "grey",
         	      fontSize: 20
         	     },
-        	    tooltip: {
-        	        trigger: 'axis'
-        	    },
-        	    legend: {
-        	        data: ['功率']
-        	    },
-        	    grid: {
-        	        left: '3%',
-        	        right: '4%',
-        	        bottom: '3%',
-        	        containLabel: true
-        	    },
+        	     tooltip: {
+        	          trigger: 'axis',
+        	          axisPointer: {
+        	            lineStyle: {
+        	              color: '#57617B'
+        	            }
+        	          }
+        	        },
+        	        legend: {
+        	            top: 20,
+        	            icon: 'rect',
+        	            itemWidth: 14,
+        	            itemHeight: 5,
+        	            itemGap: 13,
+        	            data: ['设备功率'],
+        	            right: '4%',
+        	            textStyle: {
+        	              fontSize: 12,
+        	              color: '#F1F1F3'
+        	            }
+        	          },
+        	          grid: {
+        	            top: 100,
+        	            left: '2%',
+        	            right: '2%',
+        	            bottom: '2%',
+        	            containLabel: true
+        	          },
         	    dataZoom: [v.dataZoom],
         	    toolbox: {
         	        feature: {
@@ -262,10 +271,17 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	        }
         	    },
         	    xAxis: {
-        	        type: 'category',
-        	        boundaryGap: false,
+        	    	type: 'category',
+        	          boundaryGap: false,
+        	          axisLine: {
+        	            lineStyle: {
+        	              color: '#F1F1F3'
+        	            }
+        	          },
         	        splitNumber:10,
-        	        data: timeArray
+        	        data: timeArray,
+        	        //splitLine:{show: false},//去除网格线
+		            //splitArea : {show : true},//保留网格区域
         	    },
         	    yAxis: {
         	        type: 'value'
@@ -275,6 +291,28 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	            name: '功率',
         	            type: 'line',
         	            stack: '总量',
+        	            symbol:'none',  //这句就是去掉点的  
+        	            markPoint: {
+        	                data: [
+        	                  {
+        	                    name: '最大值',
+        	                    type: 'max',
+        	                    label: {
+        	                      // show: false
+        	                      position: 'top'
+        	                    }
+        	                  },
+        	                  {
+        	                    name: '最小值',
+        	                    type: 'min',
+        	                    label: {
+        	                      // show: false
+        	                      position: 'bottom'
+        	                    }
+        	                  }
+
+        	                ]
+        	              },
         	            areaStyle: {
         	        		normal: {
         	        			color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ 
@@ -288,6 +326,8 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
         	        	}                        
         	        	} ,
         	        	sampling:'average',
+        	        	showSymbol: false,
+        	            hoverAnimation: false,
         	            data: pwrArray
         	        }
         	    ]

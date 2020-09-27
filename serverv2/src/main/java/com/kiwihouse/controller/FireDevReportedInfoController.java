@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.type.DateTypeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,21 +69,30 @@ public class FireDevReportedInfoController extends BaseController{
         //checkAdminService.verifyAdminId(request.getHeader("dz-usr"), reportedQueryVo);
     	reportedQueryVo.setUserId(request.getHeader("dz-usr"));
         EqptInfoDto eqptInfo = equipmentMapper.queryInfoByImei(reportedQueryVo.getImei());
-        if (eqptInfo.getEqptType().equals(EqptTypeSta.SX)) {
-            return threePhaseService.getLastStatus(reportedQueryVo);
-        } else {
-        	if(DataType.FIRE_REPORT_cl.equals(reportedQueryVo.getAlarmType())) {
-        		return devInfoService.selectDevByNewTime(reportedQueryVo.getImei(),1);
-        	}else if(DataType.FIRE_REPORT_alm.equals(reportedQueryVo.getAlarmType())) {
-        		//火警设备告警信息
-        		return reportedInfoService.devAlarmInfo(reportedQueryVo);
+        if (eqptInfo.getEqptType().equals(DataType.THREE_PHASE.toString())) {
+        	if(reportedQueryVo.getAlarmType().equals(DataType.DEV_PARAMETER)) {
+        		//三相设备 ----------->参数数据  
+        		return reportedInfoService.devRunInfo(reportedQueryVo,Integer.valueOf(DataType.DEV_PARAMETER));
+        	}else if(DataType.DEV_REAL_DATE.equals(reportedQueryVo.getAlarmType())){
+        		//三相设备 ----------->实时数据
+        		return devInfoService.selectDevByNewTime(reportedQueryVo.getImei(),Integer.valueOf(DataType.DEV_REAL_DATE),DataType.THREE_PHASE);
         	}else {
-        		//火警设备运行信息
-        		return reportedInfoService.devRunInfo(reportedQueryVo);
+        		return null;
+        	}
+        } else {
+        	if(DataType.DEV_PARAMETER.equals(reportedQueryVo.getAlarmType())) {
+        		//单相设备  ------->参数数据
+        		return reportedInfoService.devRunInfo(reportedQueryVo,Integer.valueOf(DataType.DEV_PARAMETER));
+        	}
+        	else if(DataType.DEV_REAL_DATE.equals(reportedQueryVo.getAlarmType())){
+        		//单相设备  ------->实时数据
+        		return devInfoService.selectDevByNewTime(reportedQueryVo.getImei(),Integer.valueOf(DataType.DEV_REAL_DATE),DataType.ONE_PHASE);
+        	}else {
+        		return reportedInfoService.devRealDate(reportedQueryVo,Integer.valueOf(DataType.DEV_REAL_DATE));
         	}
         }
     }
-
+  
     @ApiOperation(value = "queryAlmInfo",
             notes = "<br>@description: <b>查询设备告警信息</b></br>" +
                     "<br>@Date: <b>2020-1-9 19:57:11</b></br>",
@@ -96,7 +106,7 @@ public class FireDevReportedInfoController extends BaseController{
     		map.put("code", 0);
     		map.put("msg",Code.QUERY_SUCCESS);
 //		} catch (Exception e) {
-//			// TODO: handle exception
+			// TODO: handle exception
 //			return putMsgToJsonString(0, Code.QUERY_NULL.getMsg(), 0, null);
 //		}
         return map;
@@ -112,7 +122,8 @@ public class FireDevReportedInfoController extends BaseController{
 
         String currentTime = TimeUtil.getCurrentTime();
         String passSecTime = TimeUtil.getPassSecTime(currentTime, -second);
-
+        System.out.println("endTime--------->" + currentTime);
+        System.out.println("startTime--------->" + passSecTime);
         AlmQueryVo almQueryVo = new AlmQueryVo()
                 .setStartTime(passSecTime)
                 .setEndTime(currentTime)
@@ -121,7 +132,7 @@ public class FireDevReportedInfoController extends BaseController{
                 .setLimit(limit);
         return queryAlmInfo(almQueryVo, request);
     }
-
+    
     @ApiOperation(value = "queryPwr",
             notes = "<br>@description: <b>查询设备上报功率数据</b></br>" +
                     "<br>@Date: <b>2020-3-30 13:32:52</b></br>",
@@ -144,5 +155,15 @@ public class FireDevReportedInfoController extends BaseController{
         }
 
     }
-
+    /**
+     * 解决分页Limit太大  mysql全表检索导致效率 慢 
+     * @param count 总记录条数
+     * @return
+     */
+    public Integer pageLimit(int count) {
+    	
+    	
+		return count;
+    	
+    }
 }

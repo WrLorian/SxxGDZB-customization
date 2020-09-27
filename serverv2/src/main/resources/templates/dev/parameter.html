@@ -19,65 +19,78 @@
     <li class="layui-this">设备参数</li>
     <li>告警阈值</li>
   </ul>
+  <div class="_addTime" style="position: absolute;top: 20px;right: 30px;"> 
+   </div>
   <div class="layui-tab-content">
     <div class="layui-tab-item layui-show">
      	<div class="layui-form layuimini-form _dev_param">
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置电流变比</label>
-		        <div class="layui-input-block">
-		            <input type="text" name="reg_01" lay-verify="numberIs|oneToFourNine" placeholder="范围1-9999。 " value="" class="layui-input">
+		        <div class="layui-input-inline">
+		            <input type="text" name="reg_01" lay-verify="oneToFourNine|numberInt"  value="" class="layui-input">
 		        </div>
+		        <div class="layui-form-mid layui-word-aux">范围1-9999。</div>
 		    </div>
 		   
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置漏电流变比</label>
-		        <div class="layui-input-block">
-		            <input type="text" name="reg_02" lay-verify="numberIs|oneToFourNine" placeholder="范围1-9999。 " value="" class="layui-input">
+		        <div class="layui-input-inline">
+		            <input type="text" name="reg_02" lay-verify="oneToFourNine|numberInt" value="" class="layui-input">
 		        </div>
+		        <div class="layui-form-mid layui-word-aux">范围1-9999。</div>
 		    </div>
 		    
 		    <div class="layui-form-item">
 			    <label class="layui-form-label">设置电压上限</label>
-			    <div class="layui-input-block">
-			      <input type="text" name="reg_03" placeholder="范围0.0-999.9。 " value="" class="layui-input">
+			    <div class="layui-input-inline">
+			      <input type="text" name="reg_03"  value="" class="layui-input">
 			    </div>
+			    <div class="layui-form-mid layui-word-aux">范围0.0-999.9。</div>
 		    </div>
 			
 			<div class="layui-form-item">
 		        <label class="layui-form-label">设置电压下限</label>
-		        <div class="layui-input-block">
-		            <input type="text" name="reg_04" placeholder="范围0.0-999.9。 " value="" class="layui-input">
+		        <div class="layui-input-inline">
+		            <input type="text" name="reg_04" value="" class="layui-input">
 		        </div>
+		        <div class="layui-form-mid layui-word-aux">范围0.0-999.9。</div>
 		    </div>
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置电流上限</label>
-		        <div class="layui-input-block">
-		            <input type="text" name="reg_05" placeholder="范围0.0-999.9。 " value="" class="layui-input">
+		        <div class="layui-input-inline">
+		            <input type="text" name="reg_05" value="" class="layui-input">
 		        </div>
+		         <div class="layui-form-mid layui-word-aux">范围0.0-999.9。</div>
 		    </div>
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置功率上限</label>
-		        <div class="layui-input-block">
-		            <input type="text" name="reg_06" placeholder="范围0-99999。 " value="" class="layui-input">
+		        <div class="layui-input-inline">
+		            <input type="text" name="reg_06"  value="" class="layui-input">
 		        </div>
+		        <div class="layui-form-mid layui-word-aux">范围0-99999。</div>
 		    </div>
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置漏电流上限</label>
-		        <div class="layui-input-block">
-		            <input type="text" name="reg_07" placeholder="范围0.0-999.9。  漏电流上线建议设置在30mA，因人体能承受的电流约为30mA。500mA以下漏电一般不会引起火灾。" value="" class="layui-input">
+		        <div class="layui-input-inline">
+		            <input type="text" name="reg_07"  value="" class="layui-input">
 		        </div>
+		        <!--  漏电流上线建议设置在30mA，因人体能承受的电流约为30mA。500mA以下漏电一般不会引起火灾。 -->
+		         <div class="layui-form-mid layui-word-aux">范围0.0-999.9。 </div>
 		    </div>
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置温度上限</label>
-		        <div class="layui-input-block">
-		            <input type="text" name="reg_08" placeholder="范围0.0-999.9。" value="" class="layui-input">
+		        <div class="layui-input-inline">
+		            <input type="text" name="reg_08" value="" class="layui-input">
 		        </div>
+		        <div class="layui-form-mid layui-word-aux">范围0.0-999.9。</div>
 		    </div>
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置数据上传间隔</label>
-		        <div class="layui-input-block">
-		            <input type="text" name="reg_09" placeholder="范围1-9999。建议设定为30分钟上传一次设备普通数据。注：设备告警时，每隔1分钟上传一次设备数据" value="" class="layui-input">
+		        <div class="layui-input-inline">
+		            <input type="text" name="reg_09" value="" class="layui-input">
 		        </div>
+		        <!-- 建议设定为30分钟上传一次设备普通数据。注：设备告警时，每隔1分钟上传一次设备数据 -->
+		         <div class="layui-form-mid layui-word-aux">范围1-9999。</div>
 		    </div>
 			<div class="layui-form-item">
 		        <label class="layui-form-label">设置蜂鸣器使能</label>
@@ -91,12 +104,13 @@
 		    </div>
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置当前电能值</label>
-		        <div class="layui-input-block">
-		            <input type="text" name="reg_11" placeholder="范围0.0-99999999.9。" value="" class="layui-input">
+		        <div class="layui-input-inline">
+		            <input type="text" name="reg_11"  value="" class="layui-input">
 		        </div>
+		         <div class="layui-form-mid layui-word-aux">范围0.0-99999999.9。</div>
 		    </div>
 		    <div class="layui-form-item" >
-		        <div class="layui-input-block">
+		        <div class="layui-input-block"  style="float: right;">
 		            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="devParamBtn" >确认添加</button>
 		        </div>
 		    </div>
@@ -152,9 +166,6 @@
 	</div>
   </div>
 </div>
-
-
-
 <div th:include="include::footer"></div>
 <script>
 	var dataRow = window.parent.dataRow;
@@ -184,13 +195,16 @@
         			return '范围0-99999999.9';
         		}
         	},numberIs : function(value){
-        		console.log(value);
         		if(/^\d+$/.test(value)==false && /^\d+\.\d+$/.test(value)==false  && value != '')
                 {
                  return '你输入的不是数字';
                 }
+        	},numberInt : function(value){
+        		var g = /^[1-9]*[1-9][0-9]*$/;
+        		if(!g.test(value)){
+        			return "请输入正整数";
+        		}
         	}
-			
 		});
         init();
         function init(){
@@ -206,7 +220,7 @@
 			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
 			    	formDATe = data.data.data;
-			    	console.log(formDATe);
+			    	$("._addTime").html("更新时间：" + formDATe.addTime);
 			    	var custom_form = $("._dev_param")
 			        $.each(formDATe, function(key, val) {
 			        	custom_form.find("[name='"+key+"']").val(val);
@@ -243,23 +257,21 @@
         		   formDATe[key] == '';
  	           }
         	   if(parseFloat(val) != parseFloat(formDATe[key]) ){
-        		   
 	        		entity[key] = val;
 	        	}
 	        });
-           console.log(entity);
            if(!$.isEmptyObject(entity)){
 	       		var e = {},r= {},array = new Array();
 	       		e.imei = dataRow.imei;
 	       		e.register = entity;
 	       		e.eqptType = dataRow.eqptType;
 	       		array.push(e);
-	       		
-                oneNet(array);
+                oneNet(array,true,window.parent,true);
+                oneNet(onenetVariable(dataRow.imei,dataRow.eqptType),window,false);
                 var iframeIndex = parent.layer.getFrameIndex(window.name);
     	 		parent.layer.close(iframeIndex);
            }
-            return false;
+           return false;
         });
         
         form.on('submit(devAlarmNumBtn)', function (data) {

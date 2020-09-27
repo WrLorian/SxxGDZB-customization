@@ -2,6 +2,7 @@ package com.kiwihouse.common.utils;
 
 
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -52,7 +53,6 @@ public class TimeUtil {
         Date date = c.getTime(); //得到的结果
         return df.format(date);
     }
-
 
     /**
      * Timestamp to time
@@ -510,4 +510,47 @@ public class TimeUtil {
         }
         return null;
     }
+    
+    /**
+	 * 得到日期之间的日期
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public static List<Date> getBetweenDates(Date start, Date end) {
+	    List<Date> result = new ArrayList<Date>();
+	    Calendar tempStart = Calendar.getInstance();
+	    tempStart.setTime(start);
+	    tempStart.add(Calendar.DAY_OF_YEAR, 1);
+	    result.add(start);
+	    Calendar tempEnd = Calendar.getInstance();
+	    tempEnd.setTime(end);
+	    while (tempStart.before(tempEnd)) {
+	        result.add(tempStart.getTime());
+	        tempStart.add(Calendar.DAY_OF_YEAR, 1);
+	    }
+	    result.add(end);
+	    return result;
+	}
+	/**
+	 * str --->date
+	 * @param strDate
+	 * @return
+	 */
+	public static Date strToDate(String strDate) {
+		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		    ParsePosition pos = new ParsePosition(0);
+		    Date strtodate = formatter.parse(strDate, pos);
+		    return strtodate;
+	}
+	/**
+	 * date ---> str
+	 * @param dateDate
+	 * @return
+	 */
+	public static String dateToStr(java.util.Date dateDate) {
+		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		    String dateString = formatter.format(dateDate);
+		    return dateString;
+	}
 }

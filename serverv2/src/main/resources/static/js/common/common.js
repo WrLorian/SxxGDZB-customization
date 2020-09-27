@@ -1,3 +1,7 @@
+/**
+ * 得到根路径
+ * @returns
+ */
 function getRootPath(){
     var curWwwPath=window.document.location.href;
     var pathName=window.document.location.pathname;
@@ -5,7 +9,14 @@ function getRootPath(){
     var localhostPaht=curWwwPath.substring(0, pos);
     return localhostPaht;
 }
-//弹框
+/**
+ * 弹框
+ * @param title 标题
+ * @param url 路径
+ * @param w 宽度
+ * @param h 高度
+ * @returns
+ */
 function openPopUp(title,url,w,h){
 	w = w || 50;
 	h = h || 70;
@@ -19,10 +30,15 @@ function openPopUp(title,url,w,h){
         content: url
     });
 }
+/**
+ * 去除空格
+ */
 String.prototype.NoSpace = function () {
     return this.replace(/\s+/g, "");
 };
-/*返回数组下标*/
+/**
+ * 返回数组下标
+ */
 Array.prototype.indexOf = function(val) {
 	for (var i = 0; i < this.length; i++) {
 		if (this[i] == val)
@@ -30,7 +46,9 @@ Array.prototype.indexOf = function(val) {
 	}
 	return -1;
 };
-/*根据下标删除数组内容*/
+/**
+ * 根据下标删除数组内容
+ */
 Array.prototype.remove = function(dx) {
 	for (var i = 0, n = 0; i < this.length; i++) {
 		if (this[i] != this[dx]) {
@@ -39,7 +57,9 @@ Array.prototype.remove = function(dx) {
 	}
 	this.length -= 1
 }
-//得到主页
+/**
+ * 得到主页
+ */
 var indexHome = function(elem,i) {
 		if(typeof(i) != "undefined" || i != ''){
 			i = i + 1;
@@ -51,6 +71,11 @@ var indexHome = function(elem,i) {
 }
 
 //list ---> listTree
+/**
+ * list转化 树List
+ * @param rows list
+ * @returns
+ */
 function convert(rows) {
 	function exists(rows, parentId) {
 		for (var i = 0; i < rows.length; i++) {
@@ -101,24 +126,32 @@ function convert(rows) {
 	}
 	return nodes;
 }
-//返回数据全局定义
+/**
+ * 返回数据全局定义
+ */
 var callBackData = function() {
 	var data = {};
 	return data;
 };
-//去重复
+/**
+ * 数组去重复
+ */
 Array.prototype.setList = function(){  
     var arr=[];    //定义一个临时数组  
     for(var i = 0; i < this.length; i++){    //循环遍历当前数组  
         //判断当前数组下标为i的元素是否已经保存到临时数组  
         //如果已保存，则跳过，否则将此元素保存到临时数组中  
-        if(arr.indexOf(this[i]) == -1){  
+        if(arr.indexOf(this[i]) == -1){
             arr.push(this[i]);  
-        }  
-    }  
+        }
+    }
     return arr;  
 }
-
+/**
+ * JWT验证
+ * @param elem
+ * @returns
+ */
 function JwtErr(elem){
 	layer.open({
         type: 1
@@ -132,7 +165,7 @@ function JwtErr(elem){
         ,yes: function(){
           layer.closeAll();
           window.location.href = "/";
-        },cancel: function(){ 
+        },cancel: function(){
         	window.location.href = "/";
           }
       });
@@ -156,6 +189,20 @@ var authUser = JSON.parse(localStorage.getItem('authUser'));
     }
 })(jQuery);
 /**
+ * 时间格式化
+ * @param time
+ * @returns
+ */
+/*function timeStamp2String(datetime){
+    var year = datetime.getFullYear();
+    var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+    var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+    var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
+    var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+    var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+    return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
+}*/
+/**
  * 得到多少天前后的日期
  * @param a
  * @returns
@@ -165,24 +212,21 @@ function fun_day(a){
     time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
     var date2 = new Date(date1);
     date2.setDate(date1.getDate() + a);
-    var time2 = date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+date2.getDate() + " " +date2.getHours() + ":" + date2.getMinutes() + ":" + date2.getSeconds();
-    return time2;
+    return date2.format();
 }
 function fun_month(a){
 	var date1 = new Date(),
     time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
     var date2 = new Date(date1);
     date2.setMonth(date1.getMonth() + a);
-    var time2 = date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+date2.getDate() + " " +date2.getHours() + ":" + date2.getMinutes() + ":" + date2.getSeconds();
-    return time2;
+    return date2.format();
 }
 function fun_hours(a){
 	var date1 = new Date(),
     time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
     var date2 = new Date(date1);
     date2.setHours(date2.getHours() + a);
-    var time2 = date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+date2.getDate() + " " +date2.getHours() + ":" + date2.getMinutes() + ":" + date2.getSeconds();
-    return time2;
+    return date2.format();
 }
 /**
  * 时间格式转化 DATE ---> String
@@ -205,7 +249,7 @@ Date.prototype.Format = function (fmt) {
     return fmt;
 }
 /*OneNet 请求 设备批量命令下发，异步操作*/
-function oneNet(e){
+function oneNet(e,hint,w){
 	$.ajax({
 		url: "/onenet/issuedList",
 	    type: "POST",
@@ -217,35 +261,36 @@ function oneNet(e){
 　　		contentType: "application/json;charset=utf-8",
 	    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 	    success:function(data){
-	    	console.log(data.result.data);
-	    	if(data.result.data[e[0].imei] == 'read time out'){
-	    		layer.msg('连接超时', {
-	    			  icon: 2,
-	    			  offset:'rt',
-	    			  anim: 2,
-	    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
-	    		});
-	    	}else if(data.result.data[e[0].imei].error == 'device not online') {
-	    		layer.msg('设备掉线', {
-	    			  icon: 2,
-	    			  offset:'rt',
-	    			  anim: 2,
-	    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
-	    			});
-	    	}else if(data.result.data[e[0].imei].error == 'auth failed: not found'){
-	    		layer.msg('auth failed: not found', {
-	    			  icon: 2,
-	    			  offset:'rt',
-	    			  anim: 2,
-	    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
-	    			});
-	    	}else{
-	    		layer.msg(data.msg, {
-	    			  icon: 1,
-	    			  offset:'rt',
-	    			  anim: 2,
-	    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
-	    			});
+	    	if(hint){
+	    		if(data.result.data[e[0].imei] == 'read time out'){
+		    		w.layer.msg('连接超时', {
+		    			  icon: 2,
+		    			  offset:'rt',
+		    			  anim: 2,
+		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+		    		});
+		    	}else if(data.result.data[e[0].imei].error == 'device not online') {
+		    		w.layer.msg('设备掉线', {
+		    			  icon: 2,
+		    			  offset:'rt',
+		    			  anim: 2,
+		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+		    		});
+		    	}else if(data.result.data[e[0].imei].error == 'auth failed: not found'){
+		    		w.layer.msg('auth failed: not found', {
+		    			  icon: 2,
+		    			  offset:'rt',
+		    			  anim: 2,
+		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+		    		});
+		    	}else{
+		    		w.layer.msg(data.msg + "请10秒后查看", {
+		    			  icon: 1,
+		    			  offset:'rt',
+		    			  anim: 2,
+		    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+		    		});
+		    	}
 	    	}
 	    }
 	});
@@ -294,7 +339,13 @@ function DELETE(url,isLeft){
 	    }
 	});
 }
-
+/**
+ * 修改 
+ * @param url 路径
+ * @param parameterDate 参数
+ * @param isLeft 是否刷新左菜单
+ * @returns
+ */
 function UPDATE(url,parameterDate,isLeft){
 	$.ajax({
 		url: url,
@@ -324,7 +375,13 @@ function UPDATE(url,parameterDate,isLeft){
 	    }
 	});
 }
-
+/**
+ * 添加
+ * @param url 路径
+ * @param parameterDate 参数
+ * @param isLeft 是否刷新左菜单
+ * @returns
+ */
 function ADD(url,parameterDate,isLeft){
 	$.ajax({
 			url: url,
@@ -356,8 +413,8 @@ function ADD(url,parameterDate,isLeft){
 }
 /**
  * 字典表查询
- * @param type
- * @returns
+ * @param type 类型
+ * @returns 数组对象
  */
 var _sysDict =  function(type){
 	 var _data = null; 
@@ -379,6 +436,28 @@ var _sysDict =  function(type){
 	})
 	return _data;
 }
+
+var _sysDictV = function(type,k){
+	var _data = null; 
+	 $.ajax({
+			url: "/dictionary/selectByTypeAndKey/" + type + "/" + k,
+		    type: "GET",
+		    dataType : "json",
+		    cache:true, 
+	        async:false, 
+	　　		contentType: "application/json;charset=utf-8",
+		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+		    success:function(data){
+		    	 	if(data.success){
+		    	 		_data = data.data.data;
+					}else{
+						
+					}
+		    }
+	})
+	return _data;
+}
+
 /**
  * 获取数组中需要的 对象 --> 属性值
  */
@@ -387,4 +466,59 @@ var array_kv = function (array,k) {
 	array.forEach(function(item){
 		//console.log(item);
     });
+}
+Date.prototype.format = function() {
+	var s = '';
+	s += this.getFullYear() + '-'; // 获取年份。
+	if((this.getMonth() + 1) >= 10) {// 获取月份。
+		s += (this.getMonth() + 1) + "-";
+	} else {
+		s += "0" + (this.getMonth() + 1) + "-";
+	}
+	if(this.getDate() >= 10) {// 获取日。
+		s += this.getDate();
+	} else {
+		s += "0" + this.getDate();
+	}
+	return(s); // 返回日期。
+};
+function getAll(begin, end) {
+	var ab = begin.split("-");
+	var ae = end.split("-");
+	var db = new Date();
+	db.setUTCFullYear(ab[0], ab[1] - 1, ab[2]);
+	var de = new Date();
+	de.setUTCFullYear(ae[0], ae[1] - 1, ae[2]);
+	var unixDb = db.getTime();
+	var unixDe = de.getTime();
+	var str = "";
+	for(var k = unixDb + 24 * 60 * 60 * 1000; k < unixDe;) {
+		str += (new Date(parseInt(k)).format()) + ",";
+		k = k + 24 * 60 * 60 * 1000;
+	}
+	return str;
+}
+
+var _alarmIcon = function(v){
+	var _icon = '';
+	v.forEach(function(item, i){
+		 if(item.msg == "过流告警"){
+			 _icon += '<i class="iconfont _alarm_icon" title='+item.msg + ":" + item.value +' >&#xe652;</i>   ';
+		 }else if(item.msg == "线温告警"){
+			 _icon += '<i class="iconfont _alarm_icon" title='+item.msg + ":" + item.value +' >&#xe62d;</i>   ';
+		 }else if(item.msg == "过载告警"){
+			 _icon += '<i class="iconfont _alarm_icon" title='+item.msg + ":" + item.value +' >&#xe655;</i>   ';
+		 }else if(item.msg == "过压告警"){
+			 _icon += '<i class="iconfont _alarm_icon" title='+item.msg + ":" + item.value +' >&#xe651;</i>   ';
+		 }else if(item.msg == "欠压告警"){
+			 _icon += '<i class="iconfont _alarm_icon" title='+item.msg + ":" + item.value +' >&#xe62c;</i>   ';
+		 }else if(item.msg == "掉电告警"){
+			 _icon += '<i class="iconfont _alarm_icon" title='+item.msg + ":" + item.value +' >&#xe620;</i>   ';
+		 }else if(item.msg == "漏电流告警"){
+			 _icon += '<i class="iconfont _alarm_icon" title='+item.msg + ":" + item.value +' >&#xe65b;</i>   ';
+		 }else if(item.msg == "烟雾告警"){
+			 _icon += '<i class="iconfont _alarm_icon" title='+item.msg + ":" + item.value +' >&#xe61b;</i>   ';
+		 }
+	 });
+	return _icon;
 }

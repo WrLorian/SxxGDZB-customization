@@ -71,6 +71,10 @@ public class AlmQueryVo extends Basic {
     
     private String eqptAddr;
     
+    private Integer alarmType;
+    
+    private String addTime;
+    
     
     
 }

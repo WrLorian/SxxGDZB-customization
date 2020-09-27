@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -23,7 +24,9 @@ import com.kiwihouse.common.utils.CodeTransferUtil;
 import com.kiwihouse.common.utils.GroupList;
 import com.kiwihouse.common.utils.TimeUtil;
 import com.kiwihouse.dao.entity.Alarm;
+import com.kiwihouse.dao.entity.DevInfo;
 import com.kiwihouse.dao.mapper.AlarmMapper;
+import com.kiwihouse.dao.mapper.DevInfoMapper;
 import com.kiwihouse.dao.mapper.ReportedInfoMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.AlarmEqptDto;
@@ -50,7 +53,8 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
     ReportedInfoMapper reportedInfoMapper;
 	@Autowired
 	AlarmMapper alarmMapper;
-	
+	@Autowired
+	DevInfoMapper devInfoMapper;
 	static final Object room = new Object();
 	static List<FirePwrDto>  lists = new ArrayList<FirePwrDto>();
     /**
@@ -612,24 +616,82 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 	public Map<String, Object> queryAlmInfo(AlmQueryVo almQueryVo) {
     	 Map<String, Object> map = new HashMap<String, Object>();
     	int count  = alarmMapper.queryAlarmCount(almQueryVo);
-    	float bfb = almQueryVo.getPage().floatValue()*10 / count;
-    	if(count > 10 * 10000) {
-    		if( bfb * 100 > 80 && bfb * 100 < 100) {
-        		almQueryVo.setOrderBy(0);
-        		almQueryVo.setPage(count  - (almQueryVo.getPage() - 1) * almQueryVo.getLimit());
-        	}else if(bfb * 100 < 80 || bfb * 100 == 80){
-        		almQueryVo.setOrderBy(1);
-        		almQueryVo.setPage((almQueryVo.getPage() - 1) * almQueryVo.getLimit());
-        	}else {
-        		almQueryVo.setOrderBy(0);
-        		almQueryVo.setLimit(count - (almQueryVo.getPage() - 1) * almQueryVo.getLimit());
-        		almQueryVo.setPage(0);
-        	}
-    	}else {
-    		almQueryVo.setOrderBy(1);
-    		almQueryVo.setPage((almQueryVo.getPage() - 1) * almQueryVo.getLimit());
-    	}
+    	almQueryVo.setPage((almQueryVo.getPage() - 1) * almQueryVo.getLimit());
     	List<AlarmEqptDto> list  = alarmMapper.queryAlarm(almQueryVo);
+    	list.forEach(aed -> {
+    		WarnMsgDto warnMsgDto = JSONObject.parseObject(aed.getAlarmMsg(), WarnMsgDto.class);
+    		String cur = warnMsgDto.getCur();
+    		JSONArray ja = new JSONArray();
+	          if (!"0".equals(cur) && cur != null) {
+	              String[] split = cur.split("-");
+	              if (2 == split.length) {
+	                  WarmMsgValue warmMsgValue = new WarmMsgValue();
+	                  warmMsgValue.setMsg("过流告警");
+	                  warmMsgValue.setValue(split[1] + "A");
+	                  ja.add(warmMsgValue);
+	              }
+	          }
+	          String temp = warnMsgDto.getTemp();
+           if (!"0".equals(temp) && StringUtils.isNotBlank(temp)) {
+               String[] split = temp.split("-");
+               if (2 == split.length) {
+                   WarmMsgValue warmMsgValue = new WarmMsgValue();
+                   warmMsgValue.setMsg("线温告警");
+                   warmMsgValue.setValue(split[1] + "℃");
+                   ja.add(warmMsgValue);
+               }
+           }
+           String leak = warnMsgDto.getLeak();
+           if (!"0".equals(leak) && StringUtils.isNotBlank(leak)) {
+               String[] split = leak.split("-");
+               if (2 == split.length) {
+                   WarmMsgValue warmMsgValue = new WarmMsgValue();
+                   warmMsgValue.setMsg("漏电流告警");
+                   warmMsgValue.setValue(split[1] + "mA");
+                   ja.add(warmMsgValue);
+               }
+           }
+           String overload = warnMsgDto.getOverload();
+           if (!"0".equals(overload) && StringUtils.isNotBlank(overload)) {
+               String[] split = overload.split("-");
+               if (2 == split.length) {
+                   WarmMsgValue warmMsgValue = new WarmMsgValue();
+                   warmMsgValue.setMsg("过载告警");
+                   warmMsgValue.setValue(split[1] + "W");
+                   ja.add(warmMsgValue);
+               }
+           }
+           String vol = warnMsgDto.getVol();
+           if (StringUtils.isNotBlank(vol)) {
+             if (vol.startsWith("1")) {
+                 String[] split = vol.split("-");
+                 if (2 == split.length) {
+                     WarmMsgValue warmMsgValue = new WarmMsgValue();
+                     warmMsgValue.setMsg("过压告警");
+                     warmMsgValue.setValue(split[1] + "V");
+                     ja.add(warmMsgValue);
+                 }
+             } else if (vol.startsWith("2")) {
+                 String[] split = vol.split("-");
+                 if (2 == split.length) {
+                     WarmMsgValue warmMsgValue = new WarmMsgValue();
+                     warmMsgValue.setMsg("欠压告警");
+                     warmMsgValue.setValue(split[1] + "V");
+                     ja.add(warmMsgValue);
+
+                 }
+             } else if (vol.startsWith("3")) {
+                 String[] split = vol.split("-");
+                 if (2 == split.length) {
+                     WarmMsgValue warmMsgValue = new WarmMsgValue();
+                     warmMsgValue.setMsg("掉电告警");
+                     warmMsgValue.setValue(split[1] + "V");
+                     ja.add(warmMsgValue);
+                 }
+             }
+         }
+           aed.setAlarmMsg(ja.toJSONString());
+    	});
     	map.put("count", count);
     	map.put("data", list);
 		// TODO Auto-generated method stub
@@ -690,7 +752,9 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
         });
         switch (queryPwrVo.getType()) {
             case "hour":
+            	System.out.println("进入------------>HOUR");
             case "day":
+            	System.out.println("进入------------>DAY");
                 dateList.forEach(x -> {
                     double maxPower = 0;
                     SinglePhasePowerDto item = null;
@@ -707,12 +771,10 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
                 });
                 return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", returnList);
             case "min":
+            	System.out.println("进入------------>MIN");
             	return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", tmpList);
-
         }
         return new Response().Success(Code.QUERY_NULL, Code.QUERY_NULL.getMsg());
-
-
     }
 
     /**
@@ -776,18 +838,18 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
     }
 
 	@Override
-	public Response devRunInfo(ReportedQueryVo reportedQueryVo) {
+	public Response devRunInfo(ReportedQueryVo reportedQueryVo,Integer type) {
 		// TODO Auto-generated method stub
 		try {
-			ReportedDto rep = reportedInfoMapper.devRunInfo(reportedQueryVo);
-			if(rep == null) {
+			DevInfo devInfo = devInfoMapper.selectDevByNewTime(reportedQueryVo.getImei(),type);
+			//ReportedDto rep = reportedInfoMapper.devRunInfo(reportedQueryVo);
+			if(devInfo == null) {
 				return new Response().Success(Code.QUERY_NULL, Code.QUERY_NULL.getMsg());
 			}
-			ImprovedSetParamDto improvedSetParamDto = JSONObject.parseObject(rep.getAlarmMsg(), ImprovedSetParamDto.class);
-            improvedSetParamDto.setAddTime(rep.getAddTime())
-                    .setAlarmType(rep.getAlarmType())
-                    .setEqptSn(rep.getEqptSn())
-                    .setImei(rep.getImei());
+			ImprovedSetParamDto improvedSetParamDto = JSONObject.parseObject(devInfo.getDataJson(), ImprovedSetParamDto.class);
+            improvedSetParamDto.setAddTime(devInfo.getAddTime())
+                    .setAlarmType(devInfo.getType())
+                    .setImei(devInfo.getImei());
             Register res = new Register();
             res.setReg_01(improvedSetParamDto.getCT().toString());
             res.setReg_02(improvedSetParamDto.getLCT().toString());
@@ -799,6 +861,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
             res.setReg_08(improvedSetParamDto.getTempH().toString());
             res.setReg_09(improvedSetParamDto.getInterval().toString());
             res.setReg_10(improvedSetParamDto.getBeep().toString());
+            res.setAddTime(devInfo.getAddTime());
             return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", res);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -807,20 +870,20 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 	}
 
 	@Override
-	public Response devAlarmInfo(ReportedQueryVo reportedQueryVo) {
+	public Response devRealDate(ReportedQueryVo reportedQueryVo,Integer type) {
 		// TODO Auto-generated method stub
-		try {
-			ReportedDto rep = reportedInfoMapper.devRunInfo(reportedQueryVo);
-			if(rep == null) {
+//		try {
+//			ReportedDto rep = reportedInfoMapper.devRunInfo(reportedQueryVo);
+			DevInfo devInfo = devInfoMapper.selectDevByNewTime(reportedQueryVo.getImei(),type);
+			if(devInfo == null) {
 				return new Response().Success(Code.QUERY_NULL, Code.QUERY_NULL.getMsg());
 			}
-			ImprovedWarnMsgDto improvedWarnMsgDto = JSONObject.parseObject(rep.getAlarmMsg(), ImprovedWarnMsgDto.class);
-            improvedWarnMsgDto.setAddTime(rep.getAddTime())
-                    .setAlarmType(rep.getAlarmType())
-                    .setEqptSn(rep.getEqptSn())
-                    .setImei(rep.getImei());
+			ImprovedWarnMsgDto improvedWarnMsgDto = JSONObject.parseObject(devInfo.getDataJson(), ImprovedWarnMsgDto.class);
+            improvedWarnMsgDto.setAddTime(devInfo.getAddTime())
+                    .setAlarmType(devInfo.getType())
+                    .setImei(devInfo.getImei());
 			String cur = improvedWarnMsgDto.getCur();
-            if (!"0".equals(cur)) {
+            if (!"0".equals(cur) && StringUtils.isNotBlank(cur)) {
                 String[] split = cur.split("-");
                 if (2 == split.length) {
                 	improvedWarnMsgDto.setCur(split[0]);
@@ -828,7 +891,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
                 }
             }
             String temp = improvedWarnMsgDto.getTemp();
-            if (!"0".equals(temp)) {
+            if (!"0".equals(temp) && StringUtils.isNotBlank(temp)) {
                 String[] split = temp.split("-");
                 if (2 == split.length) {
                 	improvedWarnMsgDto.setTemp(split[0]);
@@ -836,7 +899,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
                 }
             }
             String leak = improvedWarnMsgDto.getLeak();
-            if (!"0".equals(leak)) {
+            if (!"0".equals(leak) && StringUtils.isNotBlank(leak)) {
                 String[] split = leak.split("-");
                 if (2 == split.length) {
                 	improvedWarnMsgDto.setLeak(split[0]);
@@ -844,7 +907,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
                 }
             }
             String overload = improvedWarnMsgDto.getOverload();
-            if (!"0".equals(overload)) {
+            if (!"0".equals(overload) && StringUtils.isNotBlank(overload)) {
                 String[] split = overload.split("-");
                 if (2 == split.length) {
                 	improvedWarnMsgDto.setOverload(split[0]);
@@ -852,7 +915,7 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
                 }
             }
             String vol = improvedWarnMsgDto.getVol();
-            if (!"0".equals(vol)) {
+            if (!"0".equals(vol) && StringUtils.isNotBlank(vol)) {
                 String[] split = vol.split("-");
                 if (2 == split.length) {
                 	improvedWarnMsgDto.setVol(split[0]);
@@ -860,9 +923,9 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
                 }
             }
             return new Response().Success(Code.QUERY_SUCCESS, Code.QUERY_SUCCESS.getMsg()).addData("data", improvedWarnMsgDto);
-		} catch (Exception e) {
-			// TODO: handle exception
-			return new Response().Success(Code.QUERY_FAIL, Code.QUERY_FAIL.getMsg());
-		}
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			return new Response().Success(Code.QUERY_FAIL, Code.QUERY_FAIL.getMsg());
+//		}
 	}
 }

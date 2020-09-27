@@ -5,8 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.kiwihouse.dao.entity.Alarm;
+import com.kiwihouse.dao.entity.DataTimeNum;
 import com.kiwihouse.dto.AlarmEqptDto;
 import com.kiwihouse.vo.kiwihouse.AlmQueryVo;
+import com.kiwihouse.vo.kiwihouse.DataStatisticsVo;
 
 public interface AlarmMapper {
     int deleteByPrimaryKey(Integer alarmId);
@@ -40,4 +42,14 @@ public interface AlarmMapper {
 	int queryAlarmCount(AlmQueryVo almQueryVo);
 	
 	Integer updateAlmSta(@Param("alarmId") String alarmId,@Param("almSta") int almSta);
+	/**
+	 * 时间范围内 设备告警数量 
+	 * @param startTime
+	 * @param startTime2
+	 * @param string
+	 * @return
+	 */
+	int timeAlarmCount(@Param("startTime") String startTime, @Param("endTime") String endTime, @Param("eqptType") String eqptType);
+	
+	List<DataTimeNum> selectByTimesAndType(@Param("dataStatisticsVo") DataStatisticsVo dataStatisticsVo,@Param("alarmType") int alarmType);
 }

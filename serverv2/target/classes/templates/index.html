@@ -22,15 +22,13 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style id="layuimini-bg-color">
-    </style>
+    <script src="/lib/bootstrap-3.3.7-dist/js/bootoast.js" th:src="@{/lib/bootstrap-3.3.7-dist/js/bootoast.js}"></script>
 </head>
 <body class="layui-layout-body layuimini-all">
 <div class="layui-layout layui-layout-admin">
 
     <div class="layui-header header">
         <div class="layui-logo layuimini-logo"></div>
-
         <div class="layuimini-header-content">
             <a>
                 <div class="layuimini-tool"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div>
@@ -83,24 +81,18 @@
             </ul>
         </div>
     </div>
-
     <!--无限极左侧菜单-->
     <div class="layui-side layui-bg-black layuimini-menu-left">
     </div>
-
     <!--初始化加载层-->
     <!-- <div class="layuimini-loader">
         <div class="layuimini-loader-inner"></div>
     </div> -->
-
     <!--手机端遮罩层-->
     <div class="layuimini-make"></div>
-
     <!-- 移动导航 -->
     <div class="layuimini-site-mobile"><i class="layui-icon"></i></div>
-
     <div class="layui-body">
-
         <div class="layuimini-tab layui-tab-rollTool layui-tab" lay-filter="layuiminiTab" lay-allowclose="true">
             <ul class="layui-tab-title">
                 <li class="layui-this" id="layuiminiHomeTabId" lay-id=""></li>
@@ -125,7 +117,6 @@
                 <div id="layuiminiHomeTabIframe" class="layui-tab-item layui-show"></div>
             </div>
         </div>
-
     </div>
 </div>
 <script src="../lib/layui-v2.5.5/layui.js" th:src="@{/lib/layui-v2.5.5/layui.js}" charset="utf-8"></script>
@@ -210,18 +201,47 @@
 	}
 	console.log(authUser);
 	//报警监听receive/latestalarm/info/30/1/1000
-	alarmMonitor();
-	function alarmMonitor(){
+	var time = _sysDictV(0,"Interval");
+	var	t;
+	bootoast({
+		message : '告警设备：',
+		type : 'danger',
+		position : 'top-right',
+		timeout : 200
+	});
+	clearInterval(t);
+	t = setInterval(function(){
 		 $.ajax({
-  			url: "/receive/latestalarm/info/30/1/1000",
+	  			url: "/receive/latestalarm/info/" +time.value+ "/1/1000",
 			    method: "GET",
 			    dataType : "json",
 			    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
-			    	 	console.log(data);
-			    }
-		});
-	}
+		    	if(data.data != null){
+		    		data.data.forEach(function(item, i){
+		    			var alarmMsg = '';
+		    			var alarmInfo = JSON.parse(item.alarmMsg);
+		    			alarmInfo.forEach(function(v, index){
+		    				alarmMsg += v.msg + "、";
+		    			})
+		    			/* window.parent.layer.msg('告警设备：' + item.imei + '<br>' + '告警信息：' + alarmMsg, {
+			    			  icon: 2,
+			    			  offset: 'rt',
+			    			  anim: 2,
+			    			  time: 3000 //2秒关闭（如果不配置，默认是3秒）
+			    		}); */
+		    			/* bootoast({
+    						message : '告警设备：' + item.imei + '<br>' + '告警信息：' + alarmMsg,
+    						type : 'danger',
+    						position : 'top-right',
+    						timeout : 4.5
+    					}); */
+		    		})
+		    	}
+			 }
+		  });
+		} , 1000 * 5);
+	
 </script>
 </body>
 </html>

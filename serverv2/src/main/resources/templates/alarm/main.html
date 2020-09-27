@@ -109,7 +109,7 @@ layui.use(['form', 'table','miniTab'], function () {
         if (obj.event === 'maintain') {
         	if(typeof(dataRow.ctsPhone) != 'undefined' && dataRow.ctsPhone != null){
         		$.ajax({
-         			url: "/maintain/info/" + dataRow.alarmId +"/"+ dataRow.eqptSn + "/" + (parseInt(dataRow.eqptType) + 1),
+         			url: "/maintain/info/" + dataRow.alarmId +"/"+ dataRow.imei + "/" + (parseInt(dataRow.eqptType) + 1),
         		    type: "POST",
         		    dataType : "json",
         	　　		contentType: "application/json;charset=utf-8",
@@ -203,7 +203,7 @@ function loadTable(jsonEntity){
             icon: 'layui-icon-tips'
         }],
         cols: [[
-            {type: "checkbox"},
+            //{type: "checkbox"},
             {field: 'addTime',title: '告警时间', sort: true},
             {field: 'imei',title: 'imei', sort: true},
             {field: 'eqptAddr', title: '地址',
@@ -217,7 +217,8 @@ function loadTable(jsonEntity){
             {field: 'eqptName',  
              title: '名称'
 			 },
-			 {field: 'alarmMsg',  
+			 {field: 'alarmMsg', 
+				 width : '25%',
 	          title: '告警内容',
 	          align: 'center' ,
 	          templet : function(row) {
@@ -225,7 +226,7 @@ function loadTable(jsonEntity){
 	        		 return '';
 	        	 }else{
 	        		 var alarmInfo = JSON.parse(row.alarmMsg);
-	    			 return '<i class="fa fa-warning" title=" '+alarmInfo.msg+' : '+alarmInfo.value+'" > </i>';
+	    			 return _alarmIcon(alarmInfo);
 	        	 }
 			   }
 			 },

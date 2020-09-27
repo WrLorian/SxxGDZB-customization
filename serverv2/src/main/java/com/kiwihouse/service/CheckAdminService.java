@@ -10,8 +10,8 @@ import com.kiwihouse.common.bean.Basic;
 import com.kiwihouse.dao.mapper.AuthUserMapper;
 import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.dao.mapper.KwhMgMapper;
+import com.kiwihouse.dao.mapper.MaintainMapper;
 import com.kiwihouse.mapper.AdministratorMapper;
-import com.kiwihouse.mapper.MaintainMapper;
 
 /**
  * @author yjzn
@@ -97,14 +97,14 @@ public class CheckAdminService {
      * @param adminId
      * @return is alarmId belong to admin?
      */
-    public boolean isMtIdBelong2Admin(String alarmId, String adminId) {
-        if(privilegeService.isTopMg(adminId)){
-            return true;
-        }else{
-            List<String> list = maintainMapper.queryMtId(adminId);
-            return list.contains(alarmId);
-        }
-    }
+//    public boolean isMtIdBelong2Admin(String alarmId, String adminId) {
+//        if(privilegeService.isTopMg(adminId)){
+//            return true;
+//        }else{
+//            List<String> list = maintainMapper.queryMtId(adminId);
+//            return list.contains(alarmId);
+//        }
+//    }
 
     /**
      * 修改用户-判断该用户是否属于管理员用户

@@ -27,12 +27,14 @@ public class DevInfo {
     /**
      *	 数据录入时间
      */
-	private Date addTime;
+	private String addTime;
 	/**
 	 * 	设备类型
 	 */
 	private String type;
 
+	private Integer eqptType;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -57,11 +59,11 @@ public class DevInfo {
 		this.imei = imei;
 	}
 
-	public Date getAddTime() {
+	public String getAddTime() {
 		return addTime;
 	}
 
-	public void setAddTime(Date addTime) {
+	public void setAddTime(String addTime) {
 		this.addTime = addTime;
 	}
 
@@ -71,6 +73,14 @@ public class DevInfo {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public Integer getEqptType() {
+		return eqptType;
+	}
+
+	public void setEqptType(Integer eqptType) {
+		this.eqptType = eqptType;
 	}
 	
 }

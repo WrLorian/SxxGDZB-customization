@@ -1,8 +1,5 @@
 package com.kiwihouse.vo.kiwihouse;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import com.kiwihouse.common.annotation.date.Date;
 import com.kiwihouse.common.bean.Basic;

@@ -66,5 +66,7 @@ public class Register {
     @DoubleNumber
     @ApiModelProperty(value = "设置当前电能,0.0~99999999.9,单位:KWH")
     private String reg_11;
+    
+    private String addTime;
 
 }

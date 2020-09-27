@@ -42,17 +42,21 @@ public class ReflectUtil {
      * 返回属性值为非空的，名称和植
      * @param object 属性为字符创的对象
      */
-    public static HashMap<String,Integer> GetNoneEmptyFieldMap(Object object){
+    public static HashMap<String,Object> GetNoneEmptyFieldMap(Object object){
     	
-        HashMap<String,Integer> map = new HashMap<>();
+        HashMap<String,Object> map = new HashMap<>();
         String[] fieldNames = getFiledName(object);
-
+        
         //获取属性的名字
         for (String name : fieldNames) {
             String value = (String) getFieldValueByName(name, object);    //属性值
-
-            if (null != value) {
-                map.put(name, Integer.valueOf(value));
+            System.out.println("------------------->" + value);
+            if (null != value && value != "") {
+            	if(value.contains(".")) {
+            		map.put(name, Float.valueOf(value));
+            	}else {
+            		map.put(name, Integer.valueOf(value));
+            	}
             }
         }
 

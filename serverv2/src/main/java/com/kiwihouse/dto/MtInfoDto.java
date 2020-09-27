@@ -48,7 +48,9 @@ public class MtInfoDto {
 
     @ApiModelProperty(value = "设备序列号",name = "eqptSn")
     private String eqptSn;
-
+    
+    @ApiModelProperty(value = "设备imei",name = "imei")
+    private String imei;
 
     @ApiModelProperty(value = "告警信息ID",name = "alarmId")
     private String alarmId;
@@ -61,6 +63,9 @@ public class MtInfoDto {
     @ApiModelProperty(value = "告警时间",name = "addTime")
     private String addTime;
 
+    @ApiModelProperty(value = "告警类型",name = "alarmType")
+    private String alarmType;
+    
     @ApiModelProperty(value = "省",name = "province")
     private String province;
 
@@ -78,6 +83,5 @@ public class MtInfoDto {
 
     @ApiModelProperty(value = "维修工单类型(1:用电设备，2:烟感设备)",name = "mtType")
     private String mtType;
-
-
+    
 }

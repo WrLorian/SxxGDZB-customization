@@ -1,5 +1,7 @@
 package com.kiwihouse.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kiwihouse.common.bean.Code;
+import com.kiwihouse.controller.common.BaseController;
+import com.kiwihouse.domain.vo.AuthRoleMenuDetails;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.MtInfoDto;
 import com.kiwihouse.service.CheckAdminService;
@@ -35,7 +40,7 @@ import io.swagger.annotations.ApiResponses;
 @Api(tags = "维修记录")
 @RestController
 @RequestMapping("/maintain")
-public class MaintainController {
+public class MaintainController extends BaseController{
     private static final Logger logger = LoggerFactory.getLogger(MaintainController.class);
 
     @Autowired
@@ -49,10 +54,29 @@ public class MaintainController {
             httpMethod = "GET")
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = MtInfoDto.class)})
     @GetMapping("/info")
-    public ResultList queryInfo(@Validated MtInfoVo mtInfoVo, HttpServletRequest request){
+    public Map<String, Object> queryInfo(@Validated MtInfoVo mtInfoVo, HttpServletRequest request){
         mtInfoVo.setPage((mtInfoVo.getPage()-1)*mtInfoVo.getLimit());
-        checkAdminService.verifyAdminId(request.getHeader("dz-usr"),mtInfoVo);
-        return maintainService.queryInfo(mtInfoVo);
+        //checkAdminService.verifyAdminId(request.getHeader("dz-usr"),mtInfoVo);
+//        try {
+    		if(mtInfoVo==null) {
+    			mtInfoVo = new MtInfoVo();
+    		}
+    		ResultList resultList = maintainService.queryInfo(mtInfoVo);
+    		if(resultList.getResult() == null) {
+    			map.put("data", null);
+        		map.put("count", 0);
+    		}else {
+    			map.put("data", resultList.getResult().getData());
+        		map.put("count", resultList.getResult().getRow());
+    		}
+    		
+    		map.put("code", 0);
+    		map.put("msg",Code.QUERY_SUCCESS);
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
+//		}
+		return map;
     }
 
     @ApiOperation(value = "addInfo",
@@ -60,13 +84,13 @@ public class MaintainController {
                     "<br>@Date: <b>2020-1-4 17:15:40</b></br>",
             httpMethod = "POST")
     @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
-    @PostMapping("/info/{alarmId}/{eqptSn}/{mtType}")
+    @PostMapping("/info/{alarmId}/{imei}/{mtType}")
     public Response addInfo(@PathVariable String alarmId,
-                              @PathVariable String eqptSn,
+                              @PathVariable String imei,
                               @PathVariable String mtType,
                               HttpServletRequest request){
         logger.info("告警转工单>> {}",new Log().setIp(request.getRemoteAddr()).setParam(alarmId));
-        Response resultList = maintainService.addInfo(alarmId,eqptSn,mtType);
+        Response resultList = maintainService.addInfo(alarmId,imei,mtType);
         logger.info("返回参数<< {}",resultList);
         return resultList;
     }

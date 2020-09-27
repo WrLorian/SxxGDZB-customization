@@ -21,5 +21,14 @@ public class DataType {
     public final static String FIRE_REPORT_cl = "1";        //火警设备测量信息
     public final static String FIRE_REPORT_alm = "2";       //火警设备告警信息
     public final static String FIRE_REPORT_yx = "3";        //火警设备运行信息
-
+    
+    /*---------------->新增*/
+    public final static String DEV_REAL_DATE = "1";//实时数据
+    public final static String DEV_PARAMETER = "3";//设备参数
+    
+    /*---------------->设备类型*/
+    /*单相*/
+    public final static Integer ONE_PHASE = 0;
+    /*三相*/
+    public final static Integer THREE_PHASE = 1;
 }
