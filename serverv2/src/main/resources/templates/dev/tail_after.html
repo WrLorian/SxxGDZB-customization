@@ -91,6 +91,7 @@ layui.use(['layer', 'echarts','laydate','form'], function () {
             $("._week").on('click',function(){
             	var date = new Date();
             	var t = fun_day(-7) + " - " +  date.Format("yyyy-MM-dd hh:mm:ss");
+            	console.log(t)
             	_thisid.val(t);
             	$("#times").focus();
             	$(".laydate-btns-confirm").trigger('click');

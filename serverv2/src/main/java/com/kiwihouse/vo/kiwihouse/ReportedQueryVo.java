@@ -55,4 +55,7 @@ public class ReportedQueryVo extends Basic {
 
     @ApiModelProperty(hidden = true)
     private String userId;
+    @ApiModelProperty(value = "设备类型", name = "eqptType")
+    private String eqptType;
+    
 }

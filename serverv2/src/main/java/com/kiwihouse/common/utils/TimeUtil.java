@@ -529,7 +529,7 @@ public class TimeUtil {
 	        result.add(tempStart.getTime());
 	        tempStart.add(Calendar.DAY_OF_YEAR, 1);
 	    }
-	    result.add(end);
+	    //result.add(end);
 	    return result;
 	}
 	/**

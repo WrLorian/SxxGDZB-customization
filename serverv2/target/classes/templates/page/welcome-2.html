@@ -192,49 +192,49 @@ $(document).ready(function(){
 	        	        {
 	        	            name: '过压告警',
 	        	            type: 'line',
-	        	            stack: '总量',
+	        	            //stack: '总量',
 	        	            data: overVoltageAlarmArray
 	        	        },
 	        	        {
 	        	            name: '过流告警',
 	        	            type: 'line',
-	        	            stack: '总量',
+	        	            //stack: '总量',
 	        	            data: overCurrentAlarmArray
 	        	        },
 	        	        {
 	        	            name: '过载告警',
 	        	            type: 'line',
-	        	            stack: '总量',
+	        	            //stack: '总量',
 	        	            data: overloadAlarmsArray
 	        	        },
 	        	        {
 	        	            name: '欠压告警',
 	        	            type: 'line',
-	        	            stack: '总量',
+	        	            //stack: '总量',
 	        	            data: underVoltageAlarmArray
 	        	        },
 	        	        {
 	        	            name: '漏电告警',
 	        	            type: 'line',
-	        	            stack: '总量',
+	        	            //stack: '总量',
 	        	            data: leakageAlarmArray
 	        	        },
 	        	        {
 	        	            name: '温升告警',
 	        	            type: 'line',
-	        	            stack: '总量',
+	        	            //stack: '总量',
 	        	            data: temperatureAlarmArray
 	        	        },
 	        	        {
 	        	            name: '烟雾告警',
 	        	            type: 'line',
-	        	            stack: '总量',
+	        	            //stack: '总量',
 	        	            data: smokeAlarmArray
 	        	        },
 	        	        {
 	        	            name: '用电告警总故障',
 	        	            type: 'line',
-	        	            stack: '总量',
+	        	            //stack: '总量',
 	        	            data: electricAlarmTotalFailureArray
 	        	        }
 	        	    ]
@@ -291,14 +291,13 @@ $(document).ready(function(){
 		var smokeNum,smokeAlarmNum,electricAlarmNum,electricAlarmNums;
         function initEchartsDate(e){
         	var str = getAll(e.startTime,e.endTime);
+        	str = str.substring(0,str.length-1)
         	if(str == ''){
-        		addTimeArr.push(e.startTime,e.endTime);
+        		addTimeArr.push(e.startTime);//,e.endTime
         	}else{
-        		var str =  e.startTime + "," + str + e.endTime;
+        		str =  e.startTime + "," + str;// + e.endTime
         		addTimeArr = str.split(",");
         	}
-	        console.log(addTimeArr);
-        	
         	$.ajax({
         		url: "/statistics/info",
         	    type: "GET",

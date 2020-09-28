@@ -357,17 +357,17 @@ map.addOverlay(vectorMarker);
     		          title: '告警内容',
     		          align: 'center' ,
     		          templet : function(row) {
-    		        	 if(typeof(row.alarmMsg) == 'undefined'){
-    		        		 return '';
-    		        	 }else{
-    		        		 var alarmInfo = JSON.parse(row.alarmMsg);
-    		    			 return _alarmIcon(alarmInfo);
-    		        	 }
-    				   }
+    			        	 if(typeof(row.alarmMsg) == 'undefined'){
+    			        		 return '';
+    			        	 }else{
+    			        		 var alarmInfo = JSON.parse(row.alarmMsg);
+    			        		 return _alarmIcons(row.alarmType.split(","),alarmInfo);
+    			        	 }
+    					   }
     				 }
     	        ]],
-    	        limits: [5, 10, 20, 25, 50, 100],
-    	        limit: 5,
+    	        limits: [3, 10, 20, 25, 50, 100],
+    	        limit: 3,
     	        page: true,
     	        skin: 'line',
     	        done : function(res, curr, count) {
@@ -412,7 +412,7 @@ map.addOverlay(vectorMarker);
     　　			contentType: "application/json;charset=utf-8",
     	    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
     	    success:function(data){
-    	    	console.log(data.cid + "------------>" + lac)
+    	    	console.log(data.cid + "------------>" + data.lac)
     	    }
     	});
 	}

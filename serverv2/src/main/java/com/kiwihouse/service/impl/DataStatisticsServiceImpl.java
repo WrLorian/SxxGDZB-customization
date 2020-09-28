@@ -92,6 +92,7 @@ public class DataStatisticsServiceImpl implements DataStatisticsService{
     	int ygAlarmCount = alarmMapper.timeAlarmCount(dataStatisticsVo,"2");
     	dateStatisList.setSmokeNum(ygCount);
     	dateStatisList.setSmokeAlarmNum(ygAlarmCount);
+    	
 		return new ResultList(Code.QUERY_SUCCESS.getCode(),Code.QUERY_SUCCESS.getMsg(),new Result<>(1,dateStatisList));
 	}
 	public int [] dataTo(Map<String,Integer> map) {

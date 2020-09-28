@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.type.DateTypeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.DataType;
 import com.kiwihouse.common.bean.EqptTypeSta;
-import com.kiwihouse.common.bean.UserInfo;
 import com.kiwihouse.common.utils.TimeUtil;
 import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.dao.mapper.EquipmentMapper;
-import com.kiwihouse.domain.vo.AuthRoleResourceVo;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.AlarmEqptDto;
 import com.kiwihouse.dto.EqptInfoDto;
@@ -29,7 +26,6 @@ import com.kiwihouse.service.CheckAdminService;
 import com.kiwihouse.service.DevInfoService;
 import com.kiwihouse.service.ReportedInfoService;
 import com.kiwihouse.service.ThreePhaseService;
-import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.AlmQueryVo;
 import com.kiwihouse.vo.kiwihouse.QueryPwrVo;
 import com.kiwihouse.vo.kiwihouse.ReportedQueryVo;

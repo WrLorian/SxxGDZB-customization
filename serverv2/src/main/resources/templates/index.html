@@ -18,14 +18,7 @@
     <link rel="stylesheet" href="../css/themes/default.css" th:href="@{/css/themes/default.css}" media="all">
     <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/lib/font-awesome-4.7.0/css/font-awesome.min.css}" media="all">
     <script src="../js/jquery/jquery-3.3.1.min.js" th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
-    <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <!-- <link rel="stylesheet" href="../lib/bootstrap-3.3.7-dist/css/bootoast.css" th:href="@{/lib/bootstrap-3.3.7-dist/css/bootoast.css}" media="all">
-    <link rel="stylesheet" href="../lib/bootstrap-3.3.7-dist/css/bootstrap.css" th:href="@{/lib/bootstrap-3.3.7-dist/css/bootstrap.css}" media="all">
-    <script src="/lib/bootstrap-3.3.7-dist/js/bootoast.js" th:src="@{/lib/bootstrap-3.3.7-dist/js/bootoast.js}"></script> -->
-   <link rel="stylesheet" href="../lib/notiflix//notiflix-2.4.0.min.css" th:href="@{/lib/notiflix//notiflix-2.4.0.min.css}">
+    <link rel="stylesheet" href="../lib/notiflix//notiflix-2.4.0.min.css" th:href="@{/lib/notiflix//notiflix-2.4.0.min.css}">
    <script src="../lib/notiflix/notiflix-2.4.0.min.js" th:href="@{/lib/notiflix/notiflix-2.4.0.min.js}"></script>
 </head>
 <body class="layui-layout-body layuimini-all">
@@ -123,22 +116,22 @@
         </div>
     </div>
 </div>
-<script src="../lib/layui-v2.5.5/layui.js" th:src="@{/lib/layui-v2.5.5/layui.js}" charset="utf-8"></script>
-<script src="../js/lay-config.js?v=2.0.0" th:src="@{/js/lay-config.js?v=2.0.0}" charset="utf-8"></script>
-<script th:src="@{/js/common/common.js}"></script>
+<div th:include="include::footer"></div>
 <script>
 	//表示首页
 	var index = 0;
 	var options;
 	var miniAdmin;
 	var layer;
-	layui.use(['jquery', 'layer', 'miniAdmin','miniTongji'], function () {
+	var miniTab;
+	layui.use(['jquery', 'layer', 'miniAdmin','miniTongji','miniTab'], function () {
     	var authorization = localStorage.getItem('Authorization');
     	var authUser = JSON.parse(localStorage.getItem('authUser'));
         var $ = layui.jquery,
             layer = layui.layer,
-            miniTongji = layui.miniTongji;
-        miniAdmin = layui.miniAdmin;
+            miniTongji = layui.miniTongji,
+        	miniAdmin = layui.miniAdmin,
+        	miniTab = layui.miniTab;
         
         options = {
             iniUrl: getRootPath() + "/menu/authMenuList?roleId="+authUser.roleId,    // 初始化接口
@@ -200,57 +193,53 @@
 			    }
 			  	}); 
         });
+        Notiflix.Notify.Warning('告警设备：867808042089837<br>' + '告警信息：' );
+    	initAlarmClick();
+    	/*初始化点击告警弹框的事件*/
+        function initAlarmClick(){
+    		$.each($(".the-message"),function(){
+    			$(this).on('click',function(){
+    				console.log($(this).html());
+    				var imei = parseInt($(this).html().replace(/[^0-9]/ig,""));
+    		        var options = {
+    	        			href:'/admin/alarm/main?imei=' + imei,
+    	        			title:'告警信息'
+    	        	};
+    	        	miniTab.openNewTabByIframe(options)
+    		        
+    			})
+    		})
+    	}
+        //报警监听receive/latestalarm/info/30/1/1000
+    	var time = _sysDictV(0,"Interval");
+    	var	t;
+    	clearInterval(t);
+   	    t = setInterval(function(){
+   		 $.ajax({
+   	  			url: "/receive/latestalarm/info/" +time.value+ "/1/1000",
+   			    method: "GET",
+   			    dataType : "json",
+   			    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+   			    success:function(data){
+   		    	if(data.data != null){
+   		    		data.data.forEach(function(item, i){
+   		    			var alarmMsg = '';
+   		    			var alarmInfo = JSON.parse(item.alarmMsg);
+   		    			alarmInfo.forEach(function(v, index){
+   		    				alarmMsg += v.msg + "、";
+   		    			})
+   		    			Notiflix.Notify.Warning('告警设备：' + item.imei + '<br>' + '告警信息：' + alarmMsg);
+   		    			initAlarmClick();
+   		    		})
+   		    	}
+   			 }
+   		  });
+   		} , 1000 * 5 * 6 * 5);
     });
 	//重新加载
 	function init(){
 		miniAdmin.render(options);
 	}
-	console.log(authUser);
-	//报警监听receive/latestalarm/info/30/1/1000
-	var time = _sysDictV(0,"Interval");
-	var	t;
-	/* bootoast({
-		message : '告警设备：',
-		type : 'danger',
-		position : 'top-right',
-		timeout : 200
-	}); */
-	clearInterval(t);
-	 t = setInterval(function(){
-		 $.ajax({
-	  			url: "/receive/latestalarm/info/" +time.value+ "/1/1000",
-			    method: "GET",
-			    dataType : "json",
-			    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
-			    success:function(data){
-		    	if(data.data != null){
-		    		data.data.forEach(function(item, i){
-		    			var alarmMsg = '';
-		    			var alarmInfo = JSON.parse(item.alarmMsg);
-		    			alarmInfo.forEach(function(v, index){
-		    				alarmMsg += v.msg + "、";
-		    			})
-		    			
-		    			Notiflix.Notify.Warning('告警设备：' + item.imei + '<br>' + '告警信息：' + alarmMsg);
-		    		})
-		    	}
-			 }
-		  });
-		} , 1000 * 5);
-		/* window.parent.layer.msg('告警设备：' + item.imei + '<br>' + '告警信息：' + alarmMsg, {
-		  icon: 2,
-		  offset: 'rt',
-		  anim: 2,
-		  time: 3000 //2秒关闭（如果不配置，默认是3秒）
-	}); */
-	
-	$.each($(".the-message"),function(){
-		$(this).on('click',function(){
-			console.log($(this).html())
-			var price = parseInt($(this).html().replace(/[^0-9]/ig,""));
-	        console.log(price)
-		})
-	})
 </script>
 </body>
 </html>

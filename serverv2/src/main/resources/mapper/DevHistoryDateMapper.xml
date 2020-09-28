@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwihouse.dao.mapper.DevHistoryDateMapper">
+  <resultMap id="BaseResultMap" type="com.kiwihouse.dao.entity.DevHistoryDate">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="DATA_JSON" jdbcType="VARCHAR" property="dataJson" />
+    <result column="IMEI" jdbcType="VARCHAR" property="imei" />
+    <result column="ADD_TIME" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="EQPT_TYPE" jdbcType="INTEGER" property="eqptType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, DATA_JSON, IMEI, ADD_TIME, TYPE, EQPT_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dev_history_data
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dev_history_data
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kiwihouse.dao.entity.DevHistoryDate">
+    insert into dev_history_data (ID, DATA_JSON, IMEI, 
+      ADD_TIME, TYPE, EQPT_TYPE
+      )
+    values (#{id,jdbcType=INTEGER}, #{dataJson,jdbcType=VARCHAR}, #{imei,jdbcType=VARCHAR}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, #{eqptType,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kiwihouse.dao.entity.DevHistoryDate">
+    insert into dev_history_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="dataJson != null">
+        DATA_JSON,
+      </if>
+      <if test="imei != null">
+        IMEI,
+      </if>
+      <if test="addTime != null">
+        ADD_TIME,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="eqptType != null">
+        EQPT_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dataJson != null">
+        #{dataJson,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null">
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="eqptType != null">
+        #{eqptType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kiwihouse.dao.entity.DevHistoryDate">
+    update dev_history_data
+    <set>
+      <if test="dataJson != null">
+        DATA_JSON = #{dataJson,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null">
+        IMEI = #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        ADD_TIME = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="eqptType != null">
+        EQPT_TYPE = #{eqptType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kiwihouse.dao.entity.DevHistoryDate">
+    update dev_history_data
+    set DATA_JSON = #{dataJson,jdbcType=VARCHAR},
+      IMEI = #{imei,jdbcType=VARCHAR},
+      ADD_TIME = #{addTime,jdbcType=TIMESTAMP},
+      TYPE = #{type,jdbcType=VARCHAR},
+      EQPT_TYPE = #{eqptType,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="historyDevInfo" parameterType="com.kiwihouse.vo.kiwihouse.ReportedQueryVo" resultMap="BaseResultMap">
+  		select data_json,add_time from dev_history_data where 1 = 1
+  		<if test="imei != null and imei != ''">
+  			and imei = #{imei}
+  		</if>
+  		<if test="startTime != null and startTime != ''">
+  			and DATE_FORMAT(add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+  		</if>
+  		<if test="limit != null and limit != ''">
+  			order by add_time
+  			limit ${(page - 1) * limit},#{limit}
+  		</if>
+  		
+  </select>
+  <select id="historyDevInfoCount" resultType="Integer" parameterType="com.kiwihouse.vo.kiwihouse.ReportedQueryVo" >
+  	select count(*) from dev_history_data where 1 = 1
+  		<if test="imei != null and imei != ''">
+  			and imei = #{imei}
+  		</if>
+  		<if test="startTime != null and startTime != ''">
+  			and DATE_FORMAT(add_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+  		</if>
+  		
+  </select>
+</mapper>

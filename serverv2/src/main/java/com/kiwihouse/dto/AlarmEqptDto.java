@@ -55,5 +55,7 @@ public class AlarmEqptDto {
     private String alarmStatus;
     @ApiModelProperty(value = "告警时间",name = "addTime")
     private String addTime;
+    @ApiModelProperty(value = "告警类型",name = "alarmType")
+    private String alarmType;
 
 }

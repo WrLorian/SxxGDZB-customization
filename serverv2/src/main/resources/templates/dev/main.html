@@ -124,7 +124,8 @@ layui.use(['form', 'table','miniTab'], function () {
          	if(data.field[key] != null && data.field[key].length > 0){
          		jsonEntity[key] = val;
          	}
-        });
+         });
+         
          //执行搜索重载
          loadTable(jsonEntity);
          return false;

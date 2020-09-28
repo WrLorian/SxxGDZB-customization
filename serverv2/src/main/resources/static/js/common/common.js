@@ -189,38 +189,6 @@ var authUser = JSON.parse(localStorage.getItem('authUser'));
     }
 })(jQuery);
 /**
- * 得到多少天前后的日期
- * @param a
- * @returns
- */
-function fun_day(a){
-    var date1 = new Date(),
-    time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
-    var date2 = new Date(date1);
-    date2.setDate(date1.getDate() + a);
-    return date2.format();
-}
-function fun_month(a){
-	var date1 = new Date(),
-    time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
-    var date2 = new Date(date1);
-    date2.setMonth(date1.getMonth() + a);
-    return date2.format();
-}
-function fun_hours(a){
-	var date1 = new Date(),
-    time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
-    var date2 = new Date(date1);
-    date2.setHours(date2.getHours() + a);
-    return date2.format();
-}
-function fun_days(a,date1){
-	var time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
-    var date2 = new Date(date1);
-    date2.setDate(date1.getDate() + a);
-    return date2.format();
-}
-/**
  * 时间格式转化 DATE ---> String
  */
 Date.prototype.Format = function (fmt) {
@@ -239,6 +207,38 @@ Date.prototype.Format = function (fmt) {
         if (new RegExp("(" + k + ")").test(fmt))
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
+}
+/**
+ * 得到多少天前后的日期
+ * @param a
+ * @returns
+ */
+function fun_day(a){
+    var date1 = new Date(),
+    time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
+    var date2 = new Date(date1);
+    date2.setDate(date1.getDate() + a);
+    return date2.Format("yyyy-MM-dd hh:mm:ss");
+}
+function fun_month(a){
+	var date1 = new Date(),
+    time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
+    var date2 = new Date(date1);
+    date2.setMonth(date1.getMonth() + a);
+    return date2.Format("yyyy-MM-dd hh:mm:ss");
+}
+function fun_hours(a){
+	var date1 = new Date(),
+    time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
+    var date2 = new Date(date1);
+    date2.setHours(date2.getHours() + a);
+    return date2.Format("yyyy-MM-dd hh:mm:ss");
+}
+function fun_days(a,date1){
+	var time1 = date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();
+    var date2 = new Date(date1);
+    date2.setDate(date1.getDate() + a);
+    return date2.Format("yyyy-MM-dd hh:mm:ss");
 }
 /*OneNet 请求 设备批量命令下发，异步操作*/
 function oneNet(e,hint,w){
@@ -491,7 +491,7 @@ function getAll(begin, end) {
 	return str;
 }
 
-var _alarmIcon = function(v){
+/*var _alarmIcon = function(v){
 	var _icon = '';
 	v.forEach(function(item, i){
 		 if(item.msg == "过流告警"){
@@ -510,6 +510,34 @@ var _alarmIcon = function(v){
 			 _icon += '<i class="iconfont _alarm_icon" title='+item.msg + ":" + item.value +' >&#xe65b;</i>   ';
 		 }else if(item.msg == "烟雾告警"){
 			 _icon += '<i class="iconfont _alarm_icon" title='+item.msg + ":" + item.value +' >&#xe61b;</i>   ';
+		 }
+	 });
+	return _icon;
+}*/
+var _alarmIcons = function (v,e){
+	var _icon = '';
+	v.forEach(function(item, i){
+		var msg = '';
+		e.forEach(function(val,index){
+			msg = msg + val.msg + ":" + val.value + "\n";
+		})
+		console.log(msg)
+		 if(item == 1){
+			 _icon += '<i class="iconfont _alarm_icon"   title="' + msg + '" >&#xe652;</i>   ';
+		 }else if(item == 2){
+			 _icon += '<i class="iconfont _alarm_icon" title="' + msg + '" >&#xe62d;</i>   ';
+		 }else if(item == 3){
+			 _icon += '<i class="iconfont _alarm_icon"  title="' + msg + '" >&#xe655;</i>   ';
+		 }else if(item == 4){
+			 _icon += '<i class="iconfont _alarm_icon"  title="' + msg + '" >&#xe651;</i>   ';
+		 }else if(item == 5){
+			 _icon += '<i class="iconfont _alarm_icon"  title="' + msg + '" >&#xe62c;</i>   ';
+		 }else if(item == 6){
+			 _icon += '<i class="iconfont _alarm_icon"  title="' + msg + '" >&#xe620;</i>   ';
+		 }else if(item == 7){
+			 _icon += '<i class="iconfont _alarm_icon"  title="' + msg + '" >&#xe65b;</i>   ';
+		 }else if(item == 8){
+			 _icon += '<i class="iconfont _alarm_icon"  title="' + msg + '" >&#xe61b;</i>   ';
 		 }
 	 });
 	return _icon;

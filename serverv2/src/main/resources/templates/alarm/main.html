@@ -72,14 +72,18 @@ var currentPage = 1;
 var jsonEntity = {};
 var dataRow;
 var miniTab;
-jsonEntity.eqptType = $.getUrlParam('eqptType');
+
 layui.use(['form', 'table','miniTab'], function () {
     var $ = layui.jquery;
         form = layui.form;
         table = layui.table;
         layer = layui.layer;
         miniTab = layui.miniTab;
-     	loadTable(jsonEntity);
+        if($.getUrlParam('imei') != null){
+        	jsonEntity.imei = $.getUrlParam('imei');
+        	$("input[name='imei']").val(jsonEntity.imei);
+        }
+     loadTable(jsonEntity);
      //监听搜索操作
      form.on('submit(data-search-btn)', function (data) {
     	 var result = JSON.stringify(data.field);
@@ -227,7 +231,7 @@ function loadTable(jsonEntity){
 	        		 return '';
 	        	 }else{
 	        		 var alarmInfo = JSON.parse(row.alarmMsg);
-	    			 return _alarmIcon(alarmInfo);
+	        		 return _alarmIcons(row.alarmType.split(","),alarmInfo);
 	        	 }
 			   }
 			 },
