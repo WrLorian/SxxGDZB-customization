@@ -1,6 +1,7 @@
 package com.kiwihouse.controller.account;
 
 
+import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,18 +27,23 @@ import com.kiwihouse.controller.account.params.UserParams;
 import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.dao.mapper.AuthRoleResourceMapper;
+import com.kiwihouse.dao.mapper.AuthUserMapper;
 import com.kiwihouse.dao.mapper.AuthUserRoleMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.service.AccountService;
 import com.kiwihouse.service.UserService;
 import com.kiwihouse.support.factory.LogTaskFactory;
 import com.kiwihouse.support.manager.LogExeManager;
+import com.kiwihouse.util.CommonUtil;
 import com.kiwihouse.util.IpUtil;
 import com.kiwihouse.util.JsonWebTokenUtil;
+import com.kiwihouse.util.Md5Util;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * post新增,get读取,put完整更新,patch部分更新,delete删除
@@ -67,7 +76,11 @@ public class AccountController extends BaseController {
     
     @Value("${kiwihouse.enableEncryptPassword}")
     private boolean isEncryptPassword;
-
+    @Autowired	
+    private AuthUserMapper authUserMapper;
+    
+    @Autowired
+    private StringRedisTemplate redisTemplate;
     /**
      * description 登录签发 JWT ,这里已经在 passwordFilter 进行了登录认证
      *
@@ -107,66 +120,40 @@ public class AccountController extends BaseController {
      * @return com.kiwihouse.domain.vo.Message
      */
     @ApiOperation(value = "用户注册", notes = "POST用户注册")
+    @ApiResponses({@ApiResponse(code = 0, message = "回调参数", response = UserParams.class)})
     @PostMapping("/register")
-    public Response accountRegister(HttpServletRequest request, HttpServletResponse response) {
+    public Response accountRegister(@Validated UserParams params,HttpServletRequest request, HttpServletResponse response) {
+        AuthUser authUser = new AuthUser();
+        Integer uid = authUserMapper.selectMaxId() + 1;//Integer.parseInt(params.get("uid"));
+        String password = params.getPassword();//params.get("password");
+        if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(password)) {
+            // 必须信息缺一不可,返回注册账号信息缺失
+            return new Response().Fail(1111, "账户信息缺失");
+        }
+        if (accountService.isAccountExistByUid(uid)) {
+            // 账户已存在
+            return new Response().Fail(1111, "账户已存在");
+        }
 
-//        Map<String, String> params = RequestResponseUtil.getRequestBodyMap(request);
-//        AuthUser authUser = new AuthUser();
-//        Integer uid = Integer.parseInt(params.get("uid"));
-//        String password = params.get("password");
-//        String userKey = params.get("userKey");
-//        if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(password)) {
-//            // 必须信息缺一不可,返回注册账号信息缺失
-//            return new ResponseMsg().Fail(1111, "账户信息缺失");
-//        }
-//        if (accountService.isAccountExistByUid(uid)) {
-//            // 账户已存在
-//            return new ResponseMsg().Fail(1111, "账户已存在");
-//        }
-//
-//        authUser.setUid(uid);
-//
-//        if (isEncryptPassword) {
-//            // 从Redis取出密码传输加密解密秘钥
-//            String tokenKey = redisTemplate.opsForValue().get("TOKEN_KEY_" + IpUtil.getIpFromRequest(WebUtils.toHttp(request)).toUpperCase() + userKey);
-//            password = AesUtil.aesDecode(password, tokenKey);
-//        }
-//        String salt = CommonUtil.getRandomString(6);
-//        // 存储到数据库的密码为 MD5(原密码+盐值)
-//        authUser.setPassword(Md5Util.md5(password + salt));
-//        authUser.setSalt(salt);
-//        authUser.setCreateTime(new Date());
-//        if (!StringUtils.isEmpty(params.get(STR_USERNAME))) {
-//            authUser.setUsername(params.get(STR_USERNAME));
-//        }
-//        if (!StringUtils.isEmpty(params.get(STR_REALNAME))) {
-//            authUser.setRealName(params.get(STR_REALNAME));
-//        }
-//        if (!StringUtils.isEmpty(params.get(STR_AVATAR))) {
-//            authUser.setAvatar(params.get(STR_AVATAR));
-//        }
-//        if (!StringUtils.isEmpty(params.get(STR_PHONE))) {
-//            authUser.setPhone(params.get(STR_PHONE));
-//        }
-//        if (!StringUtils.isEmpty(params.get(STR_EMAIL))) {
-//            authUser.setEmail(params.get(STR_EMAIL));
-//        }
-//        if (!StringUtils.isEmpty(params.get(STR_SEX))) {
-//            authUser.setSex(Byte.valueOf(params.get(STR_SEX)));
-//        }
-//        if (!StringUtils.isEmpty(params.get(STR_WHERE))) {
-//            authUser.setCreateWhere(Byte.valueOf(params.get(STR_WHERE)));
-//        }
-//        authUser.setStatus((byte) 1);
-//
-//        if (accountService.registerAccount(authUser)) {
-//            LogExeManager.getInstance().executeLogTask(LogTaskFactory.registerLog(uid, IpUtil.getIpFromRequest(WebUtils.toHttp(request)), (short) 1, "注册成功"));
-//            return new ResponseMsg().Success(2002, "注册成功");
-//        } else {
-//            LogExeManager.getInstance().executeLogTask(LogTaskFactory.registerLog(uid, IpUtil.getIpFromRequest(WebUtils.toHttp(request)), (short) 0, "注册失败"));
-//            return new ResponseMsg().Success(1111, "注册失败");
-//        }
-        return new Response();
+        authUser.setUid(uid);
+        String salt = CommonUtil.getRandomString(6);
+        // 存储到数据库的密码为 MD5(原密码+盐值)
+        authUser.setPassword(Md5Util.md5(password + salt));
+        authUser.setSalt(salt);
+        authUser.setCreateTime(new Date());
+        authUser.setUsername(params.getUsername());
+        authUser.setStatus((byte) 1);
+        if (accountService.registerAccount(authUser)) {
+            LogExeManager.getInstance().executeLogTask(LogTaskFactory.registerLog(uid, IpUtil.getIpFromRequest(WebUtils.toHttp(request)), (short) 1, "注册成功"));
+            return new Response().Success(2002, "注册成功");
+        } else {
+            LogExeManager.getInstance().executeLogTask(LogTaskFactory.registerLog(uid, IpUtil.getIpFromRequest(WebUtils.toHttp(request)), (short) 0, "注册失败"));
+            return new Response().Success(1111, "注册失败");
+        }
+//        return new Response().Success(Code.QUERY_SUCCESS,Code.QUERY_SUCCESS.getMsg());
     }
     
+    public void test() {
+    	
+    }
 }

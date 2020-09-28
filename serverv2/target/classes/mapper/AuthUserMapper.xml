@@ -241,4 +241,8 @@
    <select id="queryCtsPhone" resultType="java.lang.String">
    		SELECT ct.phone FROM auth_user au LEFT JOIN contacts ct on au.uid = ct.user_id  where au.phone = #{userPhone}
    </select>
+   
+   <select id="selectMaxId" resultType="Integer">
+   		select max(uid) from auth_user 
+   </select>
 </mapper>

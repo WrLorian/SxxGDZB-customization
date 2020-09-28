@@ -61,9 +61,9 @@
 			
 			{{# if(d.mtStatus == 0 ){ }}
 					<a class="layui-icon layui-icon-edit" style="font-size: 24px; color: #1E9FFF;cursor: pointer;" lay-event="edit" title="修改"></a>
-            		<a class="fa fa-share" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout"></a>
+            		<a class="fa fa-share" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout" title="撤销"></a>
 			{{# } else if(d.mtStatus == 1 ){}}
-            		<a class="fa fa-share" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout"></a>
+            		<a class="fa fa-share" style="font-size: 22px; color: #1E9FFF;cursor: pointer;" lay-event="backout" title="撤销"></a>
 			{{# } else if(d.mtStatus == 2 ){}}
 			{{# } }}
 				
@@ -165,11 +165,11 @@ function loadTickets(jsonEntity){
    	        	 }else{
    	        		 var alarmInfo = JSON.parse(row.alarmMsg);
    	        		 //'<i class="fa fa-warning" title=" '+alarmInfo.msg+' : '+alarmInfo.value+'" > </i>';
-   	    			 return _alarmIcon(alarmInfo);
+   	    			 return _alarmIcons(row.alarmType.split(","),alarmInfo);
    	        	 }
    			   }	
             },
-            {field: 'mtStatus',  title: '维修状态', sort: true,
+            {field: 'mtStatus',  title: '维修状态',
 				templet : function(row) {
 					if(row.mtStatus == 0){
 						return "未维修";
@@ -180,8 +180,8 @@ function loadTickets(jsonEntity){
 					}
 					
 			}},
-			{field: 'mtName',title: '维修人员名称', sort: true},
-			{field: 'updateTime',title: '告警时间'},
+			{field: 'mtName',title: '维修人员名称'},
+			{field: 'updateTime',title: '告警时间',width:"15%"},
             {title: '操作', toolbar: '#currentTableBar', align: "center",width:'20%'}
         ]],
         limits: [5, 10, 20, 25, 50, 100],

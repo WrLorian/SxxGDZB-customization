@@ -52,6 +52,9 @@
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript:;" data-clear="清理" class="layuimini-clear"><i class="fa fa-trash-o"></i></a>
                 </li>
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:;" data-register="注册" class="_r"><i class="fa fa-user-plus"></i></a>
+                </li>
                 <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
@@ -240,6 +243,18 @@
 	function init(){
 		miniAdmin.render(options);
 	}
+	
+	$("._r").on('click',function(){
+		$.ajax({
+	  			url: "/account/register",
+			    method: "POST",
+			    dataType : "json",
+			    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+			    success:function(data){
+		    	
+			 }
+		  });
+	})
 </script>
 </body>
 </html>

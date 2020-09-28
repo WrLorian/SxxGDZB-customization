@@ -22,7 +22,7 @@ public class AuthRoleMenuServiceImpl implements AuthRoleMenuService{
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("count", authRoleMenuMapper.selectRoleMenuCount(roleId,authRoleMenuDetails, trigger));
-		List<AuthRoleMenuDetails> list = new ArrayList<AuthRoleMenuDetails>();
+		List<AuthRoleMenuDetails> list = null;
 		if (currentPage != null) {
 			list = authRoleMenuMapper.selectRoleMenuList((currentPage - 1) * pageSize,pageSize,roleId,authRoleMenuDetails,trigger);
 		} else {

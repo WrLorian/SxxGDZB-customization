@@ -2,7 +2,6 @@ package com.kiwihouse.dao.mapper;
 
 import com.kiwihouse.dao.entity.AuthUser;
 
-import org.apache.ibatis.annotations.Select;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -141,4 +140,9 @@ public interface AuthUserMapper {
 	 * @return
 	 */
 	List<String> queryCtsPhone(String userPhone);
+	
+	/**
+	 * 查询最大ID
+	 */
+	Integer selectMaxId();
 }
