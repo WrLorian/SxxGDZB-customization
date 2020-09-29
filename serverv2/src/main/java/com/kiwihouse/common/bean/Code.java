@@ -85,6 +85,9 @@ public enum Code {
     REGISTER_SUCC(8001,"设备注册成功"),
     LOGIN_SUCC(8002,"用户登录成功"),
     LOGIN_FAIL(8003,"账号或密码错误"),
+    UPDATE_PASSWORD_FAIL_PASSWOR_DWRONG(80003,"原密码不正确"),
+    UPDATE_PASSWORD_SUCCESS(80004,"密码修改成功"),
+    UPDATE_PASSWORD_FAIL(80004,"系统错误,修改失败"),
     LOGIN_NULL(8004,"登录用户不存在,请联系管理员"),
     LOGIN_REPLACE(8005,"登录顶替"),
     LOGIN_DUE(8006,"登录失效"),
@@ -95,8 +98,14 @@ public enum Code {
     NOTONLINE(9001,"设备不在线"),
     DEVICEID_INEXISTENCE(9002,"deviceId不存在"),
 
+    EXCEL_LEAD_OUT_SUCCESS(100001,"Excel导出成功"),
+    EXCEL_LEAD_OUT_FAIL(100002,"导出Excel失败，请联系网站管理员！"),
+    EXCEL_LEAD_IN_SUCCESS(100003,"导出入Excel成功"),
+    EXCEL_LEAD_IN_FAIL(100004,"导入Excel失败，请联系网站管理员！"),
     RECOVER_SUCCESS(8090,"恢复成功"),
     RECOVER_FAIL(8091,"恢复失败");
+	
+	
     //枚举的属性字段必须是私有且不可变
     private final int code;
     private final String msg;

@@ -93,7 +93,7 @@
                 }
             } else if (layEvent === 'edit') {
             	if(authUser.roleId == dataRow.roleId){
-            		openPopUp('修改','/admin/menu/edit');
+            		openPopUp('修改','MENU_UPDATE_PAGE');///admin/menu/edit
             	}else{
             		layer.msg('存在角色不一致的菜单', {
 						icon : 2
@@ -242,7 +242,7 @@
     }
     
     $("#btn-add").on('click',function(){
-    	openPopUp('添加','/admin/menu/add');
+    	openPopUp('添加','MENU_ADD_PAGE');///admin/menu/add
     })
 </script>
 </body>

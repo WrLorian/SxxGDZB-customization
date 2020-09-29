@@ -52,9 +52,6 @@
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript:;" data-clear="清理" class="layuimini-clear"><i class="fa fa-trash-o"></i></a>
                 </li>
-                <li class="layui-nav-item" lay-unselect>
-                    <a href="javascript:;" data-register="注册" class="_r"><i class="fa fa-user-plus"></i></a>
-                </li>
                 <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
@@ -62,10 +59,10 @@
                     <a href="javascript:;" class="_username"></a>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a href="javascript:;" layuimini-content-href="page/user-setting.html" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
+                            <a href="javascript:;" layuimini-content-href="/admin/user/base_data" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
                         </dd>
                         <dd>
-                            <a href="javascript:;" layuimini-content-href="page/user-password.html" data-title="修改密码" data-icon="fa fa-gears">修改密码</a>
+                            <a href="javascript:;" layuimini-content-href="/admin/user/password" data-title="修改密码" data-icon="fa fa-gears">修改密码</a>
                         </dd>
                         <dd>
                             <hr>
@@ -127,15 +124,19 @@
 	var miniAdmin;
 	var layer;
 	var miniTab;
+	var staticResource = new Map;
 	layui.use(['jquery', 'layer', 'miniAdmin','miniTongji','miniTab'], function () {
     	var authorization = localStorage.getItem('Authorization');
     	var authUser = JSON.parse(localStorage.getItem('authUser'));
+    	if(authUser == null){
+    		JwtErr();
+    	}
         var $ = layui.jquery,
             layer = layui.layer,
             miniTongji = layui.miniTongji,
         	miniAdmin = layui.miniAdmin,
         	miniTab = layui.miniTab;
-        
+        $("._username").text(authUser.username);
         options = {
             iniUrl: getRootPath() + "/menu/authMenuList?roleId="+authUser.roleId,    // 初始化接口
             clearUrl: "api/clear.json", // 缓存清理接口
@@ -162,21 +163,24 @@
 			window.location.href = "/";
 		}else{
 		}
-		$.ajax({
- 			url: "/user/queryByName",
-		    method: "post",
-		    dataType : "json",
-		    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-		    data:{"username":authUser.username},
-		    async:false,
-		    success:function(data){
-		    	 	if(data.success){
-		    	 		$("._username").text(data.data.authUser.username);
-					}else{
-						
-					}
-		    }
-		  	});
+		initResource();
+		/*获取静态页面列表*/
+		function initResource(){
+			$.ajax({
+	  			url: "/resource/static",
+			    method: "GET",
+			    dataType : "json",
+			    async : false,
+			    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+			    success:function(data){
+		    	console.log(data.data.data)
+		    	data.data.data.forEach(function(item,index){
+		    		staticResource.set(item.CODE,item.URI);
+		    	})
+			 }
+		   });
+		}
+		/*退出登录*/
         $('.login-out').on("click", function () {
             $.ajax({
      			url: "/user/exit",
@@ -194,10 +198,8 @@
 							layer.msg(data.msg);
 						}
 			    }
-			  	}); 
+			}); 
         });
-        Notiflix.Notify.Warning('告警设备：867808042089837<br>' + '告警信息：' );
-    	initAlarmClick();
     	/*初始化点击告警弹框的事件*/
         function initAlarmClick(){
     		$.each($(".the-message"),function(){
@@ -243,18 +245,6 @@
 	function init(){
 		miniAdmin.render(options);
 	}
-	
-	$("._r").on('click',function(){
-		$.ajax({
-	  			url: "/account/register",
-			    method: "POST",
-			    dataType : "json",
-			    headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
-			    success:function(data){
-		    	
-			 }
-		  });
-	})
 </script>
 </body>
 </html>

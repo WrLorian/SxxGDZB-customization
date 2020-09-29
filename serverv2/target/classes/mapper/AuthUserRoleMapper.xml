@@ -88,7 +88,9 @@
     delete from auth_user_role  where user_id = #{userId} and role_id = #{roleId}
   </delete>
   
-  <select id="selectByUid" parameterType="Integer" resultType="Integer">
-  		SELECT min(ROLE_ID) FROM auth_user_role WHERE USER_ID = #{uid}
+  <select id="selectByUid" parameterType="Integer" resultType="com.kiwihouse.dao.entity.AuthUserRole">
+  		SELECT aur.ROLE_ID,ar.`NAME` as roleName FROM auth_user_role aur 
+  		LEFT JOIN auth_role ar on aur.ROLE_ID = ar.ID 
+  		WHERE aur.ROLE_ID = (SELECT min(ROLE_ID) FROM auth_user_role WHERE USER_ID = #{uid} )
   </select>
 </mapper>

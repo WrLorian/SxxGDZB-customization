@@ -46,7 +46,7 @@
             <div class="layui-btn-container">
                 <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
                 <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
-<button class="layui-btn layui-btn-sm layui-btn-danger data-update-btn" lay-event="upd"> 修改 </button>
+				<button class="layui-btn layui-btn-sm layui-btn-danger data-update-btn" lay-event="upd"> 修改 </button>
             </div>
         </script>
 
@@ -117,10 +117,6 @@ layui.use(['form', 'table'], function () {
 		    }
 		});
     }
-    
-    
-    
-    
     // 监听搜索操作
     form.on('submit(data-search-btn)', function (data) {
         var result = JSON.stringify(data.field);
@@ -143,7 +139,7 @@ layui.use(['form', 'table'], function () {
      */
     table.on('toolbar(currentTableFilter)', function (obj) {
         if (obj.event === 'add') {  // 监听添加操作
-        	openPopUp('添加','/admin/role/menu/add');
+        	openPopUp('添加','ROLE_MENU_ADD_PAGE');///admin/role/menu/add
         } else if (obj.event === 'delete') {  // 监听删除操作
             var checkStatus = table.checkStatus('currentTableId')
                 , data = checkStatus.data;
@@ -154,30 +150,10 @@ layui.use(['form', 'table'], function () {
             	menuIds.push(xx.id);
             })
             DELETE("/rolemenu/"+roleIds.join(',') + "/" + menuIds.join(','));
-        	/* $.ajax({
-    			url: "/rolemenu/"+roleIds.join(',') + "/" + menuIds.join(','),
-    			type : "DELETE",
-    	　　		dataType : "json",
-    	　　		contentType: "application/json;charset=utf-8",
-    		    headers: { "Authorization": authorization,"dz-usr":authUser.uid },//通过请求头来发送token，放弃了通过cookie的发送方式
-    		    success:function(data){
-    		    	 	if(data.success){
-    		    	 		layer.msg(data.msg, {
-  		    	 			  icon: 6,
-  		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
-  		    	 			}, function(){
-  		    	 				indexHome(window).init();
-  	    		    	 		loadTickets();
-  		    	 			}); 
-    					}else{
-    						layer.msg(data.msg,{icon: 5, time: 2000});
-    					}
-    		    }
-    		}); */
         }else if(obj.event === 'upd'){
         	var checkStatus = table.checkStatus('currentTableId')
             , dataRow = checkStatus.data;
-        	openPopUp('修改','/admin/role/menu/edit');
+        	openPopUp('修改','ROLE_MENU_UPDATE_PAGE');///admin/role/menu/edit
         }
     });
 });

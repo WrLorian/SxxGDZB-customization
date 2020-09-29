@@ -296,4 +296,8 @@
             #{id}
         </foreach>
 	</delete>
+	<!-- 查询静态资源列表 -->
+	<select id="selectStaticResource" resultType="java.util.Map">
+		select `CODE`,URI from auth_resource where type = 1
+	</select>
 </mapper>

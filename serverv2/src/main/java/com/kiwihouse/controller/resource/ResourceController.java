@@ -17,8 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -187,5 +185,11 @@ public class ResourceController extends BaseController {
 			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
 		}
         return map;
+    }
+    
+    @ApiOperation(value = "查询静态资源列表", notes = "根据type=1", httpMethod = "GET")
+    @GetMapping("/static")
+    public Response selectStaticResource() {
+        return resourceService.selectStaticResource();
     }
 }

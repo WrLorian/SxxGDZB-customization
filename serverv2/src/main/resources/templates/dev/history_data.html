@@ -1,117 +1,499 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head th:include="include :: header"></head>
-<head>
-    <meta charset="utf-8">
-    <title>历史数据</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <script th:src="@{/js/echarts.min.js}"></script>
-    <style type="text/css">
-    	._chart{
-    		height: 500px;
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=zHxB5vhv7wqKIrVTkLm4dGpM57uL6NNg"></script>
+	<title>地图展示</title>
+	<style type="text/css">
+    	body{
+    		background-color: #F0F2F5;
     	}
-    	
+    	.layui-table-page{
+		text-align: center;
+	}
     </style>
 </head>
-<body>
-<div class="layuimini-container">
-    <div class="layuimini-main">
-        <div class="layui-row" >
-		   <span>设备序列号：</span>
-		   <hr>
+<body >
+	<div class="layuimini-main">
+		<div class="layui-row layui-col-space5" style="padding-left: 20px;">
+			<div class="layui-form-item">
+					<div>
+						<h1>设备读数</h1>
+					</div>
+		           <label class="layui-form-label">所属分组</label>
+		           <div class="layui-form-mid layui-word-aux _group"></div>
+		           
+		           
+		            <label class="layui-form-label">在线状态</label>
+		           <div class="layui-form-mid layui-word-aux _onLineStatus"></div>
+		           
+		           
+		            <label class="layui-form-label">IMEI</label>
+		           <div class="layui-form-mid layui-word-aux _imei"></div>
+		           
+		           
+		            <label class="layui-form-label">设备地址</label>
+		           <div class="layui-form-mid layui-word-aux _address"></div>
+		    </div>
 		</div>
-		<div class="layui-row" >
-		   <div class="_chart" id="main_01">
-		   	
-		   </div>
+		<div class="layui-row layui-col-space5">
+			<div class="layui-inline" style="width: 320px;">
+			        <input type="text" class="layui-input" id="times" width="300px;">
+			</div>
+	        <div class="layui-col-xs24 layui-col-md12">
+	            <div id="echarts-records" style="background-color:#ffffff;height:250px;padding: 10px"></div>
+	        </div>
+	        <div class="layui-col-xs24 layui-col-md12">
+	        	<table class="layui-hide" id="alarmHistory" lay-filter="alarmHistoryFilter"></table>
+	        </div>
+	        
 		</div>
-    </div>
-   </div>
-<div th:include="include::footer"></div>
+		
+	  	<div class="layui-row layui-col-space5">
+	  		<table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+	  	</div>
+  	</div>
+ <div th:include="include::footer"></div>
 <script th:inline="none">
-layui.use(['layer', 'echarts'], function () {
-    var $ = layui.jquery,
-        layer = layui.layer,
-        echarts = layui.echarts;
-
-    /**
-     * 报表功能
-     */
-    var echartsRecords = echarts.init(document.getElementById('main_01'), 'walden');
-
-    var optionRecords =option = {
-    	    title: {
-    	        text: '折线图堆叠'
-    	    },
-    	    tooltip: {
-    	        trigger: 'axis'
-    	    },
-    	    legend: {
-    	        data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
-    	    },
-    	    grid: {
-    	        left: '3%',
-    	        right: '4%',
-    	        bottom: '3%',
-    	        containLabel: true
-    	    },
-    	    toolbox: {
-    	        feature: {
-    	            saveAsImage: {}
-    	        }
-    	    },
-    	    xAxis: {
-    	        type: 'category',
-    	        boundaryGap: false,
-    	        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-    	    },
-    	    yAxis: {
-    	        type: 'value'
-    	    },
-    	    series: [
-    	        {
-    	            name: '邮件营销',
-    	            type: 'line',
-    	            stack: '总量',
-    	            data: [120, 132, 101, 134, 90, 230, 210]
-    	        },
-    	        {
-    	            name: '联盟广告',
-    	            type: 'line',
-    	            stack: '总量',
-    	            data: [220, 182, 191, 234, 290, 330, 310]
-    	        },
-    	        {
-    	            name: '视频广告',
-    	            type: 'line',
-    	            stack: '总量',
-    	            data: [150, 232, 201, 154, 190, 330, 410]
-    	        },
-    	        {
-    	            name: '直接访问',
-    	            type: 'line',
-    	            stack: '总量',
-    	            data: [320, 332, 301, 334, 390, 330, 320]
-    	        },
-    	        {
-    	            name: '搜索引擎',
-    	            type: 'line',
-    	            stack: '总量',
-    	            data: [820, 932, 901, 934, 1290, 1330, 1320]
-    	        }
-    	    ]
-    	};
-    echartsRecords.setOption(optionRecords);
-
-    // echarts 窗口缩放自适应
-    window.onresize = function () {
-    	hxtOne.resize();
+	<!-- 引入layui模块 -->
+	layui.use(['layer', 'echarts','laydate','table'], function () {
+		var jsonEntity = {};
+    	jsonEntity.startTime = fun_day(-7).substring(0,10);
+    	jsonEntity.endTime = fun_day(1).substring(0,10);
+        var $ = layui.jquery,
+            layer = layui.layer,
+            echarts = layui.echarts,
+        	laydate = layui.laydate,
+        	table = layui.table;
+        jsonEntity.imei =  $.getUrlParam("imei");
+        jsonEntity.eqptType = $.getUrlParam("eqptType");
+        /*时间选择框 修改显示以及 默认选中最近7天----> */
+        var value = fun_day(-7).substring(0,10) + " - " +new Date().Format("yyyy-MM-dd");
+        var d = laydate.render({
+            elem: '#times'
+            ,range: true
+            ,max : 'today'
+            ,value: value
+            ,btns: ['confirm']
+            ,ready: function(date){
+                $(".laydate-footer-btns").after('<span lay-type="_week" class="_week">最近七天</span>');
+                $(".laydate-footer-btns").after('<span lay-type="_one_month" class="_one_month">最近一个月</span>');
+                $(".laydate-footer-btns").after('<span lay-type="_three_month" class="_three_month">最近三个月</span>');
+                var  _thisid=this.elem;
+                $("._week").on('click',function(){
+                	var date = new Date();
+                	var t = fun_day(-7).substring(0,10) + " - " +  date.Format("yyyy-MM-dd");
+                	_thisid.val(t);
+                	$("#times").focus();
+                	$(".laydate-btns-confirm").trigger('click');
+                })
+                $("._one_month").on('click',function(){
+                	var date = new Date();
+                	console.log(date.Format("yyyy-MM-dd"));
+                	var t = fun_month(-1).substring(0,10) + " - " +  date.Format("yyyy-MM-dd");
+                	_thisid.val(t);
+                	$("#times").focus();
+                	$(".laydate-btns-confirm").trigger('click');
+                })
+                $("._three_month").on('click',function(){
+                	var date = new Date();
+                	var t = fun_month(-3).substring(0,10) + " - " +  date.Format("yyyy-MM-dd");
+                	_thisid.val(t);
+                	$("#times").focus();
+                	$(".laydate-btns-confirm").trigger('click');
+    				
+                })
+                
+                $(".laydate-btns-clear").on('click',function(){
+		        	_thisid.val(null);
+		        	$("#times").focus();
+		        	$(".laydate-btns-confirm").trigger('click');
+        		})
+            },done: function(value, date, endDate){
+            	//监听时间选择框
+            	if(value.length != 0){
+                    var jsonEntity = {};
+                    var arr = value.split(" - ");
+                	jsonEntity.imei =  $.getUrlParam("imei");
+                	jsonEntity.startTime = $.trim(arr[0]);
+                	jsonEntity.eqptType = $.getUrlParam("eqptType");
+                	var d = new Date($.trim(arr[1]));
+                	jsonEntity.endTime = fun_days(1,d).substring(0,10);
+                	loadAlarmTable(jsonEntity);
+                	if(jsonEntity.eqptType == 0){
+                		alarmHistoryOnePhaseLoad(jsonEntity);
+                	}else if(jsonEntity.eqptType == 1){
+                		alarmHistoryThreePhaseLoad(jsonEntity);
+                	}
+                	
+            	}
+              }
+         });
+        initData();
+    	function initData(){
+    		var v = {};
+    		v.imei = $.getUrlParam("imei");
+    		$.ajax({
+    			url: "/equipment/info/one",
+    		    type: "GET",
+    		    data:v,
+    		    dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+    		    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+    		    success:function(data){
+    		    		var dt = data.data.data; 
+    		    		$("._group").text(dt.groupName)
+    		    		$("._onLineStatus").text(dt.eqptStatus == 9000 ? '在线':'离线')
+    		    		$("._imei").text(dt.imei)
+    		    		$("._address").text(dt.province + dt.city + dt.district + dt.address)
+    		    	}
+    		   });
+    	}
+        /*初始化加载设备读数*/
+    	initEchartsDate();
+    	function initEchartsDate(){
+    		var arr = value.split(" - ");
+	        var e = {};
+	        e.startTime = $.trim(arr[0]);
+	        e.imei = $.getUrlParam("imei");
+	        e.eqptType = $.getUrlParam("eqptType");
+	        var d = new Date($.trim(arr[1]));
+        	e.endTime = fun_days(1,d).substring(0,10);
+    		$.ajax({
+        		url: "/history/info",
+        	    type: "GET",
+        	    data:e,
+        	    dataType : "json",
+        　　			contentType: "application/json;charset=utf-8",
+        	    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+        	    success:function(data){
+        	    	if(e.eqptType == 0){
+        	    		echartsRecords.setOption(_optionOnePhaseRecords(data.data.data));
+        	    		//初始化加载历史数据列表-----> 单相
+        	            alarmHistoryOnePhaseLoad(jsonEntity);
+        	          //初始化加载告警列表
+        	            loadAlarmTable(jsonEntity);
+        	    	}else if(e.eqptType == 1){
+        	    		echartsRecords.setOption(_optionThreePhaseRecords(data.data.data));
+        	    		//初始化加载历史数据列表 --->三相
+        	    		alarmHistoryThreePhaseLoad();
+        	    		//初始化加载告警列表
+        	            loadAlarmTable(jsonEntity);
+        	    	}
+        	    	}
+        	 });
+    	}
+        
+       
+    	function loadAlarmTable(jsonEntity){
+    		table.render({
+    	        elem: '#currentTableId',
+    	        url: getRootPath() + '/receive/alarm/info',
+    	        headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+    	        where : jsonEntity,
+    	        async : false,
+    	        cols: [[
+    	            {field: 'addTime',title: '告警时间'},
+    	            {field: 'imei',title: 'imei'},
+    	            {field: 'eqptAddr', title: '地址',
+    	   			 templet : function(row) {
+    		   				if (typeof(row.eqptAdrr) == "undefined")
+    		   				{
+    		   					return row.province + row.city + row.district;
+    		   				}
+    						return row.province + row.city + row.district + row.eqptAdrr;
+    					}},
+    	            {field: 'eqptName',  
+    	             title: '名称'
+    				 },
+    				 {field: 'alarmMsg', 
+    					 width : '15%',
+    		          title: '告警内容',
+    		          align: 'center' ,
+    		          templet : function(row) {
+    			        	 if(typeof(row.alarmMsg) == 'undefined'){
+    			        		 return '';
+    			        	 }else{
+    			        		 var alarmInfo = JSON.parse(row.alarmMsg);
+    			        		 return _alarmIcons(row.alarmType.split(","),alarmInfo);
+    			        	 }
+    					   }
+    				 }
+    	        ]],
+    	        limits: [3, 10, 20, 25, 50, 100],
+    	        limit: 3,
+    	        page: true,
+    	        skin: 'line',
+    	        done : function(res, curr, count) {
+    				currentPage = curr;
+    			}
+    	    });
+    	}
+    	/*三相设备*/
+    	function alarmHistoryThreePhaseLoad(){
+    		table.render({
+    	        elem: '#alarmHistory',
+    	        url: getRootPath() + '/history/selectAll',
+    	        headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+    	        where : jsonEntity,
+    	        async : false,
+    	        cols: [[
+    	            {rowspan: 2,field: 'addTime',title: '读数时间',width:'15%',align:'center'},
+    	            {field: 'cur', title: '三相电流(A)',colspan: 3,align:'center'},
+    	            {field: 'vol', title: '三相电压(V)',colspan: 3,align:'center'},
+    	            {field: 'pwr', title: '三相功率(W)',colspan: 3,align:'center'},
+    				/* {rowspan: 2,field: 'pwrFctA',title: 'A相功率因数',align: 'center' },
+    				{rowspan: 2,field: 'pwrFctB', title: 'B相功率因数',align: 'center' },
+    				{rowspan: 2,field: 'pwrFctC', title: 'C相功率因数',align: 'center' }, */
+    	            {rowspan: 2,field: 'kwh',  title: '电能/KWH',align:'center'},
+    	            {rowspan: 2,field: 'lineTemp',  title: '温升(°C)',align:'center'},
+    	            {rowspan: 2,field: 'csq',  title: '信号',align:'center'},
+    	            {rowspan: 2,field: 'leakCur',  title: '漏电流(mA)',align:'center'}
+    	        ],[
+    	        	{field: 'curA',title: 'A',align:'center'},
+    	            {field: 'curB',title: 'B',align:'center'},
+    	            {field: 'curC',title: 'C',align:'center'},
+    	            {field: 'volA', title: 'A',align:'center'},
+     	            {field: 'volB', title: 'B',align:'center'},
+     	            {field: 'volC', title: 'C',align:'center'},
+     	            {field: 'pwrA',  title: 'A',align:'center'},
+   	            	{field: 'pwrB',  title: 'B',align:'center'},
+   	           		{field: 'pwrC',  title: 'C',align:'center'},
+    	        ]],
+    	        limits: [10, 10, 20, 25, 50, 100],
+    	        limit: 10,
+    	        page: true,
+    	        skin: 'line',
+    	        done : function(res, curr, count) {
+    				currentPage = curr;
+    			}
+    	    });
+    	}
+    	
+    	function alarmHistoryOnePhaseLoad(){
+    		table.render({
+    	        elem: '#alarmHistory',
+    	        url: getRootPath() + '/history/selectAll',
+    	        headers: { "Authorization": authorization ,"dz-usr":authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
+    	        where : jsonEntity,
+    	        async : false,
+    	        cols: [[
+    	            {field: 'addTime',title: '读数时间'},
+    	            {field: 'cur',title: '电流/A'},
+    	            {field: 'vol', title: '电压/V',},
+    	            {field: 'pwr',  title: '功率/W'},
+    				{field: 'pwrFct', width : '15%',title: '功率因数',align: 'center' },
+    	            {field: 'kwh',  title: '电能/KWH'},
+    	            {field: 'lineTemp',  title: '温升/'},
+    	            {field: 'csq',  title: '设备信号强度'},
+    	            {field: 'leakCur',  title: '漏电流'}
+    	        ]],
+    	        limits: [10, 10, 20, 25, 50, 100],
+    	        limit: 10,
+    	        page: true,
+    	        skin: 'line',
+    	        done : function(res, curr, count) {
+    				currentPage = curr;
+    			}
+    	    });
+    	}
+    	 /**
+         * 报表功能
+         */
+         echartsRecords = echarts.init(document.getElementById('echarts-records'), 'walden');
+    	var _optionOnePhaseRecords = function (v){
+    		var optionRecords  = {
+            	    title: {
+            	        text: ''
+            	    },
+            	    tooltip: {
+            	        trigger: 'axis'
+            	    },
+            	    legend: {
+            	        data: ['电流/A', '电压/V', '功率/KW', '电能/KWH', '信号强度','温升','漏电流']
+            	    },
+            	    grid: {
+            	        left: '3%',
+            	        right: '4%',
+            	        bottom: '3%',
+            	        containLabel: true
+            	    },
+            	    toolbox: {
+            	        feature: {
+            	            saveAsImage: {}
+            	        }
+            	    },
+            	    xAxis: {
+            	        type: 'category',
+            	        boundaryGap: false,
+            	        data: v.addTime
+            	    },
+            	    yAxis: {
+            	        type: 'value'
+            	    },
+            	    series: [
+            	        {
+            	            name: '电流/A',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.cur
+            	        },
+            	        {
+            	            name: '电压/V',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.vol
+            	        },
+            	        {
+            	            name: '功率/KW',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.pwr
+            	        },
+            	        {
+            	            name: '电能/KWH',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.kwh
+            	        },
+            	        {
+            	            name: '信号强度',
+            	            type: 'line',
+            	            stack: '总量',
+            	            data: v.csq
+            	        },
+            	        {
+            	            name: '温升',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.lineTemp
+            	        },
+            	        {
+            	            name: '漏电流',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.leakCur
+            	        }
+            	    ]
+            	};
+    		return optionRecords;
+    	}
+    	var _optionThreePhaseRecords = function (v){
+    		var optionRecords  = {
+            	    title: {
+            	        text: ''
+            	    },
+            	    tooltip: {
+            	        trigger: 'axis'
+            	    },
+            	    legend: {
+            	        data: ['A相电流/A','B相电流/A','C相电流/A', 'A相电压/V', 'B相电压/V','C相电压/V','A相功率/KW','B相功率/KW','C相功率/KW', '电能/KWH', '信号强度','温升','漏电流']
+            	    },
+            	    grid: {
+            	        left: '3%',
+            	        right: '4%',
+            	        bottom: '3%',
+            	        containLabel: true
+            	    },
+            	    toolbox: {
+            	        feature: {
+            	            saveAsImage: {}
+            	        }
+            	    },
+            	    xAxis: {
+            	        type: 'category',
+            	        boundaryGap: false,
+            	        data: v.addTime
+            	    },
+            	    yAxis: {
+            	        type: 'value'
+            	    },
+            	    series: [
+            	        {
+            	            name: 'A相电流/A',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.curA
+            	        },{
+            	            name: 'B相电流/A',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.curB
+            	        },{
+            	            name: 'C相电流/A',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.curC
+            	        },
+            	        {
+            	            name: 'A相电压/V',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.volA
+            	        },
+            	        {
+            	            name: 'B相电压/V',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.volB
+            	        },
+            	        {
+            	            name: 'C相电压/V',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.volC
+            	        },
+            	        {
+            	            name: 'A相功率/KW',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.pwrA
+            	        },{
+            	            name: 'B相功率/KW',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.pwrB
+            	        },{
+            	            name: 'C相功率/KW',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.pwrC
+            	        },
+            	        {
+            	            name: '电能/KWH',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.kwh
+            	        },
+            	        {
+            	            name: '信号强度',
+            	            type: 'line',
+            	            stack: '总量',
+            	            data: v.csq
+            	        },
+            	        {
+            	            name: '温升',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.lineTemp
+            	        },
+            	        {
+            	            name: '漏电流',
+            	            type: 'line',
+            	            //stack: '总量',
+            	            data: v.leakCur
+            	        }
+            	    ]
+            	};
+    		return optionRecords;
+    	}
+	});
+	
+	window.onresize = function () {
+    	echartsRecords.resize();
     }
-
-});
 </script>
-
 </body>
 </html>
+

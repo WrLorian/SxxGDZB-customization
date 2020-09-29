@@ -1,29 +1,38 @@
 package com.kiwihouse.controller.user;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.kiwihouse.controller.common.BaseController;
-import com.kiwihouse.dao.entity.AuthUser;
-import com.kiwihouse.domain.vo.Response;
-import com.kiwihouse.service.UserService;
-import com.kiwihouse.util.JsonWebTokenUtil;
+import java.util.List;
+import java.util.Set;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.kiwihouse.common.bean.Code;
+import com.kiwihouse.controller.common.BaseController;
+import com.kiwihouse.dao.entity.AuthUser;
+import com.kiwihouse.dao.entity.AuthUserRole;
+import com.kiwihouse.dao.entity.Password;
+import com.kiwihouse.dao.mapper.AuthUserRoleMapper;
+import com.kiwihouse.domain.vo.Response;
+import com.kiwihouse.service.UserService;
+import com.kiwihouse.util.JsonWebTokenUtil;
+import com.kiwihouse.util.Md5Util;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 用户相关操作
@@ -44,6 +53,8 @@ public class UserController extends BaseController {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    @Autowired
+    private AuthUserRoleMapper authUserRoleMapper;
 
     @ApiOperation(value = "获取对应用户角色", notes = "GET根据用户的appId获取对应用户的角色")
     @GetMapping("/role/{appId}")
@@ -108,6 +119,31 @@ public class UserController extends BaseController {
     @PostMapping("/queryByName")
     public Response queryInfo(HttpServletRequest request,String username) {
     	AuthUser authUser = userService.getUserByUsername(username);
-        return new Response().Success(6666, "查询成功").addData("authUser", authUser);
+    	authUser.setPassword(null);
+        authUser.setSalt(null);
+        AuthUserRole authUserRole = authUserRoleMapper.selectByUid(authUser.getUid());
+        authUser.setRoleId(authUserRole.getRoleId());
+        authUser.setRoleName(authUserRole.getRoleName());
+        return new Response().Success(6666, "查询成功").addData("data", authUser);
+    }
+    
+    @ApiOperation(value = "根据用户ID修改用户信息", httpMethod = "PUT")
+    @PutMapping("")
+    public Response update(HttpServletRequest request,@RequestBody AuthUser authUser) {
+    	
+        return userService.updateByPrimaryKeySelective(authUser);
+    }
+    
+    @ApiOperation(value = "根据用户ID修改用户信息", httpMethod = "PUT")
+    @PutMapping("/password")
+    public Response updPassword(HttpServletRequest request, @RequestBody Password password) throws Exception {
+    	AuthUser authUser = new AuthUser();
+    	authUser.setUid(password.getUid());
+    	AuthUser authUser2 = userService.getUserByUid(Integer.valueOf(password.getUid()));
+    	if(!Md5Util.verify(password.getOldPassword() + authUser2.getSalt(), authUser2.getPassword())) {
+    		return new Response().Fail(Code.UPDATE_PASSWORD_FAIL_PASSWOR_DWRONG, Code.UPDATE_PASSWORD_FAIL_PASSWOR_DWRONG.getMsg());
+    	}
+    	authUser.setPassword(Md5Util.md5(password.getNewPassword() + authUser2.getSalt()));
+        return userService.updateByPrimaryKeySelective(authUser);
     }
 }

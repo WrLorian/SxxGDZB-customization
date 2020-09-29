@@ -2,6 +2,8 @@ package com.kiwihouse.service.impl;
 
 import com.kiwihouse.dao.mapper.AuthUserMapper;
 import com.kiwihouse.dao.mapper.AuthUserRoleMapper;
+import com.kiwihouse.domain.vo.Response;
+import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.dao.entity.AuthUserRole;
 import com.kiwihouse.service.UserService;
@@ -78,5 +80,20 @@ public class UserServiceImpl implements UserService {
 	public List<Map<String, Integer>> queryAuthUserByRoleUserId(Integer userId, Integer roleId) {
 		// TODO Auto-generated method stub
 		return userMapper.queryAuthUserByRoleUserId(userId,roleId);
+	}
+
+	@Override
+	public Response updateByPrimaryKeySelective(AuthUser authUser) {
+		// TODO Auto-generated method stub
+		try {
+			int count = userMapper.updateByPrimaryKeySelective(authUser);
+			if(count > 0) {
+				return new Response().Fail(Code.UPDATE_SUCCESS,Code.UPDATE_SUCCESS.getMsg());
+			}
+			return new Response().Fail(Code.UPDATE_NULL,Code.UPDATE_NULL.getMsg());
+		}catch (Exception e) {
+			// TODO: handle exception
+			return new Response().Fail(Code.UPDATE_FAIL,Code.UPDATE_FAIL.getMsg());
+		}
 	}
 }

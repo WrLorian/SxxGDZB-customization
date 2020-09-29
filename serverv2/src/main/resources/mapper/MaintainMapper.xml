@@ -30,7 +30,11 @@
                 and mt.mt_status != 2
             </if>
         </where>
-        order by mt.update_time desc limit #{page},#{limit}
+        order by mt.update_time desc 
+        <if test="limit != null and limit != '' ">
+        limit #{page},#{limit}
+        </if>
+        
     </select>
     <select id="queryInfoRow" resultType="java.lang.Integer" parameterType="com.kiwihouse.vo.kiwihouse.EqptQueryVo">
         select count(*)
@@ -166,5 +170,35 @@
         insert into maintain_smoke(smoke_id,mt_status,update_time,imei) values (#{alarmId},0,#{addTime},#{imei});
     </insert>
 
-
+	<insert id="insertOrUpdateBatch"
+            parameterType="com.kiwihouse.dao.entity.MainTainInfo"  useGeneratedKeys="true" >
+        INSERT INTO maintain_info
+        (mt_id,
+         alarm_id,
+         imei,
+         mt_msg,
+         mt_status,
+         mt_name,
+         mt_phone,
+         update_time)
+         VALUES
+        <foreach item="t" collection="list" index="index"  separator="," >
+			(
+			#{t.mtId},
+			#{t.alarmId},
+			#{t.imei},
+			#{t.mtMsg},
+			#{t.mtStatus},
+			#{t.mtName},
+			#{t.mtPhone},
+			NOW()
+			)
+		</foreach>
+         
+		ON DUPLICATE KEY UPDATE 
+		imei = VALUES(imei),
+		mt_msg = VALUES(mt_msg),
+		mt_status = VALUES(mt_status),
+		mt_name = VALUES(mt_name)
+    </insert>
 </mapper>

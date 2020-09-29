@@ -1,21 +1,22 @@
 package com.kiwihouse.service.impl;
 
 
-import com.kiwihouse.dao.mapper.AuthResourceMapper;
-import com.kiwihouse.dao.entity.AuthResource;
-import com.kiwihouse.service.ResourceService;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.poi.hpsf.Array;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.kiwihouse.common.bean.Code;
+import com.kiwihouse.dao.entity.AuthResource;
+import com.kiwihouse.dao.mapper.AuthResourceMapper;
+import com.kiwihouse.domain.vo.Response;
+import com.kiwihouse.service.ResourceService;
 
 /**
  * @author tomsun28
@@ -112,6 +113,22 @@ public class ResourceServiceImpl implements ResourceService {
 		String [] menuIdArr = menuIds.split(",");
 		int num = authResourceMapper.deleteBatch(menuIdArr);
         return num > 0 ? Boolean.TRUE : Boolean.FALSE;
+	}
+
+	@Override
+	public Response selectStaticResource() {
+		// TODO Auto-generated method stub
+		List<Map<String, String>> listMap = null;
+		try {
+			listMap = authResourceMapper.selectStaticResource();
+			if(listMap == null) {
+				return new Response().Success(Code.QUERY_NULL,Code.QUERY_NULL.getMsg()).addData("data", listMap);
+			}
+			return new Response().Success(Code.QUERY_SUCCESS,Code.QUERY_SUCCESS.getMsg()).addData("data", listMap);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new Response().Success(Code.QUERY_FAIL,Code.QUERY_FAIL.getMsg());
+		}
 	}
 
 }

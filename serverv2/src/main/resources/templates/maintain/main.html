@@ -48,10 +48,11 @@
                 </form>
             </div>
         </fieldset>
-    	
+    	<!-- <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="excel" title="Excel导出"> 导出 </button> -->
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="excel" title="Excel导出"> 导出 </button>
+				<div class="layui-inline" lay-event="lead_excel_out"><i class="iconfont"  data-toggle="tooltip" title="导出" >&#xe6f3;</i></div>
+				<div class="layui-inline" lay-event="lead_excel_in"><i class="iconfont"   data-toggle="tooltip" title="导入" id="file_Upload" >&#xe6f4;</i></div>
             </div>
         </script>
 
@@ -77,10 +78,12 @@
 var dataRow,table;
 var currentPage = 1;
 var jsonEntity = {};
-layui.use(['form', 'table'], function () {
+layui.use(['form', 'table','upload'], function () {
     var $ = layui.jquery,
+    	upload = layui.upload,
         form = layui.form;
         table = layui.table;
+        
     jsonEntity.roleId = authUser.roleId;
     jsonEntity.mtStatus = 0;
     loadTickets(jsonEntity); 
@@ -100,14 +103,27 @@ layui.use(['form', 'table'], function () {
      * toolbar监听事件
      */
     table.on('toolbar(currentTableFilter)', function (obj) {
-        if (obj.event === 'add') {  // 监听添加操作
-        	openPopUp('添加','/admin/resource/add');
+        if (obj.event === 'lead_excel_out') {  // 监听添加操作
+        	$.ajax({
+     			url: "/maintain/export",
+     			type : "POST",
+    	　　		dataType : "json",
+    	　　		contentType: "application/json;charset=utf-8",
+			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
+			    success:function(data){
+			    	if(data.success){
+			    		window.location.href = "/maintain/common/download?fileName=" + data.data.filename + "&delete=" + true;
+			    	}
+			    }
+			});
+        }else if(obj.event === "lead_excel_in"){
+        	
         }
     });
     table.on('tool(currentTableFilter)', function (obj) {
         dataRow = obj.data;
         if (obj.event === 'edit') {
-            openPopUp('维修单修改','/admin/maintain/edit');
+            openPopUp('维修单修改','MAINTAIN_UPDATE_PAGE');///admin/maintain/edit
             return false;
         } else if (obj.event === 'backout') {
         	var v = {};
@@ -130,11 +146,21 @@ layui.use(['form', 'table'], function () {
     							layer.msg(data.msg);
     						}
     			    }
-    			  	});
+    			});
             	
         }
     });
-	
+    upload.render({ //允许上传的文件后缀
+        elem: '#file_Upload'
+        ,url: '/maintain/importData' //改成您自己的上传接口
+        ,headers: { "Authorization": authorization }
+        ,accept: 'file' //普通文件
+        ,exts: 'xlsx' //只允许上传压缩文件
+        ,done: function(res){
+          layer.msg('上传成功');
+          console.log(res)
+        }
+      });
 });
 
 function loadTickets(jsonEntity){
@@ -164,7 +190,9 @@ function loadTickets(jsonEntity){
    	        		 return '';
    	        	 }else{
    	        		 var alarmInfo = JSON.parse(row.alarmMsg);
-   	        		 //'<i class="fa fa-warning" title=" '+alarmInfo.msg+' : '+alarmInfo.value+'" > </i>';
+   	        		 if(alarmInfo.length == 0){
+   	        			 return '';
+   	        		 }
    	    			 return _alarmIcons(row.alarmType.split(","),alarmInfo);
    	        	 }
    			   }	
@@ -182,7 +210,7 @@ function loadTickets(jsonEntity){
 			}},
 			{field: 'mtName',title: '维修人员名称'},
 			{field: 'updateTime',title: '告警时间',width:"15%"},
-            {title: '操作', toolbar: '#currentTableBar', align: "center",width:'20%'}
+            {title: '操作', toolbar: '#currentTableBar', align: "center",width:'10%'}
         ]],
         limits: [5, 10, 20, 25, 50, 100],
         limit: 10,

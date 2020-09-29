@@ -82,14 +82,14 @@ layui.use(['form', 'table'], function () {
      */
     table.on('toolbar(currentTableFilter)', function (obj) {
         if (obj.event === 'add') {  // 监听添加操作
-        	openPopUp('添加','/admin/group/add');
+        	openPopUp('添加','GROUP_ADD_PAGE');///admin/group/add
         }
     });
     table.on('tool(currentTableFilter)', function (obj) {
     	console.log(obj.tr.find('td').eq(8));
         dataRow = obj.data;
         if (obj.event === 'edit') {
-            openPopUp('资源修改','/admin/group/edit');
+            openPopUp('分组修改','GROUP_UPDATE_PAGE');///admin/group/edit
             return false;
         } else if (obj.event === 'delete') {
         	if(dataRow.eqptIds == null || dataRow.eqptIds == ''){
@@ -108,7 +108,7 @@ layui.use(['form', 'table'], function () {
         	}
            	
         }else if(obj.event === 'set'){
-        	 openPopUp('分组设备','/admin/group/group_dev',60,80);
+        	 openPopUp('分组设备','GROUP_DEV_PAGE',60,80);///admin/group/group_dev
         }
         else if(obj.event === 'stop'){
         	$.ajax({

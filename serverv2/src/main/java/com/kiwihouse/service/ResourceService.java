@@ -1,6 +1,8 @@
 package com.kiwihouse.service;
 
 import com.kiwihouse.dao.entity.AuthResource;
+import com.kiwihouse.domain.vo.Response;
+
 import java.util.List;
 import java.util.Map;
 
@@ -117,4 +119,9 @@ public interface ResourceService {
 	 * @return
 	 */
 	Boolean deleteBatch(String menuIds);
+	/**
+	 * 查询静态资源列表
+	 * @return 
+	 */
+	Response selectStaticResource();
 }

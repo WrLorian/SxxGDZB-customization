@@ -48,4 +48,23 @@ public class Md5Util {
         }
 
     }
+    /**
+     * 
+     * @param text 原密码
+     * @param md5  密文
+     * @return
+     * @throws Exception
+     */
+    public static boolean verify(String text, String md5) throws Exception {
+		String md5str = md5(text);
+		if (md5str.equalsIgnoreCase(md5)) {
+			System.out.println("MD5验证通过");
+			return true;
+		}
+		return false;
+	}
+    
+    public static void main(String[] args) throws Exception {
+		System.out.println(verify("adminm0lps7", "8419233822896A77C98CBBA2720EA832"));
+	}
 }

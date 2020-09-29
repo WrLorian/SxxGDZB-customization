@@ -134,7 +134,7 @@ layui.use(['form', 'table'], function () {
      */
     table.on('toolbar(currentTableFilter)', function (obj) {
         if (obj.event === 'add') {  // 监听添加操作
-        	openPopUp('添加','/admin/role/add');
+        	openPopUp('添加','ROLE_ADD_PAGE');///admin/role/add
         } else if (obj.event === 'delete') {  // 监听删除操作
             var checkStatus = table.checkStatus('currentTableId')
                 , data = checkStatus.data;
@@ -144,27 +144,9 @@ layui.use(['form', 'table'], function () {
             		ids.push(xx.id);
             	})
             	DELETE("/resourcerole/"+ids.join(','));
-            	/* $.ajax({
-         			url: "/resourcerole/"+ids.join(','),
-         			type : "DELETE",
-        	　　		dataType : "json",
-        	　　		contentType: "application/json;charset=utf-8",
-    			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-    			    success:function(data){
-   			    	 	if(data.success){
-   			    	 		flush(currentPage, jsonEntity);
-   			    	 		layer.msg(data.msg, {
-     		    	 			  icon: 6,
-     		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
-     		    	 		}); 
-   						}else{
-   							layer.msg(data.msg,{icon: 5, time: 2000});
-    					}
-    			    }
-    			 }); */
             }
         }else if(obj.event === 'upd'){
-        	openPopUp('修改','/admin/role/edit');
+        	openPopUp('修改','ROLE_UPDATE_PAGE');///admin/role/edit
         }
     });
 });

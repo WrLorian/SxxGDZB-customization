@@ -13,6 +13,7 @@ import com.kiwihouse.common.bean.AlmSta;
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.MtSta;
 import com.kiwihouse.common.utils.TimeUtil;
+import com.kiwihouse.dao.entity.MainTainInfo;
 import com.kiwihouse.dao.mapper.AlarmMapper;
 import com.kiwihouse.dao.mapper.MaintainMapper;
 import com.kiwihouse.domain.vo.Response;
@@ -243,4 +244,21 @@ public class MaintainServiceImpl implements MaintainService{
 	        }
 
 	    }
+
+		@Override
+		public Response insertOrUpdateBatch(List<MainTainInfo> userList) {
+			// TODO Auto-generated method stub
+			int count = 0;
+//			try {
+				count = maintainMapper.insertOrUpdateBatch(userList);
+				System.out.println("受影响行数----------------->" + count);
+				if(count > 0 ) {
+					return new Response().Fail(Code.EXCEL_LEAD_IN_SUCCESS,Code.EXCEL_LEAD_IN_SUCCESS.getMsg());
+				}
+				return new Response().Fail(Code.EXCEL_LEAD_IN_FAIL,Code.EXCEL_LEAD_IN_FAIL.getMsg());
+//			} catch (Exception e) {
+//				// TODO: handle exception
+//				return new Response().Fail(Code.EXCEL_LEAD_IN_FAIL,Code.EXCEL_LEAD_IN_FAIL.getMsg());
+//			}
+		}
 }

@@ -1,17 +1,15 @@
 package com.kiwihouse.controller.common;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -24,8 +22,7 @@ import com.kiwihouse.util.StringUtils;
  * @author tomsun28
  * @date 11:09 2018/3/20
  */
-public abstract class BaseController {
-
+public abstract class BaseController{
 	
     /**
      * description 获得来的request中的 key value数据封装到map返回
@@ -102,4 +99,32 @@ public abstract class BaseController {
 		return map;
 	}
 	
+	
+	public String setFileDownloadHeader(HttpServletRequest request, String fileName) throws UnsupportedEncodingException
+    {
+        final String agent = request.getHeader("USER-AGENT");
+        String filename = fileName;
+        if (agent.contains("MSIE"))
+        {
+            // IE浏览器
+            filename = URLEncoder.encode(filename, "utf-8");
+            filename = filename.replace("+", " ");
+        }
+        else if (agent.contains("Firefox"))
+        {
+            // 火狐浏览器
+            filename = new String(fileName.getBytes(), "ISO8859-1");
+        }
+        else if (agent.contains("Chrome"))
+        {
+            // google浏览器
+            filename = URLEncoder.encode(filename, "utf-8");
+        }
+        else
+        {
+            // 其它浏览器
+            filename = URLEncoder.encode(filename, "utf-8");
+        }
+        return filename;
+    }
 }

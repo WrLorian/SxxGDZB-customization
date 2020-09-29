@@ -18,7 +18,17 @@ public class AuthUserRole {
 
     private Date updateTime;
 
-    public Integer getId() {
+    private String roleName;
+    
+    public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
+	public Integer getId() {
         return id;
     }
 

@@ -2,6 +2,7 @@ package com.kiwihouse.service;
 
 
 import com.kiwihouse.dao.entity.AuthUser;
+import com.kiwihouse.domain.vo.Response;
 
 import java.util.List;
 import java.util.Map;
@@ -83,4 +84,10 @@ public interface UserService {
      * @return
      */
 	List<Map<String, Integer>> queryAuthUserByRoleUserId(Integer userId, Integer roleId);
+	/**
+	 * 修改用户信息
+	 * @param authUser
+	 * @return
+	 */
+	Response updateByPrimaryKeySelective(AuthUser authUser);
 }

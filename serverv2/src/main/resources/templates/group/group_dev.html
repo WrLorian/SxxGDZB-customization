@@ -43,7 +43,7 @@ layui.use(['form', 'table'], function () {
     table.on('tool(currentTableFilter)', function (obj) {
         dataRow = obj.data;
          if (obj.event === 'records') {
-        	 openPopUp('抄表记录','/admin/group/records',60,80);
+        	 openPopUp('抄表记录','GROUP_RECORDS_PAGE',60,80);///admin/group/records
         }
     });
     

@@ -93,4 +93,11 @@
   background-color: #f2dede;
   border-color: #ebccd1;
 }
-/* bootstrap*/
+/*table ----> 隐藏单元格下拉图标	*/
+.layui-table-grid-down{
+	display: none;
+}
+/*分页导航栏居中显示*/
+.layui-table-page{
+		text-align: center;
+	}

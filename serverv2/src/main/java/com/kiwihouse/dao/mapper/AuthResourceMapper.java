@@ -1,6 +1,7 @@
 package com.kiwihouse.dao.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DataAccessException;
@@ -178,4 +179,9 @@ public interface AuthResourceMapper {
 	 * @return
 	 */
 	int deleteBatch(String[] menuIdArr);
+	/**
+	 * 查询静态资源列表
+	 * @return
+	 */
+	List<Map<String, String>> selectStaticResource();
 }

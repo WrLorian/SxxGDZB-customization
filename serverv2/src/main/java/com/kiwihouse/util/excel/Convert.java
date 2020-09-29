@@ -1,4 +1,4 @@
-package com.kiwihouse.util;
+package com.kiwihouse.util.excel;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -6,12 +6,13 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.text.NumberFormat;
 import java.util.Set;
+
+import com.kiwihouse.util.CharsetKit;
 import com.kiwihouse.util.StringUtils;
 
 /**
  * 类型转换器
  * 
- * @author numberone
  */
 public class Convert
 {

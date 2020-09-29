@@ -39,13 +39,9 @@ public class MtInfoVo extends Basic{
     @ApiModelProperty(value = "维修状态(0-未维修，1-已维修，2-撤销，9-查询排除撤销记录)",name = "mtStatus")
     private String mtStatus;
 
-    @ApiModelProperty(value = "页码",name = "page",required = true,example = "1")
-    @NotNull(message = "page is not null")
-    @Min(value = 1,message = "page is more than 1")
+    @ApiModelProperty(value = "页码",name = "page")
     private int page;
 
-    @ApiModelProperty(value = "每页条数",name = "limit",required = true,example = "10")
-    @Min(value = 1,message = "limit is more than 10")
-    @NotNull(message = "limit is not null")
+    @ApiModelProperty(value = "每页条数",name = "limit")
     private int limit;
 }

@@ -78,5 +78,5 @@ public interface AuthUserRoleMapper {
      * @param uid
      * @return
      */
-	Integer selectByUid(Integer uid);
+    AuthUserRole selectByUid(Integer uid);
 }

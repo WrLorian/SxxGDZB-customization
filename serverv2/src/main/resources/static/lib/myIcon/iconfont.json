@@ -6,6 +6,69 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7922370",
+      "name": "功率",
+      "font_class": "gongshuai",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "8836062",
+      "name": "功率",
+      "font_class": "gongshuai1",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "8858542",
+      "name": "功率",
+      "font_class": "gongshuai2",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "13267090",
+      "name": "功率",
+      "font_class": "gongshuai3",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "8090599",
+      "name": "参数设置",
+      "font_class": "canshushezhi",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "3741590",
+      "name": "设备详情",
+      "font_class": "shebeixiangqing",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "14626770",
+      "name": "设备详情",
+      "font_class": "shebeixiangqing1",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "14695407",
+      "name": "设备详情",
+      "font_class": "shebeixiangqing2",
+      "unicode": "e6ff",
+      "unicode_decimal": 59135
+    },
+    {
+      "icon_id": "16268889",
+      "name": "设备详情",
+      "font_class": "shebeixiangqing3",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
       "icon_id": "8090638",
       "name": "过载",
       "font_class": "guozai",

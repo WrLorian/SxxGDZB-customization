@@ -1,12 +1,20 @@
 package com.kiwihouse.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,19 +22,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.controller.common.BaseController;
+import com.kiwihouse.dao.entity.MainTainInfo;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.MtInfoDto;
 import com.kiwihouse.service.CheckAdminService;
 import com.kiwihouse.service.MaintainService;
+import com.kiwihouse.util.excel.ExcelUtil;
+import com.kiwihouse.util.file.FileUtils;
 import com.kiwihouse.vo.entire.Log;
 import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.MtInfoVo;
 import com.kiwihouse.vo.kiwihouse.MtUpdateVo;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -46,18 +58,21 @@ public class MaintainController extends BaseController{
     MaintainService maintainService;
     @Autowired
     CheckAdminService checkAdminService;
-
-    @ApiOperation(value = "queryInfo",
+    @Autowired
+	Environment environment;
+    @Value("${kiwihouse.download.url}")  
+    private String downloadUrl;
+    @SuppressWarnings("unused")
+	@ApiOperation(value = "queryInfo",
             notes = "<br>@description: <b>查询维修信息信息</b></br>" +
                     "<br>@Date: <b>2020-1-4 13:45:00</b></br>",
             httpMethod = "GET")
     @ApiResponses({@ApiResponse(code = 0, message = "返回参数", response = MtInfoDto.class)})
     @GetMapping("/info")
     public Map<String, Object> queryInfo(@Validated MtInfoVo mtInfoVo, HttpServletRequest request){
-        mtInfoVo.setPage((mtInfoVo.getPage()-1)*mtInfoVo.getLimit());
-        //checkAdminService.verifyAdminId(request.getHeader("dz-usr"),mtInfoVo);
-//        try {
-    		if(mtInfoVo==null) {
+        mtInfoVo.setPage(( mtInfoVo.getPage() - 1 ) * mtInfoVo.getLimit() );
+        try {
+    		if(mtInfoVo == null) {
     			mtInfoVo = new MtInfoVo();
     		}
     		ResultList resultList = maintainService.queryInfo(mtInfoVo);
@@ -71,10 +86,10 @@ public class MaintainController extends BaseController{
     		
     		map.put("code", 0);
     		map.put("msg",Code.QUERY_SUCCESS);
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
-//		}
+		} catch (Exception e) {
+			// TODO: handle exception
+			return putMsgToJsonString(0, Code.QUERY_FAIL.getMsg(), 0, null);
+		}
 		return map;
     }
 
@@ -109,5 +124,67 @@ public class MaintainController extends BaseController{
         logger.info("返回参数<< {}",resultList);
         return resultList;
     }
-
+    
+    @ApiOperation(value = "updateInfo",
+            notes = "<br>@description: <b>Excel导出</b></br>" +
+                    "<br>@Date: <b>2020-1-4 17:15:40</b></br>",
+            httpMethod = "PUT")
+    @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
+    @PostMapping("/export")
+    public Response export(HttpServletRequest request){
+    	MtInfoVo mtInfoVo = new MtInfoVo();
+    	ResultList resultList = maintainService.queryInfo(mtInfoVo);
+        List<MtInfoDto> list = (List<MtInfoDto>) resultList.getResult().getData();
+        List<MainTainInfo> ls = new ArrayList<MainTainInfo>();
+        list.forEach(l ->{
+        	ls.add(new MainTainInfo(Integer.valueOf(l.getMtId()),Integer.valueOf(l.getAlarmId()),l.getImei(),l.getMtMsg(),Integer.valueOf(l.getMtStatus()),l.getMtName(),l.getMtPhone()));
+        });
+        ExcelUtil<MainTainInfo> util = new ExcelUtil<MainTainInfo>(MainTainInfo.class);
+        return util.exportExcel(ls, "维修记录");
+    }
+    @ApiOperation(value = "importData",
+            notes = "<br>@description: <b>Excel导入</b></br>" +
+                    "<br>@Date: <b>2020-1-4 17:15:40</b></br>",
+            httpMethod = "PUT")
+    @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
+    @PostMapping("/importData")
+    @ResponseBody
+    public Response importData(MultipartFile file) throws Exception
+    {
+        ExcelUtil<MainTainInfo> util = new ExcelUtil<MainTainInfo>(MainTainInfo.class);
+        List<MainTainInfo> userList = util.importExcel(file.getInputStream());
+        userList.forEach(ul ->{
+        	System.out.println(ul.toString());
+        });
+        return maintainService.insertOrUpdateBatch(userList);
+    }
+    /**
+     * 通用下载请求
+     * 
+     * @param fileName 文件名称
+     * @param delete 是否删除
+     */
+    @GetMapping("common/download")
+    public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request)
+    {
+        String realFileName = System.currentTimeMillis() + fileName.substring(fileName.indexOf("_") + 1);
+        try
+        {
+            String filePath = downloadUrl +  fileName;
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("multipart/form-data");
+            response.setHeader("Content-Disposition",
+                    "attachment;fileName=" + setFileDownloadHeader(request, realFileName));
+            FileUtils.writeBytes(filePath, response.getOutputStream());
+            if (delete)
+            {
+                FileUtils.deleteFile(filePath);
+            }
+        }
+        catch (Exception e)
+        {
+            logger.info("下载文件失败<< {}",e);
+        }
+    }
+    
 }

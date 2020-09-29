@@ -33,7 +33,16 @@
 	      </select>
 	    </div>
     </div>
-	
+	<div class="layui-form-item">
+	    <label class="layui-form-label required">设备类型</label>
+	    <div class="layui-input-block">
+	      <select name="eqptType" id="eqptType" lay-verify="required">
+	      		<option value=""> 请选择 </option>
+	      		<option value="0"> 单相</option>
+	      		<option value="1"> 三相 </option>
+	      </select>
+	    </div>
+    </div>
 	<div class="layui-form-item">
         <label class="layui-form-label">设备名称</label>
         <div class="layui-input-block">
@@ -249,7 +258,6 @@ var dataRow = window.parent.dataRow;
             data.field.uid = authUser.uid;
             data.field.createBy= authUser.username;
             data.field.register = 0;
-            data.field.eqptType = 0;
             $.ajax({
      			url: "/equipment/info",
 			    type: "POST",
@@ -277,7 +285,7 @@ var dataRow = window.parent.dataRow;
         });
         
         $("#parentId").on('click',function(){
-        	openPopUp('选择父节点','/admin/menu/tree',30,60);
+        	openPopUp('选择父节点','MENU_TREE_PAGE',30,60);///admin/menu/tree
         	form.render();
         })
     });

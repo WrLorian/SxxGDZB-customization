@@ -18,6 +18,8 @@ function getRootPath(){
  * @returns
  */
 function openPopUp(title,url,w,h){
+	/*静态资源 ----> 页面跳转URL Map*/
+	var staticResource = indexHome(window).staticResource;
 	w = w || 50;
 	h = h || 70;
 	var index = layer.open({
@@ -27,7 +29,7 @@ function openPopUp(title,url,w,h){
         maxmin:true,
         //shadeClose: true,
         area: [w + '%', h +'%'],
-        content: url
+        content: staticResource.get(url)
     });
 }
 /**
@@ -347,7 +349,7 @@ function UPDATE(url,parameterDate,isLeft){
 　　		contentType: "application/json;charset=utf-8",
 	    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 	    success:function(data){
-	    	 	if(data.success){
+	    	 	if(data.success || data.code == 3000){
 	    	 		layer.msg(data.msg, {
 	    	 			icon: 6,
 	    	 			time: 1000 //2秒关闭（如果不配置，默认是3秒）
@@ -516,29 +518,30 @@ function getAll(begin, end) {
 }*/
 var _alarmIcons = function (v,e){
 	var _icon = '';
+	var msg = '';
+	e.forEach(function(val,index){
+		msg = msg + val.msg + ":" + val.value + "\n";
+	})
 	v.forEach(function(item, i){
-		var msg = '';
-		e.forEach(function(val,index){
-			msg = msg + val.msg + ":" + val.value + "\n";
-		})
-		console.log(msg)
 		 if(item == 1){
-			 _icon += '<i class="iconfont _alarm_icon"   title="' + msg + '" >&#xe652;</i>   ';
+			 _icon += '<i class="iconfont _alarm_icon"  >&#xe652;</i>   ';
 		 }else if(item == 2){
-			 _icon += '<i class="iconfont _alarm_icon" title="' + msg + '" >&#xe62d;</i>   ';
+			 _icon += '<i class="iconfont _alarm_icon"  >&#xe62d;</i>   ';
 		 }else if(item == 3){
-			 _icon += '<i class="iconfont _alarm_icon"  title="' + msg + '" >&#xe655;</i>   ';
+			 _icon += '<i class="iconfont _alarm_icon"  >&#xe655;</i>   ';
 		 }else if(item == 4){
-			 _icon += '<i class="iconfont _alarm_icon"  title="' + msg + '" >&#xe651;</i>   ';
+			 _icon += '<i class="iconfont _alarm_icon"  >&#xe651;</i>   ';
 		 }else if(item == 5){
-			 _icon += '<i class="iconfont _alarm_icon"  title="' + msg + '" >&#xe62c;</i>   ';
+			 _icon += '<i class="iconfont _alarm_icon"  >&#xe62c;</i>   ';
 		 }else if(item == 6){
-			 _icon += '<i class="iconfont _alarm_icon"  title="' + msg + '" >&#xe620;</i>   ';
+			 _icon += '<i class="iconfont _alarm_icon"  >&#xe620;</i>   ';
 		 }else if(item == 7){
-			 _icon += '<i class="iconfont _alarm_icon"  title="' + msg + '" >&#xe65b;</i>   ';
+			 _icon += '<i class="iconfont _alarm_icon"  >&#xe65b;</i>   ';
 		 }else if(item == 8){
-			 _icon += '<i class="iconfont _alarm_icon"  title="' + msg + '" >&#xe61b;</i>   ';
+			 _icon += '<i class="iconfont _alarm_icon"  >&#xe61b;</i>   ';
+		 }else{
+			 
 		 }
 	 });
-	return _icon;
+	return '<div title="' + msg + '">' + _icon + '</div>';
 }

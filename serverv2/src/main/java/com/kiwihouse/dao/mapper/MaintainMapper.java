@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.kiwihouse.dao.entity.MainTainInfo;
 import com.kiwihouse.dto.MtInfoDto;
 import com.kiwihouse.dto.MtSmokeInfoDto;
 import com.kiwihouse.vo.kiwihouse.MtInfoVo;
@@ -36,4 +37,10 @@ public interface MaintainMapper {
 
     Integer updateMtInfo(MtUpdateVo mtUpdateVo);
     Integer updateMtSmokeInfo(MtUpdateVo mtUpdateVo);
+    /**
+     * 批量添加或修改
+     * @param userList
+     * @return
+     */
+	int insertOrUpdateBatch(List<MainTainInfo> userList);
 }

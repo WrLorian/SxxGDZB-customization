@@ -100,7 +100,7 @@ layui.use(['form', 'table'], function () {
      */
     table.on('toolbar(currentTableFilter)', function (obj) {
         if (obj.event === 'add') {  // 监听添加操作
-        	openPopUp('添加','/admin/resource/add');
+        	openPopUp('添加','RESOURCE_ADD_PAGE');///admin/resource/add
         } else if (obj.event === 'delete') {  // 监听删除操作
             var checkStatus = table.checkStatus('currentTableId')
                 , data = checkStatus.data;
@@ -108,46 +108,16 @@ layui.use(['form', 'table'], function () {
         	$.each(data,function(index,xx){
         		idArr.push(xx.id);
         		DELETE("/resource/menu/"+idArr.join(','));
-        		/* $.ajax({
-         			url: "/resource/menu/"+idArr.join(','),
-         			type : "DELETE",
-        	　　		dataType : "json",
-        	　　		contentType: "application/json;charset=utf-8",
-    			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-    			    success:function(data){
-   			    	 	if(data.success){
-   			    	 		layer.msg(data.msg)
-   			    	 		flush(currentPage, jsonEntity);
-   						}else{
-   							layer.msg(data.msg);
-   						}
-    			    }
-    			 }); */
         	})
         }
     });
     table.on('tool(currentTableFilter)', function (obj) {
         dataRow = obj.data;
         if (obj.event === 'edit') {
-            openPopUp('资源修改','/admin/resource/edit');
+            openPopUp('资源修改','RESOURCE_UPDATE_PAGE');///admin/resource/edit
             return false;
         } else if (obj.event === 'delete') {
         	DELETE("/resource/menu/"+dataRow.id);
-           	/* $.ajax({
-        			url: "/resource/menu/"+dataRow.id,
-        			type : "DELETE",
-	       	　　		dataType : "json",
-	       	　　		contentType: "application/json;charset=utf-8",
-	   			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-	   			    success:function(data){
-   			    	 	if(data.success){
-   			    	 		layer.msg(data.msg);
-   			    	 		obj.del();
-   						}else{
-   							layer.msg(data.msg);
-   						}
-	   			    }
-   			}); */
         }
     });
 });

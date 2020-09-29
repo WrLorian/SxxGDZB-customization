@@ -112,33 +112,10 @@
             data.field.roleId = authUser.roleId;
             data.field.createBy= authUser.username;
             ADD("/menu",data.field,true);
-            /* $.ajax({
-     			url: "/menu",
-			    type: "POST",
-			    data:JSON.stringify(data.field),
-			    dataType : "json",
-    	　　		contentType: "application/json;charset=utf-8",
-			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
-			    success:function(data){
-		    	 	if(data.success){
-		    	 		layer.msg(data.msg, {
-  		    	 			  icon: 6,
-  		    	 			  time: 2000 //2秒关闭（如果不配置，默认是3秒）
-  		    	 			}, function(){
-   		    	 			indexHome(window).init();
-			    	 		var iframeIndex = parent.layer.getFrameIndex(window.name);
-			    	 		parent.layer.close(iframeIndex);
-			    	 		window.parent.initTreeTable();
-  		    	 			}); 
-					}else{
-						layer.msg(data.msg,{icon: 5, time: 2000});
-					}
-			    }
-			}); */
             return false;
         });
         $("#parentId").on('click',function(){
-        	openPopUp('选择父节点','/admin/menu/tree',30,60);
+        	openPopUp('选择父节点','MENU_TREE_PAGE',30,60);///admin/menu/tree
         	form.render();
         })
     });

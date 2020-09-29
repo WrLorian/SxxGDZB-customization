@@ -26,6 +26,7 @@ import com.kiwihouse.common.utils.RedisUtil;
 import com.kiwihouse.controller.account.params.UserParams;
 import com.kiwihouse.controller.common.BaseController;
 import com.kiwihouse.dao.entity.AuthUser;
+import com.kiwihouse.dao.entity.AuthUserRole;
 import com.kiwihouse.dao.mapper.AuthRoleResourceMapper;
 import com.kiwihouse.dao.mapper.AuthUserMapper;
 import com.kiwihouse.dao.mapper.AuthUserRoleMapper;
@@ -96,7 +97,9 @@ public class AccountController extends BaseController {
         AuthUser authUser = userService.getUserByUsername(params.getUsername());
         authUser.setPassword(null);
         authUser.setSalt(null);
-        authUser.setRoleId(authUserRoleMapper.selectByUid(authUser.getUid()));
+        AuthUserRole authUserRole = authUserRoleMapper.selectByUid(authUser.getUid());
+        authUser.setRoleId(authUserRole.getRoleId());
+        authUser.setRoleName(authUserRole.getRoleName());
         // 根据appId获取其对应所拥有的角色(这里设计为角色对应资源，没有权限对应资源)
         String roles = accountService.loadAccountRoleByUsername(params.getUsername());
         //根据roles 查询 相应的 权限资源
