@@ -171,7 +171,7 @@
     </insert>
 
 	<insert id="insertOrUpdateBatch"
-            parameterType="com.kiwihouse.dao.entity.MainTainInfo"  useGeneratedKeys="true" >
+            parameterType="com.kiwihouse.dto.MtInfoDto"  useGeneratedKeys="true" >
         INSERT INTO maintain_info
         (mt_id,
          alarm_id,
@@ -196,9 +196,13 @@
 		</foreach>
          
 		ON DUPLICATE KEY UPDATE 
+		alarm_id = VALUES(alarm_id),
 		imei = VALUES(imei),
 		mt_msg = VALUES(mt_msg),
 		mt_status = VALUES(mt_status),
-		mt_name = VALUES(mt_name)
+		mt_name = VALUES(mt_name),
+		mt_phone = VALUES(mt_phone),
+		update_time = VALUES(update_time)
+		
     </insert>
 </mapper>

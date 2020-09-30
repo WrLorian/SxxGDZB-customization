@@ -324,7 +324,9 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 	public Map<String, Object> queryAlmInfo(AlmQueryVo almQueryVo) {
     	 Map<String, Object> map = new HashMap<String, Object>();
     	int count  = alarmMapper.queryAlarmCount(almQueryVo);
-    	almQueryVo.setPage((almQueryVo.getPage() - 1) * almQueryVo.getLimit());
+    	if(almQueryVo.getLimit() != null) {
+    		almQueryVo.setPage((almQueryVo.getPage() - 1) * almQueryVo.getLimit());
+    	}
     	List<AlarmEqptDto> list  = alarmMapper.queryAlarm(almQueryVo);
     	list.forEach(aed -> {
     		if("0".equals(aed.getEqptType())) {
@@ -651,77 +653,85 @@ public class ReportedInfoServiceImpl implements ReportedInfoService{
 		JSONObject jo = (JSONObject) JSONObject.parse(str);
 		if(jo != null) {
 			JSONObject vol = (JSONObject) JSONObject.parse(jo.getString("vol"));
-			JSONArray line = JSONArray.parseArray(vol.getString("line"));
-			JSONArray value = JSONArray.parseArray(vol.getString("value"));
-			JSONArray status = JSONArray.parseArray(vol.getString("status"));
+			JSONArray line = null;
+			JSONArray value = null;
+			JSONArray status = null;
+			if(vol != null) {
+				line = JSONArray.parseArray(vol.getString("line"));
+				value = JSONArray.parseArray(vol.getString("value"));
+				status = JSONArray.parseArray(vol.getString("status"));
+			}
 			
-			//0-正常，1-过压，2-欠压，3-掉电
-			for(int i = 0;i<line.size();i++) {
-				System.out.println(line.get(i).toString());
-				WarmMsgValue warmMsgValue = new WarmMsgValue();
-				if("1".equals(status.get(i).toString())) {
-					warmMsgValue.setMsg(line.get(i).toString() + "相 过压告警");
-					warmMsgValue.setValue(value.get(i).toString());
-				}else if("2".equals(status.get(i).toString())) {
-					warmMsgValue.setMsg(line.get(i).toString() + "相 欠压告警");
-					warmMsgValue.setValue(value.get(i).toString());
-				}else if("3".equals(status.get(i).toString())) {
-					warmMsgValue.setMsg(line.get(i).toString() + "相 掉电告警");
-					warmMsgValue.setValue(value.get(i).toString());
+			if(line!= null) {
+				//0-正常，1-过压，2-欠压，3-掉电
+				for(int i = 0;i<line.size();i++) {
+					System.out.println(line.get(i).toString());
+					WarmMsgValue warmMsgValue = new WarmMsgValue();
+					if("1".equals(status.get(i).toString())) {
+						warmMsgValue.setMsg(line.get(i).toString() + "相 过压告警");
+						warmMsgValue.setValue(value.get(i).toString());
+					}else if("2".equals(status.get(i).toString())) {
+						warmMsgValue.setMsg(line.get(i).toString() + "相 欠压告警");
+						warmMsgValue.setValue(value.get(i).toString());
+					}else if("3".equals(status.get(i).toString())) {
+						warmMsgValue.setMsg(line.get(i).toString() + "相 掉电告警");
+						warmMsgValue.setValue(value.get(i).toString());
+					}
+					System.out.println(warmMsgValue);
+					ja.add(warmMsgValue);
 				}
-				System.out.println(warmMsgValue);
-				ja.add(warmMsgValue);
 			}
-		}
-		JSONObject cur = (JSONObject) JSONObject.parse(jo.getString("cur"));
-		if(cur != null) {
-			JSONArray cur_line = JSONArray.parseArray(cur.getString("line"));
-			JSONArray cur_value = JSONArray.parseArray(cur.getString("value"));
-			JSONArray cur_status = JSONArray.parseArray(cur.getString("status"));
-			for(int i = 0;i<cur_line.size();i++) {
-				System.out.println(cur_line.get(i).toString());
-				WarmMsgValue warmMsgValue = new WarmMsgValue();
-				if("1".equals(cur_status.get(i).toString())) {
-					warmMsgValue.setMsg(cur_line.get(i).toString() + "相 电流过流告警");
-					warmMsgValue.setValue(cur_value.get(i).toString());
+			JSONObject cur = (JSONObject) JSONObject.parse(jo.getString("cur"));
+			if(cur != null) {
+				JSONArray cur_line = JSONArray.parseArray(cur.getString("line"));
+				JSONArray cur_value = JSONArray.parseArray(cur.getString("value"));
+				JSONArray cur_status = JSONArray.parseArray(cur.getString("status"));
+				for(int i = 0;i<cur_line.size();i++) {
+					System.out.println(cur_line.get(i).toString());
+					WarmMsgValue warmMsgValue = new WarmMsgValue();
+					if("1".equals(cur_status.get(i).toString())) {
+						warmMsgValue.setMsg(cur_line.get(i).toString() + "相 电流过流告警");
+						warmMsgValue.setValue(cur_value.get(i).toString());
+					}
+					System.out.println(warmMsgValue);
+					ja.add(warmMsgValue);
 				}
-				System.out.println(warmMsgValue);
-				ja.add(warmMsgValue);
 			}
-		}
-		JSONObject leak = (JSONObject) JSONObject.parse(jo.getString("leak"));
-		if(cur != null) {
-			JSONArray leak_line = JSONArray.parseArray(leak.getString("line"));
-			JSONArray leak_value = JSONArray.parseArray(leak.getString("value"));
-			JSONArray leak_status = JSONArray.parseArray(leak.getString("status"));
-			for(int i = 0;i<leak_line.size();i++) {
-				System.out.println(leak_line.get(i).toString());
-				WarmMsgValue warmMsgValue = new WarmMsgValue();
-				if("1".equals(leak_status.get(i).toString())) {
-					warmMsgValue.setMsg(leak_line.get(i).toString() + "相 漏电流过流告警");
-					warmMsgValue.setValue(leak_value.get(i).toString());
+			JSONObject leak = (JSONObject) JSONObject.parse(jo.getString("leak"));
+			if(leak != null) {
+				JSONArray leak_line = JSONArray.parseArray(leak.getString("line"));
+				JSONArray leak_value = JSONArray.parseArray(leak.getString("value"));
+				JSONArray leak_status = JSONArray.parseArray(leak.getString("status"));
+				for(int i = 0;i<leak_line.size();i++) {
+					System.out.println(leak_line.get(i).toString());
+					WarmMsgValue warmMsgValue = new WarmMsgValue();
+					if("1".equals(leak_status.get(i).toString())) {
+						warmMsgValue.setMsg(leak_line.get(i).toString() + "相 漏电流过流告警");
+						warmMsgValue.setValue(leak_value.get(i).toString());
+					}
+					System.out.println(warmMsgValue);
+					ja.add(warmMsgValue);
 				}
-				System.out.println(warmMsgValue);
-				ja.add(warmMsgValue);
+			}
+			
+			JSONObject overload = (JSONObject) JSONObject.parse(jo.getString("overload"));
+			if(overload != null) {
+				JSONArray overload_line = JSONArray.parseArray(overload.getString("line"));
+				JSONArray overload_value = JSONArray.parseArray(overload.getString("value"));
+				JSONArray overload_status = JSONArray.parseArray(overload.getString("status"));
+				for(int i = 0;i<overload_line.size();i++) {
+					System.out.println(overload_line.get(i).toString());
+					WarmMsgValue warmMsgValue = new WarmMsgValue();
+					if("1".equals(overload_status.get(i).toString())) {
+						warmMsgValue.setMsg(overload_line.get(i).toString() + "相 过载告警");
+						warmMsgValue.setValue(overload_value.get(i).toString());
+					}
+					System.out.println(warmMsgValue);
+					ja.add(warmMsgValue);
+				}
 			}
 		}
 		
-		JSONObject overload = (JSONObject) JSONObject.parse(jo.getString("overload"));
-		if(cur != null) {
-			JSONArray overload_line = JSONArray.parseArray(leak.getString("line"));
-			JSONArray overload_value = JSONArray.parseArray(leak.getString("value"));
-			JSONArray overload_status = JSONArray.parseArray(leak.getString("status"));
-			for(int i = 0;i<overload_line.size();i++) {
-				System.out.println(overload_line.get(i).toString());
-				WarmMsgValue warmMsgValue = new WarmMsgValue();
-				if("1".equals(overload_status.get(i).toString())) {
-					warmMsgValue.setMsg(overload_line.get(i).toString() + "相 过载告警");
-					warmMsgValue.setValue(overload_value.get(i).toString());
-				}
-				System.out.println(warmMsgValue);
-				ja.add(warmMsgValue);
-			}
-		}
 		return ja.toJSONString();
 	}
 }

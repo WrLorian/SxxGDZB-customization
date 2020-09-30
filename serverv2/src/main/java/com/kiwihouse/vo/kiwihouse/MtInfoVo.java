@@ -40,8 +40,8 @@ public class MtInfoVo extends Basic{
     private String mtStatus;
 
     @ApiModelProperty(value = "页码",name = "page")
-    private int page;
+    private Integer page;
 
     @ApiModelProperty(value = "每页条数",name = "limit")
-    private int limit;
+    private Integer limit;
 }

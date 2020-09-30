@@ -67,7 +67,12 @@ public class CommandIssueService {
         	 return new ResultList(Code.COMMAND_FAIL.getCode(), Code.COMMAND_FAIL.getMsg(), new Result<>(0, map));
 		}
     }
-
+    public static void main(String[] args) {
+    	HashMap<String, Object> map = new HashMap<String, Object>();
+    	map.put("reg_06", 1.0);
+    	
+    	commandsIssued(map, "867808042087336", "0");
+	}
     /**
      * 将map中的指令集发送到onenet平台
      *
@@ -76,7 +81,7 @@ public class CommandIssueService {
      * @param eqptType
      * @return
      */
-    public String commandsIssued(HashMap<String, Object> map, String imei, String eqptType) {
+    public static String commandsIssued(HashMap<String, Object> map, String imei, String eqptType) {
 
         String url = OneNtUrl.writeResource + imei;
 

@@ -1,20 +1,12 @@
 package com.kiwihouse.controller;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,10 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.controller.common.BaseController;
-import com.kiwihouse.dao.entity.MainTainInfo;
+import com.kiwihouse.dao.entity.MainTainExcel;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.MtInfoDto;
 import com.kiwihouse.service.CheckAdminService;
@@ -58,10 +49,7 @@ public class MaintainController extends BaseController{
     MaintainService maintainService;
     @Autowired
     CheckAdminService checkAdminService;
-    @Autowired
-	Environment environment;
-    @Value("${kiwihouse.download.url}")  
-    private String downloadUrl;
+    
     @SuppressWarnings("unused")
 	@ApiOperation(value = "queryInfo",
             notes = "<br>@description: <b>查询维修信息信息</b></br>" +
@@ -131,16 +119,13 @@ public class MaintainController extends BaseController{
             httpMethod = "PUT")
     @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
     @PostMapping("/export")
-    public Response export(HttpServletRequest request){
-    	MtInfoVo mtInfoVo = new MtInfoVo();
+    public Response export(@RequestBody MtInfoVo mtInfoVo,HttpServletRequest request){
+    	mtInfoVo.setLimit(null);
+    	mtInfoVo.setPage(null);
     	ResultList resultList = maintainService.queryInfo(mtInfoVo);
         List<MtInfoDto> list = (List<MtInfoDto>) resultList.getResult().getData();
-        List<MainTainInfo> ls = new ArrayList<MainTainInfo>();
-        list.forEach(l ->{
-        	ls.add(new MainTainInfo(Integer.valueOf(l.getMtId()),Integer.valueOf(l.getAlarmId()),l.getImei(),l.getMtMsg(),Integer.valueOf(l.getMtStatus()),l.getMtName(),l.getMtPhone()));
-        });
-        ExcelUtil<MainTainInfo> util = new ExcelUtil<MainTainInfo>(MainTainInfo.class);
-        return util.exportExcel(ls, "维修记录");
+        ExcelUtil<MtInfoDto> util = new ExcelUtil<MtInfoDto>(MtInfoDto.class);
+        return util.exportExcel(list, "维修记录");
     }
     @ApiOperation(value = "importData",
             notes = "<br>@description: <b>Excel导入</b></br>" +
@@ -151,8 +136,8 @@ public class MaintainController extends BaseController{
     @ResponseBody
     public Response importData(MultipartFile file) throws Exception
     {
-        ExcelUtil<MainTainInfo> util = new ExcelUtil<MainTainInfo>(MainTainInfo.class);
-        List<MainTainInfo> userList = util.importExcel(file.getInputStream());
+        ExcelUtil<MtInfoDto> util = new ExcelUtil<MtInfoDto>(MtInfoDto.class);
+        List<MtInfoDto> userList = util.importExcel(file.getInputStream());
         userList.forEach(ul ->{
         	System.out.println(ul.toString());
         });

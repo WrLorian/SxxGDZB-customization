@@ -100,7 +100,7 @@ public enum Code {
 
     EXCEL_LEAD_OUT_SUCCESS(100001,"Excel导出成功"),
     EXCEL_LEAD_OUT_FAIL(100002,"导出Excel失败，请联系网站管理员！"),
-    EXCEL_LEAD_IN_SUCCESS(100003,"导出入Excel成功"),
+    EXCEL_LEAD_IN_SUCCESS(100003,"导入Excel成功"),
     EXCEL_LEAD_IN_FAIL(100004,"导入Excel失败，请联系网站管理员！"),
     RECOVER_SUCCESS(8090,"恢复成功"),
     RECOVER_FAIL(8091,"恢复失败");

@@ -5,6 +5,7 @@ import javax.validation.constraints.Min;
 import com.kiwihouse.common.annotation.date.Date;
 import com.kiwihouse.common.annotation.naturalNumber.NaturalNumber;
 import com.kiwihouse.common.bean.Basic;
+import com.kiwihouse.util.excel.Excel;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -31,28 +32,32 @@ public class AlmQueryVo extends Basic {
     @ApiModelProperty(value = "详细地址",name = "address")
     private String address;
 
+    @Excel(name = "用户ID")
     @NaturalNumber(message = "userId must be natural number")
     @ApiModelProperty(value = "用户ID",name = "userId")
     private String userId;
 
+    @Excel(name = "告警信息状态")
     @ApiModelProperty(value = "告警信息状态(-1-撤销告警，0-未处理，1-已转为工单，2-已处理)",name = "alarmStatus")
     @Min(value = -1,message = "alarmStatus is in [-1,2]")
     private String alarmStatus;
+    
+    @Excel(name = "设备序列号")
     @ApiModelProperty(value = "设备序列号",name = "eqptSn")
     private String eqptSn;
 
+    @Excel(name = "开始时间")
     @Date
     @ApiModelProperty(value = "开始时间",name ="startTime",required =false)
     private String startTime;
-
+    
+    @Excel(name = "结束时间")
     @Date
     @ApiModelProperty(value = "结束时间",name ="endTime",required =false)
     private String endTime;
 
-    @ApiModelProperty(value = "页码",name = "page",example = "1")
     private Integer page;
 
-    @ApiModelProperty(value = "每页条数",name = "limit",example = "10")
     private Integer limit;
 
     @ApiModelProperty(hidden = true)

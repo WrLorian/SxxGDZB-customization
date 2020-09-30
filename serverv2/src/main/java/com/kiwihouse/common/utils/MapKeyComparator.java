@@ -7,8 +7,8 @@ public class MapKeyComparator implements Comparator<String>{
 	@Override
 
     public int compare(String str1, String str2) {
-		Date time1= TimeUtil.strToDate(str1);
-		Date time2=  TimeUtil.strToDate(str2);
+		Date time1= TimeUtil.strToDate(str1,"yyyy-MM-dd");
+		Date time2=  TimeUtil.strToDate(str2,"yyyy-MM-dd");
 		if(time1.getTime() > time2.getTime()) {
 			return 1;
 		}else {

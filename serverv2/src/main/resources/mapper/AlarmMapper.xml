@@ -135,6 +135,7 @@
 				Left JOIN contacts c on e.user_id = c.user_id 
 				
 				<where>
+			and alarm_type != ''
             <if test="imei != null and imei != ''">
                 and a.imei like CONCAT('%',#{imei},'%')
             </if>
@@ -168,7 +169,7 @@
 				SELECT count(*) FROM(
 					SELECT a.alarm_id FROM `alarm` a 
 					LEFT JOIN equipment e on a.imei = e.imei 
-					Left JOIN contacts c on e.user_id = c.user_id where 1=1
+					Left JOIN contacts c on e.user_id = c.user_id where  alarm_type != ''
 					<if test="imei != null and imei != ''">
                 		and a.imei like CONCAT('%',#{imei},'%')
 		            </if>
@@ -205,7 +206,11 @@
     	SELECT count(*) FROM(
 				SELECT * FROM alarm where 1 = 1
 					<if test="eqptType != null and eqptType != '' ">
-	            	 and eqpt_type in(#{eqptType}) 
+						and eqpt_type in(
+						<foreach collection="eqptType.split(',')" item="item" index="index" separator=",">
+							#{item}
+						</foreach>
+	            	 	) 
 			        </if>
 			    	<if test="dataStatisticsVo.startTime != null and dataStatisticsVo.startTime != ''">
 			         and DATE_FORMAT(add_time,'%Y-%m-%d') between #{dataStatisticsVo.startTime} and #{dataStatisticsVo.endTime}
@@ -251,4 +256,38 @@
 		ORDER BY add_time
 		)t GROUP BY add_time) as t1
     </select>
+ 
+    <insert id="insertOrUpdateBatch"
+            parameterType="com.kiwihouse.dto.MtInfoDto"  useGeneratedKeys="true" >
+        INSERT INTO maintain_info
+        (alarm_id,
+         alarm_msg,
+         imei,
+         alarm_status,
+         alarm_type,
+         add_time,
+         eqpt_type)
+         VALUES
+        <foreach item="t" collection="list" index="index"  separator="," >
+			(
+			#{t.alarmId},
+			#{t.alarmMsg},
+			#{t.imei},
+			#{t.alarmStatus},
+			#{t.alarmType},
+			NOW(),
+			#{t.eqptType}
+			)
+		</foreach>
+         
+		ON DUPLICATE KEY UPDATE 
+		alarm_id = VALUES(alarm_id),
+		imei = VALUES(imei),
+		alarm_msg = VALUES(alarm_msg),
+		alarm_status = VALUES(alarm_status),
+		alarm_type = VALUES(alarm_type),
+		add_time = VALUES(add_time),
+		eqpt_type = VALUES(eqpt_type)
+		
+    </insert>
 </mapper>

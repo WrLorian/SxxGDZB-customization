@@ -13,7 +13,7 @@ import com.kiwihouse.common.bean.AlmSta;
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.MtSta;
 import com.kiwihouse.common.utils.TimeUtil;
-import com.kiwihouse.dao.entity.MainTainInfo;
+import com.kiwihouse.dao.entity.MainTainExcel;
 import com.kiwihouse.dao.mapper.AlarmMapper;
 import com.kiwihouse.dao.mapper.MaintainMapper;
 import com.kiwihouse.domain.vo.Response;
@@ -43,7 +43,8 @@ public class MaintainServiceImpl implements MaintainService{
 	 	@Override
 	    public ResultList queryInfo(MtInfoVo mtInfoVo) {
 
-	        String mtStatus = mtInfoVo.getMtStatus();
+
+	 		String mtStatus = mtInfoVo.getMtStatus();
 	        if("9".equals(mtStatus)){
 	            mtInfoVo.setMtStatus("noCancel");
 	        }
@@ -246,7 +247,7 @@ public class MaintainServiceImpl implements MaintainService{
 	    }
 
 		@Override
-		public Response insertOrUpdateBatch(List<MainTainInfo> userList) {
+		public Response insertOrUpdateBatch(List<MtInfoDto> userList) {
 			// TODO Auto-generated method stub
 			int count = 0;
 //			try {

@@ -255,6 +255,7 @@ function oneNet(e,hint,w){
 　　		contentType: "application/json;charset=utf-8",
 	    headers: { "Authorization": authorization ,"dz-usr": authUser.uid},//通过请求头来发送token，放弃了通过cookie的发送方式
 	    success:function(data){
+	    	console.log("------------>下发成功")
 	    	if(hint){
 	    		if(data.result.data[e[0].imei] == 'read time out'){
 		    		w.layer.msg('连接超时', {

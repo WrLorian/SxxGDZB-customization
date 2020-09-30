@@ -41,7 +41,7 @@ public class DataStatisticsServiceImpl implements DataStatisticsService{
      */
 	@Override
 	public ResultList queryInfo(DataStatisticsVo dataStatisticsVo) {
-		List<Date> list = TimeUtil.getBetweenDates(TimeUtil.strToDate(dataStatisticsVo.getStartTime()),TimeUtil.strToDate(dataStatisticsVo.getEndTime()));
+		List<Date> list = TimeUtil.getBetweenDates(TimeUtil.strToDate(dataStatisticsVo.getStartTime(),"yyyy-MM-dd"),TimeUtil.strToDate(dataStatisticsVo.getEndTime(),"yyyy-MM-dd"));
 		DateStatisList dateStatisList = new DateStatisList();
 		for(int i = 1;i<9;i++) {
 			 List<DataTimeNum> listData = alarmMapper.selectByTimesAndType(dataStatisticsVo,i);

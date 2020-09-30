@@ -537,12 +537,15 @@ public class TimeUtil {
 	 * @param strDate
 	 * @return
 	 */
-	public static Date strToDate(String strDate) {
-		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	public static Date strToDate(String strDate,String fmt) {//
+		    SimpleDateFormat formatter = new SimpleDateFormat(fmt);
 		    ParsePosition pos = new ParsePosition(0);
 		    Date strtodate = formatter.parse(strDate, pos);
 		    return strtodate;
 	}
+	
+	
+	
 	/**
 	 * date ---> str
 	 * @param dateDate

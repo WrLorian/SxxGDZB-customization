@@ -1,6 +1,7 @@
 package com.kiwihouse.controller;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,12 +24,16 @@ import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.AlarmEqptDto;
 import com.kiwihouse.dto.EqptInfoDto;
+import com.kiwihouse.dto.MtInfoDto;
 import com.kiwihouse.dto.ReportedDto;
 import com.kiwihouse.service.CheckAdminService;
 import com.kiwihouse.service.DevInfoService;
 import com.kiwihouse.service.ReportedInfoService;
 import com.kiwihouse.service.ThreePhaseService;
+import com.kiwihouse.util.excel.ExcelUtil;
+import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.AlmQueryVo;
+import com.kiwihouse.vo.kiwihouse.MtInfoVo;
 import com.kiwihouse.vo.kiwihouse.QueryPwrVo;
 import com.kiwihouse.vo.kiwihouse.ReportedQueryVo;
 import com.kiwihouse.vo.kiwihouse.ThreePhaseVo;
@@ -161,5 +168,21 @@ public class FireDevReportedInfoController extends BaseController{
     	
 		return count;
     	
+    }
+    
+    
+    @ApiOperation(value = "export",
+            notes = "<br>@description: <b>Excel导出</b></br>" +
+                    "<br>@Date: <b>2020-1-4 17:15:40</b></br>",
+            httpMethod = "PUT")
+    @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
+    @PostMapping("/export")
+    public Response export(@RequestBody AlmQueryVo almQueryVo,HttpServletRequest request){
+    	almQueryVo.setLimit(null);
+    	almQueryVo.setPage(null);
+    	map =  reportedInfoService.queryAlmInfo(almQueryVo);
+        List<AlarmEqptDto> list = (List<AlarmEqptDto>) map.get("data");
+        ExcelUtil<AlarmEqptDto> util = new ExcelUtil<AlarmEqptDto>(AlarmEqptDto.class);
+        return util.exportExcel(list, "告警记录");
     }
 }

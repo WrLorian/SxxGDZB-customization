@@ -43,7 +43,7 @@
 		    <div class="layui-form-item">
 			    <label class="layui-form-label">设置电压上限</label>
 			    <div class="layui-input-inline">
-			      <input type="text" name="reg_03"  value="" class="layui-input">
+			      <input type="text" name="reg_03" lay-verify="zeroToThreeNine|numberIs" value="" class="layui-input">
 			    </div>
 			    <div class="layui-form-mid layui-word-aux">范围0.0-999.9。</div>
 		    </div>
@@ -51,28 +51,28 @@
 			<div class="layui-form-item">
 		        <label class="layui-form-label">设置电压下限</label>
 		        <div class="layui-input-inline">
-		            <input type="text" name="reg_04" value="" class="layui-input">
+		            <input type="text" name="reg_04" lay-verify="zeroToThreeNine|numberIs" value="" class="layui-input">
 		        </div>
 		        <div class="layui-form-mid layui-word-aux">范围0.0-999.9。</div>
 		    </div>
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置电流上限</label>
 		        <div class="layui-input-inline">
-		            <input type="text" name="reg_05" value="" class="layui-input">
+		            <input type="text" name="reg_05" lay-verify="zeroToThreeNine|numberIs" value="" class="layui-input">
 		        </div>
 		         <div class="layui-form-mid layui-word-aux">范围0.0-999.9。</div>
 		    </div>
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置功率上限</label>
 		        <div class="layui-input-inline">
-		            <input type="text" name="reg_06"  value="" class="layui-input">
+		            <input type="text" name="reg_06" lay-verify="zeroToFiveNine|numberInt" value="" class="layui-input">
 		        </div>
 		        <div class="layui-form-mid layui-word-aux">范围0-99999。</div>
 		    </div>
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置漏电流上限</label>
 		        <div class="layui-input-inline">
-		            <input type="text" name="reg_07"  value="" class="layui-input">
+		            <input type="text" name="reg_07" lay-verify="zeroToThreeNine|numberIs" value="" class="layui-input">
 		        </div>
 		        <!--  漏电流上线建议设置在30mA，因人体能承受的电流约为30mA。500mA以下漏电一般不会引起火灾。 -->
 		         <div class="layui-form-mid layui-word-aux">范围0.0-999.9。 </div>
@@ -80,14 +80,14 @@
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置温度上限</label>
 		        <div class="layui-input-inline">
-		            <input type="text" name="reg_08" value="" class="layui-input">
+		            <input type="text" name="reg_08" lay-verify="zeroToThreeNine|numberIs" value="" class="layui-input">
 		        </div>
 		        <div class="layui-form-mid layui-word-aux">范围0.0-999.9。</div>
 		    </div>
 		    <div class="layui-form-item">
 		        <label class="layui-form-label">设置数据上传间隔</label>
 		        <div class="layui-input-inline">
-		            <input type="text" name="reg_09" value="" class="layui-input">
+		            <input type="text" name="reg_09" lay-verify="intervalTime|numberInt" value="" class="layui-input">
 		        </div>
 		        <!-- 建议设定为30分钟上传一次设备普通数据。注：设备告警时，每隔1分钟上传一次设备数据 -->
 		         <div class="layui-form-mid layui-word-aux">范围1-9999。</div>
@@ -102,15 +102,17 @@
 			        </select>
 		        </div>
 		    </div>
-		    <div class="layui-form-item">
-		        <label class="layui-form-label">设置当前电能值</label>
+		    <!-- <div class="layui-form-item">
+		        <label class="layui-form-label">设置电能值为0</label>
 		        <div class="layui-input-inline">
-		            <input type="text" name="reg_11"  value="" class="layui-input">
+		            <input type="text" name="reg_11" lay-verify="numberIs" value="" class="layui-input">
+		            <button type="button" class="layui-btn layui-btn-primary _zero_setting">电能置零</button>
 		        </div>
 		         <div class="layui-form-mid layui-word-aux">范围0.0-99999999.9。</div>
-		    </div>
+		    </div> -->
 		    <div class="layui-form-item" >
 		        <div class="layui-input-block"  style="float: right;">
+		        	<button type="button" class="layui-btn layui-btn-primary _zero_setting">电能置零</button>
 		            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="devParamBtn" >确认添加</button>
 		        </div>
 		    </div>
@@ -170,6 +172,7 @@
 <script>
 	var dataRow = window.parent.dataRow;
 	var formDATe;
+	oneNet(onenetVariable(dataRow.imei,dataRow.eqptType),false,window,false);
     layui.use(['form','iconPickerFa','layarea','element'], function () {
         var form = layui.form,
         	element = layui.element;
@@ -179,35 +182,42 @@
             $ = layui.$;
         form.verify({
         	oneToFourNine : function(value){
-       		if(parseFloat(value)> 9999 || parseFloat(value) < 0 && value != null){
+       		if(parseFloat(value)> 9999 || parseFloat(value) < 0 && $.trim(value) != ''){
        			return '范围1-9999';
        		}
         	},zeroToThreeNine : function(value){
-        		if(parseFloat(value)> 999.9 || parseFloat(value) < 0 && value != null){
+        		console.log(value)
+        		if(parseFloat(value)> 999.9 || parseFloat(value) < 0 && $.trim(value) != ''){
         			return '范围0-999.9';
         		}
         	},zeroToFiveNine : function(value){
-        		if(parseFloat(value)> 99999 || parseFloat(value) < 0 && value != null){
+        		
+        		if(parseInt(value)> 99999 || parseInt(value) < 0 && value != ''){
         			return '范围0-99999';
         		}
         	},zeroToEightNine : function(value){
-        		if(parseFloat(value)> 99999999.9 || parseFloat(value) < 0 && value != null){
+        		if(parseFloat(value)> 99999999.9 || parseFloat(value) < 0 && $.trim(value) != ''){
         			return '范围0-99999999.9';
         		}
         	},numberIs : function(value){
-        		if(/^\d+$/.test(value)==false && /^\d+\.\d+$/.test(value)==false  && value != '')
+        		if(/^\d+$/.test(value)==false && /^\d+\.\d+$/.test(value)==false  && $.trim(value) != '')
                 {
                  return '你输入的不是数字';
                 }
         	},numberInt : function(value){
-        		var g = /^[1-9]*[1-9][0-9]*$/;
-        		if(!g.test(value)){
-        			return "请输入正整数";
+        		var g = /^[0-9]*[0-9][0-9]*$/;
+        		if(!g.test(value) && value != ''){
+        			return "请输入整数";
+        		}
+        	},intervalTime : function(value){
+        		if(parseInt(value)> 99999 || parseInt(value) < 2 && value != ''){
+        			return '范围1-99999';
         		}
         	}
 		});
         init();
         function init(){
+        	console.log("---------->开始查询")
         	var entity = {};
         	entity.alarmType = 3;
         	entity.imei = dataRow.imei;
@@ -219,12 +229,16 @@
     	　　		contentType: "application/json;charset=utf-8",
 			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
-			    	formDATe = data.data.data;
-			    	$("._addTime").html("更新时间：" + formDATe.addTime);
-			    	var custom_form = $("._dev_param")
-			        $.each(formDATe, function(key, val) {
-			        	custom_form.find("[name='"+key+"']").val(val);
-			        });
+			    	if(data.code == 2008){
+			    		$("._addTime").html("暂无参数数据");
+			    	}else{
+			    		formDATe = data.data.data;
+			    		$("._addTime").html("更新时间：" + formDATe.addTime);
+			    		var custom_form = $("._dev_param")
+				        $.each(formDATe, function(key, val) {
+				        	custom_form.find("[name='"+key+"']").val(Number(val));
+				        });
+			    	}
 			    	form.render();
 			    }
 			});
@@ -240,7 +254,7 @@
 			    	if(data.code == 2000){
 			    		var custom_form = $("._dev_alarm_num")
 				        $.each(data.data.data[0], function(key, val) {
-				        	custom_form.find("[name='"+key+"']").val(val);
+				        	custom_form.find("[name='"+key+"']").val(Number(val));
 				        });
 				    	form.render();
 			    	}
@@ -251,14 +265,24 @@
         //监听提交
         form.on('submit(devParamBtn)', function (data) {
            console.log(JSON.stringify(data.field));
+           console.log(formDATe);
            var entity = {};
+           
+           $.each(data.field,function(key,val){
+        	   if($.trim(val).length == 0){
+        		   data.field[key] = 0
+        	   }
+           })
            $.each(data.field, function(key, val) {
-        	   if (typeof(formDATe[key]) == 'undefined' || formDATe[key] == null ){
-        		   formDATe[key] == '';
- 	           }
-        	   if(parseFloat(val) != parseFloat(formDATe[key]) ){
-	        		entity[key] = val;
-	        	}
+        	   if(typeof(formDATe) !='undefined'  ){
+        		   if(Number(val) != Number(formDATe[key]) ){
+    	        		entity[key] = val;
+    	           }
+        	   }else{
+        		   if(val.length > 0 ){
+        			   entity[key] = val;
+        		   }
+        	   }
 	        });
            if(!$.isEmptyObject(entity)){
 	       		var e = {},r= {},array = new Array();
@@ -267,9 +291,11 @@
 	       		e.eqptType = dataRow.eqptType;
 	       		array.push(e);
                 oneNet(array,true,window.parent,true);
-                oneNet(onenetVariable(dataRow.imei,dataRow.eqptType),window,false);
+                oneNet(onenetVariable(dataRow.imei,dataRow.eqptType),false,window,false);
                 var iframeIndex = parent.layer.getFrameIndex(window.name);
     	 		parent.layer.close(iframeIndex);
+           }else{
+        	   layer.msg("没有修改任何参数",{icon: 3, time: 2000});
            }
            return false;
         });
@@ -301,6 +327,19 @@
              
              return false;
          });
+        
+        $("._zero_setting").on('click',function(){
+        	var e = {},r= {},array = new Array();
+        	e.imei = dataRow.imei;
+        	r.reg_11 = 0;
+        	e.register = r;
+        	e.eqptType = dataRow.eqptType;
+        	array.push(e);
+        	oneNet(array,true,window.parent,true);
+            oneNet(onenetVariable(dataRow.imei,dataRow.eqptType),false,window,false);
+            var iframeIndex = parent.layer.getFrameIndex(window.name);
+	 		parent.layer.close(iframeIndex);
+        })
     });
     
     

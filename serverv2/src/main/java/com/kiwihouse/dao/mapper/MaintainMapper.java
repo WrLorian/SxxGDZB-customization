@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.kiwihouse.dao.entity.MainTainInfo;
+import com.kiwihouse.dao.entity.MainTainExcel;
 import com.kiwihouse.dto.MtInfoDto;
 import com.kiwihouse.dto.MtSmokeInfoDto;
 import com.kiwihouse.vo.kiwihouse.MtInfoVo;
@@ -42,5 +42,5 @@ public interface MaintainMapper {
      * @param userList
      * @return
      */
-	int insertOrUpdateBatch(List<MainTainInfo> userList);
+	int insertOrUpdateBatch(List<MtInfoDto> userList);
 }

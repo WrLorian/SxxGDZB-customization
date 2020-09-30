@@ -647,4 +647,67 @@
 				</where>
 	    </foreach>
 	</update>
+	
+	<insert id="insertOrUpdateBatch"
+            parameterType="com.kiwihouse.dto.EqptInfoDto"  useGeneratedKeys="true" >
+        INSERT INTO equipment
+        (	eqpt_id,
+			eqpt_name,
+			imei,
+			imsi,
+			eqpt_sn,
+			eqpt_type,
+			eqpt_addr,
+			latitude,
+			longitude,
+			user_id,
+			role_id,
+			group_id,
+			add_time,
+			iccid,
+			province,
+			city,
+			district
+			)
+         VALUES
+        <foreach item="t" collection="list" index="index"  separator="," >
+			(
+			#{t.eqptId},
+			#{t.eqptName},
+			#{t.imei},
+			#{t.imsi},
+			#{t.eqptSn},
+			#{t.eqptType},
+			#{t.eqptAddr},
+			#{t.latitude},
+			#{t.longitude},
+			#{t.userId},
+			#{t.roleId},
+			#{t.groupId},
+			NOW(),
+			#{t.iccid},
+			#{t.province},
+			#{t.city},
+			#{t.district}
+			)
+		</foreach>
+		ON DUPLICATE KEY UPDATE 
+			eqpt_id = VALUES(eqpt_id),
+			eqpt_name = VALUES(eqpt_name),
+			imei = VALUES(imei),
+			imsi = VALUES(imsi),
+			eqpt_sn = VALUES(eqpt_sn),
+			eqpt_type = VALUES(eqpt_type),
+			eqpt_addr = VALUES(eqpt_addr),
+			latitude = VALUES(latitude),
+			longitude = VALUES(longitude),
+			user_id = VALUES(user_id),
+			role_id = VALUES(role_id),
+			group_id = VALUES(group_id),
+			add_time = VALUES(add_time),
+			iccid = VALUES(iccid),
+			province = VALUES(province),
+			city = VALUES(city),
+			district = VALUES(district)
+    </insert>
 </mapper>

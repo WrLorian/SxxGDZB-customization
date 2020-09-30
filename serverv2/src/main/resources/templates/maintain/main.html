@@ -15,7 +15,7 @@
     	<fieldset class="table-search-fieldset">
             <legend>搜索信息</legend>
             <div style="margin: 10px 10px 10px 10px">
-                <form class="layui-form layui-form-pane" action="">
+                <form class="layui-form layui-form-pane  _main_tain_form" action="">
                     <div class="layui-form-item">
                     	<div class="layui-inline">
                             <div class="layui-input-inline">
@@ -103,11 +103,19 @@ layui.use(['form', 'table','upload'], function () {
      * toolbar监听事件
      */
     table.on('toolbar(currentTableFilter)', function (obj) {
+    	var v = {};
+    	var f = $("._main_tain_form").serializeArray();
+	   	for(var index = 0; index < f.length; ++index){
+   			if($.trim(f[index].value).length > 0){
+   				v[f[index].name] = f[index].value;
+   			}
+	   	} 
         if (obj.event === 'lead_excel_out') {  // 监听添加操作
         	$.ajax({
      			url: "/maintain/export",
      			type : "POST",
     	　　		dataType : "json",
+    	  		data:JSON.stringify(v),
     	　　		contentType: "application/json;charset=utf-8",
 			    headers: { "Authorization": authorization },//通过请求头来发送token，放弃了通过cookie的发送方式
 			    success:function(data){
@@ -116,8 +124,6 @@ layui.use(['form', 'table','upload'], function () {
 			    	}
 			    }
 			});
-        }else if(obj.event === "lead_excel_in"){
-        	
         }
     });
     table.on('tool(currentTableFilter)', function (obj) {
@@ -158,7 +164,7 @@ layui.use(['form', 'table','upload'], function () {
         ,exts: 'xlsx' //只允许上传压缩文件
         ,done: function(res){
           layer.msg('上传成功');
-          console.log(res)
+          flush(currentPage, jsonEntity);
         }
       });
 });

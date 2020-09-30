@@ -18,7 +18,6 @@ import com.kiwihouse.common.customException.ParamException;
 import com.kiwihouse.common.utils.CodeTransferUtil;
 import com.kiwihouse.common.utils.GroupList;
 import com.kiwihouse.common.utils.RedisUtil;
-import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.dao.mapper.EquipmentMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.Eqpt4UpdateDto;
@@ -26,8 +25,6 @@ import com.kiwihouse.dto.EqptInfoDto;
 import com.kiwihouse.dto.SiteDto;
 import com.kiwihouse.service.CommandIssueService;
 import com.kiwihouse.service.EquipmentService;
-import com.kiwihouse.util.ResultUtil;
-import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.EqptAddVo;
 import com.kiwihouse.vo.kiwihouse.EqptQueryVo;
 
@@ -44,7 +41,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	RedisUtil redisUtil;
 
 	@Override
-	public Map<String, Object> queryInfo(EqptQueryVo eqptQueryVo, AuthUser authUser) {
+	public Map<String, Object> queryInfo(EqptQueryVo eqptQueryVo) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<EqptInfoDto> list = new ArrayList<EqptInfoDto>();
@@ -215,6 +212,20 @@ public class EquipmentServiceImpl implements EquipmentService {
 		}
 		
 		
+		
+	}
+
+	@Override
+	public Response insertOrUpdateBatch(List<EqptInfoDto> userList) {
+		// TODO Auto-generated method stub
+		int count = 0;
+		try {
+			count = equipmentMapper.insertOrUpdateBatch(userList);
+			return new Response().Success(Code.EXCEL_LEAD_IN_SUCCESS,Code.EXCEL_LEAD_IN_SUCCESS.getMsg());
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new Response().Fail(Code.EXCEL_LEAD_IN_FAIL,Code.EXCEL_LEAD_IN_FAIL.getMsg());
+		}
 		
 	}
 

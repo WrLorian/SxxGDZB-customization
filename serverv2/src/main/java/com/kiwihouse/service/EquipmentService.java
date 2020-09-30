@@ -1,12 +1,12 @@
 package com.kiwihouse.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.kiwihouse.common.bean.UserInfo;
-import com.kiwihouse.dao.entity.AuthUser;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.Eqpt4UpdateDto;
-import com.kiwihouse.vo.entire.ResultList;
+import com.kiwihouse.dto.EqptInfoDto;
 import com.kiwihouse.vo.kiwihouse.EqptAddVo;
 import com.kiwihouse.vo.kiwihouse.EqptQueryVo;
 
@@ -17,7 +17,7 @@ public interface EquipmentService {
 	 * @param authUser
 	 * @return
 	 */
-	Map<String, Object> queryInfo(EqptQueryVo eqptQueryVo, AuthUser authUser);
+	Map<String, Object> queryInfo(EqptQueryVo eqptQueryVo);
 	/**
 	 * 	更新设备信息
 	 * @param updateDto
@@ -44,5 +44,11 @@ public interface EquipmentService {
 	 * @return
 	 */
 	Response selectOneInfo(EqptQueryVo eqptQueryVo);
+	/**
+	 * 批量添加 ----> 存在相同的则--->修改 设备
+	 * @param userList
+	 * @return
+	 */
+	Response insertOrUpdateBatch(List<EqptInfoDto> userList);
 
 }

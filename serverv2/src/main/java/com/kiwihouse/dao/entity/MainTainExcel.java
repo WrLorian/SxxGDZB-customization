@@ -2,7 +2,7 @@ package com.kiwihouse.dao.entity;
 
 import com.kiwihouse.util.excel.Excel;
 
-public class MainTainInfo {
+public class MainTainExcel {
 	@Excel(name = "维修ID")
     private Integer mtId;
 	@Excel(name = "告警ID")
@@ -74,7 +74,7 @@ public class MainTainInfo {
         this.mtPhone = mtPhone == null ? null : mtPhone.trim();
     }
 
-	public MainTainInfo(Integer mtId, Integer alarmId, String imei, String mtMsg, Integer mtStatus, String mtName,
+	public MainTainExcel(Integer mtId, Integer alarmId, String imei, String mtMsg, Integer mtStatus, String mtName,
 			String mtPhone) {
 		super();
 		this.mtId = mtId;
@@ -86,7 +86,7 @@ public class MainTainInfo {
 		this.mtPhone = mtPhone;
 	}
 
-	public MainTainInfo() {
+	public MainTainExcel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

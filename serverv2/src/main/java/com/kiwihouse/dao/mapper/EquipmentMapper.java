@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import com.kiwihouse.dao.entity.EquipmentExcel;
 import com.kiwihouse.dto.AlmIdMsgDto;
 import com.kiwihouse.dto.Eqpt4UpdateDto;
 import com.kiwihouse.dto.EqptInfoDto;
@@ -111,5 +112,11 @@ public interface EquipmentMapper {
 	 * @param eqptIdArr
 	 */
 	int updateBatch(String[] eqptIdArr);
+	/**
+	 * 批量添加 ----> 存在相同的则--->修改 设备
+	 * @param userList 
+	 * @return
+	 */
+	int insertOrUpdateBatch(List<EqptInfoDto> userList);
 
 }

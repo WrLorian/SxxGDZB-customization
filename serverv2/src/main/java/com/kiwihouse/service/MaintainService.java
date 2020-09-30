@@ -2,8 +2,8 @@ package com.kiwihouse.service;
 
 import java.util.List;
 
-import com.kiwihouse.dao.entity.MainTainInfo;
 import com.kiwihouse.domain.vo.Response;
+import com.kiwihouse.dto.MtInfoDto;
 import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.MtInfoVo;
 import com.kiwihouse.vo.kiwihouse.MtUpdateVo;
@@ -34,6 +34,6 @@ public interface MaintainService {
 	 * @param userList
 	 * @return
 	 */
-	Response insertOrUpdateBatch(List<MainTainInfo> userList);
+	Response insertOrUpdateBatch(List<MtInfoDto> userList);
 
 }

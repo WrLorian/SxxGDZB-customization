@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -23,7 +25,8 @@ import com.kiwihouse.util.StringUtils;
  * @date 11:09 2018/3/20
  */
 public abstract class BaseController{
-	
+    @Value("${kiwihouse.download.url}")
+    public String downloadUrl;
     /**
      * description 获得来的request中的 key value数据封装到map返回
      *

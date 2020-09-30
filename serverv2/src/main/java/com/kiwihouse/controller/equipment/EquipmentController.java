@@ -1,8 +1,11 @@
 package com.kiwihouse.controller.equipment;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,20 +18,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kiwihouse.common.bean.Code;
 import com.kiwihouse.common.bean.UserInfo;
+import com.kiwihouse.common.utils.TimeUtil;
 import com.kiwihouse.controller.common.BaseController;
-import com.kiwihouse.dao.entity.AuthUser;
+import com.kiwihouse.dao.entity.EquipmentExcel;
 import com.kiwihouse.dao.mapper.AuthUserMapper;
 import com.kiwihouse.domain.vo.Response;
 import com.kiwihouse.dto.Eqpt4UpdateDto;
 import com.kiwihouse.dto.EqptInfoDto;
 import com.kiwihouse.service.CheckAdminService;
 import com.kiwihouse.service.EquipmentService;
+import com.kiwihouse.util.excel.ExcelUtil;
+import com.kiwihouse.util.file.FileUtils;
 import com.kiwihouse.vo.entire.Log;
-import com.kiwihouse.vo.entire.ResultList;
 import com.kiwihouse.vo.kiwihouse.EqptAddVo;
 import com.kiwihouse.vo.kiwihouse.EqptQueryVo;
 
@@ -65,8 +72,7 @@ public class EquipmentController extends BaseController{
     @GetMapping("/info")
     public Map<String, Object> queryInfo(@Validated EqptQueryVo eqptQueryVo, HttpServletRequest request) {
         //checkAdminService.verifyAdminId(request.getHeader("dz-usr"), eqptQueryVo);
-        AuthUser authUser  = authUserMapper.selectByPrimaryKey(Integer.valueOf(request.getHeader("dz-usr")));
-        return equipmentService.queryInfo(eqptQueryVo, authUser);
+        return equipmentService.queryInfo(eqptQueryVo);
     }
 
     @ApiOperation(value = "updateInfo",
@@ -118,5 +124,62 @@ public class EquipmentController extends BaseController{
     public Response selectOneInfo(EqptQueryVo eqptQueryVo, HttpServletRequest request) {
         return equipmentService.selectOneInfo(eqptQueryVo);
     }
-    
+    @ApiOperation(value = "export",
+            notes = "<br>@description: <b>Excel导出</b></br>" +
+                    "<br>@Date: <b>2020-1-4 17:15:40</b></br>",
+            httpMethod = "PUT")
+    @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
+    @PostMapping("/export")
+    public Response export(@RequestBody EqptQueryVo eqptQueryVo,HttpServletRequest request){
+    	//EqptQueryVo eqptQueryVo = new EqptQueryVo();
+    	eqptQueryVo.setLimit(null);
+    	 Map<String, Object> map = equipmentService.queryInfo(eqptQueryVo);
+        List<EqptInfoDto> list = (List<EqptInfoDto>)map.get("data");
+        ExcelUtil<EqptInfoDto> util = new ExcelUtil<EqptInfoDto>(EqptInfoDto.class);
+        return util.exportExcel(list, "维修记录");
+    }
+    @ApiOperation(value = "importData",
+            notes = "<br>@description: <b>Excel导入</b></br>" +
+                    "<br>@Date: <b>2020-1-4 17:15:40</b></br>",
+            httpMethod = "PUT")
+    @ApiResponses(@ApiResponse(code = 0,message ="回调参数：只有code和msg,无具体数据result"))
+    @PostMapping("/importData")
+    @ResponseBody
+    public Response importData(MultipartFile file) throws Exception
+    {
+        ExcelUtil<EqptInfoDto> util = new ExcelUtil<EqptInfoDto>(EqptInfoDto.class);
+        List<EqptInfoDto> userList = util.importExcel(file.getInputStream());
+        userList.forEach(ul ->{
+        	System.out.println(ul.toString());
+        });
+        return equipmentService.insertOrUpdateBatch(userList);
+    }
+    /**
+     * 通用下载请求
+     * 
+     * @param fileName 文件名称
+     * @param delete 是否删除
+     */
+    @GetMapping("common/download")
+    public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request)
+    {
+        String realFileName = System.currentTimeMillis() + fileName.substring(fileName.indexOf("_") + 1);
+        try
+        {
+            String filePath = downloadUrl +  fileName;
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("multipart/form-data");
+            response.setHeader("Content-Disposition",
+                    "attachment;fileName=" + setFileDownloadHeader(request, realFileName));
+            FileUtils.writeBytes(filePath, response.getOutputStream());
+            if (delete)
+            {
+                FileUtils.deleteFile(filePath);
+            }
+        }
+        catch (Exception e)
+        {
+            logger.info("下载文件失败<< {}",e);
+        }
+    }
 }
